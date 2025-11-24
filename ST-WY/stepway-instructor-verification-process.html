@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Enter OTP - Stepway Technologies</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, sans-serif;
+        background: linear-gradient(135deg, #e8edf2 0%, #f5f7fa 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .container {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+        width: 100%;
+        max-width: 420px;
+        padding: 40px 32px;
+      }
+
+      .logo-container {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+
+      .logo-placeholder {
+        width: 200px;
+        height: 60px;
+        background: #f0f0f0;
+        border: 2px dashed #ccc;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #999;
+        font-size: 12px;
+      }
+
+      h1 {
+        text-align: center;
+        font-size: 24px;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin-bottom: 12px;
+      }
+
+      .subtitle {
+        text-align: center;
+        font-size: 14px;
+        color: #6b7280;
+        margin-bottom: 32px;
+        line-height: 1.5;
+      }
+
+      .otp-container {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 32px;
+      }
+
+      .otp-input {
+        width: 100%;
+        height: 56px;
+        text-align: center;
+        font-size: 24px;
+        font-weight: 600;
+        border: 2px solid #d1d5db;
+        border-radius: 8px;
+        transition: all 0.2s;
+        background: white;
+      }
+
+      .otp-input:focus {
+        outline: none;
+        border-color: #1e3a8a;
+        box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+      }
+
+      .submit-btn {
+        width: 100%;
+        padding: 14px;
+        background: #1e3a8a;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      .submit-btn:hover {
+        background: #1e40af;
+      }
+
+      .submit-btn:active {
+        background: #1e3a8a;
+        transform: scale(0.98);
+      }
+
+      .resend-container {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 14px;
+        color: #6b7280;
+      }
+
+      .resend-link {
+        color: #1e3a8a;
+        text-decoration: none;
+        font-weight: 500;
+        border-bottom: 1px solid transparent;
+        transition: border-color 0.2s;
+        cursor: pointer;
+      }
+
+      .resend-link:hover {
+        border-bottom-color: #1e3a8a;
+      }
+
+      .resend-link.disabled {
+        color: #9ca3af;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+
+      @media (max-width: 480px) {
+        .container {
+          padding: 32px 24px;
+        }
+
+        h1 {
+          font-size: 22px;
+        }
+
+        .logo-placeholder {
+          width: 180px;
+          height: 54px;
+        }
+
+        .otp-container {
+          gap: 6px;
+        }
+
+        .otp-input {
+          height: 50px;
+          font-size: 20px;
+        }
+      }
+
+      @media (max-width: 360px) {
+        .container {
+          padding: 24px 20px;
+        }
+
+        h1 {
+          font-size: 20px;
+          margin-bottom: 10px;
+        }
+
+        .subtitle {
+          font-size: 13px;
+          margin-bottom: 24px;
+        }
+
+        .otp-container {
+          gap: 4px;
+        }
+
+        .otp-input {
+          height: 46px;
+          font-size: 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="logo-container">
+      <img src="images/Step-Way Logo.png" width="150px" alt="">
+      </div>
+
+      <h1>Enter OTP</h1>
+      <p class="subtitle">
+        We've sent a 6-digit verification code to your email address
+      </p>
+
+      <form id="otpForm">
+        <div class="otp-container">
+          <input
+            type="text"
+            class="otp-input"
+            maxlength="1"
+            pattern="[0-9]"
+            inputmode="numeric"
+            required
+          />
+          <input
+            type="text"
+            class="otp-input"
+            maxlength="1"
+            pattern="[0-9]"
+            inputmode="numeric"
+            required
+          />
+          <input
+            type="text"
+            class="otp-input"
+            maxlength="1"
+            pattern="[0-9]"
+            inputmode="numeric"
+            required
+          />
+          <input
+            type="text"
+            class="otp-input"
+            maxlength="1"
+            pattern="[0-9]"
+            inputmode="numeric"
+            required
+          />
+          <input
+            type="text"
+            class="otp-input"
+            maxlength="1"
+            pattern="[0-9]"
+            inputmode="numeric"
+            required
+          />
+          <input
+            type="text"
+            class="otp-input"
+            maxlength="1"
+            pattern="[0-9]"
+            inputmode="numeric"
+            required
+          />
+        </div>
+
+        <button type="submit" class="submit-btn" onclick="window.location.href='stepway-reset-login.html'">Continue</button>
+      </form>
+
+      <div class="resend-container">
+        Didn't receive code?
+        <span class="resend-link" id="resendLink">Resend OTP</span>
+        <span id="timer" style="display: none"></span>
+      </div>
+    </div>
+
+    <script>
+      const otpInputs = document.querySelectorAll(".otp-input");
+      const form = document.getElementById("otpForm");
+      const resendLink = document.getElementById("resendLink");
+      const timerSpan = document.getElementById("timer");
+      let countdown;
+
+      // Auto-focus and navigation between OTP inputs
+      otpInputs.forEach((input, index) => {
+        input.addEventListener("input", function (e) {
+          // Only allow single digit
+          if (this.value.length > 1) {
+            this.value = this.value.slice(0, 1);
+          }
+
+          // Move to next input
+          if (this.value.length === 1 && index < otpInputs.length - 1) {
+            otpInputs[index + 1].focus();
+          }
+        });
+
+        input.addEventListener("keydown", function (e) {
+          // Move to previous input on backspace
+          if (e.key === "Backspace" && this.value === "" && index > 0) {
+            otpInputs[index - 1].focus();
+          }
+        });
+
+        input.addEventListener("paste", function (e) {
+          e.preventDefault();
+          const pastedData = e.clipboardData.getData("text").slice(0, 6);
+          const digits = pastedData.split("");
+
+          digits.forEach((digit, i) => {
+            if (i < otpInputs.length && /^\d$/.test(digit)) {
+              otpInputs[i].value = digit;
+            }
+          });
+
+          if (digits.length > 0) {
+            const lastIndex = Math.min(digits.length, otpInputs.length) - 1;
+            otpInputs[lastIndex].focus();
+          }
+        });
+      });
+
+      // Auto-focus first input on load
+      otpInputs[0].focus();
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const otp = Array.from(otpInputs)
+          .map((input) => input.value)
+          .join("");
+
+        if (otp.length !== 6) {
+          alert("Please enter all 6 digits");
+          return;
+        }
+
+        console.log("OTP submitted:", otp);
+        alert("OTP verified successfully!");
+        // Redirect to reset password page
+        // window.location.href = 'reset-password.html';
+      });
+
+      // Resend OTP with countdown
+      function startResendTimer() {
+        let seconds = 60;
+        resendLink.classList.add("disabled");
+        timerSpan.style.display = "inline";
+
+        countdown = setInterval(() => {
+          seconds--;
+          timerSpan.textContent = `${seconds}s`; // Fixed this line
+
+          if (seconds <= 0) {
+            clearInterval(countdown);
+            resendLink.classList.remove("disabled");
+            timerSpan.style.display = "none";
+          }
+        }, 1000);
+      }
+
+      resendLink.addEventListener("click", function () {
+        if (!this.classList.contains("disabled")) {
+          console.log("Resending OTP...");
+          alert("OTP has been resent to your email");
+          startResendTimer();
+        }
+      });
+
+      // Start timer on page load
+      startResendTimer();
+    </script>
+  </body>
+</html>

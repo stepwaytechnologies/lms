@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Security | Stepway LMS</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      :root {
+        --navy: #1a237e;
+        --navy-light: #283593;
+        --navy-dark: #0d1452;
+        --burgundy: #800020;
+        --burgundy-light: #a83232;
+        --burgundy-dark: #600018;
+        --accent: #ff6b6b;
+        --text-primary: #2b2d42;
+        --text-secondary: #6c757d;
+        --bg-primary: #ffffff;
+        --bg-secondary: #f8f9fa;
+        --bg-tertiary: #e9ecef;
+        --card-bg: #ffffff;
+        --border: #e2e8f0;
+        --success: #4cc9f0;
+        --warning: #f8961e;
+        --danger: #e63946;
+        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        --radius: 12px;
+      }
+      .dark-mode {
+        --navy: #283593;
+        --navy-light: #3949ab;
+        --navy-dark: #1a237e;
+        --burgundy: #a83232;
+        --burgundy-light: #c44545;
+        --burgundy-dark: #800020;
+        --text-primary: #f8f9fa;
+        --text-secondary: #adb5bd;
+        --bg-primary: #121212;
+        --bg-secondary: #1e1e1e;
+        --bg-tertiary: #2d2d2d;
+        --card-bg: #1e1e1e;
+        --border: #404040;
+        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+      }
+      body {
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+        transition: all 0.3s ease;
+      }
+      .container {
+        display: flex;
+        min-height: 100vh;
+      }
+      /* Sidebar Styles */
+      .sidebar {
+        width: 260px;
+        background-color: var(--bg-secondary);
+        border-right: 1px solid var(--border);
+        padding: 24px 0;
+        display: flex;
+        flex-direction: column;
+        transition: all 0.3s ease;
+        position: fixed;
+        height: 100vh;
+        z-index: 100;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        padding: 0 24px 32px;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 24px;
+      }
+      .logo-text {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--navy);
+      }
+      .admin-badge {
+        display: inline-block;
+        background: var(--burgundy);
+        color: white;
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-size: 10px;
+        font-weight: 600;
+        margin-left: 8px;
+        vertical-align: middle;
+      }
+      .nav-item {
+        display: flex;
+        align-items: center;
+        padding: 14px 24px;
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: all 0.2s ease;
+        border-left: 3px solid transparent;
+      }
+      .nav-item:hover {
+        background-color: var(--bg-tertiary);
+        color: var(--text-primary);
+      }
+      .nav-item.active {
+        background-color: rgba(26, 35, 126, 0.1);
+        color: var(--navy);
+        border-left: 3px solid var(--navy);
+      }
+      .nav-item i {
+        margin-right: 16px;
+        font-size: 20px;
+        width: 24px;
+        text-align: center;
+      }
+      /* Main Content Styles */
+      .main-content {
+        flex: 1;
+        margin-left: 260px;
+        padding: 24px;
+        transition: all 0.3s ease;
+      }
+      /* Top Navigation */
+      .top-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 32px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--border);
+      }
+      .search-bar {
+        display: flex;
+        align-items: center;
+        background-color: var(--bg-secondary);
+        border-radius: 50px;
+        padding: 12px 20px;
+        width: 400px;
+        border: 1px solid var(--border);
+      }
+      .search-bar input {
+        background: transparent;
+        border: none;
+        outline: none;
+        color: var(--text-primary);
+        width: 100%;
+        margin-left: 12px;
+        font-size: 15px;
+      }
+      .nav-icons {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+      .nav-icon {
+        position: relative;
+        cursor: pointer;
+        color: var(--text-secondary);
+        transition: color 0.2s ease;
+      }
+      .nav-icon:hover {
+        color: var(--text-primary);
+      }
+      .badge {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background-color: var(--burgundy);
+        color: white;
+        border-radius: 50%;
+        width: 18px;
+        height: 18px;
+        font-size: 11px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+        padding: 8px 16px;
+        border-radius: 8px;
+        transition: background-color 0.2s ease;
+      }
+      .user-profile:hover {
+        background-color: var(--bg-secondary);
+      }
+      .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--navy), var(--navy-light));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+      }
+      .user-info {
+        display: flex;
+        flex-direction: column;
+      }
+      .user-name {
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .user-role {
+        font-size: 12px;
+        color: var(--text-secondary);
+      }
+      /* Page Header */
+      .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 32px;
+      }
+      .page-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--navy);
+      }
+      .page-subtitle {
+        color: var(--text-secondary);
+        margin-top: 8px;
+        font-size: 16px;
+      }
+      /* Button Styles */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 20px;
+        border-radius: var(--radius);
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: none;
+        font-size: 14px;
+      }
+      .btn-primary {
+        background-color: var(--navy);
+        color: white;
+      }
+      .btn-primary:hover {
+        background-color: var(--navy-light);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .btn-secondary {
+        background-color: var(--bg-secondary);
+        color: var(--text-primary);
+        border: 1px solid var(--border);
+      }
+      .btn-secondary:hover {
+        background-color: var(--bg-tertiary);
+      }
+      .btn-success {
+        background-color: var(--success);
+        color: white;
+      }
+      .btn-warning {
+        background-color: var(--warning);
+        color: white;
+      }
+      .btn-danger {
+        background-color: var(--danger);
+        color: white;
+      }
+      .btn-sm {
+        padding: 8px 12px;
+        font-size: 12px;
+      }
+      /* Stats Section */
+      .stats-section {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+        margin-bottom: 32px;
+      }
+      .stat-card {
+        background-color: var(--card-bg);
+        border-radius: var(--radius);
+        padding: 24px;
+        box-shadow: var(--shadow);
+        border: 1px solid var(--border);
+        transition: transform 0.2s ease;
+      }
+      .stat-card:hover {
+        transform: translateY(-3px);
+      }
+      .stat-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 16px;
+        font-size: 20px;
+      }
+      .stat-1 .stat-icon {
+        background-color: rgba(26, 35, 126, 0.1);
+        color: var(--navy);
+      }
+      .stat-2 .stat-icon {
+        background-color: rgba(128, 0, 32, 0.1);
+        color: var(--burgundy);
+      }
+      .stat-3 .stat-icon {
+        background-color: rgba(255, 107, 107, 0.1);
+        color: var(--accent);
+      }
+      .stat-4 .stat-icon {
+        background-color: rgba(76, 201, 240, 0.1);
+        color: var(--success);
+      }
+      .stat-value {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+      .stat-label {
+        color: var(--text-secondary);
+        font-size: 14px;
+      }
+      .stat-change {
+        font-size: 12px;
+        margin-top: 8px;
+      }
+      .change-positive {
+        color: var(--success);
+      }
+      .change-negative {
+        color: var(--danger);
+      }
+      /* Security Layout */
+      .security-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+        margin-bottom: 32px;
+      }
+      /* Security Settings Card */
+      .security-card {
+        background-color: var(--card-bg);
+        border-radius: var(--radius);
+        padding: 24px;
+        box-shadow: var(--shadow);
+        border: 1px solid var(--border);
+      }
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+      }
+      .section-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--navy);
+      }
+      .view-all {
+        color: var(--navy);
+        text-decoration: none;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+      }
+      /* Security Settings */
+      .security-settings {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .setting-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px;
+        border-radius: 8px;
+        background-color: var(--bg-secondary);
+        border: 1px solid var(--border);
+      }
+      .setting-info {
+        flex: 1;
+      }
+      .setting-title {
+        font-weight: 500;
+        margin-bottom: 4px;
+      }
+      .setting-description {
+        font-size: 12px;
+        color: var(--text-secondary);
+      }
+      /* Toggle Switch */
+      .toggle {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 24px;
+      }
+      .toggle input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: var(--bg-tertiary);
+        transition: 0.4s;
+        border-radius: 24px;
+      }
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 16px;
+        width: 16px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: 0.4s;
+        border-radius: 50%;
+      }
+      input:checked + .slider {
+        background-color: var(--navy);
+      }
+      input:checked + .slider:before {
+        transform: translateX(26px);
+      }
+      /* Recent Security Events */
+      .events-section {
+        background-color: var(--card-bg);
+        border-radius: var(--radius);
+        padding: 24px;
+        box-shadow: var(--shadow);
+        border: 1px solid var(--border);
+      }
+      .events-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .event-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px;
+        border-radius: 8px;
+        transition: background-color 0.2s ease;
+      }
+      .event-item:hover {
+        background-color: var(--bg-secondary);
+      }
+      .event-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .event-1 .event-icon {
+        background-color: rgba(26, 35, 126, 0.1);
+        color: var(--navy);
+      }
+      .event-2 .event-icon {
+        background-color: rgba(128, 0, 32, 0.1);
+        color: var(--burgundy);
+      }
+      .event-3 .event-icon {
+        background-color: rgba(76, 201, 240, 0.1);
+        color: var(--success);
+      }
+      .event-4 .event-icon {
+        background-color: rgba(248, 150, 30, 0.1);
+        color: var(--warning);
+      }
+      .event-info {
+        flex: 1;
+      }
+      .event-title {
+        font-weight: 500;
+        margin-bottom: 4px;
+      }
+      .event-meta {
+        font-size: 12px;
+        color: var(--text-secondary);
+      }
+      .event-status {
+        font-weight: 600;
+        font-size: 12px;
+        padding: 4px 8px;
+        border-radius: 4px;
+      }
+      .status-success {
+        background-color: rgba(76, 201, 240, 0.1);
+        color: var(--success);
+      }
+      .status-warning {
+        background-color: rgba(248, 150, 30, 0.1);
+        color: var(--warning);
+      }
+      .status-danger {
+        background-color: rgba(230, 57, 70, 0.1);
+        color: var(--danger);
+      }
+      /* User Access Management */
+      .access-management {
+        background-color: var(--card-bg);
+        border-radius: var(--radius);
+        padding: 24px;
+        box-shadow: var(--shadow);
+        border: 1px solid var(--border);
+        margin-bottom: 32px;
+      }
+      .access-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 16px;
+      }
+      .access-table th {
+        text-align: left;
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--border);
+        color: var(--text-secondary);
+        font-weight: 500;
+        font-size: 14px;
+      }
+      .access-table td {
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--border);
+      }
+      .user-cell {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .user-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--navy), var(--navy-light));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+        font-size: 12px;
+      }
+      .role-badge {
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 500;
+      }
+      .role-admin {
+        background-color: rgba(128, 0, 32, 0.1);
+        color: var(--burgundy);
+      }
+      .role-instructor {
+        background-color: rgba(26, 35, 126, 0.1);
+        color: var(--navy);
+      }
+      .role-user {
+        background-color: rgba(76, 201, 240, 0.1);
+        color: var(--success);
+      }
+      /* Theme Toggle */
+      .theme-toggle {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: var(--navy);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: var(--shadow);
+        z-index: 1000;
+        border: none;
+      }
+      .theme-toggle:hover {
+        background-color: var(--navy-light);
+        transform: scale(1.05);
+      }
+      /* Toast Notification */
+      .toast {
+        position: fixed;
+        bottom: 90px;
+        right: 24px;
+        padding: 16px 24px;
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        border: 1px solid var(--border);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        transform: translateY(100px);
+        opacity: 0;
+        transition: all 0.3s ease;
+      }
+      .toast.show {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      .toast-success {
+        border-left: 4px solid var(--success);
+      }
+      .toast-error {
+        border-left: 4px solid var(--danger);
+      }
+      /* Responsive Design */
+      @media (max-width: 1200px) {
+        .stats-section {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .security-layout {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 768px) {
+        /* Add this for table responsiveness */
+        .access-table {
+          display: block;
+          overflow-x: auto;
+          white-space: nowrap;
+        }
+
+        .access-table table {
+          min-width: 600px;
+        }
+
+        /* Also add this for other potential overflow issues */
+        .security-layout,
+        .stats-section {
+          overflow: hidden;
+        }
+
+        .security-card,
+        .events-section {
+          min-width: 0; /* Prevents flex items from overflowing */
+        }
+      }
+
+      /* Mobile Responsive Fixes */
+      @media (max-width: 768px) {
+        .sidebar {
+          transform: translateX(-100%);
+          width: 280px;
+          background-color: var(--bg-secondary);
+          z-index: 1000; /* Higher z-index */
+        }
+
+        .sidebar.active {
+          transform: translateX(0);
+        }
+
+        .main-content {
+          margin-left: 0 !important;
+          padding: 15px !important;
+        }
+
+        .hamburger {
+          display: block !important;
+          background: none;
+          border: none;
+          font-size: 24px;
+          cursor: pointer;
+          color: var(--text-primary);
+          margin-right: 15px;
+          z-index: 1001;
+        }
+
+        .close-sidebar {
+          display: block !important;
+          background: none;
+          border: none;
+          font-size: 24px;
+          cursor: pointer;
+          color: var(--text-secondary);
+          position: absolute;
+          right: 20px;
+          top: 20px;
+          z-index: 1002;
+        }
+
+        .logo {
+          position: relative;
+          padding-right: 50px;
+        }
+
+        .overlay {
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.5);
+          z-index: 999; /* Below sidebar */
+          backdrop-filter: blur(2px);
+        }
+
+        .overlay.active {
+          display: block;
+        }
+
+        .search-bar {
+          width: 100% !important;
+          max-width: none !important;
+        }
+
+        .stats-section,
+        .quick-actions {
+          grid-template-columns: 1fr !important;
+          gap: 15px !important;
+        }
+
+        .page-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 15px;
+        }
+
+        /* Ensure nav text is visible */
+        .sidebar .nav-text {
+          display: block !important;
+        }
+
+        .sidebar .logo-text {
+          display: block !important;
+        }
+
+        /* Fix nav item colors */
+        .sidebar .nav-item {
+          color: var(--text-primary) !important;
+        }
+
+        .sidebar .nav-item i {
+          color: var(--text-primary) !important;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .nav-icons .user-name {
+          display: none;
+        }
+
+        .page-title {
+          font-size: 22px !important;
+        }
+
+        .btn span:not(.badge) {
+          display: none;
+        }
+
+        .btn {
+          padding: 10px 15px;
+        }
+      }
+
+      /* Add this to your existing CSS */
+      @media (max-width: 768px) {
+        .main-content {
+          width: 100% !important;
+          max-width: 100% !important;
+          overflow-x: hidden !important;
+        }
+
+        .container {
+          width: 100% !important;
+          max-width: 100% !important;
+        }
+
+        body {
+          overflow-x: hidden !important;
+        }
+
+        /* Ensure hamburger is visible on mobile */
+        .hamburger {
+          display: block !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="overlay" id="overlay"></div>
+    <div class="container">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="logo">
+          <div>
+            <img src="images/Step-Way Logo.png" width="150px" alt="" />
+            <span class="admin-badge">ADMIN</span>
+          </div>
+          <button class="close-sidebar" id="closeSidebar" style="display: none">
+            ×
+          </button>
+        </div>
+        <a href="admin-dashboard.html" class="nav-item">
+          <i class="fas fa-tachometer-alt"></i>
+          <span class="nav-text">Dashboard</span>
+        </a>
+        <a href="admin-user-mgt.html" class="nav-item">
+          <i class="fas fa-users"></i>
+          <span class="nav-text">User Management</span>
+        </a>
+        <a href="admin-instruct-mgt.html" class="nav-item">
+          <i class="fas fa-chalkboard-teacher"></i>
+          <span class="nav-text">Instructors</span>
+        </a>
+        <a href="admin-course-mgt.html" class="nav-item">
+          <i class="fas fa-book-open"></i>
+          <span class="nav-text">Courses</span>
+        </a>
+        <a href="admi-analytic.html" class="nav-item">
+          <i class="fas fa-chart-line"></i>
+          <span class="nav-text">Analytics</span>
+        </a>
+        <a href="admin-settings.html" class="nav-item">
+          <i class="fas fa-cog"></i>
+          <span class="nav-text">System Settings</span>
+        </a>
+        <a href="admin-financial.html" class="nav-item">
+          <i class="fas fa-wallet"></i>
+          <span class="nav-text">Financials</span>
+        </a>
+        <a href="admin-secuirity.html" class="nav-item active">
+          <i class="fas fa-shield-alt"></i>
+          <span class="nav-text">Security</span>
+        </a>
+      </div>
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Top Navigation -->
+        <div class="top-nav">
+          <button class="hamburger" id="hamburger" style="display: none">
+            ☰
+          </button>
+          <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search security events..." />
+          </div>
+          <div class="nav-icons">
+            <div class="nav-icon">
+              <i class="far fa-bell"></i>
+              <div class="badge">3</div>
+            </div>
+            <div class="nav-icon">
+              <i class="far fa-envelope"></i>
+              <div class="badge">7</div>
+            </div>
+            <div class="user-profile">
+              <div class="avatar">MJ</div>
+              <div class="user-info">
+                <div class="user-name">Michael Johnson</div>
+                <div class="user-role">Super Administrator</div>
+              </div>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+          </div>
+        </div>
+        <!-- Page Header -->
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Security Dashboard</h1>
+            <p class="page-subtitle">
+              Monitor and manage system security settings
+            </p>
+          </div>
+          <div class="header-actions">
+            <button class="btn btn-secondary">
+              <i class="fas fa-download"></i>
+              <span>Export Logs</span>
+            </button>
+            <button class="btn btn-primary" id="runSecurityScanBtn">
+              <i class="fas fa-shield-alt"></i>
+              <span>Run Security Scan</span>
+            </button>
+          </div>
+        </div>
+        <!-- Stats Section -->
+        <div class="stats-section">
+          <div class="stat-card stat-1">
+            <div class="stat-icon">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <div class="stat-value">98.5%</div>
+            <div class="stat-label">System Security</div>
+            <div class="stat-change change-positive">
+              <i class="fas fa-arrow-up"></i> 2.3% from last month
+            </div>
+          </div>
+          <div class="stat-card stat-2">
+            <div class="stat-icon">
+              <i class="fas fa-user-shield"></i>
+            </div>
+            <div class="stat-value">24</div>
+            <div class="stat-label">Active Threats Blocked</div>
+            <div class="stat-change change-positive">
+              <i class="fas fa-arrow-down"></i> 15% decrease
+            </div>
+          </div>
+          <div class="stat-card stat-3">
+            <div class="stat-icon">
+              <i class="fas fa-lock"></i>
+            </div>
+            <div class="stat-value">100%</div>
+            <div class="stat-label">Data Encryption</div>
+            <div class="stat-change change-positive">
+              <i class="fas fa-check"></i> Fully encrypted
+            </div>
+          </div>
+          <div class="stat-card stat-4">
+            <div class="stat-icon">
+              <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="stat-value">3</div>
+            <div class="stat-label">Security Alerts</div>
+            <div class="stat-change change-negative">
+              <i class="fas fa-arrow-up"></i> 1 new alert today
+            </div>
+          </div>
+        </div>
+        <!-- Security Layout -->
+        <div class="security-layout">
+          <!-- Security Settings -->
+          <div class="security-card">
+            <div class="section-header">
+              <h2 class="section-title">Security Settings</h2>
+              <a href="#" class="view-all"
+                >Advanced Settings <i class="fas fa-chevron-right"></i
+              ></a>
+            </div>
+            <div class="security-settings">
+              <div class="setting-item">
+                <div class="setting-info">
+                  <div class="setting-title">Two-Factor Authentication</div>
+                  <div class="setting-description">
+                    Require 2FA for all admin accounts
+                  </div>
+                </div>
+                <label class="toggle">
+                  <input type="checkbox" checked />
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <div class="setting-item">
+                <div class="setting-info">
+                  <div class="setting-title">Password Policy</div>
+                  <div class="setting-description">
+                    Enforce strong password requirements
+                  </div>
+                </div>
+                <label class="toggle">
+                  <input type="checkbox" checked />
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <div class="setting-item">
+                <div class="setting-info">
+                  <div class="setting-title">IP Whitelisting</div>
+                  <div class="setting-description">
+                    Restrict admin access to specific IPs
+                  </div>
+                </div>
+                <label class="toggle">
+                  <input type="checkbox" />
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <div class="setting-item">
+                <div class="setting-info">
+                  <div class="setting-title">Session Timeout</div>
+                  <div class="setting-description">
+                    Automatically log out inactive users
+                  </div>
+                </div>
+                <label class="toggle">
+                  <input type="checkbox" checked />
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <div class="setting-item">
+                <div class="setting-info">
+                  <div class="setting-title">Login Notifications</div>
+                  <div class="setting-description">
+                    Send email alerts for new logins
+                  </div>
+                </div>
+                <label class="toggle">
+                  <input type="checkbox" checked />
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <div class="setting-item">
+                <div class="setting-info">
+                  <div class="setting-title">Data Encryption</div>
+                  <div class="setting-description">
+                    Encrypt all user data at rest
+                  </div>
+                </div>
+                <label class="toggle">
+                  <input type="checkbox" checked />
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <!-- Recent Security Events -->
+          <div class="events-section">
+            <div class="section-header">
+              <h2 class="section-title">Recent Security Events</h2>
+              <a href="#" class="view-all"
+                >View All <i class="fas fa-chevron-right"></i
+              ></a>
+            </div>
+            <div class="events-list">
+              <div class="event-item event-1">
+                <div class="event-icon">
+                  <i class="fas fa-user-check"></i>
+                </div>
+                <div class="event-info">
+                  <div class="event-title">Successful Admin Login</div>
+                  <div class="event-meta">
+                    Michael Johnson - Today, 09:24 AM
+                  </div>
+                </div>
+                <div class="event-status status-success">Secure</div>
+              </div>
+              <div class="event-item event-2">
+                <div class="event-icon">
+                  <i class="fas fa-user-times"></i>
+                </div>
+                <div class="event-info">
+                  <div class="event-title">Failed Login Attempt</div>
+                  <div class="event-meta">
+                    IP: 192.168.1.45 - Today, 08:15 AM
+                  </div>
+                </div>
+                <div class="event-status status-warning">Warning</div>
+              </div>
+              <div class="event-item event-3">
+                <div class="event-icon">
+                  <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="event-info">
+                  <div class="event-title">Security Scan Completed</div>
+                  <div class="event-meta">System - Yesterday, 11:30 PM</div>
+                </div>
+                <div class="event-status status-success">Secure</div>
+              </div>
+              <div class="event-item event-4">
+                <div class="event-icon">
+                  <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="event-info">
+                  <div class="event-title">Suspicious Activity Detected</div>
+                  <div class="event-meta">
+                    User Account: jsmith - Yesterday, 4:45 PM
+                  </div>
+                </div>
+                <div class="event-status status-danger">Critical</div>
+              </div>
+              <div class="event-item event-1">
+                <div class="event-icon">
+                  <i class="fas fa-key"></i>
+                </div>
+                <div class="event-info">
+                  <div class="event-title">Password Changed</div>
+                  <div class="event-meta">
+                    Sarah Wilson - Yesterday, 2:20 PM
+                  </div>
+                </div>
+                <div class="event-status status-success">Secure</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- User Access Management -->
+        <div class="access-management">
+          <div class="section-header">
+            <h2 class="section-title">User Access Management</h2>
+            <a href="#" class="view-all">Manage Permissions</a>
+          </div>
+          <table class="access-table">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Role</th>
+                <th>Last Login</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="user-cell">
+                    <div class="user-avatar">MJ</div>
+                    <div>
+                      <div>Michael Johnson</div>
+                      <div class="user-role">michael.johnson@stepway.com</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="role-badge role-admin">Administrator</span>
+                </td>
+                <td>Today, 09:24 AM</td>
+                <td><span class="event-status status-success">Active</span></td>
+                <td>
+                  <button class="btn btn-sm btn-secondary">Edit</button>
+                  <button class="btn btn-sm btn-danger">Revoke</button>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="user-cell">
+                    <div class="user-avatar">SW</div>
+                    <div>
+                      <div>Sarah Wilson</div>
+                      <div class="user-role">sarah.wilson@stepway.com</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="role-badge role-instructor">Instructor</span>
+                </td>
+                <td>Yesterday, 3:45 PM</td>
+                <td><span class="event-status status-success">Active</span></td>
+                <td>
+                  <button class="btn btn-sm btn-secondary">Edit</button>
+                  <button class="btn btn-sm btn-danger">Revoke</button>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="user-cell">
+                    <div class="user-avatar">AC</div>
+                    <div>
+                      <div>Alex Chen</div>
+                      <div class="user-role">alex.chen@stepway.com</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="role-badge role-instructor">Instructor</span>
+                </td>
+                <td>2 days ago</td>
+                <td><span class="event-status status-success">Active</span></td>
+                <td>
+                  <button class="btn btn-sm btn-secondary">Edit</button>
+                  <button class="btn btn-sm btn-danger">Revoke</button>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="user-cell">
+                    <div class="user-avatar">DP</div>
+                    <div>
+                      <div>David Park</div>
+                      <div class="user-role">david.park@stepway.com</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="role-badge role-user">User</span></td>
+                <td>1 week ago</td>
+                <td>
+                  <span class="event-status status-warning">Inactive</span>
+                </td>
+                <td>
+                  <button class="btn btn-sm btn-secondary">Edit</button>
+                  <button class="btn btn-sm btn-danger">Revoke</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="themeToggle">
+      <i class="fas fa-moon"></i>
+    </button>
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+      <i class="fas fa-check-circle"></i>
+      <span id="toastMessage">Action completed successfully!</span>
+    </div>
+    <script>
+      // Initialize page functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        initializeSecurityPage();
+      });
+
+      function initializeSecurityPage() {
+        // Theme Toggle
+        const themeToggle = document.getElementById("themeToggle");
+        const body = document.body;
+
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme === "dark") {
+          body.classList.add("dark-mode");
+          themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+
+        themeToggle.addEventListener("click", () => {
+          body.classList.toggle("dark-mode");
+          if (body.classList.contains("dark-mode")) {
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            localStorage.setItem("theme", "dark");
+            showToast("Dark mode enabled");
+          } else {
+            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            localStorage.setItem("theme", "light");
+            showToast("Light mode enabled");
+          }
+        });
+
+        // Run Security Scan Button
+        const runSecurityScanBtn =
+          document.getElementById("runSecurityScanBtn");
+        runSecurityScanBtn.addEventListener("click", () => {
+          showToast("Running security scan...");
+          // Simulate scan process
+          setTimeout(() => {
+            showToast(
+              "Security scan completed successfully! No threats detected."
+            );
+          }, 3000);
+        });
+
+        // Toggle switch functionality
+        const toggleSwitches = document.querySelectorAll(".toggle input");
+        toggleSwitches.forEach((toggle) => {
+          toggle.addEventListener("change", function () {
+            const settingName =
+              this.closest(".setting-item").querySelector(
+                ".setting-title"
+              ).textContent;
+            const status = this.checked ? "enabled" : "disabled";
+            showToast(`${settingName} ${status}`);
+          });
+        });
+
+        // Action buttons in access management table
+        const actionButtons = document.querySelectorAll(".access-table .btn");
+        actionButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            const userName = this.closest("tr").querySelector(
+              ".user-cell div:first-child"
+            ).textContent;
+            const action = this.textContent.trim();
+            if (action === "Revoke") {
+              if (
+                confirm(
+                  `Are you sure you want to revoke access for ${userName}?`
+                )
+              ) {
+                showToast(`Access revoked for ${userName}`);
+              }
+            } else if (action === "Edit") {
+              showToast(`Editing permissions for ${userName}`);
+            }
+          });
+        });
+      }
+
+      // Toast Notification Function
+      function showToast(message, type = "success") {
+        const toast = document.getElementById("toast");
+        const toastMessage = document.getElementById("toastMessage");
+        toastMessage.textContent = message;
+        toast.className = "toast";
+        toast.classList.add("show");
+        if (type === "success") {
+          toast.classList.add("toast-success");
+        } else {
+          toast.classList.add("toast-error");
+        }
+        setTimeout(() => {
+          toast.classList.remove("show");
+        }, 3000);
+      }
+    </script>
+
+    <script>
+      // Mobile sidebar functionality
+      function initializeMobileMenu() {
+        const hamburger = document.getElementById("hamburger");
+        const sidebar = document.querySelector(".sidebar");
+        const closeSidebar = document.getElementById("closeSidebar");
+        const overlay = document.getElementById("overlay");
+        const mainContent = document.querySelector(".main-content");
+
+        if (!hamburger || !sidebar) return;
+
+        hamburger.addEventListener("click", () => {
+          sidebar.classList.add("active");
+          overlay.classList.add("active");
+          document.body.style.overflow = "hidden";
+        });
+
+        closeSidebar.addEventListener("click", () => {
+          sidebar.classList.remove("active");
+          overlay.classList.remove("active");
+          document.body.style.overflow = "";
+        });
+
+        overlay.addEventListener("click", () => {
+          sidebar.classList.remove("active");
+          overlay.classList.remove("active");
+          document.body.style.overflow = "";
+        });
+
+        // Close sidebar when clicking on nav items on mobile
+        const navItems = document.querySelectorAll(".nav-item");
+        navItems.forEach((item) => {
+          item.addEventListener("click", () => {
+            if (window.innerWidth <= 768) {
+              sidebar.classList.remove("active");
+              overlay.classList.remove("active");
+              document.body.style.overflow = "";
+            }
+          });
+        });
+
+        // Handle resize
+        function handleResize() {
+          if (window.innerWidth > 768) {
+            sidebar.classList.remove("active");
+            overlay.classList.remove("active");
+            document.body.style.overflow = "";
+          }
+        }
+
+        window.addEventListener("resize", handleResize);
+      }
+
+      // Initialize when DOM is loaded
+      document.addEventListener("DOMContentLoaded", function () {
+        initializeMobileMenu();
+
+        // Your existing initialization code here...
+        // initializeUserManagement(); etc.
+      });
+    </script>
+
+    <script>
+      // Show/hide hamburger based on screen size
+      function toggleHamburgerVisibility() {
+        const hamburger = document.getElementById("hamburger");
+        if (window.innerWidth <= 768) {
+          hamburger.style.display = "block";
+        } else {
+          hamburger.style.display = "none";
+        }
+      }
+
+      // Initialize on load and resize
+      document.addEventListener("DOMContentLoaded", function () {
+        toggleHamburgerVisibility();
+        window.addEventListener("resize", toggleHamburgerVisibility);
+
+        // Your existing mobile menu code
+        initializeMobileMenu();
+      });
+    </script>
+  </body>
+</html>

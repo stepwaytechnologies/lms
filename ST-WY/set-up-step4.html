@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verifying Application...</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .verification-container {
+            background: white;
+            border-radius: 20px;
+            padding: 60px 40px;
+            max-width: 650px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .audience-badge {
+            background: #7c0a0a;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .animation-wrapper {
+            margin-bottom: 40px;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-animation {
+            font-size: 120px;
+            animation: fadeInOut 2s infinite;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.3; transform: scale(0.9); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #1e3a8a;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .status-text {
+            font-size: 16px;
+            color: #6b7280;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #7c0a0a, #a91d1d);
+            border-radius: 10px;
+            width: 0%;
+            animation: fillProgress 18s linear forwards;
+        }
+
+        @keyframes fillProgress {
+            to { width: 100%; }
+        }
+
+        .checking-steps {
+            text-align: left;
+            margin-top: 30px;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            font-size: 14px;
+            color: #6b7280;
+            opacity: 0.3;
+            transition: opacity 0.3s;
+        }
+
+        .check-item.active {
+            opacity: 1;
+            color: #1e3a8a;
+            font-weight: 600;
+        }
+
+        .check-item.completed {
+            opacity: 1;
+            color: #059669;
+        }
+
+        .check-item.failed {
+            opacity: 1;
+            color: #dc2626;
+        }
+
+        .check-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 12px;
+            font-size: 18px;
+        }
+
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #e5e7eb;
+            border-top-color: #7c0a0a;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 640px) {
+            .verification-container {
+                padding: 40px 24px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .animation-wrapper {
+                height: 150px;
+            }
+
+            .icon-animation {
+                font-size: 100px;
+            }
+
+            .status-text {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="verification-container">
+        <div class="audience-badge" id="audienceDisplay">
+            <!-- Teaching audience will be displayed here -->
+        </div>
+
+        <div class="animation-wrapper">
+            <div class="icon-animation" id="animatedIcon">🔍</div>
+        </div>
+
+        <h1 id="statusTitle">Verifying Your Application</h1>
+        <p class="status-text" id="statusMessage">
+            Please wait while we verify your credentials and documentation...
+        </p>
+
+        <div class="progress-bar-container">
+            <div class="progress-bar"></div>
+        </div>
+
+        <div class="checking-steps">
+            <div class="check-item" id="step1">
+                <div class="check-icon">
+                    <div class="spinner"></div>
+                </div>
+                <span>Validating profile information</span>
+            </div>
+            <div class="check-item" id="step2">
+                <div class="check-icon">⏳</div>
+                <span>Verifying LinkedIn profile</span>
+            </div>
+            <div class="check-item" id="step3">
+                <div class="check-icon">⏳</div>
+                <span>Checking resume/CV authenticity</span>
+            </div>
+            <div class="check-item" id="step4">
+                <div class="check-icon">⏳</div>
+                <span>Validating guarantor information</span>
+            </div>
+            <div class="check-item" id="step5">
+                <div class="check-icon">⏳</div>
+                <span>Reviewing expertise qualifications</span>
+            </div>
+            <div class="check-item" id="step6">
+                <div class="check-icon">⏳</div>
+                <span>Cross-checking credentials</span>
+            </div>
+            <div class="check-item" id="step7">
+                <div class="check-icon">⏳</div>
+                <span>Finalizing application review</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Display teaching audience
+        function displayTeachingAudience() {
+            const step1Data = JSON.parse(sessionStorage.getItem('step1Data') || '{}');
+            const audienceDisplay = document.getElementById('audienceDisplay');
+            
+            if (step1Data.teachingAudience === 'kids') {
+                audienceDisplay.innerHTML = '🧒 Teaching: Kids Coding';
+            } else if (step1Data.teachingAudience === 'adults') {
+                audienceDisplay.innerHTML = '👨‍💼 Teaching: Adults';
+            } else {
+                audienceDisplay.innerHTML = '🎯 Teaching Audience';
+            }
+        }
+
+        const icons = ['🔍', '💻', '📋', '🔎', '✨', '📄', '✅'];
+        let iconIndex = 0;
+        const animatedIcon = document.getElementById('animatedIcon');
+
+        setInterval(() => {
+            iconIndex = (iconIndex + 1) % icons.length;
+            animatedIcon.textContent = icons[iconIndex];
+        }, 2000);
+
+        const steps = [
+            { id: 'step1', delay: 2000 },
+            { id: 'step2', delay: 4500 },
+            { id: 'step3', delay: 7000 },
+            { id: 'step4', delay: 9500 },
+            { id: 'step5', delay: 12000 },
+            { id: 'step6', delay: 14500 },
+            { id: 'step7', delay: 16500 }
+        ];
+
+        steps.forEach((step, index) => {
+            setTimeout(() => {
+                if (index > 0) {
+                    const prevStep = document.getElementById(steps[index - 1].id);
+                    prevStep.classList.remove('active');
+                    prevStep.classList.add('completed');
+                    prevStep.querySelector('.check-icon').innerHTML = '✓';
+                }
+                
+                const currentStep = document.getElementById(step.id);
+                currentStep.classList.add('active');
+                currentStep.querySelector('.check-icon').innerHTML = '<div class="spinner"></div>';
+            }, step.delay);
+        });
+
+        setTimeout(() => {
+            const lastStep = document.getElementById('step7');
+            lastStep.classList.remove('active');
+            lastStep.classList.add('completed');
+            lastStep.querySelector('.check-icon').innerHTML = '✓';
+
+            verifyApplication();
+        }, 17500);
+
+        async function verifyApplication() {
+            try {
+                const step1Data = JSON.parse(sessionStorage.getItem('step1Data') || '{}');
+                const step2Data = JSON.parse(sessionStorage.getItem('step2Data') || '{}');
+                const step3Data = JSON.parse(sessionStorage.getItem('step3Data') || '{}');
+
+                const applicationData = {
+                    teachingAudience: step1Data.teachingAudience || '',
+                    fullName: step1Data.fullName || '',
+                    email: step1Data.email || '',
+                    headline: step2Data.headline || '',
+                    biography: step2Data.biography || '',
+                    linkedin: step2Data.linkedin || '',
+                    website: step2Data.website || '',
+                    hasPhoto: step2Data.hasPhoto || false,
+                    hasResume: step2Data.hasResume || false,
+                    guarantors: step2Data.guarantors || [],
+                    expertise: step3Data.expertise || '',
+                    skills: step3Data.skills || [],
+                    experience: step3Data.experience || ''
+                };
+
+                let isValid = true;
+                let rejectionReason = '';
+                let failedChecks = [];
+
+                // 1. Teaching Audience Validation
+                if (!applicationData.teachingAudience) {
+                    isValid = false;
+                    failedChecks.push('Teaching audience not selected');
+                }
+
+                // 2. Profile Information Validation
+                if (!applicationData.fullName || applicationData.fullName.length < 3) {
+                    isValid = false;
+                    failedChecks.push('Invalid full name');
+                }
+
+                if (!applicationData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(applicationData.email)) {
+                    isValid = false;
+                    failedChecks.push('Invalid email address');
+                }
+
+                // 3. Professional Information Validation
+                if (!applicationData.headline || applicationData.headline.length < 10) {
+                    isValid = false;
+                    failedChecks.push('Professional headline too short or missing');
+                }
+
+                // 4. Biography Content Validation
+                if (!applicationData.biography || applicationData.biography.length < 200) {
+                    isValid = false;
+                    failedChecks.push('Biography does not meet minimum length requirement (200 characters)');
+                }
+
+                // Check for spam/inappropriate content
+                const inappropriateWords = [
+                    'spam', 'fake', 'scam', 'fraud', 'illegal', 'hack', 
+                    'cheat', 'steal', 'xxx', 'porn', 'drug'
+                ];
+                const textToCheck = (applicationData.biography + ' ' + applicationData.headline).toLowerCase();
+                
+                for (let word of inappropriateWords) {
+                    if (textToCheck.includes(word)) {
+                        isValid = false;
+                        failedChecks.push('Inappropriate or unprofessional content detected');
+                        break;
+                    }
+                }
+
+                // 5. LinkedIn Validation (Very Simple - just check if provided)
+                if (!applicationData.linkedin || applicationData.linkedin.trim().length === 0) {
+                    isValid = false;
+                    failedChecks.push('LinkedIn profile URL is required');
+                } else if (applicationData.linkedin.trim().length < 10) {
+                    isValid = false;
+                    failedChecks.push('LinkedIn URL appears to be too short or incomplete');
+                } else if (!applicationData.linkedin.toLowerCase().includes('linkedin')) {
+                    isValid = false;
+                    failedChecks.push('Please enter a valid LinkedIn profile URL');
+                }
+
+                // 6. Website Validation (if provided) - More lenient
+                if (applicationData.website && applicationData.website.trim().length > 0) {
+                    // Just check if it looks like a URL (has a dot)
+                    if (!applicationData.website.includes('.')) {
+                        isValid = false;
+                        failedChecks.push('Website URL appears to be invalid');
+                    }
+                }
+
+                // 7. Document Validation
+                if (!applicationData.hasPhoto) {
+                    isValid = false;
+                    failedChecks.push('Profile photo not uploaded');
+                }
+
+                if (!applicationData.hasResume) {
+                    isValid = false;
+                    failedChecks.push('Resume/CV not uploaded');
+                }
+
+                // 8. Guarantor Validation (STRICT)
+                if (!applicationData.guarantors || applicationData.guarantors.length < 2) {
+                    isValid = false;
+                    failedChecks.push('Minimum 2 guarantors required');
+                } else {
+                    applicationData.guarantors.forEach((guarantor, index) => {
+                        if (!guarantor.name || guarantor.name.length < 3) {
+                            isValid = false;
+                            failedChecks.push(`Guarantor ${index + 1}: Invalid name`);
+                        }
+
+                        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        if (!guarantor.email || !emailPattern.test(guarantor.email)) {
+                            isValid = false;
+                            failedChecks.push(`Guarantor ${index + 1}: Invalid email`);
+                        }
+
+                        const phoneDigits = guarantor.phone.replace(/\D/g, '');
+                        if (!guarantor.phone || phoneDigits.length < 10) {
+                            isValid = false;
+                            failedChecks.push(`Guarantor ${index + 1}: Invalid phone number`);
+                        }
+
+                        if (!guarantor.address || guarantor.address.length < 10) {
+                            isValid = false;
+                            failedChecks.push(`Guarantor ${index + 1}: Incomplete address`);
+                        }
+
+                        if (!guarantor.platform) {
+                            isValid = false;
+                            failedChecks.push(`Guarantor ${index + 1}: Social media platform not selected`);
+                        }
+
+                        // More flexible social validation - accepts username or URL
+                        if (!guarantor.social || guarantor.social.trim().length < 3) {
+                            isValid = false;
+                            failedChecks.push(`Guarantor ${index + 1}: Invalid or missing social media username/URL`);
+                        }
+                    });
+                }
+
+                // 9. Expertise Validation
+                if (!applicationData.expertise) {
+                    isValid = false;
+                    failedChecks.push('No expertise area selected');
+                }
+
+                // 10. Skills Validation
+                if (!applicationData.skills || applicationData.skills.length === 0) {
+                    isValid = false;
+                    failedChecks.push('No skills selected');
+                }
+
+                // 11. Experience Level Validation
+                if (!applicationData.experience) {
+                    isValid = false;
+                    failedChecks.push('Experience level not specified');
+                }
+
+                // Set rejection reason
+                if (!isValid) {
+                    if (failedChecks.length > 0) {
+                        rejectionReason = 'Application validation failed:\n\n' + failedChecks.join('\n');
+                    } else {
+                        rejectionReason = 'Application does not meet our minimum requirements';
+                    }
+                }
+
+                // Save validation result
+                sessionStorage.setItem('verificationResult', JSON.stringify({
+                    approved: isValid,
+                    reason: rejectionReason,
+                    failedChecks: failedChecks,
+                    timestamp: new Date().toISOString(),
+                    teachingAudience: applicationData.teachingAudience
+                }));
+
+                // Redirect based on result
+                setTimeout(() => {
+                    if (isValid) {
+                        window.location.href = 'set-up-approved.html';
+                    } else {
+                        window.location.href = 'set-up-denied.html';
+                    }
+                }, 1500);
+
+            } catch (error) {
+                console.error('Verification error:', error);
+                sessionStorage.setItem('verificationResult', JSON.stringify({
+                    approved: false,
+                    reason: 'Technical error during verification. Please try again or contact support.',
+                    failedChecks: ['System error'],
+                    timestamp: new Date().toISOString()
+                }));
+                
+                setTimeout(() => {
+                    window.location.href = 'set-up-denied.html';
+                }, 1500);
+            }
+        }
+
+        // Display teaching audience on load
+        window.addEventListener('DOMContentLoaded', displayTeachingAudience);
+    </script>
+</body>
+</html>

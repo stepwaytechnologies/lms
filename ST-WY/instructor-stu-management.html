@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management - Stepway Technologies</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f5f7fa;
+            color: #2d3748;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 240px;
+            background-color: #fff;
+            border-right: 1px solid #e2e8f0;
+            padding: 20px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo-stepway {
+            color: #000;
+        }
+
+        .nav-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #4a5568;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background-color: #f7fafc;
+            color: #2d3748;
+        }
+
+        .nav-item.active {
+            background-color: #e6f2ff;
+            color: rgba(26, 35, 126, 1);
+            border-left-color: rgba(26, 35, 126, 1);
+        }
+
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 240px;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* Header */
+        .header {
+            background-color: #fff;
+            padding: 16px 32px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background-color: #f7fafc;
+            padding: 8px 16px;
+            border-radius: 8px;
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .search-box input {
+            border: none;
+            background: none;
+            outline: none;
+            margin-left: 8px;
+            width: 100%;
+            color: #2d3748;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .notification-icon {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #e53e3e;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(26, 35, 126, 1);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 16px;
+        }
+
+        /* Content Area */
+        .content {
+            padding: 32px;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .filters-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .filters-left {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 8px 32px 8px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            background-color: white;
+            cursor: pointer;
+            font-size: 14px;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23718096' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+        }
+
+        .filters-right {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-export {
+            background-color: white;
+            color: #4a5568;
+            border: 1px solid #e2e8f0;
+        }
+
+        .btn-export:hover {
+            background-color: #f7fafc;
+        }
+
+        .btn-refresh {
+            background-color: #4fd1c5;
+            color: white;
+        }
+
+        .btn-refresh:hover {
+            background-color: #38b2ac;
+        }
+
+        .btn-add {
+            background-color: rgba(26, 35, 126, 1);
+            color: white;
+        }
+
+        .btn-add:hover {
+            background-color: rgb(45, 53, 139);
+        }
+
+        /* Students Section */
+        .students-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .students-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .filter-btn {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Table */
+        .students-table {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background-color: #f7fafc;
+        }
+
+        th {
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            color: #4a5568;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 20px 16px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        tbody tr {
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        tbody tr:hover {
+            background-color: #f7fafc;
+        }
+
+        .student-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .student-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .student-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .student-name {
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .student-email {
+            font-size: 13px;
+            color: #718096;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            max-width: 150px;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background-color: #e2e8f0;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: rgba(26, 35, 126, 1);
+            border-radius: 3px;
+        }
+
+        .progress-text {
+            font-size: 13px;
+            color: #4a5568;
+            margin-top: 4px;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background-color: #c6f6d5;
+            color: #22543d;
+        }
+
+        .status-completed {
+            background-color: #fed7d7;
+            color: #742a2a;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            background-color: #f7fafc;
+            border-color: #cbd5e0;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: white;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .pagination-info {
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .pagination-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .page-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 4px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .page-btn:hover {
+            background-color: #f7fafc;
+        }
+
+        .page-btn.active {
+            background-color: rgba(26, 35, 126, 1);
+            color: white;
+            border-color: rgba(26, 35, 126, 1);
+        }
+
+        /* Sidebar Overlay */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        .close-sidebar {
+            display: none;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #4a5568;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 1024px) {
+            .main-content {
+                margin-left: 0;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .close-sidebar {
+                display: block;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .search-box {
+                max-width: 200px;
+            }
+
+            .user-profile span {
+                display: none;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 12px 16px;
+            }
+
+            .search-box {
+                display: none;
+            }
+
+            .filters-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filters-left {
+                width: 100%;
+            }
+
+            .filter-select {
+                flex: 1;
+            }
+
+            .filters-right {
+                width: 100%;
+            }
+
+            .btn {
+                flex: 1;
+                justify-content: center;
+            }
+
+            /* Mobile Table - Card View */
+            .students-table {
+                display: none;
+            }
+
+            .students-cards {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .student-card {
+                background: white;
+                border-radius: 8px;
+                padding: 16px;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+
+            .student-card:hover {
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+
+            .student-card-header {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin-bottom: 16px;
+            }
+
+            .student-card-body {
+                display: grid;
+                gap: 12px;
+            }
+
+            .card-field {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .card-label {
+                font-size: 12px;
+                color: #718096;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            .card-value {
+                font-weight: 500;
+                color: #2d3748;
+            }
+
+            .pagination {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .content {
+                padding: 16px;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .students-cards {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 20px;
+            }
+
+            .students-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+
+        /* Audience Label Styles */
+.audience-label {
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: white;
+    margin-left: 8px;
+    white-space: nowrap;
+}
+
+.audience-label.adult {
+    background-color: rgba(26, 35, 126, 1);
+}
+
+.audience-label.kids {
+    background-color: #7c0a0a;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 968px) {
+    .audience-label {
+        font-size: 11px;
+        padding: 3px 10px;
+        margin-left: 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .audience-label {
+        font-size: 10px;
+        padding: 2px 8px;
+        margin-left: 4px;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <i class="fas fa-times close-sidebar" id="closeSidebar"></i>
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="images/Step-Way Logo.png" width="150px" alt="Stepway Technologies">
+   <div class="audience-label" id="audienceLabel"></div>
+                </div>
+            </div>
+          <nav>
+                <a href="instructor-dashboard.html" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
+  <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
+</svg>
+
+                    <span>Dashboard</span>
+                </a>
+                <a href="instructor-courses.html" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-book" viewBox="0 0 16 16">
+  <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/>
+</svg>
+                    <span>My Courses</span>
+                </a>
+                <a href="instructor-analytic.html" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-graph-up" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07"/>
+</svg>
+                    <span>Analytics</span>
+                </a>
+                <a href="instructor-stu-management.html" class="nav-item active">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-people" viewBox="0 0 16 16">
+  <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1L7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002-.014.002zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4q0 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/>
+</svg>
+                    <span>Students</span>
+                </a>
+                <a href="instructor-message-management.html" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chat-left-text" viewBox="0 0 16 16">
+  <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+  <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6m0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5"/>
+</svg>
+                    <span>Messages</span>
+                </a>
+                <a href="instructr-revenue.html" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8m5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/>
+  <path d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195z"/>
+  <path d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083q.088-.517.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1z"/>
+  <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 6 6 0 0 1 3.13-1.567"/>
+</svg>
+                    <span>Earnings</span>
+                </a>
+                <a href="instructor-setting.html" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
+  <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0"/>
+  <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z"/>
+</svg>
+                    <span>Settings</span>
+                </a>
+            </nav>
+</aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div style="display: flex; align-items: center; flex: 1;">
+                    <i class="fas fa-bars hamburger" id="hamburger"></i>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search students...">
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="notification-icon">
+                        <i class="fas fa-bell" style="font-size: 20px; color: #4a5568;"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <div class="notification-icon">
+                        <i class="fas fa-comment" style="font-size: 20px; color: #4a5568;"></i>
+                        <span class="notification-badge">5</span>
+                    </div>
+                    <div class="user-profile">
+                        <div class="user-avatar">MJ</div>
+                        <span>Michael Johnson</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <div class="content">
+                <div class="page-header">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px;">
+                        <div>
+                            <h1 class="page-title" style="color: rgba(26, 35, 126, 1);">Student Management</h1>
+                            <p class="page-subtitle">Manage all your students, track their progress, and communicate with them</p>
+                        </div>
+                        <button class="btn btn-add">
+                            <i class="fas fa-plus"></i>
+                            Add New Student
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="filters-row">
+                    <div class="filters-left">
+                        <select class="filter-select">
+                            <option>All Courses</option>
+                            <option>Advanced Web Development</option>
+                            <option>React & Redux Mastery</option>
+                            <option>Python for Data Science</option>
+                        </select>
+                        <select class="filter-select">
+                            <option>All Statuses</option>
+                            <option>Active</option>
+                            <option>Completed</option>
+                        </select>
+                        <select class="filter-select">
+                            <option>All Progress</option>
+                            <option>0-25%</option>
+                            <option>25-50%</option>
+                            <option>50-75%</option>
+                            <option>75-100%</option>
+                        </select>
+                    </div>
+                    <div class="filters-right">
+                        <button class="btn btn-export">
+                            <i class="fas fa-download"></i>
+                            Export
+                        </button>
+                        <button class="btn btn-refresh">
+                            <i class="fas fa-sync-alt"></i>
+                            Refresh
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Students Section -->
+                <div class="students-header">
+                    <h2 class="students-title" style="color: rgba(26, 35, 126, 1);">All Students (247)</h2>
+                    <button class="filter-btn">
+                        <i class="fas fa-filter"></i>
+                        Filter
+                    </button>
+                </div>
+
+                <!-- Desktop Table View -->
+                <div class="students-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Course</th>
+                                <th>Enrollment Date</th>
+                                <th>Progress</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="student-info">
+                                        <div class="student-avatar" style="background-color: #3730a3;">SD</div>
+                                        <div class="student-details">
+                                            <span class="student-name">Sarah Davis</span>
+                                            <span class="student-email">sarah.d@example.com</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Advanced Web Development</td>
+                                <td>Mar 15, 2023</td>
+                                <td>
+                                    <div class="progress-bar-container">
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: 85%;"></div>
+                                        </div>
+                                        <div class="progress-text">85%</div>
+                                    </div>
+                                </td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td>
+                                    <div class="actions">
+                                        <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                        <button class="action-btn"><i class="fas fa-envelope"></i></button>
+                                        <button class="action-btn"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="student-info">
+                                        <div class="student-avatar" style="background-color: #3182ce;">AJ</div>
+                                        <div class="student-details">
+                                            <span class="student-name">Alex Johnson</span>
+                                            <span class="student-email">alex.j@example.com</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>React & Redux Mastery</td>
+                                <td>Apr 2, 2023</td>
+                                <td>
+                                    <div class="progress-bar-container">
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: 65%;"></div>
+                                        </div>
+                                        <div class="progress-text">65%</div>
+                                    </div>
+                                </td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td>
+                                    <div class="actions">
+                                        <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                        <button class="action-btn"><i class="fas fa-envelope"></i></button>
+                                        <button class="action-btn"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="student-info">
+                                        <div class="student-avatar" style="background-color: #805ad5;">MR</div>
+                                        <div class="student-details">
+                                            <span class="student-name">Maria Rodriguez</span>
+                                            <span class="student-email">maria.r@example.com</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Advanced Web Development</td>
+                                <td>Feb 28, 2023</td>
+                                <td>
+                                    <div class="progress-bar-container">
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: 92%;"></div>
+                                        </div>
+                                        <div class="progress-text">92%</div>
+                                    </div>
+                                </td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td>
+                                    <div class="actions">
+                                        <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                        <button class="action-btn"><i class="fas fa-envelope"></i></button>
+                                        <button class="action-btn"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="student-info">
+                                        <div class="student-avatar" style="background-color: #3730a3;">TW</div>
+                                        <div class="student-details">
+                                            <span class="student-name">Thomas Wilson</span>
+                                            <span class="student-email">thomas.w@example.com</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Python for Data Science</td>
+                                <td>May 10, 2023</td>
+                                <td>
+                                    <div class="progress-bar-container">
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: 45%;"></div>
+                                        </div>
+                                        <div class="progress-text">45%</div>
+                                    </div>
+                                </td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td>
+                                    <div class="actions">
+                                        <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                        <button class="action-btn"><i class="fas fa-envelope"></i></button>
+                                        <button class="action-btn"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="student-info">
+                                        <div class="student-avatar" style="background-color: #805ad5;">EJ</div>
+                                        <div class="student-details">
+                                            <span class="student-name">Emily Johnson</span>
+                                            <span class="student-email">emily.j@example.com</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>UI/UX Design Fundamentals</td>
+                                <td>Jan 15, 2023</td>
+                                <td>
+                                    <div class="progress-bar-container">
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: 100%;"></div>
+                                        </div>
+                                        <div class="progress-text">100%</div>
+                                    </div>
+                                </td>
+                                <td><span class="status-badge status-completed">Completed</span></td>
+                                <td>
+                                    <div class="actions">
+                                        <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                        <button class="action-btn"><i class="fas fa-envelope"></i></button>
+                                        <button class="action-btn"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="pagination">
+                        <div class="pagination-info">Showing 1-5 of 247 students</div>
+                        <div class="pagination-buttons">
+                            <button class="page-btn active">1</button>
+                            <button class="page-btn">2</button>
+                            <button class="page-btn">3</button>
+                            <button class="page-btn">4</button>
+                            <button class="page-btn">5</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Card View -->
+                <div class="students-cards">
+                    <div class="student-card">
+                        <div class="student-card-header">
+                            <div class="student-avatar" style="background-color: rgba(26, 35, 126, 1);">SD</div>
+                            <div class="student-details">
+                                <span class="student-name">Sarah Davis</span>
+                                <span class="student-email">sarah.d@example.com</span>
+                            </div>
+                        </div>
+                        <div class="student-card-body">
+                            <div class="card-field">
+                                <span class="card-label">Course</span>
+                                <span class="card-value">Advanced Web Development</span>
+                            </div>
+                            <div class="card-field">
+                                <span class="card-label">Enrollment</span>
+                                <span class="card-value">Mar 15, 2023</span>
+                            </div>
+                            <div class="card-field">
+                                <span class="card-label">Progress</span>
+                                <span class="card-value">85%</span>
+                            </div>
+                            <div class="card-field">
+                                <span class="card-label">Status</span>
+                                <span class="status-badge status-active">Active</span>
+                            </div>
+                            <div class="card-field">
+                                <div class="actions">
+                                    <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn"><i class="fas fa-envelope"></i></button>
+                                    <button class="action-btn"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="student-card">
+                        <div class="student-card-header">
+                            <div class="student-avatar" style="background-color: #3182ce;">AJ</div>
+                            <div class="student-details">
+                                <span class="student-name">Alex Johnson</span>
+                                <span class="student-email">alex.j@example.com</span>
+                            </div>
+                        </div>
+                        <div class="student-card-body">
+                            <div class="card-field">
+                                <span class="card-label">Course</span>
+                                <span class="card-value">React & Redux Mastery</span>
+                            </div>
+                            <div class="card-field">
+                                <span class="card-label">Enrollment</span>
+                                <span class="card-value">Apr 2, 2023</span>
+                            </div>
+                            <div class="card-field">
+                                <span class="card-label">Progress</span>
+                                <span class="card-value">65%</span>
+                            </div>
+                            <div class="card-field">
+                                <span class="card-label">Status</span>
+                                <span class="status-badge status-active">Active</span>
+                            </div>
+                            <div class="card-field">
+                                <div class="actions">
+                                    <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn"><i class="fas fa-envelope"></i></button>
+                                    <button class="action-btn"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="student-card">
+                        <div class="student-card-header">
+                            <div class="student-avatar" style="background-color: rgba(26, 35, 126, 1);">MR</div>
+                            <div class="student-details">
+                                <span class="student-name">Maria Rodriguez</span>
+                                <span class="student-email">maria.r@example.com</span>
+                            </div>
+                        </div>
+                        <div class="student-card-body">
+                            <div class="card-field">
+                                <span class="card-label">Course</span>
+                                <span class="card-value">Advanced Web Development</span>
+                            </div>
+                            <div class="card-field">
+                                <span class="card-label">Enrollment</span>
+                                <span class="card-value">Feb 28, 2023</span>
+                            </div>
+                            <div class="card-field">
+                                <span class="card-label">Progress</span>
+                                <span class="card-value">92%</span>
+                            </div>
+                            <div class="card-field">
+                                <span class="card-label">Status</span>
+                                <span class="status-badge status-active">Active</span>
+                            </div>
+                            <div class="card-field">
+                                <div class="actions">
+                                    <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn"><i class="fas fa-envelope"></i></button>
+                                    <button class="action-btn"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="student-card">
+                        <div class="student-card-header">
+                            <div class="student-avatar" style="background-color: rgba(26, 35, 126, 1);">TW</div>
+                            <div class="student-details">
+                                <span class="student-name">Thomas Wilson</span>
+                                <span class="student-email">thomas.w@example.com</span>
+                            </div>
+                        </div>
+                        <div class="student-card-body">
+                            <div class="card-field">
+                                <span class="card-label">Course</span>
+                                <span class="card-value">Python for Data Science</span>
+                            </div>
+                            <div class="card-field">
+                                <span class="card-label">Enrollment</span>
+                                <span class="card-value">May 10, 2023</span>
+                            </div>
+                            <div class="card-field">
+                                <span class="card-label">Progress</span>
+                                <span class="card-value">45%</span>
+                            </div>
+                            <div class="card-field">
+                                <span class="card-label">Status</span>
+                                <span class="status-badge status-active">Active</span>
+                            </div>
+                            <div class="card-field">
+                                <div class="actions">
+                                    <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn"><i class="fas fa-envelope"></i></button>
+                                    <button class="action-btn"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="student-card">
+                        <div class="student-card-header">
+                            <div class="student-avatar" style="background-color: rgba(26, 35, 126, 1);">EJ</div>
+                            <div class="student-details">
+                                <span class="student-name">Emily Johnson</span>
+                                <span class="student-email">emily.j@example.com</span>
+                            </div>
+                        </div>
+                        <div class="student-card-body">
+                            <div class="card-field">
+                                <span class="card-label">Course</span>
+                                <span class="card-value">UI/UX Design Fundamentals</span>
+                            </div>
+                            <div class="card-field">
+                                <span class="card-label">Enrollment</span>
+                                <span class="card-value">Jan 15, 2023</span>
+                            </div>
+                            <div class="card-field">
+                                <span class="card-label">Progress</span>
+                                <span class="card-value">100%</span>
+                            </div>
+                            <div class="card-field">
+                                <span class="card-label">Status</span>
+                                <span class="status-badge status-completed">Completed</span>
+                            </div>
+                            <div class="card-field">
+                                <div class="actions">
+                                    <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn"><i class="fas fa-envelope"></i></button>
+                                    <button class="action-btn"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Pagination -->
+                    <div class="pagination">
+                        <div class="pagination-info">Showing 1-5 of 247 students</div>
+                        <div class="pagination-buttons">
+                            <button class="page-btn active">1</button>
+                            <button class="page-btn">2</button>
+                            <button class="page-btn">3</button>
+                            <button class="page-btn">4</button>
+                            <button class="page-btn">5</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Sidebar Toggle
+        const hamburger = document.getElementById('hamburger');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const closeSidebar = document.getElementById('closeSidebar');
+
+        hamburger.addEventListener('click', () => {
+            sidebar.classList.add('active');
+            sidebarOverlay.classList.add('active');
+        });
+
+        closeSidebar.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+        });
+
+        sidebarOverlay.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+        });
+
+        // Nav Items - UPDATED TO ALLOW NAVIGATION
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                // Don't prevent default - allow links to work
+                // Just close sidebar on mobile after clicking
+                if (window.innerWidth <= 1024) {
+                    sidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                }
+            });
+        });
+
+        // Page buttons
+        document.querySelectorAll('.page-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Action buttons
+        document.querySelectorAll('.action-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const icon = this.querySelector('i');
+                if (icon.classList.contains('fa-eye')) {
+                    alert('View student details');
+                } else if (icon.classList.contains('fa-envelope')) {
+                    alert('Send message to student');
+                } else if (icon.classList.contains('fa-trash')) {
+                    if (confirm('Are you sure you want to delete this student?')) {
+                        alert('Student deleted');
+                    }
+                }
+            });
+        });
+
+        // Table rows clickable
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('click', function() {
+                alert('Opening student profile...');
+            });
+        });
+
+        // Student cards clickable
+        document.querySelectorAll('.student-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                if (!e.target.closest('.action-btn')) {
+                    alert('Opening student profile...');
+                }
+            });
+        });
+
+        // Filter button
+        document.querySelector('.filter-btn').addEventListener('click', function() {
+            alert('Filter options coming soon!');
+        });
+
+        // Add New Student button
+        document.querySelector('.btn-add').addEventListener('click', function() {
+            alert('Add new student form will open here');
+        });
+
+        // Export button
+        document.querySelector('.btn-export').addEventListener('click', function() {
+            alert('Exporting student data...');
+        });
+
+        // Refresh button
+        document.querySelector('.btn-refresh').addEventListener('click', function() {
+            const icon = this.querySelector('i');
+            icon.style.animation = 'spin 1s linear';
+            setTimeout(() => {
+                icon.style.animation = '';
+                alert('Data refreshed!');
+            }, 1000);
+        });
+
+        // Add spin animation for refresh button
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes spin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+
+    <script>
+        // Load teaching audience and display label
+function loadTeachingAudience() {
+    // Try to get from localStorage first (dashboard data)
+    const instructorData = JSON.parse(localStorage.getItem('instructorData') || '{}');
+    
+    // If not found, try sessionStorage (application data)
+    const step1Data = JSON.parse(sessionStorage.getItem('step1Data') || '{}');
+    
+    const teachingAudience = instructorData.teachingAudience || step1Data.teachingAudience;
+    const audienceLabel = document.getElementById('audienceLabel');
+    
+    if (audienceLabel) {
+        if (teachingAudience === 'kids') {
+            audienceLabel.textContent = 'KIDS';
+            audienceLabel.className = 'audience-label kids';
+        } else if (teachingAudience === 'adults') {
+            audienceLabel.textContent = 'ADULT';
+            audienceLabel.className = 'audience-label adult';
+        } else {
+            // Default fallback
+            audienceLabel.textContent = 'INSTRUCTOR';
+            audienceLabel.className = 'audience-label adult';
+        }
+    }
+}
+
+// Call this function when the page loads
+document.addEventListener('DOMContentLoaded', loadTeachingAudience);
+    </script>
+</body>
+</html>

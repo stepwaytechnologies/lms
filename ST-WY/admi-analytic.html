@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Analytics & Reporting | Stepway LMS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root {
+  --navy: #1a237e; 
+  --navy-light: #283593; 
+  --navy-dark: #0d1452; 
+  --burgundy: #800020; 
+  --burgundy-light: #a83232; 
+  --burgundy-dark: #600018; 
+  --accent: #ff6b6b; 
+  --text-primary: #2b2d42; 
+  --text-secondary: #6c757d; 
+  --bg-primary: #ffffff; 
+  --bg-secondary: #f8f9fa; 
+  --bg-tertiary: #e9ecef; 
+  --card-bg: #ffffff; 
+  --border: #e2e8f0; 
+  --success: #4cc9f0; 
+  --warning: #f8961e; 
+  --danger: #e63946; 
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); 
+  --radius: 12px;
+}
+.dark-mode {
+  --navy: #283593; 
+  --navy-light: #3949ab; 
+  --navy-dark: #1a237e; 
+  --burgundy: #a83232; 
+  --burgundy-light: #c44545; 
+  --burgundy-dark: #800020; 
+  --text-primary: #f8f9fa; 
+  --text-secondary: #adb5bd; 
+  --bg-primary: #121212; 
+  --bg-secondary: #1e1e1e; 
+  --bg-tertiary: #2d2d2d; 
+  --card-bg: #1e1e1e; 
+  --border: #404040; 
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+/* Sidebar Styles */
+.sidebar {
+  width: 260px;
+  background-color: var(--bg-secondary);
+  border-right: 1px solid var(--border);
+  padding: 24px 0;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  position: fixed;
+  height: 100vh;
+  z-index: 100;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  padding: 0 24px 32px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
+}
+.logo-text {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--navy);
+}
+.admin-badge {
+  display: inline-block;
+  background: var(--burgundy);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 600;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 14px 24px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border-left: 3px solid transparent;
+}
+.nav-item:hover {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+.nav-item.active {
+  background-color: rgba(26, 35, 126, 0.1);
+  color: var(--navy);
+  border-left: 3px solid var(--navy);
+}
+.nav-item i {
+  margin-right: 16px;
+  font-size: 20px;
+  width: 24px;
+  text-align: center;
+}
+/* Main Content Styles */
+.main-content {
+  flex: 1;
+  margin-left: 260px;
+  padding: 24px;
+  transition: all 0.3s ease;
+}
+/* Top Navigation */
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-secondary);
+  border-radius: 50px;
+  padding: 12px 20px;
+  width: 400px;
+  border: 1px solid var(--border);
+}
+.search-bar input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  width: 100%;
+  margin-left: 12px;
+  font-size: 15px;
+}
+.nav-icons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.nav-icon {
+  position: relative;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: color 0.2s ease;
+}
+.nav-icon:hover {
+  color: var(--text-primary);
+}
+.badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: var(--burgundy);
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+.user-profile:hover {
+  background-color: var(--bg-secondary);
+}
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+}
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+.user-name {
+  font-weight: 600;
+  font-size: 14px;
+}
+.user-role {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+/* Page Header */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+.page-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--navy);
+}
+.page-subtitle {
+  color: var(--text-secondary);
+  margin-top: 8px;
+  font-size: 16px;
+}
+/* Button Styles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: var(--radius);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  font-size: 14px;
+}
+.btn-primary {
+  background-color: var(--navy);
+  color: white;
+}
+.btn-primary:hover {
+  background-color: var(--navy-light);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.btn-secondary {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+.btn-secondary:hover {
+  background-color: var(--bg-tertiary);
+}
+.btn-success {
+  background-color: var(--success);
+  color: white;
+}
+.btn-warning {
+  background-color: var(--warning);
+  color: white;
+}
+.btn-danger {
+  background-color: var(--danger);
+  color: white;
+}
+.btn-sm {
+  padding: 8px 12px;
+  font-size: 12px;
+}
+/* Date Range Selector */
+.date-range-selector {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.date-range-btn {
+  padding: 8px 16px;
+  border-radius: var(--radius);
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+.date-range-btn.active {
+  background-color: var(--navy);
+  color: white;
+  border-color: var(--navy);
+}
+.date-range-btn:hover:not(.active) {
+  background-color: var(--bg-tertiary);
+}
+/* Stats Section */
+.stats-section {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-bottom: 32px;
+}
+.stat-card {
+  background-color: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  transition: transform 0.2s ease;
+}
+.stat-card:hover {
+  transform: translateY(-3px);
+}
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  font-size: 20px;
+}
+.stat-1 .stat-icon {
+  background-color: rgba(26, 35, 126, 0.1);
+  color: var(--navy);
+}
+.stat-2 .stat-icon {
+  background-color: rgba(128, 0, 32, 0.1);
+  color: var(--burgundy);
+}
+.stat-3 .stat-icon {
+  background-color: rgba(255, 107, 107, 0.1);
+  color: var(--accent);
+}
+.stat-4 .stat-icon {
+  background-color: rgba(76, 201, 240, 0.1);
+  color: var(--success);
+}
+.stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.stat-label {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+.stat-change {
+  font-size: 12px;
+  margin-top: 8px;
+}
+.change-positive {
+  color: var(--success);
+}
+.change-negative {
+  color: var(--danger);
+}
+/* Charts Section */
+.charts-section {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+.chart-card {
+  background-color: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.chart-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--navy);
+}
+.chart-container {
+  height: 300px;
+  margin-top: 16px;
+}
+.chart-actions {
+  display: flex;
+  gap: 8px;
+}
+/* Analytics Grid */
+.analytics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+/* Top Courses */
+.top-courses {
+  background-color: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--navy);
+}
+.view-all {
+  color: var(--navy);
+  text-decoration: none;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+.course-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.course-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+.course-item:hover {
+  background-color: var(--bg-secondary);
+}
+.course-rank {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: var(--bg-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.course-rank.top-1 {
+  background-color: gold;
+  color: var(--text-primary);
+}
+.course-rank.top-2 {
+  background-color: silver;
+  color: var(--text-primary);
+}
+.course-rank.top-3 {
+  background-color: #cd7f32;
+  color: white;
+}
+.course-info {
+  flex: 1;
+}
+.course-name {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.course-meta {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.course-enrollment {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+/* User Activity */
+.user-activity {
+  background-color: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.activity-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+.activity-item:hover {
+  background-color: var(--bg-secondary);
+}
+.activity-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.activity-1 .activity-icon {
+  background-color: rgba(26, 35, 126, 0.1);
+  color: var(--navy);
+}
+.activity-2 .activity-icon {
+  background-color: rgba(128, 0, 32, 0.1);
+  color: var(--burgundy);
+}
+.activity-3 .activity-icon {
+  background-color: rgba(76, 201, 240, 0.1);
+  color: var(--success);
+}
+.activity-4 .activity-icon {
+  background-color: rgba(248, 150, 30, 0.1);
+  color: var(--warning);
+}
+.activity-info {
+  flex: 1;
+}
+.activity-title {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.activity-meta {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.activity-time {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+/* Report Downloads */
+.report-downloads {
+  background-color: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+.report-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+}
+.report-item {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  border-radius: var(--radius);
+  background-color: var(--bg-secondary);
+  transition: all 0.2s ease;
+}
+.report-item:hover {
+  background-color: var(--bg-tertiary);
+  transform: translateY(-2px);
+}
+.report-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  font-size: 18px;
+  background-color: rgba(26, 35, 126, 0.1);
+  color: var(--navy);
+}
+.report-name {
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+.report-description {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  flex: 1;
+}
+.report-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.report-size {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+/* Theme Toggle */
+.theme-toggle {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--navy);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  z-index: 1000;
+  border: none;
+}
+.theme-toggle:hover {
+  background-color: var(--navy-light);
+  transform: scale(1.05);
+}
+/* Toast Notification */
+.toast {
+  position: fixed;
+  bottom: 90px;
+  right: 24px;
+  padding: 16px 24px;
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+.toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+.toast-success {
+  border-left: 4px solid var(--success);
+}
+.toast-error {
+  border-left: 4px solid var(--danger);
+}
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .stats-section {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .charts-section {
+    grid-template-columns: 1fr;
+  }
+  .analytics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 768px) {
+  .sidebar {
+    width: 80px;
+  }
+  .sidebar .logo-text, .sidebar .nav-text {
+    display: none;
+  }
+  .main-content {
+    margin-left: 80px;
+  }
+  .search-bar {
+    width: 200px;
+  }
+  .stats-section {
+    grid-template-columns: 1fr;
+  }
+  .date-range-selector {
+    flex-wrap: wrap;
+  }
+}
+
+/* Mobile Responsive Fixes */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+    width: 280px;
+    background-color: var(--bg-secondary);
+    z-index: 1000; /* Higher z-index */
+  }
+  
+  .sidebar.active {
+    transform: translateX(0);
+  }
+  
+  .main-content {
+    margin-left: 0 !important;
+    padding: 15px !important;
+  }
+  
+  .hamburger {
+    display: block !important;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-primary);
+    margin-right: 15px;
+    z-index: 1001;
+  }
+  
+  .close-sidebar {
+    display: block !important;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    z-index: 1002;
+  }
+  
+  .logo {
+    position: relative;
+    padding-right: 50px;
+  }
+  
+  .overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999; /* Below sidebar */
+    backdrop-filter: blur(2px);
+  }
+  
+  .overlay.active {
+    display: block;
+  }
+  
+  .search-bar {
+    width: 100% !important;
+    max-width: none !important;
+  }
+  
+  .stats-section,
+  .quick-actions {
+    grid-template-columns: 1fr !important;
+    gap: 15px !important;
+  }
+  
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  /* Ensure nav text is visible */
+  .sidebar .nav-text {
+    display: block !important;
+  }
+  
+  .sidebar .logo-text {
+    display: block !important;
+  }
+  
+  /* Fix nav item colors */
+  .sidebar .nav-item {
+    color: var(--text-primary) !important;
+  }
+  
+  .sidebar .nav-item i {
+    color: var(--text-primary) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-icons .user-name {
+    display: none;
+  }
+  
+  .page-title {
+    font-size: 22px !important;
+  }
+  
+  .btn span:not(.badge) {
+    display: none;
+  }
+  
+  .btn {
+    padding: 10px 15px;
+  }
+}
+</style>
+</head>
+<body>
+    <div class="overlay" id="overlay"></div>
+<div class="container">
+  <!-- Sidebar -->
+   <div class="sidebar">
+    <div class="logo">
+      <div> <img src="images/Step-Way Logo.png" width="150px" alt=""> <span class="admin-badge">ADMIN</span></div>
+      <button class="close-sidebar" id="closeSidebar" style="display: none;">×</button>
+    </div>
+    <a href="admin-dashboard.html" class="nav-item">
+      <i class="fas fa-tachometer-alt"></i>
+      <span class="nav-text">Dashboard</span>
+    </a>
+    <a href="admin-user-mgt.html" class="nav-item">
+      <i class="fas fa-users"></i>
+      <span class="nav-text">User Management</span>
+    </a>
+    <a href="admin-instruct-mgt.html" class="nav-item">
+      <i class="fas fa-chalkboard-teacher"></i>
+      <span class="nav-text">Instructors</span>
+    </a>
+    <a href="admin-course-mgt.html" class="nav-item">
+      <i class="fas fa-book-open"></i>
+      <span class="nav-text">Courses</span>
+    </a>
+    <a href="admi-analytic.html" class="nav-item  active">
+      <i class="fas fa-chart-line"></i>
+      <span class="nav-text">Analytics</span>
+    </a>
+    <a href="admin-settings.html" class="nav-item">
+      <i class="fas fa-cog"></i>
+      <span class="nav-text">System Settings</span>
+    </a>
+    <a href="admin-financial.html" class="nav-item">
+      <i class="fas fa-wallet"></i>
+      <span class="nav-text">Financials</span>
+    </a>
+    <a href="admin-secuirity.html" class="nav-item">
+      <i class="fas fa-shield-alt"></i>
+      <span class="nav-text">Security</span>
+    </a>
+  </div>
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Top Navigation -->
+    <div class="top-nav">
+        <button class="hamburger" id="hamburger" style="display: none;">☰</button>
+      <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search analytics...">
+      </div>
+      <div class="nav-icons">
+        <div class="nav-icon">
+          <i class="far fa-bell"></i>
+          <div class="badge">5</div>
+        </div>
+        <div class="nav-icon">
+          <i class="far fa-envelope"></i>
+          <div class="badge">12</div>
+        </div>
+        <div class="user-profile">
+          <div class="avatar">MJ</div>
+          <div class="user-info">
+            <div class="user-name">Michael Johnson</div>
+            <div class="user-role">Super Administrator</div>
+          </div>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+      </div>
+    </div>
+    <!-- Page Header -->
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Analytics & Reporting</h1>
+        <p class="page-subtitle">Track platform performance, user engagement, and learning outcomes</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-primary" id="generateReportBtn">
+          <i class="fas fa-download"></i>
+          <span>Generate Full Report</span>
+        </button>
+      </div>
+    </div>
+    <!-- Date Range Selector -->
+    <div class="date-range-selector">
+      <button class="date-range-btn active">Today</button>
+      <button class="date-range-btn">Last 7 Days</button>
+      <button class="date-range-btn">Last 30 Days</button>
+      <button class="date-range-btn">This Quarter</button>
+      <button class="date-range-btn">Custom Range</button>
+    </div>
+    <!-- Stats Section -->
+    <div class="stats-section">
+      <div class="stat-card stat-1">
+        <div class="stat-icon">
+          <i class="fas fa-users"></i>
+        </div>
+        <div class="stat-value">8,742</div>
+        <div class="stat-label">Total Active Users</div>
+        <div class="stat-change change-positive">
+          <i class="fas fa-arrow-up"></i> 12.5% from last month
+        </div>
+      </div>
+      <div class="stat-card stat-2">
+        <div class="stat-icon">
+          <i class="fas fa-book-open"></i>
+        </div>
+        <div class="stat-value">124</div>
+        <div class="stat-label">Courses Published</div>
+        <div class="stat-change change-positive">
+          <i class="fas fa-arrow-up"></i> 8 new courses this month
+        </div>
+      </div>
+      <div class="stat-card stat-3">
+        <div class="stat-icon">
+          <i class="fas fa-graduation-cap"></i>
+        </div>
+        <div class="stat-value">3,458</div>
+        <div class="stat-label">Course Completions</div>
+        <div class="stat-change change-positive">
+          <i class="fas fa-arrow-up"></i> 15.3% increase
+        </div>
+      </div>
+      <div class="stat-card stat-4">
+        <div class="stat-icon">
+          <i class="fas fa-dollar-sign"></i>
+        </div>
+        <div class="stat-value">$24,580</div>
+        <div class="stat-label">Monthly Revenue</div>
+        <div class="stat-change change-positive">
+          <i class="fas fa-arrow-up"></i> 8.5% growth
+        </div>
+      </div>
+    </div>
+    <!-- Charts Section -->
+    <div class="charts-section">
+      <!-- Left Column -->
+      <div>
+        <div class="chart-card">
+          <div class="chart-header">
+            <h2 class="chart-title">User Engagement Trends</h2>
+            <div class="chart-actions">
+              <button class="btn btn-sm btn-secondary">
+                <i class="fas fa-download"></i>
+              </button>
+              <button class="btn btn-sm btn-secondary">
+                <i class="fas fa-expand"></i>
+              </button>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="engagementChart"></canvas>
+          </div>
+        </div>
+      </div>
+      <!-- Right Column -->
+      <div>
+        <div class="chart-card">
+          <div class="chart-header">
+            <h2 class="chart-title">Course Categories</h2>
+            <div class="chart-actions">
+              <button class="btn btn-sm btn-secondary">
+                <i class="fas fa-download"></i>
+              </button>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="categoryChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Analytics Grid -->
+    <div class="analytics-grid">
+      <!-- Top Courses -->
+      <div class="top-courses">
+        <div class="section-header">
+          <h2 class="section-title">Top Performing Courses</h2>
+          <a href="#" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
+        </div>
+        <div class="course-list">
+          <div class="course-item">
+            <div class="course-rank top-1">1</div>
+            <div class="course-info">
+              <div class="course-name">Advanced React Patterns</div>
+              <div class="course-meta">Alex Chen - Programming</div>
+            </div>
+            <div class="course-enrollment">1,245 students</div>
+          </div>
+          <div class="course-item">
+            <div class="course-rank top-2">2</div>
+            <div class="course-info">
+              <div class="course-name">UI/UX Design Fundamentals</div>
+              <div class="course-meta">Sarah Johnson - Design</div>
+            </div>
+            <div class="course-enrollment">892 students</div>
+          </div>
+          <div class="course-item">
+            <div class="course-rank top-3">3</div>
+            <div class="course-info">
+              <div class="course-name">Digital Marketing Strategy</div>
+              <div class="course-meta">David Park - Marketing</div>
+            </div>
+            <div class="course-enrollment">745 students</div>
+          </div>
+          <div class="course-item">
+            <div class="course-rank">4</div>
+            <div class="course-info">
+              <div class="course-name">Python for Data Science</div>
+              <div class="course-meta">Alex Chen - Programming</div>
+            </div>
+            <div class="course-enrollment">689 students</div>
+          </div>
+          <div class="course-item">
+            <div class="course-rank">5</div>
+            <div class="course-info">
+              <div class="course-name">Business Analytics</div>
+              <div class="course-meta">Maria Rodriguez - Business</div>
+            </div>
+            <div class="course-enrollment">567 students</div>
+          </div>
+        </div>
+      </div>
+      <!-- User Activity -->
+      <div class="user-activity">
+        <div class="section-header">
+          <h2 class="section-title">Recent User Activity</h2>
+          <a href="#" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
+        </div>
+        <div class="activity-list">
+          <div class="activity-item activity-1">
+            <div class="activity-icon">
+              <i class="fas fa-user-graduate"></i>
+            </div>
+            <div class="activity-info">
+              <div class="activity-title">Course Completion</div>
+              <div class="activity-meta">Sarah Johnson completed "Advanced React Patterns"</div>
+            </div>
+            <div class="activity-time">2 hours ago</div>
+          </div>
+          <div class="activity-item activity-2">
+            <div class="activity-icon">
+              <i class="fas fa-book"></i>
+            </div>
+            <div class="activity-info">
+              <div class="activity-title">New Enrollment</div>
+              <div class="activity-meta">Michael Brown enrolled in "Digital Marketing Strategy"</div>
+            </div>
+            <div class="activity-time">5 hours ago</div>
+          </div>
+          <div class="activity-item activity-3">
+            <div class="activity-icon">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <div class="activity-info">
+              <div class="activity-title">Progress Milestone</div>
+              <div class="activity-meta">75% of students completed Module 3 in "UI/UX Design"</div>
+            </div>
+            <div class="activity-time">1 day ago</div>
+          </div>
+          <div class="activity-item activity-4">
+            <div class="activity-icon">
+              <i class="fas fa-certificate"></i>
+            </div>
+            <div class="activity-info">
+              <div class="activity-title">Certificate Issued</div>
+              <div class="activity-meta">Jennifer Wilson received certificate for "Business Analytics"</div>
+            </div>
+            <div class="activity-time">2 days ago</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Report Downloads -->
+    <div class="report-downloads">
+      <div class="section-header">
+        <h2 class="section-title">Available Reports</h2>
+        <a href="#" class="view-all">View All Reports</a>
+      </div>
+      <div class="report-list">
+        <div class="report-item">
+          <div class="report-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <div class="report-name">User Engagement Report</div>
+          <div class="report-description">Detailed analysis of user activity, course progress, and completion rates</div>
+          <div class="report-actions">
+            <button class="btn btn-sm btn-primary">Download</button>
+            <span class="report-size">2.4 MB</span>
+          </div>
+        </div>
+        <div class="report-item">
+          <div class="report-icon">
+            <i class="fas fa-chart-bar"></i>
+          </div>
+          <div class="report-name">Revenue Analytics</div>
+          <div class="report-description">Monthly revenue breakdown, subscription trends, and payment analysis</div>
+          <div class="report-actions">
+            <button class="btn btn-sm btn-primary">Download</button>
+            <span class="report-size">1.8 MB</span>
+          </div>
+        </div>
+        <div class="report-item">
+          <div class="report-icon">
+            <i class="fas fa-book"></i>
+          </div>
+          <div class="report-name">Course Performance</div>
+          <div class="report-description">Course completion rates, student feedback, and instructor performance</div>
+          <div class="report-actions">
+            <button class="btn btn-sm btn-primary">Download</button>
+            <span class="report-size">3.1 MB</span>
+          </div>
+        </div>
+        <div class="report-item">
+          <div class="report-icon">
+            <i class="fas fa-graduation-cap"></i>
+          </div>
+          <div class="report-name">Learning Outcomes</div>
+          <div class="report-description">Assessment results, skill development tracking, and certification rates</div>
+          <div class="report-actions">
+            <button class="btn btn-sm btn-primary">Download</button>
+            <span class="report-size">2.7 MB</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Theme Toggle -->
+<button class="theme-toggle" id="themeToggle">
+  <i class="fas fa-moon"></i>
+</button>
+<!-- Toast Notification -->
+<div class="toast" id="toast">
+  <i class="fas fa-check-circle"></i>
+  <span id="toastMessage">Action completed successfully!</span>
+</div>
+<script>
+// Initialize page functionality
+document.addEventListener('DOMContentLoaded', function() {
+  initializeAnalytics();
+});
+
+function initializeAnalytics() {
+  // Theme Toggle
+  const themeToggle = document.getElementById('themeToggle');
+  const body = document.body;
+  
+  // Check for saved theme preference
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    body.classList.add('dark-mode');
+    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+  }
+  
+  themeToggle.addEventListener('click', () => {
+    body.classList.toggle('dark-mode');
+    if (body.classList.contains('dark-mode')) {
+      themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+      localStorage.setItem('theme', 'dark');
+      showToast('Dark mode enabled');
+    } else {
+      themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+      localStorage.setItem('theme', 'light');
+      showToast('Light mode enabled');
+    }
+    // Update charts when theme changes
+    setTimeout(() => {
+      if (window.engagementChart) window.engagementChart.update();
+      if (window.categoryChart) window.categoryChart.update();
+    }, 300);
+  });
+  
+  // Date Range Selector
+  const dateRangeButtons = document.querySelectorAll('.date-range-btn');
+  dateRangeButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      // Remove active class from all buttons
+      dateRangeButtons.forEach(btn => btn.classList.remove('active'));
+      // Add active class to clicked button
+      button.classList.add('active');
+      // In a real app, you would update the data based on the selected range
+      showToast(`Loading data for ${button.textContent}`);
+    });
+  });
+  
+  // Generate Report Button
+  const generateReportBtn = document.getElementById('generateReportBtn');
+  generateReportBtn.addEventListener('click', () => {
+    showToast('Generating comprehensive analytics report...');
+    // Simulate report generation
+    setTimeout(() => {
+      showToast('Report generated successfully! Download will start shortly.');
+    }, 2000);
+  });
+  
+  // Report Download Buttons
+  document.querySelectorAll('.report-actions .btn').forEach(button => {
+    button.addEventListener('click', () => {
+      const reportName = button.closest('.report-item').querySelector('.report-name').textContent;
+      showToast(`Downloading ${reportName}...`);
+    });
+  });
+  
+  // Initialize Charts
+  initializeCharts();
+}
+
+function initializeCharts() {
+  // User Engagement Chart
+  const engagementCtx = document.getElementById('engagementChart').getContext('2d');
+  window.engagementChart = new Chart(engagementCtx, {
+    type: 'line',
+    data: {
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+      datasets: [
+        {
+          label: 'Active Users',
+          data: [5200, 6100, 6900, 7200, 7800, 8200, 8742],
+          borderColor: 'rgba(26, 35, 126, 1)',
+          backgroundColor: 'rgba(26, 35, 126, 0.1)',
+          borderWidth: 2,
+          tension: 0.3,
+          fill: true
+        },
+        {
+          label: 'Course Completions',
+          data: [1200, 1800, 2200, 2600, 3000, 3200, 3458],
+          borderColor: 'rgba(128, 0, 32, 1)',
+          backgroundColor: 'rgba(128, 0, 32, 0.1)',
+          borderWidth: 2,
+          tension: 0.3,
+          fill: true
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'top',
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: false,
+          grid: {
+            color: 'rgba(0, 0, 0, 0.1)'
+          }
+        },
+        x: {
+          grid: {
+            display: false
+          }
+        }
+      }
+    }
+  });
+  
+  // Course Categories Chart
+  const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+  window.categoryChart = new Chart(categoryCtx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Programming', 'Design', 'Business', 'Marketing', 'Other'],
+      datasets: [{
+        data: [35, 25, 20, 15, 5],
+        backgroundColor: [
+          'rgba(26, 35, 126, 0.8)',
+          'rgba(128, 0, 32, 0.8)',
+          'rgba(76, 201, 240, 0.8)',
+          'rgba(255, 107, 107, 0.8)',
+          'rgba(248, 150, 30, 0.8)'
+        ],
+        borderColor: [
+          'rgba(26, 35, 126, 1)',
+          'rgba(128, 0, 32, 1)',
+          'rgba(76, 201, 240, 1)',
+          'rgba(255, 107, 107, 1)',
+          'rgba(248, 150, 30, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom',
+        }
+      }
+    }
+  });
+}
+
+// Toast Notification Function
+function showToast(message, type = 'success') {
+  const toast = document.getElementById('toast');
+  const toastMessage = document.getElementById('toastMessage');
+  toastMessage.textContent = message;
+  toast.className = 'toast';
+  toast.classList.add('show');
+  if (type === 'success') {
+    toast.classList.add('toast-success');
+  } else {
+    toast.classList.add('toast-error');
+  }
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 3000);
+}
+</script>
+
+<script>
+    // Mobile sidebar functionality
+function initializeMobileMenu() {
+  const hamburger = document.getElementById('hamburger');
+  const sidebar = document.querySelector('.sidebar');
+  const closeSidebar = document.getElementById('closeSidebar');
+  const overlay = document.getElementById('overlay');
+  const mainContent = document.querySelector('.main-content');
+
+  if (!hamburger || !sidebar) return;
+
+  hamburger.addEventListener('click', () => {
+    sidebar.classList.add('active');
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  });
+
+  closeSidebar.addEventListener('click', () => {
+    sidebar.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  });
+
+  overlay.addEventListener('click', () => {
+    sidebar.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  });
+
+  // Close sidebar when clicking on nav items on mobile
+  const navItems = document.querySelectorAll('.nav-item');
+  navItems.forEach(item => {
+    item.addEventListener('click', () => {
+      if (window.innerWidth <= 768) {
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+  });
+
+  // Handle resize
+  function handleResize() {
+    if (window.innerWidth > 768) {
+      sidebar.classList.remove('active');
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
+
+  window.addEventListener('resize', handleResize);
+}
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+  initializeMobileMenu();
+  
+  // Your existing initialization code here...
+  // initializeUserManagement(); etc.
+});
+</script>
+</body>
+</html>

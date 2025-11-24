@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KidCoder - Achievements</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: rgba(26, 35, 126, 1);
+            --secondary: #800020;
+            --white: #ffffff;
+            --light-bg: #f5f7ff;
+            --light-purple: #e8eaf6;
+            --light-burgundy: #f9e8e8;
+            --text-dark: #333;
+            --text-light: #666;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --sidebar-width: 280px;
+            --header-height: 70px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Include all sidebar styles from previous pages */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(180deg, var(--primary) 0%, rgba(26, 35, 126, 0.95) 100%);
+            color: var(--white);
+            padding: 20px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .logo i {
+            font-size: 2rem;
+        }
+
+        .close-sidebar {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 20px;
+            color: var(--white);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left-color: var(--secondary);
+        }
+
+        .sidebar-menu i {
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--light-purple);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary);
+            cursor: pointer;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .welcome-section {
+            background: linear-gradient(135deg, var(--primary), #3f51b5);
+            color: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-section h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .welcome-section p {
+            font-size: 1.1rem;
+            max-width: 70%;
+        }
+
+        /* Trophy Animation */
+        .trophy {
+            position: absolute;
+            right: 20px;
+            bottom: 0;
+            width: 120px;
+            height: 150px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .trophy-base {
+            width: 80px;
+            height: 20px;
+            background-color: #FFD700;
+            position: absolute;
+            bottom: 0;
+            left: 20px;
+            border-radius: 5px;
+        }
+
+        .trophy-stem {
+            width: 20px;
+            height: 60px;
+            background-color: #FFD700;
+            position: absolute;
+            bottom: 20px;
+            left: 50px;
+        }
+
+        .trophy-cup {
+            width: 60px;
+            height: 50px;
+            background-color: #FFD700;
+            border-radius: 50% 50% 0 0;
+            position: absolute;
+            bottom: 80px;
+            left: 30px;
+        }
+
+        .trophy-handle {
+            width: 20px;
+            height: 30px;
+            background-color: #FFD700;
+            border-radius: 10px;
+            position: absolute;
+        }
+
+        .trophy-handle.left {
+            bottom: 95px;
+            left: 15px;
+            transform: rotate(-30deg);
+        }
+
+        .trophy-handle.right {
+            bottom: 95px;
+            right: 15px;
+            transform: rotate(30deg);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-10px) rotate(5deg); }
+            75% { transform: translateY(-5px) rotate(-5deg); }
+        }
+
+        /* Achievements Grid */
+        .achievements-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--box-shadow);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--text-light);
+        }
+
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .badge-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--box-shadow);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .badge-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .badge-card.locked {
+            opacity: 0.5;
+        }
+
+        .badge-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .badge-card.earned .badge-icon {
+            color: #FFD700;
+        }
+
+        .badge-card.locked .badge-icon {
+            color: #ccc;
+        }
+
+        .badge-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .badge-desc {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+
+        .badge-xp {
+            background-color: var(--secondary);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            display: inline-block;
+        }
+
+        .lock-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #ccc;
+        }
+
+        /* Recent Achievements */
+        .recent-achievements {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            color: var(--primary);
+        }
+
+        .achievement-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .achievement-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background-color: var(--light-bg);
+            border-radius: var(--border-radius);
+        }
+
+        .achievement-icon {
+            font-size: 2rem;
+            color: #FFD700;
+        }
+
+        .achievement-info {
+            flex: 1;
+        }
+
+        .achievement-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .achievement-desc {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .achievement-date {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .close-sidebar {
+                display: block;
+            }
+            
+            .welcome-section p {
+                max-width: 100%;
+            }
+            
+            .trophy {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .achievements-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .badges-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .achievements-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .badges-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="images/stepway logoww.png" width="200px" alt="">
+                </div>
+                <button class="close-sidebar">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li><a href="kids-dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="kids-course.html"><i class="fas fa-book"></i> Courses</a></li>
+                <li><a href="kids-project.html"><i class="fas fa-project-diagram"></i> Projects</a></li>
+                <li><a href="kids-achievement.html" class="active"><i class="fas fa-trophy"></i> Achievements</a></li>
+                <li><a href="kids-progress.html"><i class="fas fa-chart-line"></i> Progress</a></li>
+                <li><a href="kids-shedule.html"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
+                <li><a href="kids-settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="kids-help.html"><i class="fas fa-question-circle"></i> Help</a></li>
+            </ul>
+            
+        
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <button class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="user-info">
+                    <span>Hello, Alex!</span>
+                    <div class="avatar">AJ</div>
+                </div>
+            </div>
+
+            <!-- Welcome Section -->
+            <div class="welcome-section">
+                <h1>Your Amazing Achievements!</h1>
+                <p>Keep earning badges and trophies as you learn to code!</p>
+                <div class="trophy">
+                    <div class="trophy-base"></div>
+                    <div class="trophy-stem"></div>
+                    <div class="trophy-cup"></div>
+                    <div class="trophy-handle left"></div>
+                    <div class="trophy-handle right"></div>
+                </div>
+            </div>
+
+            <!-- Achievements Stats -->
+            <div class="achievements-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">Badges Earned</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-value">1,850</div>
+                    <div class="stat-label">Total XP</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">Special Trophies</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <div class="stat-value">7</div>
+                    <div class="stat-label">Day Streak</div>
+                </div>
+            </div>
+
+            <!-- Badges Grid -->
+            <div class="section-header">
+                <h2>Your Badge Collection</h2>
+                <span>18/25 Badges Unlocked</span>
+            </div>
+            <div class="badges-grid">
+                <div class="badge-card earned">
+                    <div class="badge-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <div class="badge-name">First Launch</div>
+                    <div class="badge-desc">Complete your first project</div>
+                    <div class="badge-xp">+50 XP</div>
+                </div>
+                <div class="badge-card earned">
+                    <div class="badge-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="badge-name">Fast Learner</div>
+                    <div class="badge-desc">Complete 5 lessons in a row</div>
+                    <div class="badge-xp">+100 XP</div>
+                </div>
+                <div class="badge-card earned">
+                    <div class="badge-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="badge-name">Code Master</div>
+                    <div class="badge-desc">Write 100 lines of code</div>
+                    <div class="badge-xp">+75 XP</div>
+                </div>
+                <div class="badge-card locked">
+                    <i class="fas fa-lock lock-icon"></i>
+                    <div class="badge-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <div class="badge-name">Game Dev</div>
+                    <div class="badge-desc">Create 3 different games</div>
+                    <div class="badge-xp">+200 XP</div>
+                </div>
+                <div class="badge-card earned">
+                    <div class="badge-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <div class="badge-name">Creative Mind</div>
+                    <div class="badge-desc">Design 5 custom characters</div>
+                    <div class="badge-xp">+150 XP</div>
+                </div>
+                <div class="badge-card locked">
+                    <i class="fas fa-lock lock-icon"></i>
+                    <div class="badge-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="badge-name">AI Explorer</div>
+                    <div class="badge-desc">Complete AI basics course</div>
+                    <div class="badge-xp">+300 XP</div>
+                </div>
+            </div>
+
+            <!-- Recent Achievements -->
+            <div class="recent-achievements">
+                <div class="section-header">
+                    <h2>Recently Earned</h2>
+                </div>
+                <div class="achievement-list">
+                    <div class="achievement-item">
+                        <div class="achievement-icon">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                        <div class="achievement-info">
+                            <div class="achievement-title">Perfect Score!</div>
+                            <div class="achievement-desc">Got 100% on Variables Quiz</div>
+                        </div>
+                        <div class="achievement-date">2 days ago</div>
+                    </div>
+                    <div class="achievement-item">
+                        <div class="achievement-icon">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="achievement-info">
+                            <div class="achievement-title">7-Day Streak</div>
+                            <div class="achievement-desc">Logged in for 7 consecutive days</div>
+                        </div>
+                        <div class="achievement-date">1 week ago</div>
+                    </div>
+                    <div class="achievement-item">
+                        <div class="achievement-icon">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                        <div class="achievement-info">
+                            <div class="achievement-title">Project Master</div>
+                            <div class="achievement-desc">Completed 5 projects</div>
+                        </div>
+                        <div class="achievement-date">2 weeks ago</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const closeSidebar = document.querySelector('.close-sidebar');
+            const sidebar = document.querySelector('.sidebar');
+            
+            menuToggle.addEventListener('click', function() {
+                sidebar.classList.add('open');
+            });
+            
+            closeSidebar.addEventListener('click', function() {
+                sidebar.classList.remove('open');
+            });
+            
+            document.addEventListener('click', function(event) {
+                const isClickInsideSidebar = sidebar.contains(event.target);
+                const isClickOnMenuToggle = menuToggle.contains(event.target);
+                
+                if (!isClickInsideSidebar && !isClickOnMenuToggle && window.innerWidth <= 1024) {
+                    sidebar.classList.remove('open');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

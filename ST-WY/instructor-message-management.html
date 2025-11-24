@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages - Stepway Technologies</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f5f7fa;
+            color: #2d3748;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 240px;
+            background-color: #fff;
+            border-right: 1px solid #e2e8f0;
+            padding: 20px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #4a5568;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background-color: #f7fafc;
+            color: #2d3748;
+        }
+
+        .nav-item.active {
+            background-color: #e6f2ff;
+            color: rgba(26, 35, 126, 1);
+            border-left-color: rgba(26, 35, 126, 1);
+        }
+
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 240px;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* Header */
+        .header {
+            background-color: #fff;
+            padding: 16px 32px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background-color: #f7fafc;
+            padding: 8px 16px;
+            border-radius: 8px;
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .search-box input {
+            border: none;
+            background: none;
+            outline: none;
+            margin-left: 8px;
+            width: 100%;
+            color: #2d3748;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .notification-icon {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #e53e3e;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(26, 35, 126, 1);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 16px;
+        }
+
+        /* Content Area */
+        .content {
+            padding: 32px;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            color: #718096;
+            font-size: 14px;
+        }
+
+        /* Messages Layout */
+        .messages-container {
+            display: flex;
+            gap: 24px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            height: calc(100vh - 200px);
+        }
+
+        /* Messages List */
+        .messages-list {
+            width: 400px;
+            border-right: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .messages-header {
+            padding: 20px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-compose {
+            background-color: rgba(26, 35, 126, 1);
+            color: white;
+        }
+
+        .btn-compose:hover {
+            background-color: rgb(47, 55, 146);
+        }
+
+        .btn-filter {
+            background-color: white;
+            color: #4a5568;
+            border: 1px solid #e2e8f0;
+        }
+
+        .btn-filter:hover {
+            background-color: #f7fafc;
+        }
+
+        .btn-new-message {
+            justify-self: end;
+            background-color: rgba(26, 35, 126, 1);
+            color: white;
+            padding: 10px 20px;
+        }
+
+        .btn-new-message:hover {
+            background-color: rgb(44, 51, 132);
+        }
+
+        .messages-tabs {
+            display: flex;
+            padding: 0 20px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .tab {
+            padding: 12px 16px;
+            cursor: pointer;
+            color: #718096;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+
+        .tab:hover {
+            color: #2d3748;
+        }
+
+        .tab.active {
+            color: rgba(26, 35, 126, 1);
+            border-bottom-color: rgba(26, 35, 126, 1);
+        }
+
+        .messages-list-content {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .message-item {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e2e8f0;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: flex;
+            gap: 12px;
+        }
+
+        .message-item:hover {
+            background-color: #f7fafc;
+        }
+
+        .message-item.active {
+            background-color: #e6f2ff;
+        }
+
+        .message-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .message-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+
+        .message-sender {
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 15px;
+        }
+
+        .message-time {
+            font-size: 12px;
+            color: #718096;
+        }
+
+        .message-preview {
+            font-size: 14px;
+            color: #718096;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Chat Area */
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            padding: 20px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .chat-user-info {
+            flex: 1;
+        }
+
+        .chat-user-name {
+            font-weight: 600;
+            font-size: 16px;
+            color: #2d3748;
+        }
+
+        .chat-user-subtitle {
+            font-size: 13px;
+            color: #718096;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .chat-date {
+            text-align: center;
+            font-size: 12px;
+            color: #718096;
+            margin: 12px 0;
+            background-color: #f7fafc;
+            padding: 4px 12px;
+            border-radius: 12px;
+            align-self: center;
+        }
+
+        .chat-message {
+            display: flex;
+            gap: 12px;
+            max-width: 70%;
+        }
+
+        .chat-message.sent {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .chat-message.received {
+            align-self: flex-start;
+        }
+
+        .chat-message-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .chat-message-content {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .chat-message-bubble {
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .chat-message.received .chat-message-bubble {
+            background-color: #f7fafc;
+            color: #2d3748;
+            border-bottom-left-radius: 4px;
+        }
+
+        .chat-message.sent .chat-message-bubble {
+            background-color: rgba(26, 35, 126, 1);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chat-message-time {
+            font-size: 11px;
+            color: #718096;
+            padding: 0 4px;
+        }
+
+        .chat-message.sent .chat-message-time {
+            text-align: right;
+        }
+
+        .chat-input-area {
+            padding: 20px;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .chat-input:focus {
+            border-color: rgba(26, 35, 126, 1);
+        }
+
+        .btn-send {
+            background-color: rgba(26, 35, 126, 1);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .btn-send:hover {
+            background-color: rgb(47, 56, 146);
+        }
+
+        /* Empty State */
+        .empty-state {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #718096;
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 16px;
+            color: #cbd5e0;
+        }
+
+        /* Sidebar Overlay */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        .close-sidebar {
+            display: none;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #4a5568;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 1024px) {
+            .main-content {
+                margin-left: 0;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .close-sidebar {
+                display: block;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .search-box {
+                max-width: 200px;
+            }
+
+            .user-profile span {
+                display: none;
+            }
+
+            .messages-list {
+                width: 350px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 12px 16px;
+            }
+
+            .search-box {
+                display: none;
+            }
+
+            .content {
+                padding: 16px;
+            }
+
+            .page-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .messages-container {
+                height: calc(100vh - 180px);
+            }
+
+            .messages-list {
+                width: 100%;
+                border-right: none;
+            }
+
+            .chat-area {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: white;
+                z-index: 1001;
+                display: none;
+            }
+
+            .chat-area.active {
+                display: flex;
+            }
+
+            .back-button {
+                display: flex !important;
+                align-items: center;
+                gap: 8px;
+                cursor: pointer;
+                color: rgba(26, 35, 126, 1);
+                font-weight: 500;
+            }
+
+            .chat-message {
+                max-width: 85%;
+            }
+
+            .messages-header {
+                flex-wrap: wrap;
+            }
+
+            .btn {
+                font-size: 13px;
+                padding: 8px 16px;
+            }
+        }
+
+        .back-button {
+            display: none;
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 20px;
+            }
+
+            .messages-header {
+                padding: 16px;
+            }
+
+            .message-item {
+                padding: 12px 16px;
+            }
+
+            .chat-messages {
+                padding: 16px;
+            }
+        }
+
+
+
+        /* Audience Label Styles */
+.audience-label {
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: white;
+    margin-left: 8px;
+    white-space: nowrap;
+}
+
+.audience-label.adult {
+    background-color: rgba(26, 35, 126, 1);
+}
+
+.audience-label.kids {
+    background-color: #7c0a0a;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 968px) {
+    .audience-label {
+        font-size: 11px;
+        padding: 3px 10px;
+        margin-left: 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .audience-label {
+        font-size: 10px;
+        padding: 2px 8px;
+        margin-left: 4px;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <i class="fas fa-times close-sidebar" id="closeSidebar"></i>
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="images/Step-Way Logo.png" width="150px" alt="Stepway Technologies">
+   <div class="audience-label" id="audienceLabel"></div>
+                </div>
+            </div>
+           <nav>
+                <a href="instructor-dashboard.html" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
+  <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
+</svg>
+
+                    <span>Dashboard</span>
+                </a>
+                <a href="instructor-courses.html" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-book" viewBox="0 0 16 16">
+  <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/>
+</svg>
+                    <span>My Courses</span>
+                </a>
+                <a href="instructor-analytic.html" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-graph-up" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07"/>
+</svg>
+                    <span>Analytics</span>
+                </a>
+                <a href="instructor-stu-management.html" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-people" viewBox="0 0 16 16">
+  <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1L7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002-.014.002zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4q0 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/>
+</svg>
+                    <span>Students</span>
+                </a>
+                <a href="instructor-message-management.html" class="nav-item active">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chat-left-text" viewBox="0 0 16 16">
+  <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+  <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6m0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5"/>
+</svg>
+                    <span>Messages</span>
+                </a>
+                <a href="instructr-revenue.html" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8m5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/>
+  <path d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195z"/>
+  <path d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083q.088-.517.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1z"/>
+  <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 6 6 0 0 1 3.13-1.567"/>
+</svg>
+                    <span>Earnings</span>
+                </a>
+                <a href="instructor-setting.html" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
+  <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0"/>
+  <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z"/>
+</svg>
+                    <span>Settings</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div style="display: flex; align-items: center; flex: 1;">
+                    <i class="fas fa-bars hamburger" id="hamburger"></i>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search conversation...">
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="notification-icon">
+                        <i class="fas fa-bell" style="font-size: 20px; color: #4a5568;"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <div class="notification-icon">
+                        <i class="fas fa-comment" style="font-size: 20px; color: #4a5568;"></i>
+                        <span class="notification-badge">5</span>
+                    </div>
+                    <div class="user-profile">
+                        <div class="user-avatar">MJ</div>
+                        <span>Michael Johnson</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <div class="content">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title" style="color: rgba(26, 35, 126, 1);;">Messages</h1>
+                        <p class="page-subtitle">Communicate with students, mentors, and the Stepway team</p>
+                    </div>
+                    <button class="btn btn-new-message" id="newMessageBtn">
+                        <i class="fas fa-plus"></i>
+                        New Message
+                    </button>
+                </div>
+
+                <!-- Messages Container -->
+                <div class="messages-container">
+                    <!-- Messages List -->
+                    <div class="messages-list" id="messagesList">
+                        <div class="messages-header">
+                            <button class="btn btn-compose">
+                                <i class="fas fa-pen"></i>
+                                Compose
+                            </button>
+                            <button class="btn btn-filter">
+                                <i class="fas fa-filter"></i>
+                                Filter
+                            </button>
+                        </div>
+
+                        <div class="messages-tabs">
+                            <div class="tab active">All</div>
+                            <div class="tab">Students</div>
+                            <div class="tab">Instructors</div>
+                            <div class="tab">Support</div>
+                        </div>
+
+                        <div class="messages-list-content">
+                            <div class="message-item active" data-user="Sarah Davis" data-subtitle="Student • Advanced Web Development">
+                                <div class="message-avatar" style="background-color: #3730a3;">SD</div>
+                                <div class="message-content">
+                                    <div class="message-header">
+                                        <span class="message-sender">Sarah Davis</span>
+                                        <span class="message-time">10:24 AM</span>
+                                    </div>
+                                    <div class="message-preview">Hi Michael, I'm having trouble with th...</div>
+                                </div>
+                            </div>
+
+                            <div class="message-item" data-user="Anna Kowalski" data-subtitle="Instructor • Web Development">
+                                <div class="message-avatar" style="background-color: #b91c1c;">AK</div>
+                                <div class="message-content">
+                                    <div class="message-header">
+                                        <span class="message-sender">Anna Kowalski</span>
+                                        <span class="message-time">Yesterday</span>
+                                    </div>
+                                    <div class="message-preview">The mentorship session for next week</div>
+                                </div>
+                            </div>
+
+                            <div class="message-item" data-user="Alex Johnson" data-subtitle="Student • React Development">
+                                <div class="message-avatar" style="background-color: #3182ce;">AJ</div>
+                                <div class="message-content">
+                                    <div class="message-header">
+                                        <span class="message-sender">Alex Johnson</span>
+                                        <span class="message-time">Yesterday</span>
+                                    </div>
+                                    <div class="message-preview">Thank you for the detailed feedback</div>
+                                </div>
+                            </div>
+
+                            <div class="message-item" data-user="Stepway Support" data-subtitle="Support Team">
+                                <div class="message-avatar" style="background-color: #4fd1c5;">ST</div>
+                                <div class="message-content">
+                                    <div class="message-header">
+                                        <span class="message-sender">Stepway Support</span>
+                                        <span class="message-time">Oct 12</span>
+                                    </div>
+                                    <div class="message-preview">Your course "Advanced Web Developm...</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chat Area -->
+                    <div class="chat-area" id="chatArea">
+                        <div class="chat-header">
+                            <span class="back-button" id="backButton">
+                                <i class="fas fa-arrow-left"></i>
+                                Back
+                            </span>
+                            <div class="message-avatar" style="background-color: #3730a3;">SD</div>
+                            <div class="chat-user-info">
+                                <div class="chat-user-name">Sarah Davis</div>
+                                <div class="chat-user-subtitle">Student • Advanced Web Development</div>
+                            </div>
+                        </div>
+
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="chat-date">You connected with Sarah Davis • Today at 9:30 AM</div>
+
+                            <div class="chat-message received">
+                                <div class="chat-message-avatar" style="background-color: #3730a3;">SD</div>
+                                <div class="chat-message-content">
+                                    <div class="chat-message-bubble">
+                                        Hi Michael! I'm working on the React state management assignment and I'm having trouble understanding when to use State vs useReducer.
+                                    </div>
+                                    <div class="chat-message-time">10:16 AM</div>
+                                </div>
+                            </div>
+
+                            <div class="chat-message sent">
+                                <div class="chat-message-avatar" style="background-color: #b91c1c;">MJ</div>
+                                <div class="chat-message-content">
+                                    <div class="chat-message-bubble">
+                                        Hi Sarah! Great question. Use useState for simple state management and useReducer for complex state logic with multiple sub-values.
+                                    </div>
+                                    <div class="chat-message-time">10:18 AM</div>
+                                </div>
+                            </div>
+
+                            <div class="chat-message sent">
+                                <div class="chat-message-avatar" style="background-color: #b91c1c;">MJ</div>
+                                <div class="chat-message-content">
+                                    <div class="chat-message-bubble">
+                                        Think of it this way: if you're managing a form with multiple fields that need to be updated together, useReducer is better.
+                                    </div>
+                                    <div class="chat-message-time">10:18 AM</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="chat-input-area">
+                            <input type="text" class="chat-input" placeholder="Type your message...">
+                            <button class="btn-send">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Sidebar Toggle
+        const hamburger = document.getElementById('hamburger');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const closeSidebar = document.getElementById('closeSidebar');
+
+        hamburger.addEventListener('click', () => {
+            sidebar.classList.add('active');
+            sidebarOverlay.classList.add('active');
+        });
+
+        closeSidebar.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+        });
+
+        sidebarOverlay.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+        });
+
+        // Message Item Click
+        const messageItems = document.querySelectorAll('.message-item');
+        const chatArea = document.getElementById('chatArea');
+        const backButton = document.getElementById('backButton');
+        const messagesList = document.getElementById('messagesList');
+
+        messageItems.forEach(item => {
+            item.addEventListener('click', function() {
+                // Remove active class from all items
+                messageItems.forEach(i => i.classList.remove('active'));
+                // Add active class to clicked item
+                this.classList.add('active');
+
+                // Update chat header info
+                const userName = this.dataset.user;
+                const userSubtitle = this.dataset.subtitle;
+                document.querySelector('.chat-user-name').textContent = userName;
+                document.querySelector('.chat-user-subtitle').textContent = userSubtitle;
+
+                // Show chat area on mobile
+                if (window.innerWidth <= 768) {
+                    chatArea.classList.add('active');
+                }
+            });
+        });
+
+        // Back button for mobile
+        backButton.addEventListener('click', () => {
+            chatArea.classList.remove('active');
+        });
+
+        // Tabs
+        const tabs = document.querySelectorAll('.tab');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                tabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Send message
+        const chatInput = document.querySelector('.chat-input');
+        const btnSend = document.querySelector('.btn-send');
+        const chatMessages = document.getElementById('chatMessages');
+
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (message) {
+                const messageHTML = `
+                    <div class="chat-message sent">
+                        <div class="chat-message-avatar" style="background-color: #b91c1c;">MJ</div>
+                        <div class="chat-message-content">
+                            <div class="chat-message-bubble">
+                                ${message}
+                            </div>
+                            <div class="chat-message-time">${new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}</div>
+                        </div>
+                    </div>
+                `;
+                chatMessages.insertAdjacentHTML('beforeend', messageHTML);
+                chatInput.value = '';
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        }
+
+        btnSend.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // New Message Button
+        document.getElementById('newMessageBtn').addEventListener('click', () => {
+            alert('New message compose window will open here');
+        });
+
+        // Compose Button
+        document.querySelector('.btn-compose').addEventListener('click', () => {
+            alert('Compose new message');
+        });
+
+        // Filter Button
+        document.querySelector('.btn-filter').addEventListener('click', () => {
+            alert('Filter messages');
+        });
+    </script>
+
+    <script>
+        // Load teaching audience and display label
+function loadTeachingAudience() {
+    // Try to get from localStorage first (dashboard data)
+    const instructorData = JSON.parse(localStorage.getItem('instructorData') || '{}');
+    
+    // If not found, try sessionStorage (application data)
+    const step1Data = JSON.parse(sessionStorage.getItem('step1Data') || '{}');
+    
+    const teachingAudience = instructorData.teachingAudience || step1Data.teachingAudience;
+    const audienceLabel = document.getElementById('audienceLabel');
+    
+    if (audienceLabel) {
+        if (teachingAudience === 'kids') {
+            audienceLabel.textContent = 'KIDS';
+            audienceLabel.className = 'audience-label kids';
+        } else if (teachingAudience === 'adults') {
+            audienceLabel.textContent = 'ADULT';
+            audienceLabel.className = 'audience-label adult';
+        } else {
+            // Default fallback
+            audienceLabel.textContent = 'INSTRUCTOR';
+            audienceLabel.className = 'audience-label adult';
+        }
+    }
+}
+
+// Call this function when the page loads
+document.addEventListener('DOMContentLoaded', loadTeachingAudience);
+    </script>
+</body>
+</html>

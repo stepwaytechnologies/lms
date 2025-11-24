@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Management - Stepway Technologies</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --navy: #1a237e; 
+            --navy-light: #283593; 
+            --navy-dark: #0d1452; 
+            --burgundy: #800020; 
+            --burgundy-light: #a83232; 
+            --burgundy-dark: #600018; 
+            --accent: #ff6b6b; 
+            --text-primary: #2b2d42; 
+            --text-secondary: #6c757d; 
+            --bg-primary: #ffffff; 
+            --bg-secondary: #f8f9fa; 
+            --bg-tertiary: #e9ecef; 
+            --card-bg: #ffffff; 
+            --border: #e2e8f0; 
+            --success: #4cc9f0; 
+            --warning: #f8961e; 
+            --danger: #e63946; 
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); 
+            --radius: 12px;
+        }
+        .dark-mode {
+            --navy: #283593; 
+            --navy-light: #3949ab; 
+            --navy-dark: #1a237e; 
+            --burgundy: #a83232; 
+            --burgundy-light: #c44545; 
+            --burgundy-dark: #800020; 
+            --text-primary: #f8f9fa; 
+            --text-secondary: #adb5bd; 
+            --bg-primary: #121212; 
+            --bg-secondary: #1e1e1e; 
+            --bg-tertiary: #2d2d2d; 
+            --card-bg: #1e1e1e; 
+            --border: #404040; 
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles - Updated to match admin dashboard */
+        .sidebar {
+            width: 260px;
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border);
+            padding: 24px 0;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            padding: 0 24px 32px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 24px;
+        }
+
+        .admin-badge {
+            display: inline-block;
+            background: var(--burgundy);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 14px 24px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            background-color: rgba(26, 35, 126, 0.1);
+            color: var(--navy);
+            border-left: 3px solid var(--navy);
+        }
+
+        .nav-item i {
+            margin-right: 16px;
+            font-size: 20px;
+            width: 24px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--card-bg);
+            padding: 16px 32px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background-color: var(--bg-secondary);
+            padding: 8px 16px;
+            border-radius: 8px;
+            flex: 1;
+            max-width: 400px;
+            border: 1px solid var(--border);
+        }
+
+        .search-box input {
+            border: none;
+            background: none;
+            outline: none;
+            margin-left: 8px;
+            width: 100%;
+            color: var(--text-primary);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .notification-icon {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--burgundy);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--navy), var(--navy-light));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 16px;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+        }
+
+        /* Content Area */
+        .content {
+            padding: 32px;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .btn-create {
+            background-color: var(--navy);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-create:hover {
+            background-color: var(--navy-light);
+        }
+
+        /* Filters */
+        .filters-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 32px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 8px 32px 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background-color: var(--card-bg);
+            cursor: pointer;
+            font-size: 14px;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23718096' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            color: var(--text-primary);
+        }
+
+        .btn-filter {
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background-color: var(--card-bg);
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-primary);
+        }
+
+        .btn-export {
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background-color: var(--card-bg);
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: auto;
+            color: var(--text-primary);
+        }
+
+        .btn-export:hover, .btn-filter:hover {
+            background-color: var(--bg-tertiary);
+        }
+
+        /* Course Grid */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .course-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid var(--border);
+        }
+
+        .course-card:hover {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .course-badges {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-blue {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+
+        .badge-purple {
+            background-color: #e9d5ff;
+            color: #7c3aed;
+        }
+
+        .badge-pink {
+            background-color: #fce7f3;
+            color: #be185d;
+        }
+
+        .badge-green {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-orange {
+            background-color: #fed7aa;
+            color: #c2410c;
+        }
+
+        .badge-teal {
+            background-color: #ccfbf1;
+            color: #115e59;
+        }
+
+        .course-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .course-description {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .course-instructor {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .instructor-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--navy), var(--navy-light));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 10px;
+        }
+
+        .instructor-name {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .course-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+            padding: 16px 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        .course-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .btn-edit {
+            background-color: var(--card-bg);
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-edit:hover {
+            background-color: var(--bg-tertiary);
+        }
+
+        .btn-publish {
+            background-color: #f59e0b;
+            color: white;
+        }
+
+        .btn-publish:hover {
+            background-color: #d97706;
+        }
+
+        .btn-published {
+            background-color: #10b981;
+            color: white;
+        }
+
+        .btn-published:hover {
+            background-color: #059669;
+        }
+
+        .btn-draft {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        .btn-draft:hover {
+            background-color: #2563eb;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .pagination-info {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .pagination-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .page-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: var(--card-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+            color: var(--text-primary);
+        }
+
+        .page-btn:hover {
+            background-color: var(--bg-tertiary);
+        }
+
+        .page-btn.active {
+            background-color: var(--navy);
+            color: white;
+            border-color: var(--navy);
+        }
+
+        .page-btn i {
+            font-size: 12px;
+        }
+
+        /* Sidebar Overlay */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 260px; /* Match sidebar width */
+            width: calc(100% - 260px); /* Subtract sidebar width */
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 99; /* Lower than sidebar */
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        .close-sidebar {
+            display: none;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            background: none;
+            border: none;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--navy);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            border: none;
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--navy-light);
+            transform: scale(1.05);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 90px;
+            right: 24px;
+            padding: 16px 24px;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast-success {
+            border-left: 4px solid var(--success);
+        }
+
+        .toast-error {
+            border-left: 4px solid var(--danger);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 1024px) {
+            .main-content {
+                margin-left: 0;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .close-sidebar {
+                display: block;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .search-box {
+                max-width: 200px;
+            }
+
+            .user-profile span {
+                display: none;
+            }
+
+            .courses-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 12px 16px;
+            }
+
+            .search-box {
+                display: none;
+            }
+
+            .content {
+                padding: 16px;
+            }
+
+            .page-header {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .btn-create {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .filters-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-select {
+                width: 100%;
+            }
+
+            .btn-export {
+                margin-left: 0;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pagination {
+                flex-direction: column;
+                gap: 16px;
+            }
+            
+            .sidebar-overlay {
+                left: 0;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 20px;
+            }
+
+            .course-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="logo">
+                <div> <img src="images/Step-Way Logo.png" width="150px" alt=""> <span class="admin-badge">ADMIN</span></div>
+                <button class="close-sidebar" id="closeSidebar" style="display: none;">×</button>
+            </div>
+            <nav>
+                <a href="admin-dashboard.html" class="nav-item">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+                <a href="admin-user-mgt.html" class="nav-item">
+                    <i class="fas fa-users"></i>
+                    <span class="nav-text">User Management</span>
+                </a>
+                <a href="admin-instruct-mgt.html" class="nav-item">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span class="nav-text">Instructors</span>
+                </a>
+                <a href="admin-course-mgt.html" class="nav-item active">
+                    <i class="fas fa-book-open"></i>
+                    <span class="nav-text">Courses</span>
+                </a>
+                <a href="admi-analytic.html" class="nav-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span class="nav-text">Analytics</span>
+                </a>
+                <a href="admin-settings.html" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span class="nav-text">System Settings</span>
+                </a>
+                <a href="admin-financial.html" class="nav-item">
+                    <i class="fas fa-wallet"></i>
+                    <span class="nav-text">Financials</span>
+                </a>
+                <a href="admin-secuirity.html" class="nav-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <span class="nav-text">Security</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div style="display: flex; align-items: center; flex: 1;">
+                    <button class="hamburger" id="hamburger">☰</button>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search courses...">
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="notification-icon">
+                        <i class="fas fa-bell" style="font-size: 20px; color: var(--text-secondary);"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <div class="notification-icon">
+                        <i class="fas fa-comment" style="font-size: 20px; color: var(--text-secondary);"></i>
+                        <span class="notification-badge">5</span>
+                    </div>
+                    <div class="user-profile">
+                        <div class="user-avatar">MJ</div>
+                        <span>Michael Johnson</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <div class="content">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Course Management</h1>
+                        <p class="page-subtitle">Create, manage, and publish courses for your learning platform</p>
+                    </div>
+                    <button class="btn-create">
+                        <i class="fas fa-plus"></i>
+                        Create Course
+                    </button>
+                </div>
+
+                <!-- Filters -->
+                <div class="filters-row">
+                    <select class="filter-select">
+                        <option>All Categories</option>
+                        <option>Marketing</option>
+                        <option>Programming</option>
+                        <option>Design</option>
+                        <option>Business</option>
+                    </select>
+                    <select class="filter-select">
+                        <option>All Statuses</option>
+                        <option>Published</option>
+                        <option>Draft</option>
+                        <option>Archived</option>
+                    </select>
+                    <select class="filter-select">
+                        <option>All Levels</option>
+                        <option>Beginner</option>
+                        <option>Intermediate</option>
+                        <option>Advanced</option>
+                    </select>
+                    <button class="btn-filter">
+                        <i class="fas fa-filter"></i>
+                        Filters
+                    </button>
+                    <button class="btn-export">
+                        <i class="fas fa-download"></i>
+                        Export Courses
+                    </button>
+                </div>
+
+                <!-- Courses Grid -->
+                <div class="courses-grid">
+                    <!-- Course 1 -->
+                    <div class="course-card">
+                        <div class="course-badges">
+                            <span class="badge badge-blue">Marketing</span>
+                            <span class="badge badge-purple">Programming</span>
+                        </div>
+                        <h3 class="course-title">Advanced React Patterns</h3>
+                        <p class="course-description">Learn advanced React patterns and best practices for building scalable applications</p>
+                        <div class="course-instructor">
+                            <div class="instructor-avatar">JC</div>
+                            <span class="instructor-name">John Carter</span>
+                        </div>
+                        <div class="course-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">1245</div>
+                                <div class="stat-label">Students</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">24</div>
+                                <div class="stat-label">Lessons</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">4.8</div>
+                                <div class="stat-label">Rating</div>
+                            </div>
+                        </div>
+                        <div class="course-actions">
+                            <button class="btn btn-edit">
+                                <i class="fas fa-edit"></i>
+                                Edit
+                            </button>
+                            <button class="btn btn-publish">
+                                <i class="fas fa-upload"></i>
+                                Publish
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Course 2 -->
+                    <div class="course-card">
+                        <div class="course-badges">
+                            <span class="badge badge-pink">Published</span>
+                            <span class="badge badge-green">Design</span>
+                        </div>
+                        <h3 class="course-title">UI/UX Design Fundamentals</h3>
+                        <p class="course-description">Master the principles of user interface and user experience design</p>
+                        <div class="course-instructor">
+                            <div class="instructor-avatar" style="background-color: #be185d;">SM</div>
+                            <span class="instructor-name">Sarah Mitchell</span>
+                        </div>
+                        <div class="course-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">892</div>
+                                <div class="stat-label">Students</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">18</div>
+                                <div class="stat-label">Lessons</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">4.6</div>
+                                <div class="stat-label">Rating</div>
+                            </div>
+                        </div>
+                        <div class="course-actions">
+                            <button class="btn btn-edit">
+                                <i class="fas fa-edit"></i>
+                                Edit
+                            </button>
+                            <button class="btn btn-published">
+                                <i class="fas fa-check"></i>
+                                Published
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Course 3 -->
+                    <div class="course-card">
+                        <div class="course-badges">
+                            <span class="badge badge-pink">Published</span>
+                            <span class="badge badge-blue">Marketing</span>
+                        </div>
+                        <h3 class="course-title">Digital Marketing Strategy</h3>
+                        <p class="course-description">Develop comprehensive digital marketing strategies for modern businesses</p>
+                        <div class="course-instructor">
+                            <div class="instructor-avatar" style="background-color: #065f46;">DP</div>
+                            <span class="instructor-name">David Park</span>
+                        </div>
+                        <div class="course-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">567</div>
+                                <div class="stat-label">Students</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">16</div>
+                                <div class="stat-label">Lessons</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">4.7</div>
+                                <div class="stat-label">Rating</div>
+                            </div>
+                        </div>
+                        <div class="course-actions">
+                            <button class="btn btn-edit">
+                                <i class="fas fa-edit"></i>
+                                Edit
+                            </button>
+                            <button class="btn btn-published">
+                                <i class="fas fa-check"></i>
+                                Published
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Course 4 -->
+                    <div class="course-card">
+                        <div class="course-badges">
+                            <span class="badge badge-orange">Draft</span>
+                            <span class="badge badge-purple">Programming</span>
+                        </div>
+                        <h3 class="course-title">Python for Data Science</h3>
+                        <p class="course-description">Learn Python programming and essential data analysis for data science applications</p>
+                        <div class="course-instructor">
+                            <div class="instructor-avatar" style="background-color: #7c3aed;">EC</div>
+                            <span class="instructor-name">Emily Chen</span>
+                        </div>
+                        <div class="course-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">0</div>
+                                <div class="stat-label">Students</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">22</div>
+                                <div class="stat-label">Lessons</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">N/A</div>
+                                <div class="stat-label">Rating</div>
+                            </div>
+                        </div>
+                        <div class="course-actions">
+                            <button class="btn btn-edit">
+                                <i class="fas fa-edit"></i>
+                                Edit
+                            </button>
+                            <button class="btn btn-draft">
+                                <i class="fas fa-file"></i>
+                                Draft
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Course 5 -->
+                    <div class="course-card">
+                        <div class="course-badges">
+                            <span class="badge badge-pink">Published</span>
+                            <span class="badge badge-orange">Business</span>
+                        </div>
+                        <h3 class="course-title">Business Analytics</h3>
+                        <p class="course-description">Use analytics to make data-driven business decisions and improve performance</p>
+                        <div class="course-instructor">
+                            <div class="instructor-avatar" style="background-color: #c2410c;">MR</div>
+                            <span class="instructor-name">Mark Rodriguez</span>
+                        </div>
+                        <div class="course-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">423</div>
+                                <div class="stat-label">Students</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">14</div>
+                                <div class="stat-label">Lessons</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">4.5</div>
+                                <div class="stat-label">Rating</div>
+                            </div>
+                        </div>
+                        <div class="course-actions">
+                            <button class="btn btn-edit">
+                                <i class="fas fa-edit"></i>
+                                Edit
+                            </button>
+                            <button class="btn btn-published">
+                                <i class="fas fa-check"></i>
+                                Published
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Course 6 -->
+                    <div class="course-card">
+                        <div class="course-badges">
+                            <span class="badge badge-pink">Published</span>
+                            <span class="badge badge-purple">Programming</span>
+                        </div>
+                        <h3 class="course-title">Advanced JavaScript Concepts</h3>
+                        <p class="course-description">Deep dive into advanced JavaScript concepts and modern ES6+ features</p>
+                        <div class="course-instructor">
+                            <div class="instructor-avatar" style="background-color: #1e40af;">AC</div>
+                            <span class="instructor-name">Alex Chen</span>
+                        </div>
+                        <div class="course-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">2103</div>
+                                <div class="stat-label">Students</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">28</div>
+                                <div class="stat-label">Lessons</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">4.9</div>
+                                <div class="stat-label">Rating</div>
+                            </div>
+                        </div>
+                        <div class="course-actions">
+                            <button class="btn btn-edit">
+                                <i class="fas fa-edit"></i>
+                                Edit
+                            </button>
+                            <button class="btn btn-published">
+                                <i class="fas fa-check"></i>
+                                Published
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Course 7 -->
+                    <div class="course-card">
+                        <div class="course-badges">
+                            <span class="badge badge-orange">Draft</span>
+                            <span class="badge badge-blue">Marketing</span>
+                        </div>
+                        <h3 class="course-title">Content Marketing Mastery</h3>
+                        <p class="course-description">Create compelling content that drives traffic, engagement, and conversions</p>
+                        <div class="course-instructor">
+                            <div class="instructor-avatar" style="background-color: #115e59;">DP</div>
+                            <span class="instructor-name">David Park</span>
+                        </div>
+                        <div class="course-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">345</div>
+                                <div class="stat-label">Students</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">12</div>
+                                <div class="stat-label">Lessons</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">4.4</div>
+                                <div class="stat-label">Rating</div>
+                            </div>
+                        </div>
+                        <div class="course-actions">
+                            <button class="btn btn-edit">
+                                <i class="fas fa-edit"></i>
+                                Edit
+                            </button>
+                            <button class="btn btn-publish">
+                                <i class="fas fa-upload"></i>
+                                Publish
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Course 8 -->
+                    <div class="course-card">
+                        <div class="course-badges">
+                            <span class="badge badge-teal">Draft</span>
+                            <span class="badge badge-green">Design</span>
+                        </div>
+                        <h3 class="course-title">Mobile App Design</h3>
+                        <p class="course-description">Design beautiful and functional mobile app interfaces and user experiences</p>
+                        <div class="course-instructor">
+                            <div class="instructor-avatar" style="background-color: #be185d;">SM</div>
+                            <span class="instructor-name">Sarah Mitchell</span>
+                        </div>
+                        <div class="course-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">0</div>
+                                <div class="stat-label">Students</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">20</div>
+                                <div class="stat-label">Lessons</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">N/A</div>
+                                <div class="stat-label">Rating</div>
+                            </div>
+                        </div>
+                        <div class="course-actions">
+                            <button class="btn btn-edit">
+                                <i class="fas fa-edit"></i>
+                                Edit
+                            </button>
+                            <button class="btn btn-draft">
+                                <i class="fas fa-file"></i>
+                                Draft
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination">
+                    <div class="pagination-info">Showing 8 of 246 courses</div>
+                    <div class="pagination-buttons">
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn">2</button>
+                        <button class="page-btn">3</button>
+                        <button class="page-btn">...</button>
+                        <button class="page-btn">8</button>
+                        <button class="page-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Action completed successfully!</span>
+    </div>
+
+    <script>
+        // Initialize sidebar state
+        function initSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            
+            // Show sidebar on desktop, hide on mobile
+            if (window.innerWidth > 1024) {
+                sidebar.classList.remove('mobile-hidden');
+            } else {
+                sidebar.classList.add('mobile-hidden');
+            }
+        }
+
+        // Sidebar Toggle
+        const hamburger = document.getElementById('hamburger');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const closeSidebar = document.getElementById('closeSidebar');
+
+        hamburger.addEventListener('click', () => {
+            sidebar.classList.add('active');
+            if (window.innerWidth <= 768) {
+                sidebarOverlay.classList.add('active');
+            }
+        });
+
+        closeSidebar.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+        });
+
+        sidebarOverlay.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+        });
+
+        // Nav Items - Fixed to work properly
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                // Remove active class from all nav items
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                // Add active class to clicked item
+                this.classList.add('active');
+                
+                // Close sidebar on mobile after clicking
+                if (window.innerWidth <= 1024) {
+                    sidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                }
+            });
+        });
+
+        // Create Course Button
+        document.querySelector('.btn-create').addEventListener('click', () => {
+            showToast('Opening Course Creation Wizard...');
+        });
+
+        // Filter Buttons
+        document.querySelector('.btn-filter').addEventListener('click', () => {
+            showToast('Opening Advanced Filters...');
+        });
+
+        document.querySelector('.btn-export').addEventListener('click', () => {
+            showToast('Exporting courses data...');
+        });
+
+        // Course Cards Click
+        document.querySelectorAll('.course-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                // Don't trigger if clicking on buttons
+                if (e.target.closest('.btn')) return;
+                
+                const title = this.querySelector('.course-title').textContent;
+                showToast(`Opening course details for: ${title}`);
+            });
+        });
+
+        // Course Action Buttons
+        document.querySelectorAll('.btn-edit').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const card = this.closest('.course-card');
+                const title = card.querySelector('.course-title').textContent;
+                showToast(`Editing course: ${title}`);
+            });
+        });
+
+        document.querySelectorAll('.btn-publish').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const card = this.closest('.course-card');
+                const title = card.querySelector('.course-title').textContent;
+                if (confirm(`Are you sure you want to publish "${title}"?`)) {
+                    this.textContent = 'Published';
+                    this.className = 'btn btn-published';
+                    this.innerHTML = '<i class="fas fa-check"></i> Published';
+                    showToast('Course published successfully!');
+                }
+            });
+        });
+
+        document.querySelectorAll('.btn-published').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const card = this.closest('.course-card');
+                const title = card.querySelector('.course-title').textContent;
+                showToast(`Course "${title}" is already published`);
+            });
+        });
+
+        document.querySelectorAll('.btn-draft').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const card = this.closest('.course-card');
+                const title = card.querySelector('.course-title').textContent;
+                showToast(`Course "${title}" is in draft mode. Click Edit to continue working on it.`);
+            });
+        });
+
+        // Pagination
+        document.querySelectorAll('.page-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (this.textContent === '...') return;
+                
+                document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+
+        // Filter Selects
+        document.querySelectorAll('.filter-select').forEach(select => {
+            select.addEventListener('change', function() {
+                console.log(`Filter changed: ${this.value}`);
+                // Here you would typically filter the courses
+            });
+        });
+
+        // Add hover effect to course cards
+        document.querySelectorAll('.course-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.borderLeft = '3px solid var(--navy)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.borderLeft = 'none';
+            });
+        });
+
+        // Instructor Avatar Click
+        document.querySelectorAll('.course-instructor').forEach(instructor => {
+            instructor.style.cursor = 'pointer';
+            instructor.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const name = this.querySelector('.instructor-name').textContent;
+                showToast(`Viewing instructor profile: ${name}`);
+            });
+        });
+
+        // Badge Click
+        document.querySelectorAll('.badge').forEach(badge => {
+            badge.style.cursor = 'pointer';
+            badge.addEventListener('click', function(e) {
+                e.stopPropagation();
+                showToast(`Filtering by: ${this.textContent}`);
+            });
+        });
+
+        // Stats Click
+        document.querySelectorAll('.stat-item').forEach(stat => {
+            stat.style.cursor = 'pointer';
+            stat.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const label = this.querySelector('.stat-label').textContent;
+                const value = this.querySelector('.stat-value').textContent;
+                showToast(`${label}: ${value}`);
+            });
+        });
+
+        // Search functionality
+        const searchInput = document.querySelector('.search-box input');
+        if (searchInput) {
+            searchInput.addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                document.querySelectorAll('.course-card').forEach(card => {
+                    const title = card.querySelector('.course-title').textContent.toLowerCase();
+                    const description = card.querySelector('.course-description').textContent.toLowerCase();
+                    
+                    if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        // Add loading animation when changing pages
+        function showLoading() {
+            const coursesGrid = document.querySelector('.courses-grid');
+            coursesGrid.style.opacity = '0.5';
+            coursesGrid.style.pointerEvents = 'none';
+            
+            setTimeout(() => {
+                coursesGrid.style.opacity = '1';
+                coursesGrid.style.pointerEvents = 'all';
+            }, 500);
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl/Cmd + K to focus search
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                if (searchInput) searchInput.focus();
+            }
+            
+            // Ctrl/Cmd + N to create new course
+            if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
+                e.preventDefault();
+                document.querySelector('.btn-create').click();
+            }
+        });
+
+        // Add ripple effect to buttons
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.classList.add('ripple');
+                
+                this.appendChild(ripple);
+                
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        // Add ripple animation styles
+        const rippleStyle = document.createElement('style');
+        rippleStyle.textContent = `
+            .btn {
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .ripple {
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.6);
+                transform: scale(0);
+                animation: ripple-animation 0.6s ease-out;
+                pointer-events: none;
+            }
+            
+            @keyframes ripple-animation {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(rippleStyle);
+
+        // Smooth scroll for page navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Update course count dynamically
+        function updateCourseCount() {
+            const visibleCourses = document.querySelectorAll('.course-card:not([style*="display: none"])').length;
+            const paginationInfo = document.querySelector('.pagination-info');
+            if (paginationInfo) {
+                paginationInfo.textContent = `Showing ${visibleCourses} of 246 courses`;
+            }
+        }
+
+        // Call on search
+        if (searchInput) {
+            searchInput.addEventListener('input', updateCourseCount);
+        }
+
+        // Initialize sidebar on load and resize
+        window.addEventListener('load', initSidebar);
+        window.addEventListener('resize', initSidebar);
+
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-mode');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            if (body.classList.contains('dark-mode')) {
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                localStorage.setItem('theme', 'dark');
+                showToast('Dark mode enabled');
+            } else {
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                localStorage.setItem('theme', 'light');
+                showToast('Light mode enabled');
+            }
+        });
+
+        // Toast Notification Function
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            toastMessage.textContent = message;
+            toast.className = 'toast';
+            toast.classList.add('show');
+            if (type === 'success') {
+                toast.classList.add('toast-success');
+            } else {
+                toast.classList.add('toast-error');
+            }
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Mobile sidebar functionality
+        function initializeMobileMenu() {
+            const hamburger = document.getElementById('hamburger');
+            const sidebar = document.querySelector('.sidebar');
+            const closeSidebar = document.getElementById('closeSidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const mainContent = document.querySelector('.main-content');
+
+            if (!hamburger || !sidebar) return;
+
+            hamburger.addEventListener('click', () => {
+                sidebar.classList.add('active');
+                if (window.innerWidth <= 768) {
+                    overlay.classList.add('active');
+                }
+            });
+
+            closeSidebar.addEventListener('click', () => {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+
+            overlay.addEventListener('click', () => {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+
+            // Close sidebar when clicking on nav items on mobile
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    if (window.innerWidth <= 768) {
+                        sidebar.classList.remove('active');
+                        overlay.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                });
+            });
+
+            // Handle resize
+            function handleResize() {
+                if (window.innerWidth > 768) {
+                    sidebar.classList.remove('active');
+                    overlay.classList.remove('active');
+                } else {
+                    sidebar.classList.add('mobile-hidden');
+                }
+            }
+
+            window.addEventListener('resize', handleResize);
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeMobileMenu();
+        });
+    </script>
+</body>
+</html>

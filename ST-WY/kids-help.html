@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KidCoder - Help</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+       :root {
+    --primary: rgba(26, 35, 126, 1);
+    --secondary: #800020;
+    --white: #ffffff;
+    --light-bg: #f5f7ff;
+    --light-purple: #e8eaf6;
+    --light-burgundy: #f9e8e8;
+    --text-dark: #333;
+    --text-light: #666;
+    --success: #4caf50;
+    --warning: #ff9800;
+    --border-radius: 12px;
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --sidebar-width: 280px;
+    --header-height: 70px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--light-bg);
+    color: var(--text-dark);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background: linear-gradient(180deg, var(--primary) 0%, rgba(26, 35, 126, 0.95) 100%);
+    color: var(--white);
+    padding: 20px 0;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 1000;
+    transition: transform 0.3s ease;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.logo i {
+    font-size: 2rem;
+}
+
+.close-sidebar {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--white);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.sidebar-menu {
+    list-style: none;
+    margin-top: 20px;
+}
+
+.sidebar-menu li {
+    margin-bottom: 5px;
+}
+
+.sidebar-menu a {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 20px;
+    color: var(--white);
+    text-decoration: none;
+    transition: all 0.3s;
+    border-left: 4px solid transparent;
+}
+
+.sidebar-menu a:hover, .sidebar-menu a.active {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-left-color: var(--secondary);
+}
+
+.sidebar-menu i {
+    font-size: 1.2rem;
+    width: 24px;
+    text-align: center;
+}
+
+.sidebar-footer {
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 20px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    margin-left: var(--sidebar-width);
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--light-purple);
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--primary);
+    cursor: pointer;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+}
+
+/* Welcome Section */
+.welcome-section {
+    background: linear-gradient(135deg, var(--primary), #3f51b5);
+    color: white;
+    padding: 25px;
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+    box-shadow: var(--box-shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.welcome-section h1 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.welcome-section p {
+    font-size: 1.1rem;
+    max-width: 70%;
+}
+
+/* Progress Bar */
+.progress-bar {
+    height: 10px;
+    background-color: var(--light-purple);
+    border-radius: 5px;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: var(--primary);
+    border-radius: 5px;
+}
+
+/* Section Header */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-header h2 {
+    color: var(--primary);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .main-content {
+        margin-left: 0;
+    }
+    
+    .sidebar {
+        transform: translateX(-100%);
+    }
+    
+    .sidebar.open {
+        transform: translateX(0);
+    }
+    
+    .menu-toggle {
+        display: block;
+    }
+    
+    .close-sidebar {
+        display: block;
+    }
+    
+    .welcome-section p {
+        max-width: 100%;
+    }
+    
+    /* Hide animated characters on mobile */
+    .character,
+    .teddy-bear,
+    .robot,
+    .trophy,
+    .rocket,
+    .owl,
+    .robot-assistant,
+    .alien-helper {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .progress-section,
+    .achievements-stats,
+    .courses-grid,
+    .projects-container,
+    .help-categories,
+    .contact-options {
+        grid-template-columns: 1fr;
+    }
+    
+    .progress-charts {
+        grid-template-columns: 1fr;
+    }
+    
+    .badges-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .settings-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .settings-sidebar {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content {
+        padding: 15px;
+    }
+    
+    .welcome-section {
+        padding: 20px;
+    }
+    
+    .welcome-section h1 {
+        font-size: 1.5rem;
+    }
+    
+    .badges-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .schedule-controls {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .calendar-day {
+        padding: 5px;
+        font-size: 0.9rem;
+    }
+    
+    .btn-group {
+        flex-direction: column;
+    }
+    
+    .avatar-options, 
+    .color-options {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+        
+        /* Help specific styles */
+        .help-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .help-category {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--box-shadow);
+            text-align: center;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .help-category:hover {
+            transform: translateY(-5px);
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .category-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .category-desc {
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        .category-count {
+            background: var(--light-purple);
+            color: var(--primary);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .faq-section {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 20px;
+        }
+
+        .faq-item {
+            margin-bottom: 15px;
+            border: 2px solid var(--light-purple);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 20px;
+            background: var(--light-bg);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 20px;
+            max-height: 500px;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(180deg);
+        }
+
+        .faq-toggle {
+            transition: transform 0.3s ease;
+            color: var(--primary);
+        }
+
+        .contact-section {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .contact-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .contact-option {
+            text-align: center;
+            padding: 20px;
+            background: var(--light-bg);
+            border-radius: var(--border-radius);
+            transition: all 0.3s;
+        }
+
+        .contact-option:hover {
+            background: var(--light-purple);
+            transform: translateY(-3px);
+        }
+
+        .contact-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .contact-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .contact-desc {
+            color: var(--text-light);
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .contact-btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .contact-btn:hover {
+            background: var(--secondary);
+            transform: scale(1.05);
+        }
+
+        /* Helpful Alien Animation */
+        .alien-helper {
+            position: absolute;
+            right: 20px;
+            bottom: 0;
+            width: 120px;
+            height: 150px;
+            animation: alien-float 4s ease-in-out infinite;
+        }
+
+        .alien-head {
+            width: 70px;
+            height: 70px;
+            background: #4CAF50;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 25px;
+        }
+
+        .alien-eye {
+            width: 20px;
+            height: 30px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 20px;
+            border: 3px solid #333;
+        }
+
+        .alien-eye.left {
+            left: 15px;
+        }
+
+        .alien-eye.right {
+            right: 15px;
+        }
+
+        .alien-pupil {
+            width: 10px;
+            height: 10px;
+            background: #333;
+            border-radius: 50%;
+            position: absolute;
+            top: 10px;
+            left: 5px;
+            animation: alien-look 5s infinite;
+        }
+
+        .alien-antenna {
+            width: 5px;
+            height: 20px;
+            background: #4CAF50;
+            position: absolute;
+            top: -20px;
+            left: 32.5px;
+        }
+
+        .alien-antenna::before {
+            content: '';
+            width: 15px;
+            height: 15px;
+            background: #FF6B6B;
+            border-radius: 50%;
+            position: absolute;
+            top: -15px;
+            left: -5px;
+            animation: alien-blink 2s infinite;
+        }
+
+        .alien-body {
+            width: 60px;
+            height: 60px;
+            background: #45A049;
+            border-radius: 20px;
+            position: absolute;
+            top: 70px;
+            left: 30px;
+        }
+
+        .alien-arm, .alien-leg {
+            width: 15px;
+            height: 40px;
+            background: #45A049;
+            position: absolute;
+        }
+
+        .alien-arm.left {
+            top: 75px;
+            left: 15px;
+            transform: rotate(30deg);
+        }
+
+        .alien-arm.right {
+            top: 75px;
+            right: 15px;
+            transform: rotate(-30deg);
+        }
+
+        .alien-leg.left {
+            top: 125px;
+            left: 30px;
+            transform: rotate(10deg);
+        }
+
+        .alien-leg.right {
+            top: 125px;
+            right: 30px;
+            transform: rotate(-10deg);
+        }
+
+        @keyframes alien-float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            33% { transform: translateY(-10px) rotate(2deg); }
+            66% { transform: translateY(-5px) rotate(-2deg); }
+        }
+
+        @keyframes alien-look {
+            0%, 90% { transform: translateX(0); }
+            95% { transform: translateX(5px); }
+        }
+
+        @keyframes alien-blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .help-categories {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .alien-helper {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                   <img src="images/stepway logoww.png" width="200px" alt="">
+                </div>
+                <button class="close-sidebar">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li><a href="kids-dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="kids-course.html"><i class="fas fa-book"></i> Courses</a></li>
+                <li><a href="kids-project.html"><i class="fas fa-project-diagram"></i> Projects</a></li>
+                <li><a href="kids-achievement.html"><i class="fas fa-trophy"></i> Achievements</a></li>
+                <li><a href="kids-progress.html"><i class="fas fa-chart-line"></i> Progress</a></li>
+                <li><a href="kids-shedule.html"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
+                <li><a href="kids-settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="kids-help.html" class="active"><i class="fas fa-question-circle"></i> Help</a></li>
+            </ul>
+            
+            
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <button class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="user-info">
+                    <span>Hello, Alex!</span>
+                    <div class="avatar">AJ</div>
+                </div>
+            </div>
+
+            <!-- Welcome Section -->
+            <div class="welcome-section">
+                <h1>How Can We Help You?</h1>
+                <p>Find answers to your questions and get support for your coding journey!</p>
+                <div class="alien-helper">
+                    <div class="alien-head">
+                        <div class="alien-antenna"></div>
+                        <div class="alien-eye left">
+                            <div class="alien-pupil"></div>
+                        </div>
+                        <div class="alien-eye right">
+                            <div class="alien-pupil"></div>
+                        </div>
+                    </div>
+                    <div class="alien-body"></div>
+                    <div class="alien-arm left"></div>
+                    <div class="alien-arm right"></div>
+                    <div class="alien-leg left"></div>
+                    <div class="alien-leg right"></div>
+                </div>
+            </div>
+
+            <!-- Help Categories -->
+            <div class="help-categories">
+                <div class="help-category">
+                    <div class="category-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <div class="category-title">Getting Started</div>
+                    <div class="category-desc">Learn the basics and start your coding adventure</div>
+                    <div class="category-count">12 Articles</div>
+                </div>
+                <div class="help-category">
+                    <div class="category-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <div class="category-title">Game Development</div>
+                    <div class="category-desc">Create amazing games and interactive projects</div>
+                    <div class="category-count">8 Articles</div>
+                </div>
+                <div class="help-category">
+                    <div class="category-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="category-title">Achievements & Badges</div>
+                    <div class="category-desc">Earn rewards and track your progress</div>
+                    <div class="category-count">6 Articles</div>
+                </div>
+                <div class="help-category">
+                    <div class="category-icon">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <div class="category-title">Account & Settings</div>
+                    <div class="category-desc">Manage your profile and preferences</div>
+                    <div class="category-count">10 Articles</div>
+                </div>
+            </div>
+
+            <!-- FAQ Section -->
+            <div class="faq-section">
+                <div class="section-header">
+                    <h2>Frequently Asked Questions</h2>
+                </div>
+                <div class="faq-list">
+                    <div class="faq-item active">
+                        <div class="faq-question">
+                            How do I start my first coding project?
+                            <i class="fas fa-chevron-down faq-toggle"></i>
+                        </div>
+                        <div class="faq-answer">
+                            Starting your first project is easy! Go to the "Projects" section and choose "Beginner Projects". We recommend starting with "Create Your First Game" which will guide you step-by-step through creating a simple but fun game.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            What should I do if I get stuck on a lesson?
+                            <i class="fas fa-chevron-down faq-toggle"></i>
+                        </div>
+                        <div class="faq-answer">
+                            Don't worry! Everyone gets stuck sometimes. You can: 1) Use the "Hint" button for clues, 2) Watch the video explanation again, 3) Ask for help in the community forum, or 4) Contact our support team who are always happy to help!
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            How do I earn badges and XP?
+                            <i class="fas fa-chevron-down faq-toggle"></i>
+                        </div>
+                        <div class="faq-answer">
+                            You earn XP by completing lessons, solving puzzles, and finishing projects. Badges are special rewards for reaching milestones like completing your first project, helping other coders, or mastering certain skills. Keep learning and watch your collection grow!
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            Can I code on a tablet or phone?
+                            <i class="fas fa-chevron-down faq-toggle"></i>
+                        </div>
+                        <div class="faq-answer">
+                            Yes! KidCoder works on tablets and most smartphones. While we recommend using a computer for the best experience, you can complete most lessons and view your progress on mobile devices. Download our app from the App Store or Google Play for the best mobile experience.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            How do I change my avatar or username?
+                            <i class="fas fa-chevron-down faq-toggle"></i>
+                        </div>
+                        <div class="faq-answer">
+                            You can customize your profile in the "Settings" section. Click on your current avatar to choose a new one, or type a new name in the profile settings. Remember to click "Save Changes" when you're done!
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Section -->
+            <div class="contact-section">
+                <div class="section-header">
+                    <h2>Still Need Help?</h2>
+                    <p>We're here to support your coding journey!</p>
+                </div>
+                <div class="contact-options">
+                    <div class="contact-option">
+                        <div class="contact-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <div class="contact-title">Live Chat</div>
+                        <div class="contact-desc">Chat with our friendly support team in real-time</div>
+                        <a href="#" class="contact-btn">Start Chat</a>
+                    </div>
+                    <div class="contact-option">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-title">Email Support</div>
+                        <div class="contact-desc">Send us an email and we'll reply within 24 hours</div>
+                        <a href="#" class="contact-btn">Send Email</a>
+                    </div>
+                    <div class="contact-option">
+                        <div class="contact-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <div class="contact-title">Video Call</div>
+                        <div class="contact-desc">Get one-on-one help with a coding mentor</div>
+                        <a href="#" class="contact-btn">Schedule Call</a>
+                    </div>
+                    <div class="contact-option">
+                        <div class="contact-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="contact-title">Community Forum</div>
+                        <div class="contact-desc">Ask questions and share ideas with other kid coders</div>
+                        <a href="#" class="contact-btn">Visit Forum</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const closeSidebar = document.querySelector('.close-sidebar');
+            const sidebar = document.querySelector('.sidebar');
+            
+            menuToggle.addEventListener('click', function() {
+                sidebar.classList.add('open');
+            });
+            
+            closeSidebar.addEventListener('click', function() {
+                sidebar.classList.remove('open');
+            });
+            
+            document.addEventListener('click', function(event) {
+                const isClickInsideSidebar = sidebar.contains(event.target);
+                const isClickOnMenuToggle = menuToggle.contains(event.target);
+                
+                if (!isClickInsideSidebar && !isClickOnMenuToggle && window.innerWidth <= 1024) {
+                    sidebar.classList.remove('open');
+                }
+            });
+
+            // FAQ toggle functionality
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                question.addEventListener('click', function() {
+                    const isActive = item.classList.contains('active');
+                    
+                    // Close all items
+                    faqItems.forEach(faqItem => {
+                        faqItem.classList.remove('active');
+                    });
+                    
+                    // If the clicked item wasn't active, open it
+                    if (!isActive) {
+                        item.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

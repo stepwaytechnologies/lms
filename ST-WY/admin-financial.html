@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Financials | Stepway LMS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root {
+  --navy: #1a237e; 
+  --navy-light: #283593; 
+  --navy-dark: #0d1452; 
+  --burgundy: #800020; 
+  --burgundy-light: #a83232; 
+  --burgundy-dark: #600018; 
+  --accent: #ff6b6b; 
+  --text-primary: #2b2d42; 
+  --text-secondary: #6c757d; 
+  --bg-primary: #ffffff; 
+  --bg-secondary: #f8f9fa; 
+  --bg-tertiary: #e9ecef; 
+  --card-bg: #ffffff; 
+  --border: #e2e8f0; 
+  --success: #4cc9f0; 
+  --warning: #f8961e; 
+  --danger: #e63946; 
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); 
+  --radius: 12px;
+}
+.dark-mode {
+  --navy: #283593; 
+  --navy-light: #3949ab; 
+  --navy-dark: #1a237e; 
+  --burgundy: #a83232; 
+  --burgundy-light: #c44545; 
+  --burgundy-dark: #800020; 
+  --text-primary: #f8f9fa; 
+  --text-secondary: #adb5bd; 
+  --bg-primary: #121212; 
+  --bg-secondary: #1e1e1e; 
+  --bg-tertiary: #2d2d2d; 
+  --card-bg: #1e1e1e; 
+  --border: #404040; 
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+/* Sidebar Styles */
+.sidebar {
+  width: 260px;
+  background-color: var(--bg-secondary);
+  border-right: 1px solid var(--border);
+  padding: 24px 0;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  position: fixed;
+  height: 100vh;
+  z-index: 100;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  padding: 0 24px 32px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
+}
+.logo-text {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--navy);
+}
+.admin-badge {
+  display: inline-block;
+  background: var(--burgundy);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 600;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 14px 24px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border-left: 3px solid transparent;
+}
+.nav-item:hover {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+.nav-item.active {
+  background-color: rgba(26, 35, 126, 0.1);
+  color: var(--navy);
+  border-left: 3px solid var(--navy);
+}
+.nav-item i {
+  margin-right: 16px;
+  font-size: 20px;
+  width: 24px;
+  text-align: center;
+}
+/* Main Content Styles */
+.main-content {
+  flex: 1;
+  margin-left: 260px;
+  padding: 24px;
+  transition: all 0.3s ease;
+}
+/* Top Navigation */
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-secondary);
+  border-radius: 50px;
+  padding: 12px 20px;
+  width: 400px;
+  border: 1px solid var(--border);
+}
+.search-bar input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  width: 100%;
+  margin-left: 12px;
+  font-size: 15px;
+}
+.nav-icons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.nav-icon {
+  position: relative;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: color 0.2s ease;
+}
+.nav-icon:hover {
+  color: var(--text-primary);
+}
+.badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: var(--burgundy);
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+.user-profile:hover {
+  background-color: var(--bg-secondary);
+}
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+}
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+.user-name {
+  font-weight: 600;
+  font-size: 14px;
+}
+.user-role {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+/* Page Header */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+.page-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--navy);
+}
+.page-subtitle {
+  color: var(--text-secondary);
+  margin-top: 8px;
+  font-size: 16px;
+}
+/* Button Styles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: var(--radius);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  font-size: 14px;
+}
+.btn-primary {
+  background-color: var(--navy);
+  color: white;
+}
+.btn-primary:hover {
+  background-color: var(--navy-light);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.btn-secondary {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+.btn-secondary:hover {
+  background-color: var(--bg-tertiary);
+}
+.btn-success {
+  background-color: var(--success);
+  color: white;
+}
+.btn-warning {
+  background-color: var(--warning);
+  color: white;
+}
+.btn-danger {
+  background-color: var(--danger);
+  color: white;
+}
+.btn-sm {
+  padding: 8px 12px;
+  font-size: 12px;
+}
+/* Date Range Selector */
+.date-range-selector {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.date-range-btn {
+  padding: 8px 16px;
+  border-radius: var(--radius);
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+.date-range-btn.active {
+  background-color: var(--navy);
+  color: white;
+  border-color: var(--navy);
+}
+.date-range-btn:hover:not(.active) {
+  background-color: var(--bg-tertiary);
+}
+/* Stats Section */
+.stats-section {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-bottom: 32px;
+}
+.stat-card {
+  background-color: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  transition: transform 0.2s ease;
+}
+.stat-card:hover {
+  transform: translateY(-3px);
+}
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  font-size: 20px;
+}
+.stat-1 .stat-icon {
+  background-color: rgba(26, 35, 126, 0.1);
+  color: var(--navy);
+}
+.stat-2 .stat-icon {
+  background-color: rgba(128, 0, 32, 0.1);
+  color: var(--burgundy);
+}
+.stat-3 .stat-icon {
+  background-color: rgba(255, 107, 107, 0.1);
+  color: var(--accent);
+}
+.stat-4 .stat-icon {
+  background-color: rgba(76, 201, 240, 0.1);
+  color: var(--success);
+}
+.stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.stat-label {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+.stat-change {
+  font-size: 12px;
+  margin-top: 8px;
+}
+.change-positive {
+  color: var(--success);
+}
+.change-negative {
+  color: var(--danger);
+}
+/* Charts Section */
+.charts-section {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+.chart-card {
+  background-color: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.chart-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--navy);
+}
+.chart-container {
+  height: 300px;
+  margin-top: 16px;
+}
+/* Financial Layout */
+.financial-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+/* Recent Transactions */
+.transactions-section {
+  background-color: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--navy);
+}
+.view-all {
+  color: var(--navy);
+  text-decoration: none;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+.transactions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.transaction-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+.transaction-item:hover {
+  background-color: var(--bg-secondary);
+}
+.transaction-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.transaction-1 .transaction-icon {
+  background-color: rgba(26, 35, 126, 0.1);
+  color: var(--navy);
+}
+.transaction-2 .transaction-icon {
+  background-color: rgba(128, 0, 32, 0.1);
+  color: var(--burgundy);
+}
+.transaction-3 .transaction-icon {
+  background-color: rgba(76, 201, 240, 0.1);
+  color: var(--success);
+}
+.transaction-4 .transaction-icon {
+  background-color: rgba(248, 150, 30, 0.1);
+  color: var(--warning);
+}
+.transaction-info {
+  flex: 1;
+}
+.transaction-title {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.transaction-meta {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.transaction-amount {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.amount-positive {
+  color: var(--success);
+}
+.amount-negative {
+  color: var(--danger);
+}
+/* Top Revenue Courses */
+.revenue-courses {
+  background-color: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+.course-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.course-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+.course-item:hover {
+  background-color: var(--bg-secondary);
+}
+.course-rank {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: var(--bg-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.course-rank.top-1 {
+  background-color: gold;
+  color: var(--text-primary);
+}
+.course-rank.top-2 {
+  background-color: silver;
+  color: var(--text-primary);
+}
+.course-rank.top-3 {
+  background-color: #cd7f32;
+  color: white;
+}
+.course-info {
+  flex: 1;
+}
+.course-name {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.course-meta {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.course-revenue {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+/* Payment Methods */
+.payment-methods {
+  background-color: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+.methods-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+.method-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  transition: all 0.2s ease;
+}
+.method-card:hover {
+  background-color: var(--bg-tertiary);
+  transform: translateY(-2px);
+}
+.method-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  font-size: 20px;
+  background-color: rgba(26, 35, 126, 0.1);
+  color: var(--navy);
+}
+.method-name {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.method-amount {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--navy);
+}
+.method-percentage {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+/* Theme Toggle */
+.theme-toggle {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--navy);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  z-index: 1000;
+  border: none;
+}
+.theme-toggle:hover {
+  background-color: var(--navy-light);
+  transform: scale(1.05);
+}
+/* Toast Notification */
+.toast {
+  position: fixed;
+  bottom: 90px;
+  right: 24px;
+  padding: 16px 24px;
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+.toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+.toast-success {
+  border-left: 4px solid var(--success);
+}
+.toast-error {
+  border-left: 4px solid var(--danger);
+}
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .stats-section {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .charts-section {
+    grid-template-columns: 1fr;
+  }
+  .financial-layout {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 768px) {
+  .sidebar {
+    width: 80px;
+  }
+  .sidebar .logo-text, .sidebar .nav-text {
+    display: none;
+  }
+  .main-content {
+    margin-left: 80px;
+  }
+  .search-bar {
+    width: 200px;
+  }
+  .stats-section {
+    grid-template-columns: 1fr;
+  }
+  .date-range-selector {
+    flex-wrap: wrap;
+  }
+  .methods-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+/* Mobile Responsive Fixes */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+    width: 280px;
+    background-color: var(--bg-secondary);
+    z-index: 1000; /* Higher z-index */
+  }
+  
+  .sidebar.active {
+    transform: translateX(0);
+  }
+  
+  .main-content {
+    margin-left: 0 !important;
+    padding: 15px !important;
+  }
+  
+  .hamburger {
+    display: block !important;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-primary);
+    margin-right: 15px;
+    z-index: 1001;
+  }
+  
+  .close-sidebar {
+    display: block !important;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    z-index: 1002;
+  }
+  
+  .logo {
+    position: relative;
+    padding-right: 50px;
+  }
+  
+  .overlay {
+   display: none;
+    position: fixed;
+    top: 0;
+    left: 260px; /* Match sidebar width */
+    width: calc(100% - 260px); /* Subtract sidebar width */
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 99;
+  }
+  
+  .overlay.active {
+    display: block;
+  }
+  
+  .search-bar {
+    width: 100% !important;
+    max-width: none !important;
+  }
+  
+  .stats-section,
+  .quick-actions {
+    grid-template-columns: 1fr !important;
+    gap: 15px !important;
+  }
+  
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  /* Ensure nav text is visible */
+  .sidebar .nav-text {
+    display: block !important;
+  }
+  
+  .sidebar .logo-text {
+    display: block !important;
+  }
+  
+  /* Fix nav item colors */
+  .sidebar .nav-item {
+    color: var(--text-primary) !important;
+  }
+  
+  .sidebar .nav-item i {
+    color: var(--text-primary) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-icons .user-name {
+    display: none;
+  }
+  
+  .page-title {
+    font-size: 22px !important;
+  }
+  
+  .btn span:not(.badge) {
+    display: none;
+  }
+  
+  .btn {
+    padding: 10px 15px;
+  }
+}
+
+@media (max-width: 768px) {
+    .overlay {
+        left: 0;
+        width: 100%;
+    }
+}
+</style>
+</head>
+<body>
+    <div class="overlay" id="overlay"></div>
+<div class="container">
+  <!-- Sidebar -->
+   <div class="sidebar">
+    <div class="logo">
+      <div> <img src="images/Step-Way Logo.png" width="150px" alt=""> <span class="admin-badge">ADMIN</span></div>
+      <button class="close-sidebar" id="closeSidebar" style="display: none;">×</button>
+    </div>
+    <a href="admin-dashboard.html" class="nav-item">
+      <i class="fas fa-tachometer-alt"></i>
+      <span class="nav-text">Dashboard</span>
+    </a>
+    <a href="admin-user-mgt.html" class="nav-item">
+      <i class="fas fa-users"></i>
+      <span class="nav-text">User Management</span>
+    </a>
+    <a href="admin-instruct-mgt.html" class="nav-item">
+      <i class="fas fa-chalkboard-teacher"></i>
+      <span class="nav-text">Instructors</span>
+    </a>
+    <a href="admin-course-mgt.html" class="nav-item">
+      <i class="fas fa-book-open"></i>
+      <span class="nav-text">Courses</span>
+    </a>
+    <a href="admi-analytic.html" class="nav-item">
+      <i class="fas fa-chart-line"></i>
+      <span class="nav-text">Analytics</span>
+    </a>
+    <a href="admin-settings.html" class="nav-item">
+      <i class="fas fa-cog"></i>
+      <span class="nav-text">System Settings</span>
+    </a>
+    <a href="admin-financial.html" class="nav-item  active">
+      <i class="fas fa-wallet"></i>
+      <span class="nav-text">Financials</span>
+    </a>
+    <a href="admin-secuirity.html" class="nav-item">
+      <i class="fas fa-shield-alt"></i>
+      <span class="nav-text">Security</span>
+    </a>
+  </div>
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Top Navigation -->
+    <div class="top-nav">
+        <button class="hamburger" id="hamburger" style="display: none;">☰</button>
+      <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search transactions...">
+      </div>
+      <div class="nav-icons">
+        <div class="nav-icon">
+          <i class="far fa-bell"></i>
+          <div class="badge">5</div>
+        </div>
+        <div class="nav-icon">
+          <i class="far fa-envelope"></i>
+          <div class="badge">12</div>
+        </div>
+        <div class="user-profile">
+          <div class="avatar">MJ</div>
+          <div class="user-info">
+            <div class="user-name">Michael Johnson</div>
+            <div class="user-role">Super Administrator</div>
+          </div>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+      </div>
+    </div>
+    <!-- Page Header -->
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Financial Dashboard</h1>
+        <p class="page-subtitle">Track revenue, payments, and financial performance</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-secondary">
+          <i class="fas fa-download"></i>
+          <span>Export Report</span>
+        </button>
+        <button class="btn btn-primary" id="generateFinancialReportBtn">
+          <i class="fas fa-file-invoice-dollar"></i>
+          <span>Generate Report</span>
+        </button>
+      </div>
+    </div>
+    <!-- Date Range Selector -->
+    <div class="date-range-selector">
+      <button class="date-range-btn active">Today</button>
+      <button class="date-range-btn">Last 7 Days</button>
+      <button class="date-range-btn">Last 30 Days</button>
+      <button class="date-range-btn">This Quarter</button>
+      <button class="date-range-btn">Custom Range</button>
+    </div>
+    <!-- Stats Section -->
+    <div class="stats-section">
+      <div class="stat-card stat-1">
+        <div class="stat-icon">
+          <i class="fas fa-dollar-sign"></i>
+        </div>
+        <div class="stat-value">$24,580</div>
+        <div class="stat-label">Total Revenue</div>
+        <div class="stat-change change-positive">
+          <i class="fas fa-arrow-up"></i> 12.5% from last month
+        </div>
+      </div>
+      <div class="stat-card stat-2">
+        <div class="stat-icon">
+          <i class="fas fa-shopping-cart"></i>
+        </div>
+        <div class="stat-value">324</div>
+        <div class="stat-label">Total Orders</div>
+        <div class="stat-change change-positive">
+          <i class="fas fa-arrow-up"></i> 8.2% increase
+        </div>
+      </div>
+      <div class="stat-card stat-3">
+        <div class="stat-icon">
+          <i class="fas fa-users"></i>
+        </div>
+        <div class="stat-value">2,847</div>
+        <div class="stat-label">Paying Students</div>
+        <div class="stat-change change-positive">
+          <i class="fas fa-arrow-up"></i> 15.3% growth
+        </div>
+      </div>
+      <div class="stat-card stat-4">
+        <div class="stat-icon">
+          <i class="fas fa-percentage"></i>
+        </div>
+        <div class="stat-value">3.2%</div>
+        <div class="stat-label">Refund Rate</div>
+        <div class="stat-change change-negative">
+          <i class="fas fa-arrow-down"></i> 0.5% from last month
+        </div>
+      </div>
+    </div>
+    <!-- Charts Section -->
+    <div class="charts-section">
+      <!-- Left Column -->
+      <div>
+        <div class="chart-card">
+          <div class="chart-header">
+            <h2 class="chart-title">Revenue Trends</h2>
+            <div class="chart-actions">
+              <button class="btn btn-sm btn-secondary">
+                <i class="fas fa-download"></i>
+              </button>
+              <button class="btn btn-sm btn-secondary">
+                <i class="fas fa-expand"></i>
+              </button>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="revenueChart"></canvas>
+          </div>
+        </div>
+      </div>
+      <!-- Right Column -->
+      <div>
+        <div class="chart-card">
+          <div class="chart-header">
+            <h2 class="chart-title">Revenue by Category</h2>
+            <div class="chart-actions">
+              <button class="btn btn-sm btn-secondary">
+                <i class="fas fa-download"></i>
+              </button>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="categoryChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Financial Layout -->
+    <div class="financial-layout">
+      <!-- Recent Transactions -->
+      <div class="transactions-section">
+        <div class="section-header">
+          <h2 class="section-title">Recent Transactions</h2>
+          <a href="#" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
+        </div>
+        <div class="transactions-list">
+          <div class="transaction-item transaction-1">
+            <div class="transaction-icon">
+              <i class="fas fa-shopping-cart"></i>
+            </div>
+            <div class="transaction-info">
+              <div class="transaction-title">Course Purchase - Advanced React</div>
+              <div class="transaction-meta">Sarah Johnson - Today, 10:24 AM</div>
+            </div>
+            <div class="transaction-amount amount-positive">+$89.99</div>
+          </div>
+          <div class="transaction-item transaction-2">
+            <div class="transaction-icon">
+              <i class="fas fa-user-plus"></i>
+            </div>
+            <div class="transaction-info">
+              <div class="transaction-title">Monthly Subscription</div>
+              <div class="transaction-meta">Michael Brown - Today, 09:15 AM</div>
+            </div>
+            <div class="transaction-amount amount-positive">+$29.99</div>
+          </div>
+          <div class="transaction-item transaction-3">
+            <div class="transaction-icon">
+              <i class="fas fa-undo"></i>
+            </div>
+            <div class="transaction-info">
+              <div class="transaction-title">Refund - UI/UX Design Course</div>
+              <div class="transaction-meta">Robert Wilson - Yesterday, 4:30 PM</div>
+            </div>
+            <div class="transaction-amount amount-negative">-$69.99</div>
+          </div>
+          <div class="transaction-item transaction-4">
+            <div class="transaction-icon">
+              <i class="fas fa-shopping-cart"></i>
+            </div>
+            <div class="transaction-info">
+              <div class="transaction-title">Course Purchase - Python Data Science</div>
+              <div class="transaction-meta">Lisa Thompson - Yesterday, 2:45 PM</div>
+            </div>
+            <div class="transaction-amount amount-positive">+$74.99</div>
+          </div>
+          <div class="transaction-item transaction-1">
+            <div class="transaction-icon">
+              <i class="fas fa-user-plus"></i>
+            </div>
+            <div class="transaction-info">
+              <div class="transaction-title">Annual Subscription</div>
+              <div class="transaction-meta">David Park - Yesterday, 11:20 AM</div>
+            </div>
+            <div class="transaction-amount amount-positive">+$299.99</div>
+          </div>
+        </div>
+      </div>
+      <!-- Top Revenue Courses -->
+      <div class="revenue-courses">
+        <div class="section-header">
+          <h2 class="section-title">Top Revenue Courses</h2>
+          <a href="#" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
+        </div>
+        <div class="course-list">
+          <div class="course-item">
+            <div class="course-rank top-1">1</div>
+            <div class="course-info">
+              <div class="course-name">Advanced React Patterns</div>
+              <div class="course-meta">Alex Chen - 1,245 students</div>
+            </div>
+            <div class="course-revenue">$8,450</div>
+          </div>
+          <div class="course-item">
+            <div class="course-rank top-2">2</div>
+            <div class="course-info">
+              <div class="course-name">UI/UX Design Fundamentals</div>
+              <div class="course-meta">Sarah Johnson - 892 students</div>
+            </div>
+            <div class="course-revenue">$6,120</div>
+          </div>
+          <div class="course-item">
+            <div class="course-rank top-3">3</div>
+            <div class="course-info">
+              <div class="course-name">Digital Marketing Strategy</div>
+              <div class="course-meta">David Park - 745 students</div>
+            </div>
+            <div class="course-revenue">$5,680</div>
+          </div>
+          <div class="course-item">
+            <div class="course-rank">4</div>
+            <div class="course-info">
+              <div class="course-name">Python for Data Science</div>
+              <div class="course-meta">Alex Chen - 689 students</div>
+            </div>
+            <div class="course-revenue">$4,950</div>
+          </div>
+          <div class="course-item">
+            <div class="course-rank">5</div>
+            <div class="course-info">
+              <div class="course-name">Business Analytics</div>
+              <div class="course-meta">Maria Rodriguez - 567 students</div>
+            </div>
+            <div class="course-revenue">$4,210</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Payment Methods -->
+    <div class="payment-methods">
+      <div class="section-header">
+        <h2 class="section-title">Payment Methods</h2>
+        <a href="#" class="view-all">Manage Methods</a>
+      </div>
+      <div class="methods-grid">
+        <div class="method-card">
+          <div class="method-icon">
+            <i class="fab fa-cc-stripe"></i>
+          </div>
+          <div class="method-name">Stripe</div>
+          <div class="method-amount">$18,450</div>
+          <div class="method-percentage">75% of total</div>
+        </div>
+        <div class="method-card">
+          <div class="method-icon">
+            <i class="fab fa-cc-paypal"></i>
+          </div>
+          <div class="method-name">PayPal</div>
+          <div class="method-amount">$4,120</div>
+          <div class="method-percentage">17% of total</div>
+        </div>
+        <div class="method-card">
+          <div class="method-icon">
+            <i class="fas fa-university"></i>
+          </div>
+          <div class="method-name">Bank Transfer</div>
+          <div class="method-amount">$1,560</div>
+          <div class="method-percentage">6% of total</div>
+        </div>
+        <div class="method-card">
+          <div class="method-icon">
+            <i class="fas fa-mobile-alt"></i>
+          </div>
+          <div class="method-name">Mobile Money</div>
+          <div class="method-amount">$450</div>
+          <div class="method-percentage">2% of total</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Theme Toggle -->
+<button class="theme-toggle" id="themeToggle">
+  <i class="fas fa-moon"></i>
+</button>
+<!-- Toast Notification -->
+<div class="toast" id="toast">
+  <i class="fas fa-check-circle"></i>
+  <span id="toastMessage">Action completed successfully!</span>
+</div>
+<script>
+// Initialize page functionality
+document.addEventListener('DOMContentLoaded', function() {
+  initializeFinancials();
+});
+
+function initializeFinancials() {
+  // Theme Toggle
+  const themeToggle = document.getElementById('themeToggle');
+  const body = document.body;
+  
+  // Check for saved theme preference
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    body.classList.add('dark-mode');
+    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+  }
+  
+  themeToggle.addEventListener('click', () => {
+    body.classList.toggle('dark-mode');
+    if (body.classList.contains('dark-mode')) {
+      themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+      localStorage.setItem('theme', 'dark');
+      showToast('Dark mode enabled');
+    } else {
+      themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+      localStorage.setItem('theme', 'light');
+      showToast('Light mode enabled');
+    }
+    // Update charts when theme changes
+    setTimeout(() => {
+      if (window.revenueChart) window.revenueChart.update();
+      if (window.categoryChart) window.categoryChart.update();
+    }, 300);
+  });
+  
+  // Date Range Selector
+  const dateRangeButtons = document.querySelectorAll('.date-range-btn');
+  dateRangeButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      // Remove active class from all buttons
+      dateRangeButtons.forEach(btn => btn.classList.remove('active'));
+      // Add active class to clicked button
+      button.classList.add('active');
+      // In a real app, you would update the data based on the selected range
+      showToast(`Loading data for ${button.textContent}`);
+    });
+  });
+  
+  // Generate Financial Report Button
+  const generateFinancialReportBtn = document.getElementById('generateFinancialReportBtn');
+  generateFinancialReportBtn.addEventListener('click', () => {
+    showToast('Generating financial report...');
+    // Simulate report generation
+    setTimeout(() => {
+      showToast('Financial report generated successfully!');
+    }, 2000);
+  });
+  
+  // Initialize Charts
+  initializeCharts();
+}
+
+function initializeCharts() {
+  // Revenue Trends Chart
+  const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+  window.revenueChart = new Chart(revenueCtx, {
+    type: 'line',
+    data: {
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+      datasets: [
+        {
+          label: 'Course Sales',
+          data: [12500, 14200, 16800, 19200, 21500, 23800, 24580],
+          borderColor: 'rgba(26, 35, 126, 1)',
+          backgroundColor: 'rgba(26, 35, 126, 0.1)',
+          borderWidth: 2,
+          tension: 0.3,
+          fill: true
+        },
+        {
+          label: 'Subscriptions',
+          data: [4200, 4800, 5200, 6100, 6800, 7200, 7800],
+          borderColor: 'rgba(128, 0, 32, 1)',
+          backgroundColor: 'rgba(128, 0, 32, 0.1)',
+          borderWidth: 2,
+          tension: 0.3,
+          fill: true
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'top',
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: {
+            color: 'rgba(0, 0, 0, 0.1)'
+          },
+          ticks: {
+            callback: function(value) {
+              return '$' + value.toLocaleString();
+            }
+          }
+        },
+        x: {
+          grid: {
+            display: false
+          }
+        }
+      }
+    }
+  });
+  
+  // Revenue by Category Chart
+  const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+  window.categoryChart = new Chart(categoryCtx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Programming', 'Design', 'Business', 'Marketing', 'Other'],
+      datasets: [{
+        data: [45, 25, 15, 10, 5],
+        backgroundColor: [
+          'rgba(26, 35, 126, 0.8)',
+          'rgba(128, 0, 32, 0.8)',
+          'rgba(76, 201, 240, 0.8)',
+          'rgba(255, 107, 107, 0.8)',
+          'rgba(248, 150, 30, 0.8)'
+        ],
+        borderColor: [
+          'rgba(26, 35, 126, 1)',
+          'rgba(128, 0, 32, 1)',
+          'rgba(76, 201, 240, 1)',
+          'rgba(255, 107, 107, 1)',
+          'rgba(248, 150, 30, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom',
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              const label = context.label || '';
+              const value = context.raw || 0;
+              const total = context.dataset.data.reduce((a, b) => a + b, 0);
+              const percentage = Math.round((value / total) * 100);
+              return `${label}: $${(value * 100).toLocaleString()} (${percentage}%)`;
+            }
+          }
+        }
+      }
+    }
+  });
+}
+
+// Toast Notification Function
+function showToast(message, type = 'success') {
+  const toast = document.getElementById('toast');
+  const toastMessage = document.getElementById('toastMessage');
+  toastMessage.textContent = message;
+  toast.className = 'toast';
+  toast.classList.add('show');
+  if (type === 'success') {
+    toast.classList.add('toast-success');
+  } else {
+    toast.classList.add('toast-error');
+  }
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 3000);
+}
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const hamburger = document.getElementById("hamburger");
+    const sidebar = document.querySelector(".sidebar");
+    const closeSidebar = document.getElementById("closeSidebar");
+    const overlay = document.getElementById("overlay");
+
+    if (!hamburger || !sidebar) {
+        console.error("Hamburger or sidebar not found!");
+        return;
+    }
+
+    hamburger.addEventListener("click", function () {
+        sidebar.classList.add("active");
+        overlay.classList.add("active");
+    });
+
+    closeSidebar.addEventListener("click", function () {
+        sidebar.classList.remove("active");
+        overlay.classList.remove("active");
+    });
+
+    overlay.addEventListener("click", function () {
+        sidebar.classList.remove("active");
+        overlay.classList.remove("active");
+    });
+});
+</script>
+
+</body>
+</html>

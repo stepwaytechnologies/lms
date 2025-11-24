@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KidCoder - Schedule</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: rgba(26, 35, 126, 1);
+            --secondary: #800020;
+            --white: #ffffff;
+            --light-bg: #f5f7ff;
+            --light-purple: #e8eaf6;
+            --light-burgundy: #f9e8e8;
+            --text-dark: #333;
+            --text-light: #666;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --sidebar-width: 280px;
+            --header-height: 70px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(180deg, var(--primary) 0%, rgba(26, 35, 126, 0.95) 100%);
+            color: var(--white);
+            padding: 20px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .logo i {
+            font-size: 2rem;
+        }
+
+        .close-sidebar {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 20px;
+            color: var(--white);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left-color: var(--secondary);
+        }
+
+        .sidebar-menu i {
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--light-purple);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary);
+            cursor: pointer;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .welcome-section {
+            background: linear-gradient(135deg, var(--primary), #3f51b5);
+            color: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-section h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .welcome-section p {
+            font-size: 1.1rem;
+            max-width: 70%;
+        }
+
+        /* Schedule Tabs */
+        .schedule-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .schedule-tab {
+            padding: 12px 24px;
+            background: var(--white);
+            border: 2px solid var(--light-purple);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .schedule-tab.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(26, 35, 126, 0.3);
+        }
+
+        .schedule-tab:hover:not(.active) {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-1px);
+        }
+
+        /* Week Navigation */
+        .week-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            background: var(--white);
+            padding: 15px 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .week-days {
+            display: flex;
+            gap: 5px;
+        }
+
+        .week-day {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .week-day.active {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px rgba(26, 35, 126, 0.3);
+        }
+
+        .week-day.has-events::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            background: var(--secondary);
+            border-radius: 50%;
+        }
+
+        .week-day:hover:not(.active) {
+            background: var(--light-purple);
+            transform: scale(1.05);
+        }
+
+        .nav-arrow {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: var(--primary);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .nav-arrow:hover {
+            background: var(--light-purple);
+            transform: scale(1.1);
+        }
+
+        /* Timeline Schedule */
+        .timeline {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 20px;
+            min-height: 400px;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            border-left: 4px solid var(--light-purple);
+            margin-bottom: 15px;
+            transition: all 0.3s;
+            position: relative;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .timeline-item:hover {
+            transform: translateX(5px);
+            border-left-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .timeline-item.completed {
+            border-left-color: var(--success);
+            background: rgba(76, 175, 80, 0.05);
+        }
+
+        .timeline-item.current {
+            border-left-color: var(--primary);
+            background: rgba(26, 35, 126, 0.05);
+            animation: pulse 2s infinite;
+        }
+
+        .timeline-item.upcoming {
+            border-left-color: var(--warning);
+            background: rgba(255, 152, 0, 0.05);
+        }
+
+        .time-badge {
+            min-width: 80px;
+            text-align: center;
+            padding: 8px 12px;
+            background: var(--light-purple);
+            border-radius: 20px;
+            font-weight: 600;
+            color: var(--primary);
+            transition: all 0.3s;
+        }
+
+        .timeline-item.completed .time-badge {
+            background: rgba(76, 175, 80, 0.2);
+            color: var(--success);
+        }
+
+        .timeline-item.current .time-badge {
+            background: rgba(26, 35, 126, 0.2);
+            color: var(--primary);
+        }
+
+        .timeline-item.upcoming .time-badge {
+            background: rgba(255, 152, 0, 0.2);
+            color: var(--warning);
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--text-dark);
+            font-size: 1.1rem;
+        }
+
+        .timeline-desc {
+            color: var(--text-light);
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .timeline-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .timeline-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .timeline-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-start {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-start:hover {
+            background: #1a237e;
+            transform: scale(1.05);
+        }
+
+        .btn-completed {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-upcoming {
+            background: var(--light-purple);
+            color: var(--primary);
+        }
+
+        .btn-upcoming:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Upcoming Events */
+        .upcoming-events {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .event-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: var(--light-bg);
+            border-radius: var(--border-radius);
+            margin-bottom: 10px;
+            transition: all 0.3s;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .event-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .event-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .event-info {
+            flex: 1;
+        }
+
+        .event-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .event-time {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-light);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--light-purple);
+        }
+
+        /* Book Animation */
+        .book {
+            position: absolute;
+            right: 20px;
+            bottom: 0;
+            width: 100px;
+            height: 120px;
+            animation: book-float 3s ease-in-out infinite;
+        }
+
+        .book-cover {
+            width: 80px;
+            height: 100px;
+            background: linear-gradient(45deg, #8B4513, #A0522D);
+            border-radius: 5px 10px 10px 5px;
+            position: absolute;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .book-pages {
+            width: 75px;
+            height: 95px;
+            background: white;
+            position: absolute;
+            top: 2.5px;
+            left: 2.5px;
+            border-radius: 2px 8px 8px 2px;
+            overflow: hidden;
+        }
+
+        .book-page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                white,
+                white 2px,
+                #f0f0f0 2px,
+                #f0f0f0 4px
+            );
+            animation: page-turn 4s ease-in-out infinite;
+        }
+
+        .book-spine {
+            width: 10px;
+            height: 100px;
+            background: #654321;
+            position: absolute;
+            left: 0;
+            border-radius: 5px 0 0 5px;
+        }
+
+        /* Animations */
+        @keyframes book-float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+
+        @keyframes page-turn {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(2px); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(3px); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .close-sidebar {
+                display: block;
+            }
+            
+            .welcome-section p {
+                max-width: 100%;
+            }
+            
+            .book {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .schedule-tabs {
+                justify-content: center;
+            }
+            
+            .week-navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .timeline-item {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .time-badge {
+                align-self: flex-start;
+            }
+            
+            .timeline-actions {
+                justify-content: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .week-days {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .schedule-tabs {
+                flex-direction: column;
+            }
+            
+            .timeline-meta {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="images/stepway logoww.png" width="200px" alt="">
+                </div>
+                <button class="close-sidebar">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li><a href="kids-dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="kids-course.html"><i class="fas fa-book"></i> Courses</a></li>
+                <li><a href="kids-project.html"><i class="fas fa-project-diagram"></i> Projects</a></li>
+                <li><a href="kids-achievement.html"><i class="fas fa-trophy"></i> Achievements</a></li>
+                <li><a href="kids-progress.html"><i class="fas fa-chart-line"></i> Progress</a></li>
+                <li><a href="kids-shedule.html" class="active"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
+                <li><a href="kids-settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="kids-help.html"><i class="fas fa-question-circle"></i> Help</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <button class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="user-info">
+                    <span>Hello, Alex!</span>
+                    <div class="avatar">AJ</div>
+                </div>
+            </div>
+
+            <!-- Welcome Section -->
+            <div class="welcome-section">
+                <h1>Your Learning Schedule</h1>
+                <p>Plan your coding adventures and never miss a lesson!</p>
+                <div class="book">
+                    <div class="book-cover">
+                        <div class="book-spine"></div>
+                        <div class="book-pages">
+                            <div class="book-page"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Schedule Tabs -->
+            <div class="schedule-tabs">
+                <div class="schedule-tab active" data-period="today">Today</div>
+                <div class="schedule-tab" data-period="week">This Week</div>
+                <div class="schedule-tab" data-period="month">This Month</div>
+                <div class="schedule-tab" data-period="upcoming">Upcoming</div>
+            </div>
+
+            <!-- Week Navigation -->
+            <div class="week-navigation">
+                <button class="nav-arrow" id="prev-week">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="week-days">
+                    <div class="week-day" data-day="mon">Mon</div>
+                    <div class="week-day" data-day="tue">Tue</div>
+                    <div class="week-day active" data-day="wed">Wed</div>
+                    <div class="week-day" data-day="thu">Thu</div>
+                    <div class="week-day" data-day="fri">Fri</div>
+                    <div class="week-day" data-day="sat">Sat</div>
+                    <div class="week-day" data-day="sun">Sun</div>
+                </div>
+                <button class="nav-arrow" id="next-week">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <!-- Timeline Schedule -->
+            <div class="timeline">
+                <div class="section-header">
+                    <h2 id="timeline-title">Today's Activities</h2>
+                    <span id="timeline-date">Wednesday, November 10</span>
+                </div>
+
+                <div class="timeline-list" id="timeline-content">
+                    <!-- Content will be dynamically populated -->
+                </div>
+            </div>
+
+            <!-- Upcoming Events -->
+            <div class="upcoming-events">
+                <div class="section-header">
+                    <h2>Upcoming This Week</h2>
+                </div>
+
+                <div class="events-list" id="upcoming-events">
+                    <!-- Content will be dynamically populated -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Sample data for schedule
+        const scheduleData = {
+            today: [
+                {
+                    time: "09:00 AM",
+                    title: "Morning Coding Warm-up",
+                    desc: "Fun puzzles to get your brain ready for coding",
+                    duration: "30 mins",
+                    xp: "+25 XP",
+                    type: "completed",
+                    day: "wed"
+                },
+                {
+                    time: "10:30 AM",
+                    title: "Game Design Lesson",
+                    desc: "Learn about character movement and game physics",
+                    duration: "45 mins",
+                    xp: "+50 XP",
+                    type: "current",
+                    day: "wed",
+                    live: true
+                },
+                {
+                    time: "02:00 PM",
+                    title: "Weekly Coding Challenge",
+                    desc: "Solve this week's special coding puzzle",
+                    duration: "1 hour",
+                    xp: "+100 XP",
+                    type: "upcoming",
+                    day: "wed",
+                    badge: true
+                },
+                {
+                    time: "04:30 PM",
+                    title: "Project Work Session",
+                    desc: "Continue building your Space Adventure Game",
+                    duration: "1.5 hours",
+                    xp: "+75 XP",
+                    type: "upcoming",
+                    day: "wed"
+                }
+            ],
+            week: [
+                {
+                    time: "09:00 AM",
+                    title: "Variables & Data Types",
+                    desc: "Learn about storing information in code",
+                    duration: "45 mins",
+                    xp: "+40 XP",
+                    type: "completed",
+                    day: "mon"
+                },
+                {
+                    time: "11:00 AM",
+                    title: "Loops Practice",
+                    desc: "Master repeating actions in your code",
+                    duration: "1 hour",
+                    xp: "+60 XP",
+                    type: "completed",
+                    day: "tue"
+                },
+                {
+                    time: "10:30 AM",
+                    title: "Game Design Lesson",
+                    desc: "Learn about character movement and game physics",
+                    duration: "45 mins",
+                    xp: "+50 XP",
+                    type: "current",
+                    day: "wed",
+                    live: true
+                },
+                {
+                    time: "03:00 PM",
+                    title: "AI Workshop",
+                    desc: "Introduction to artificial intelligence",
+                    duration: "1.5 hours",
+                    xp: "+80 XP",
+                    type: "upcoming",
+                    day: "thu"
+                },
+                {
+                    time: "02:00 PM",
+                    title: "Game Design Contest",
+                    desc: "Show off your creative game ideas",
+                    duration: "2 hours",
+                    xp: "+120 XP",
+                    type: "upcoming",
+                    day: "fri"
+                }
+            ],
+            month: [
+                {
+                    time: "10:00 AM",
+                    title: "Web Development Basics",
+                    desc: "Create your first webpage",
+                    duration: "1 hour",
+                    xp: "+50 XP",
+                    type: "completed",
+                    day: "mon"
+                },
+                {
+                    time: "11:30 AM",
+                    title: "Animation Principles",
+                    desc: "Make your characters come to life",
+                    duration: "45 mins",
+                    xp: "+45 XP",
+                    type: "completed",
+                    day: "tue"
+                },
+                {
+                    time: "02:00 PM",
+                    title: "Robotics Workshop",
+                    desc: "Build and program simple robots",
+                    duration: "2 hours",
+                    xp: "+100 XP",
+                    type: "upcoming",
+                    day: "thu"
+                },
+                {
+                    time: "10:00 AM",
+                    title: "Mobile App Development",
+                    desc: "Create apps for phones and tablets",
+                    duration: "1.5 hours",
+                    xp: "+75 XP",
+                    type: "upcoming",
+                    day: "fri"
+                }
+            ],
+            upcoming: [
+                {
+                    time: "03:00 PM",
+                    title: "AI Workshop",
+                    desc: "Introduction to artificial intelligence",
+                    duration: "1.5 hours",
+                    xp: "+80 XP",
+                    type: "upcoming",
+                    day: "thu"
+                },
+                {
+                    time: "02:00 PM",
+                    title: "Game Design Contest",
+                    desc: "Show off your creative game ideas",
+                    duration: "2 hours",
+                    xp: "+120 XP",
+                    type: "upcoming",
+                    day: "fri"
+                },
+                {
+                    time: "11:00 AM",
+                    title: "Achievement Ceremony",
+                    desc: "Celebrate your coding milestones",
+                    duration: "1 hour",
+                    xp: "+30 XP",
+                    type: "upcoming",
+                    day: "sat"
+                },
+                {
+                    time: "10:00 AM",
+                    title: "Mobile App Development",
+                    desc: "Create apps for phones and tablets",
+                    duration: "1.5 hours",
+                    xp: "+75 XP",
+                    type: "upcoming",
+                    day: "mon"
+                }
+            ]
+        };
+
+        const upcomingEvents = [
+            {
+                title: "AI Workshop",
+                time: "Thursday, 3:00 PM",
+                icon: "fas fa-robot",
+                color: "var(--primary)"
+            },
+            {
+                title: "Game Design Contest",
+                time: "Friday, 2:00 PM",
+                icon: "fas fa-gamepad",
+                color: "var(--secondary)"
+            },
+            {
+                title: "Achievement Ceremony",
+                time: "Saturday, 11:00 AM",
+                icon: "fas fa-trophy",
+                color: "var(--success)"
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const closeSidebar = document.querySelector('.close-sidebar');
+            const sidebar = document.querySelector('.sidebar');
+            
+            menuToggle.addEventListener('click', function() {
+                sidebar.classList.add('open');
+            });
+            
+            closeSidebar.addEventListener('click', function() {
+                sidebar.classList.remove('open');
+            });
+            
+            document.addEventListener('click', function(event) {
+                const isClickInsideSidebar = sidebar.contains(event.target);
+                const isClickOnMenuToggle = menuToggle.contains(event.target);
+                
+                if (!isClickInsideSidebar && !isClickOnMenuToggle && window.innerWidth <= 1024) {
+                    sidebar.classList.remove('open');
+                }
+            });
+
+            // Initialize
+            let currentPeriod = 'today';
+            let currentDay = 'wed';
+            renderTimeline(currentPeriod, currentDay);
+            renderUpcomingEvents();
+
+            // Schedule tabs functionality
+            const scheduleTabs = document.querySelectorAll('.schedule-tab');
+            scheduleTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    scheduleTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    currentPeriod = this.dataset.period;
+                    renderTimeline(currentPeriod, currentDay);
+                });
+            });
+
+            // Week day selection
+            const weekDays = document.querySelectorAll('.week-day');
+            weekDays.forEach(day => {
+                day.addEventListener('click', function() {
+                    weekDays.forEach(d => d.classList.remove('active'));
+                    this.classList.add('active');
+                    currentDay = this.dataset.day;
+                    renderTimeline(currentPeriod, currentDay);
+                });
+            });
+
+            // Navigation arrows
+            const prevWeekBtn = document.getElementById('prev-week');
+            const nextWeekBtn = document.getElementById('next-week');
+
+            prevWeekBtn.addEventListener('click', function() {
+                // In a real app, this would change the week view
+                console.log('Previous week clicked');
+                // For demo, just show a message
+                alert('Loading previous week...');
+            });
+
+            nextWeekBtn.addEventListener('click', function() {
+                // In a real app, this would change the week view
+                console.log('Next week clicked');
+                // For demo, just show a message
+                alert('Loading next week...');
+            });
+
+            function renderTimeline(period, day) {
+                const timelineContent = document.getElementById('timeline-content');
+                const timelineTitle = document.getElementById('timeline-title');
+                const timelineDate = document.getElementById('timeline-date');
+                
+                // Update titles
+                const titles = {
+                    today: "Today's Activities",
+                    week: "This Week's Schedule",
+                    month: "This Month's Plan",
+                    upcoming: "Upcoming Events"
+                };
+                
+                const dates = {
+                    today: "Wednesday, November 10",
+                    week: "Week of November 8-14",
+                    month: "November 2023",
+                    upcoming: "Future Events"
+                };
+                
+                timelineTitle.textContent = titles[period];
+                timelineDate.textContent = dates[period];
+                
+                // Get filtered data
+                let filteredData = scheduleData[period];
+                
+                // Filter by day if not in upcoming view
+                if (period !== 'upcoming' && period !== 'month') {
+                    filteredData = filteredData.filter(item => item.day === day);
+                }
+                
+                // Clear existing content
+                timelineContent.innerHTML = '';
+                
+                if (filteredData.length === 0) {
+                    timelineContent.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-calendar-plus"></i>
+                            <h3>No activities scheduled</h3>
+                            <p>Take a break or explore new courses!</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Render timeline items
+                filteredData.forEach(item => {
+                    const timelineItem = document.createElement('div');
+                    timelineItem.className = `timeline-item ${item.type}`;
+                    
+                    let metaHtml = `
+                        <span><i class="fas fa-clock"></i> ${item.duration}</span>
+                        <span><i class="fas fa-star"></i> ${item.xp}</span>
+                    `;
+                    
+                    if (item.live) {
+                        metaHtml += `<span><i class="fas fa-video"></i> Live Session</span>`;
+                    }
+                    
+                    if (item.badge) {
+                        metaHtml += `<span><i class="fas fa-trophy"></i> Bonus Badge</span>`;
+                    }
+                    
+                    let buttonHtml = '';
+                    switch(item.type) {
+                        case 'completed':
+                            buttonHtml = '<button class="action-btn btn-completed">Completed</button>';
+                            break;
+                        case 'current':
+                            buttonHtml = '<button class="action-btn btn-start">Join Now</button>';
+                            break;
+                        case 'upcoming':
+                            buttonHtml = `<button class="action-btn btn-upcoming">Start at ${item.time}</button>`;
+                            break;
+                    }
+                    
+                    timelineItem.innerHTML = `
+                        <div class="time-badge">${item.time}</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">${item.title}</div>
+                            <div class="timeline-desc">${item.desc}</div>
+                            <div class="timeline-meta">${metaHtml}</div>
+                        </div>
+                        <div class="timeline-actions">
+                            ${buttonHtml}
+                        </div>
+                    `;
+                    
+                    timelineContent.appendChild(timelineItem);
+                });
+            }
+
+            function renderUpcomingEvents() {
+                const upcomingEventsContainer = document.getElementById('upcoming-events');
+                upcomingEventsContainer.innerHTML = '';
+                
+                upcomingEvents.forEach(event => {
+                    const eventCard = document.createElement('div');
+                    eventCard.className = 'event-card';
+                    eventCard.innerHTML = `
+                        <div class="event-icon" style="background: ${event.color};">
+                            <i class="${event.icon}"></i>
+                        </div>
+                        <div class="event-info">
+                            <div class="event-title">${event.title}</div>
+                            <div class="event-time">${event.time}</div>
+                        </div>
+                    `;
+                    upcomingEventsContainer.appendChild(eventCard);
+                });
+            }
+
+            // Add event listeners to action buttons (delegated)
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('btn-start')) {
+                    alert('Joining the session now! 🚀');
+                    e.target.textContent = 'Joined!';
+                    e.target.classList.remove('btn-start');
+                    e.target.classList.add('btn-completed');
+                } else if (e.target.classList.contains('btn-upcoming')) {
+                    alert('We\'ll remind you when it\'s time! ⏰');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

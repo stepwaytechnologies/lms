@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instructor Dashboard - Stepway Technologies</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f5f7fa;
+            color: #2d3748;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 240px;
+            background-color: #fff;
+            border-right: 1px solid #e2e8f0;
+            padding: 20px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo-stepway {
+            color: #000;
+        }
+
+        .logo-tech {
+            color: #4299e1;
+            font-style: italic;
+        }
+
+        .nav-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #4a5568;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background-color: #f7fafc;
+            color: #2d3748;
+        }
+
+        .nav-item.active {
+            background-color: #e6f2ff;
+            color: #3182ce;
+            border-left-color: #3182ce;
+        }
+
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 240px;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* Header */
+        .header {
+            background-color: #fff;
+            padding: 16px 32px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background-color: #f7fafc;
+            padding: 8px 16px;
+            border-radius: 8px;
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .search-box input {
+            border: none;
+            background: none;
+            outline: none;
+            margin-left: 8px;
+            width: 100%;
+            color: #2d3748;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .notification-icon {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #e53e3e;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(26, 35, 126, 1);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 16px;
+        }
+
+        /* Content Area */
+        .content {
+            padding: 32px;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .btn-create {
+            background-color: #3730a3;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-create:hover {
+            background-color: rgba(26, 35, 126, 1);
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .action-card {
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .action-card:hover {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .action-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .action-icon.blue {
+            background-color: #e6f2ff;
+            color: #3730a3;
+        }
+
+        .action-icon.pink {
+            background-color: #ffe6f0;
+            color: #be185d;
+        }
+
+        .action-icon.teal {
+            background-color: #e6f7f5;
+            color: #0d9488;
+        }
+
+        .action-icon.orange {
+            background-color: #fff4e6;
+            color: #ea580c;
+        }
+
+        .action-title {
+            font-weight: 600;
+            font-size: 14px;
+            color: #2d3748;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+
+        .stat-icon.blue {
+            background-color: #e6f2ff;
+            color: #3730a3;
+        }
+
+        .stat-icon.purple {
+            background-color: #f3e8ff;
+            color: #7c3aed;
+        }
+
+        .stat-icon.yellow {
+            background-color: #fef3c7;
+            color: #f59e0b;
+        }
+
+        .stat-icon.green {
+            background-color: #d1fae5;
+            color: #10b981;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #718096;
+            margin-bottom: 8px;
+        }
+
+        .stat-change {
+            font-size: 12px;
+            color: #10b981;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Section Header */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a202c;
+        }
+
+        .view-all {
+            color: #3730a3;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 500;
+        }
+
+        .view-all:hover {
+            text-decoration: underline;
+        }
+
+        /* Courses Grid */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .course-card {
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .course-header {
+            margin-bottom: 16px;
+        }
+
+        .course-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 8px;
+        }
+
+        .course-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 13px;
+            color: #718096;
+        }
+
+        .course-meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .course-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .course-stat {
+            text-align: center;
+        }
+
+        .course-stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a202c;
+        }
+
+        .course-stat-label {
+            font-size: 12px;
+            color: #718096;
+        }
+
+        .course-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background-color: #3730a3;
+            color: white;
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            background-color: #312e81;
+        }
+
+        .btn-secondary {
+            background-color: white;
+            color: #4a5568;
+            border: 1px solid #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+            background-color: #f7fafc;
+        }
+
+        /* Main Grid Layout */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 24px;
+        }
+
+        /* Performance Chart */
+        .chart-card {
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 24px;
+        }
+
+        .chart-container {
+            margin-top: 20px;
+        }
+
+        .chart-legend {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 16px;
+            font-size: 12px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 3px;
+            border-radius: 2px;
+        }
+
+        .legend-color.pink {
+            background-color: #ec4899;
+        }
+
+        .legend-color.blue {
+            background-color: #3730a3;
+        }
+
+        /* Chart placeholder */
+        .chart {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(to bottom, #f7fafc 0%, #fff 100%);
+            border-radius: 8px;
+            position: relative;
+        }
+
+        /* Sidebar Content */
+        .sidebar-section {
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 24px;
+        }
+
+        /* Recent Students */
+        .student-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .student-item:last-child {
+            border-bottom: none;
+        }
+
+        .student-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .student-info {
+            flex: 1;
+        }
+
+        .student-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: #2d3748;
+        }
+
+        .student-course {
+            font-size: 12px;
+            color: #718096;
+        }
+
+        .student-progress {
+            width: 40px;
+            height: 4px;
+            background-color: #e2e8f0;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .student-progress-fill {
+            height: 100%;
+            background-color: #3730a3;
+        }
+
+        /* Pending Tasks */
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .task-item:last-child {
+            border-bottom: none;
+        }
+
+        .task-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .task-icon.red {
+            background-color: #fee2e2;
+            color: #dc2626;
+        }
+
+        .task-icon.orange {
+            background-color: #fed7aa;
+            color: #ea580c;
+        }
+
+        .task-info {
+            flex: 1;
+        }
+
+        .task-title {
+            font-weight: 600;
+            font-size: 14px;
+            color: #2d3748;
+        }
+
+        .task-subtitle {
+            font-size: 12px;
+            color: #718096;
+        }
+
+        /* Revenue Chart */
+        .revenue-bars {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            height: 150px;
+            margin-top: 20px;
+            gap: 8px;
+        }
+
+        .bar-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .bar {
+            width: 100%;
+            background-color: #3730a3;
+            border-radius: 4px 4px 0 0;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .bar:hover {
+            background-color: #312e81;
+        }
+
+        .bar-label {
+            font-size: 11px;
+            color: #718096;
+        }
+
+        /* Sidebar Overlay */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        .close-sidebar {
+            display: none;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #4a5568;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 1024px) {
+            .main-content {
+                margin-left: 0;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .close-sidebar {
+                display: block;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .search-box {
+                max-width: 200px;
+            }
+
+            .user-profile span {
+                display: none;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 12px 16px;
+            }
+
+            .search-box {
+                display: none;
+            }
+
+            .content {
+                padding: 16px;
+            }
+
+            .page-header {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .btn-create {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .course-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 20px;
+            }
+
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+
+        /* Audience Label Styles */
+.audience-label {
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: white;
+    margin-left: 8px;
+    white-space: nowrap;
+}
+
+.audience-label.adult {
+    background-color: rgba(26, 35, 126, 1);
+}
+
+.audience-label.kids {
+    background-color: #7c0a0a;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 968px) {
+    .audience-label {
+        font-size: 11px;
+        padding: 3px 10px;
+        margin-left: 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .audience-label {
+        font-size: 10px;
+        padding: 2px 8px;
+        margin-left: 4px;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    
+    <div class="container">
+        <!-- Sidebar -->
+
+        <style>
+            .sidebar .active{
+                color: rgba(26, 35, 126, 1);
+            }
+        </style>
+
+        <aside class="sidebar" id="sidebar">
+            <i class="fas fa-times close-sidebar" id="closeSidebar"></i>
+            <div class="sidebar-header">
+                <div class="logo">
+                   <img src="images/Step-Way Logo.png" width="150px" alt="Stepway Technologies">
+   <div class="audience-label" id="audienceLabel"></div>
+                </div>
+            </div>
+            <nav>
+                <a href="instructor-dashboard.html" class="nav-item active">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
+  <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
+</svg>
+
+                    <span>Dashboard</span>
+                </a>
+                <a href="instructor-courses.html" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-book" viewBox="0 0 16 16">
+  <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/>
+</svg>
+                    <span>My Courses</span>
+                </a>
+                <a href="instructor-analytic.html" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-graph-up" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07"/>
+</svg>
+                    <span>Analytics</span>
+                </a>
+                <a href="instructor-stu-management.html" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-people" viewBox="0 0 16 16">
+  <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1L7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002-.014.002zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4q0 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/>
+</svg>
+                    <span>Students</span>
+                </a>
+                <a href="instructor-message-management.html" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chat-left-text" viewBox="0 0 16 16">
+  <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+  <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6m0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5"/>
+</svg>
+                    <span>Messages</span>
+                </a>
+                <a href="instructr-revenue.html" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8m5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/>
+  <path d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195z"/>
+  <path d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083q.088-.517.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1z"/>
+  <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 6 6 0 0 1 3.13-1.567"/>
+</svg>
+                    <span>Earnings</span>
+                </a>
+                <a href="instructor-setting.html" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
+  <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0"/>
+  <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z"/>
+</svg>
+                    <span>Settings</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div style="display: flex; align-items: center; flex: 1;">
+                    <i class="fas fa-bars hamburger" id="hamburger"></i>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search students, courses...">
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="notification-icon">
+                        <i class="fas fa-bell" style="font-size: 20px; color: #4a5568;"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <div class="notification-icon">
+                        <i class="fas fa-comment" style="font-size: 20px; color: #4a5568;"></i>
+                        <span class="notification-badge">5</span>
+                    </div>
+                    <div class="user-profile">
+                        <div class="user-avatar">MJ</div>
+                        <span>Michael Johnson</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <div class="content">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title" style="color: rgba(26, 35, 126, 1);">Instructor Dashboard</h1>
+                        <p class="page-subtitle">Manage your courses, track student progress, and grow your impact</p>
+                    </div>
+                    <button class="btn-create">
+                        <i class="fas fa-plus"></i>
+                        Create New Course
+                    </button>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <div class="action-card">
+                        <div class="action-icon blue">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-camera-reels" viewBox="0 0 16 16">
+  <path d="M6 3a3 3 0 1 1-6 0 3 3 0 0 1 6 0M1 3a2 2 0 1 0 4 0 2 2 0 0 0-4 0"/>
+  <path d="M9 6h.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 7.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 16H2a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2zm6 8.73V7.27l-3.5 1.555v4.35zM1 8v6a1 1 0 0 0 1 1h7.5a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1"/>
+  <path d="M9 6a3 3 0 1 0 0-6 3 3 0 0 0 0 6M7 3a2 2 0 1 1 4 0 2 2 0 0 1-4 0"/>
+</svg>
+                        </div>
+                        <div class="action-title">Add New Content</div>
+                    </div>
+                    <div class="action-card">
+                        <div class="action-icon pink">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-sort-up" viewBox="0 0 16 16">
+  <path d="M3.5 12.5a.5.5 0 0 1-1 0V3.707L1.354 4.854a.5.5 0 1 1-.708-.708l2-1.999.007-.007a.5.5 0 0 1 .7.006l2 2a.5.5 0 1 1-.707.708L3.5 3.707zm3.5-9a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5M7.5 6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1z"/>
+</svg>
+                        </div>
+                        <div class="action-title">Grade Assignments</div>
+                    </div>
+                    <div class="action-card">
+                        <div class="action-icon teal">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-graph-up-arrow" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5"/>
+</svg>
+                        </div>
+                        <div class="action-title">View Analytics</div>
+                    </div>
+                    <div class="action-card">
+                        <div class="action-icon orange">
+                            <i class="fa-regular fa-comments"></i>
+                        </div>
+                        <div class="action-title">Student Messages</div>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-people" viewBox="0 0 16 16">
+  <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1L7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002-.014.002zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4q0 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/>
+</svg>
+                        </div>
+                        <div class="stat-value">2,847</div>
+                        <div class="stat-label">Total Students</div>
+                        <div class="stat-change">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>12% this month</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon purple">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-journal-bookmark" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M6 8V1h1v6.117L8.743 6.07a.5.5 0 0 1 .514 0L11 7.117V1h1v7a.5.5 0 0 1-.757.429L9 7.083 6.757 8.43A.5.5 0 0 1 6 8"/>
+  <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
+  <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+</svg>
+                        </div>
+                        <div class="stat-value">8</div>
+                        <div class="stat-label">Published Courses</div>
+                        <div class="stat-change">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>2 new courses</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon yellow">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
+  <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.56.56 0 0 0-.163-.505L1.71 6.745l4.052-.576a.53.53 0 0 0 .393-.288L8 2.223l1.847 3.658a.53.53 0 0 0 .393.288l4.052.575-2.906 2.77a.56.56 0 0 0-.163.506l.694 3.957-3.686-1.894a.5.5 0 0 0-.461 0z"/>
+</svg>
+                        </div>
+                        <div class="stat-value">4.8</div>
+                        <div class="stat-label">Average Rating</div>
+                        <div class="stat-change">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>0.3 this month</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-currency-dollar" viewBox="0 0 16 16">
+  <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73z"/>
+</svg>
+                        </div>
+                        <div class="stat-value">$8,420</div>
+                        <div class="stat-label">Monthly Revenue</div>
+                        <div class="stat-change">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>18% growth</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Grid -->
+                <div class="main-grid">
+                    <!-- Left Column -->
+                    <div>
+                        <!-- Your Courses -->
+                        <div class="section-header">
+                            <h2 class="section-title">Your Courses</h2>
+                            <div class="view-all">
+                                View All <i class="fas fa-chevron-right"></i>
+                            </div>
+                        </div>
+
+                        <div class="courses-grid">
+                            <div class="course-card">
+                                <div class="course-header">
+                                    <div class="course-title">Advanced Web Development</div>
+                                    <div class="course-meta">
+                                        <span><i class="fas fa-users"></i> 1,248 students</span>
+                                        <span><i class="fas fa-star"></i> 4.9 rating</span>
+                                    </div>
+                                </div>
+                                <div class="course-stats">
+                                    <div class="course-stat">
+                                        <div class="course-stat-value">84%</div>
+                                        <div class="course-stat-label">Completion Rate</div>
+                                    </div>
+                                    <div class="course-stat">
+                                        <div class="course-stat-value">$3,240</div>
+                                        <div class="course-stat-label">Monthly Revenue</div>
+                                    </div>
+                                </div>
+                                <div class="course-actions">
+                                    <button class="btn btn-primary">
+                                        <i class="fas fa-chart-line"></i>
+                                        Analytics
+                                    </button>
+                                    <button class="btn btn-secondary">Edit</button>
+                                </div>
+                            </div>
+
+                            <div class="course-card">
+                                <div class="course-header">
+                                    <div class="course-title">React & Redux Mastery</div>
+                                    <div class="course-meta">
+                                        <span><i class="fas fa-users"></i> 892 students</span>
+                                        <span><i class="fas fa-star"></i> 4.8 rating</span>
+                                    </div>
+                                </div>
+                                <div class="course-stats">
+                                    <div class="course-stat">
+                                        <div class="course-stat-value">78%</div>
+                                        <div class="course-stat-label">Completion Rate</div>
+                                    </div>
+                                    <div class="course-stat">
+                                        <div class="course-stat-value">$2,150</div>
+                                        <div class="course-stat-label">Monthly Revenue</div>
+                                    </div>
+                                </div>
+                                <div class="course-actions">
+                                    <button class="btn btn-primary">
+                                        <i class="fas fa-chart-line"></i>
+                                        Analytics
+                                    </button>
+                                    <button class="btn btn-secondary">Edit</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Performance Overview -->
+                        <div class="chart-card" style="margin-top: 32px;">
+                            <div class="section-header" style="margin-bottom: 0;">
+                                <h2 class="section-title">Performance Overview</h2>
+                            </div>
+                            <div class="chart-container">
+                                <div class="chart-legend">
+                                    <div class="legend-item">
+                                        <div class="legend-color pink"></div>
+                                        <span>Student Engagement</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color blue"></div>
+                                        <span>Course Completion</span>
+                                    </div>
+                                </div>
+                                <div class="chart">
+                                    <svg width="100%" height="250" style="position: absolute; top: 0; left: 0;">
+                                        <!-- Grid lines -->
+                                        <line x1="50" y1="40" x2="95%" y2="40" stroke="#e2e8f0" stroke-width="1"/>
+                                        <line x1="50" y1="90" x2="95%" y2="90" stroke="#e2e8f0" stroke-width="1"/>
+                                        <line x1="50" y1="140" x2="95%" y2="140" stroke="#e2e8f0" stroke-width="1"/>
+                                        <line x1="50" y1="190" x2="95%" y2="190" stroke="#e2e8f0" stroke-width="1"/>
+                                        
+                                        <!-- Y-axis labels -->
+                                        <text x="20" y="45" font-size="11" fill="#718096">100</text>
+                                        <text x="30" y="95" font-size="11" fill="#718096">80</text>
+                                        <text x="30" y="145" font-size="11" fill="#718096">60</text>
+                                        <text x="30" y="195" font-size="11" fill="#718096">40</text>
+                                        <text x="30" y="240" font-size="11" fill="#718096">20</text>
+                                        <text x="40" y="245" font-size="11" fill="#718096">0</text>
+                                        
+                                        <!-- Burgundy line (Student Engagement) -->
+                                        <polyline points="80,130 150,110 220,100 290,90 360,80 430,75" 
+                                                  fill="none" stroke="rgba(128, 0, 32, 1)" stroke-width="2"/>
+                                        <circle cx="80" cy="130" r="4" fill="rgba(128, 0, 32, 1)"/>
+                                        <circle cx="150" cy="110" r="4" fill="rgba(128, 0, 32, 1)"/>
+                                        <circle cx="220" cy="100" r="4" fill="rgba(128, 0, 32, 1)"/>
+                                        <circle cx="290" cy="90" r="4" fill="rgba(128, 0, 32, 1)"/>
+                                        <circle cx="360" cy="80" r="4" fill="rgba(128, 0, 32, 1)"/>
+                                        <circle cx="430" cy="75" r="4" fill="rgba(128, 0, 32, 1)"/>
+                                        
+                                        <!-- Purple line (Course Completion) -->
+                                        <polyline points="80,180 150,165 220,155 290,145 360,135 430,125" 
+                                                  fill="none" stroke=" rgba(26, 35, 126, 1)" stroke-width="2"/>
+                                        <circle cx="80" cy="180" r="4" fill="rgba(26, 35, 126, 1)"/>
+                                        <circle cx="150" cy="165" r="4" fill="rgba(26, 35, 126, 1)"/>
+                                        <circle cx="220" cy="155" r="4" fill="rgba(26, 35, 126, 1)"/>
+                                        <circle cx="290" cy="145" r="4" fill="rgba(26, 35, 126, 1)"/>
+                                        <circle cx="360" cy="135" r="4" fill="rgba(26, 35, 126, 1)"/>
+                                        <circle cx="430" cy="125" r="4" fill="rgba(26, 35, 126, 1)"/>
+                                        
+                                        <!-- Purple shaded area -->
+                                        <polygon points="50,240 80,180 150,165 220,155 290,145 360,135 430,125 500,240" 
+                                                 fill="#e9d5ff" opacity="0.3"/>
+                                        
+                                        <!-- X-axis labels -->
+                                        <text x="65" y="235" font-size="11" fill="#718096">Week 1</text>
+                                        <text x="135" y="235" font-size="11" fill="#718096">Week 2</text>
+                                        <text x="205" y="235" font-size="11" fill="#718096">Week 3</text>
+                                        <text x="275" y="235" font-size="11" fill="#718096">Week 4</text>
+                                        <text x="345" y="235" font-size="11" fill="#718096">Week 5</text>
+                                        <text x="415" y="235" font-size="11" fill="#718096">Week 6</text>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column -->
+                    <div>
+                        <!-- Recent Students -->
+                        <div class="sidebar-section">
+                            <div class="section-header" style="margin-bottom: 16px;">
+                                <h2 class="section-title">Recent Students</h2>
+                                <div class="view-all">View All</div>
+                            </div>
+
+                            <div class="student-item">
+                                <div class="student-avatar" style="background-color: #3730a3;">SD</div>
+                                <div class="student-info">
+                                    <div class="student-name">Sarah Davis</div>
+                                    <div class="student-course">Advanced Web Development</div>
+                                </div>
+                                <div class="student-progress">
+                                    <div class="student-progress-fill" style="width: 85%;"></div>
+                                </div>
+                            </div>
+
+                            <div class="student-item">
+                                <div class="student-avatar" style="background-color: #3182ce;">AJ</div>
+                                <div class="student-info">
+                                    <div class="student-name">Alex Johnson</div>
+                                    <div class="student-course">React & Redux Mastery</div>
+                                </div>
+                                <div class="student-progress">
+                                    <div class="student-progress-fill" style="width: 65%;"></div>
+                                </div>
+                            </div>
+
+                            <div class="student-item">
+                                <div class="student-avatar" style="background-color: #805ad5;">MR</div>
+                                <div class="student-info">
+                                    <div class="student-name">Maria Rodriguez</div>
+                                    <div class="student-course">Advanced Web Development</div>
+                                </div>
+                                <div class="student-progress">
+                                    <div class="student-progress-fill" style="width: 92%;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pending Tasks -->
+                        <div class="sidebar-section">
+                            <div class="section-header" style="margin-bottom: 16px;">
+                                <h2 class="section-title">Pending Tasks</h2>
+                                <div class="view-all">View All</div>
+                            </div>
+
+                            <div class="task-item">
+                                <div class="task-icon red">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-clipboard-check" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+  <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/>
+  <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/>
+</svg>
+                                </div>
+                                <div class="task-info">
+                                    <div class="task-title">Grade Assignments</div>
+                                    <div class="task-subtitle">12 submissions waiting</div>
+                                </div>
+                            </div>
+
+                            <div class="task-item">
+                                <div class="task-icon orange">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-question-diamond" viewBox="0 0 16 16">
+  <path d="M6.95.435c.58-.58 1.52-.58 2.1 0l6.515 6.516c.58.58.58 1.519 0 2.098L9.05 15.565c-.58.58-1.519.58-2.098 0L.435 9.05a1.48 1.48 0 0 1 0-2.098zm1.4.7a.495.495 0 0 0-.7 0L1.134 7.65a.495.495 0 0 0 0 .7l6.516 6.516a.495.495 0 0 0 .7 0l6.516-6.516a.495.495 0 0 0 0-.7L8.35 1.134z"/>
+  <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286m1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94"/>
+</svg>
+                                </div>
+                                <div class="task-info">
+                                    <div class="task-title">Answer Questions</div>
+                                    <div class="task-subtitle">8 unanswered questions</div>
+                                </div>
+                            </div>
+
+                            <div class="task-item">
+                                <div class="task-icon red">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-camera-video" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M0 5a2 2 0 0 1 2-2h7.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 4.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 13H2a2 2 0 0 1-2-2zm11.5 5.175 3.5 1.556V4.269l-3.5 1.556zM2 4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h7.5a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1z"/>
+</svg>
+                                </div>
+                                <div class="task-info">
+                                    <div class="task-title">Update Course Content</div>
+                                    <div class="task-subtitle">React course needs updating</div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Revenue Overview -->
+                        <div class="sidebar-section">
+                            <div class="section-header" style="margin-bottom: 16px;">
+                                <h2 class="section-title">Revenue Overview</h2>
+                                <div class="view-all">View Report</div>
+                            </div>
+
+                            <div class="revenue-bars">
+                                <div class="bar-container">
+                                    <div class="bar" style="height: 70%;"></div>
+                                    <div class="bar-label">Jan</div>
+                                </div>
+                                <div class="bar-container">
+                                    <div class="bar" style="height: 85%;"></div>
+                                    <div class="bar-label">Feb</div>
+                                </div>
+                                <div class="bar-container">
+                                    <div class="bar" style="height: 75%;"></div>
+                                    <div class="bar-label">Mar</div>
+                                </div>
+                                <div class="bar-container">
+                                    <div class="bar" style="height: 90%;"></div>
+                                    <div class="bar-label">Apr</div>
+                                </div>
+                                <div class="bar-container">
+                                    <div class="bar" style="height: 95%;"></div>
+                                    <div class="bar-label">May</div>
+                                </div>
+                                <div class="bar-container">
+                                    <div class="bar" style="height: 88%;"></div>
+                                    <div class="bar-label">Jun</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+    // Sidebar Toggle
+    const hamburger = document.getElementById('hamburger');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+    const closeSidebar = document.getElementById('closeSidebar');
+
+    hamburger.addEventListener('click', () => {
+        sidebar.classList.add('active');
+        sidebarOverlay.classList.add('active');
+    });
+
+    closeSidebar.addEventListener('click', () => {
+        sidebar.classList.remove('active');
+        sidebarOverlay.classList.remove('active');
+    });
+
+    sidebarOverlay.addEventListener('click', () => {
+        sidebar.classList.remove('active');
+        sidebarOverlay.classList.remove('active');
+    });
+
+    // Quick Action Cards Click
+    document.querySelectorAll('.action-card').forEach(card => {
+        card.addEventListener('click', function() {
+            const title = this.querySelector('.action-title').textContent;
+            alert(`Opening: ${title}`);
+        });
+    });
+
+    // Course Cards Buttons
+    document.querySelectorAll('.btn-primary').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            alert('Opening Analytics Dashboard...');
+        });
+    });
+
+    document.querySelectorAll('.btn-secondary').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            alert('Opening Course Editor...');
+        });
+    });
+
+    // Create New Course Button
+    document.querySelector('.btn-create').addEventListener('click', () => {
+        alert('Opening Course Creation Wizard...');
+    });
+
+    // View All Links
+    document.querySelectorAll('.view-all').forEach(link => {
+        link.addEventListener('click', function() {
+            const section = this.closest('.section-header').querySelector('.section-title').textContent;
+            alert(`Viewing all ${section}`);
+        });
+    });
+
+    // Student Items Click
+    document.querySelectorAll('.student-item').forEach(item => {
+        item.addEventListener('click', function() {
+            const name = this.querySelector('.student-name').textContent;
+            alert(`Opening profile for ${name}`);
+        });
+    });
+
+    // Task Items Click
+    document.querySelectorAll('.task-item').forEach(item => {
+        item.addEventListener('click', function() {
+            const title = this.querySelector('.task-title').textContent;
+            alert(`Opening: ${title}`);
+        });
+    });
+
+    // Revenue Bars Animation
+    document.querySelectorAll('.bar').forEach(bar => {
+        bar.addEventListener('mouseenter', function() {
+            this.style.opacity = '0.8';
+        });
+        bar.addEventListener('mouseleave', function() {
+            this.style.opacity = '1';
+        });
+        bar.addEventListener('click', function() {
+            const month = this.parentElement.querySelector('.bar-label').textContent;
+            alert(`Revenue details for ${month}`);
+        });
+    });
+
+    // Stat Cards Click
+    document.querySelectorAll('.stat-card').forEach(card => {
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', function() {
+            const label = this.querySelector('.stat-label').textContent;
+            alert(`Viewing detailed statistics for: ${label}`);
+        });
+    });
+
+    // Nav Items
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Close sidebar on mobile after clicking
+            if (window.innerWidth <= 1024) {
+                sidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+            }
+        });
+    });
+
+    // Add animation to bars on page load
+    window.addEventListener('load', () => {
+        document.querySelectorAll('.bar').forEach((bar, index) => {
+            bar.style.height = '0';
+            setTimeout(() => {
+                bar.style.transition = 'height 0.5s ease';
+                bar.style.height = bar.getAttribute('style').split('height:')[1] || '70%';
+            }, index * 100);
+        });
+    });
+</script>
+
+<script>
+    // Load teaching audience and display label
+function loadTeachingAudience() {
+    // Try to get from localStorage first (dashboard data)
+    const instructorData = JSON.parse(localStorage.getItem('instructorData') || '{}');
+    
+    // If not found, try sessionStorage (application data)
+    const step1Data = JSON.parse(sessionStorage.getItem('step1Data') || '{}');
+    
+    const teachingAudience = instructorData.teachingAudience || step1Data.teachingAudience;
+    const audienceLabel = document.getElementById('audienceLabel');
+    
+    if (audienceLabel) {
+        if (teachingAudience === 'kids') {
+            audienceLabel.textContent = 'KIDS';
+            audienceLabel.className = 'audience-label kids';
+        } else if (teachingAudience === 'adults') {
+            audienceLabel.textContent = 'ADULT';
+            audienceLabel.className = 'audience-label adult';
+        } else {
+            // Default fallback
+            audienceLabel.textContent = 'INSTRUCTOR';
+            audienceLabel.className = 'audience-label adult';
+        }
+    }
+}
+
+// Call this function when the page loads
+document.addEventListener('DOMContentLoaded', loadTeachingAudience);
+</script>
+</body>
+</html>

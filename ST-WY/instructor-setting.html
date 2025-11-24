@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | Stepway LMS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Navy Blue & Burgundy Color Scheme */
+            --navy: #1a237e;
+            --navy-light: #283593;
+            --navy-dark: #0d1452;
+            --burgundy: #800020;
+            --burgundy-light: #a83232;
+            --burgundy-dark: #600018;
+            --accent: #ff6b6b;
+            --text-primary: #2b2d42;
+            --text-secondary: #6c757d;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-tertiary: #e9ecef;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --success: #4cc9f0;
+            --warning: #f8961e;
+            --danger: #e63946;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --radius: 12px;
+        }
+
+        .dark-mode {
+            --navy: #283593;
+            --navy-light: #3949ab;
+            --navy-dark: #1a237e;
+            --burgundy: #a83232;
+            --burgundy-light: #c44545;
+            --burgundy-dark: #800020;
+            --text-primary: #f8f9fa;
+            --text-secondary: #adb5bd;
+            --bg-primary: #121212;
+            --bg-secondary: #1e1e1e;
+            --bg-tertiary: #2d2d2d;
+            --card-bg: #1e1e1e;
+            --border: #404040;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            line-height: 1.6;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 260px;
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border);
+            padding: 24px 0;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 0 24px 32px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 24px;
+            gap: 10px;
+        }
+
+        .logo-image {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 14px 24px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            background-color: rgba(26, 35, 126, 0.1);
+            color: var(--navy);
+            border-left: 3px solid var(--navy);
+        }
+
+        .nav-item i {
+            margin-right: 16px;
+            font-size: 20px;
+            width: 24px;
+            text-align: center;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            padding: 24px;
+            transition: all 0.3s ease;
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: var(--bg-secondary);
+            border-radius: 50px;
+            padding: 12px 20px;
+            width: 400px;
+            border: 1px solid var(--border);
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-primary);
+            width: 100%;
+            margin-left: 12px;
+            font-size: 15px;
+        }
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-icon {
+            position: relative;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: color 0.2s ease;
+        }
+
+        .nav-icon:hover {
+            color: var(--text-primary);
+        }
+
+        .badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--burgundy);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--navy), var(--navy-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            overflow: hidden;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Page Header */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            margin-top: 8px;
+            font-size: 16px;
+        }
+
+        /* Settings Layout */
+        .settings-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 24px;
+        }
+
+        /* Settings Sidebar */
+        .settings-sidebar {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            padding: 24px 0;
+            height: fit-content;
+            position: sticky;
+            top: 24px;
+        }
+
+        .settings-nav-item {
+            display: flex;
+            align-items: center;
+            padding: 14px 24px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+            cursor: pointer;
+        }
+
+        .settings-nav-item:hover {
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .settings-nav-item.active {
+            background-color: rgba(26, 35, 126, 0.1);
+            color: var(--navy);
+            border-left: 3px solid var(--navy);
+        }
+
+        .settings-nav-item i {
+            margin-right: 16px;
+            font-size: 18px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Settings Content */
+        .settings-content {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Settings Card */
+        .settings-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            display: none;
+        }
+
+        .settings-card.active {
+            display: block;
+        }
+
+        .card-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--navy);
+        }
+
+        .card-body {
+            padding: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--navy);
+            box-shadow: 0 0 0 3px rgba(26, 35, 126, 0.1);
+        }
+
+        .form-hint {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 6px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        /* Toggle Switch */
+        .toggle-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .toggle-group:last-child {
+            border-bottom: none;
+        }
+
+        .toggle-label {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .toggle-title {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .toggle-description {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 52px;
+            height: 28px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--bg-tertiary);
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--navy);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+
+        /* Skills Tags */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .skill-tag {
+            padding: 6px 12px;
+            background-color: var(--bg-secondary);
+            border-radius: 50px;
+            font-size: 14px;
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .skill-remove {
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+
+        .skill-remove:hover {
+            color: var(--danger);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .btn-secondary {
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--bg-tertiary);
+        }
+
+        .btn-primary {
+            background-color: var(--navy);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--navy-dark);
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #c53030;
+        }
+
+        /* Danger Zone */
+        .danger-zone {
+            border: 1px solid var(--danger);
+            background-color: rgba(230, 57, 70, 0.05);
+            border-radius: var(--radius);
+            padding: 24px;
+        }
+
+        .danger-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--danger);
+            margin-bottom: 8px;
+        }
+
+        .danger-description {
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--navy);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+        }
+
+        /* Upload Section Styles */
+        .upload-container {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .avatar-large {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--navy), var(--navy-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 24px;
+            overflow: hidden;
+        }
+
+        .avatar-large img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .upload-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .upload-status {
+            margin-top: 12px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .upload-status.success {
+            background-color: rgba(76, 201, 240, 0.1);
+            color: var(--success);
+            border: 1px solid var(--success);
+            display: block;
+        }
+
+        .upload-status.error {
+            background-color: rgba(230, 57, 70, 0.1);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+            display: block;
+        }
+
+        .upload-progress {
+            width: 100%;
+            height: 6px;
+            background-color: var(--bg-tertiary);
+            border-radius: 3px;
+            margin-top: 8px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .upload-progress-bar {
+            height: 100%;
+            background-color: var(--success);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Audience Label Styles - Fixed positioning */
+        .audience-label {
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: white;
+            white-space: nowrap;
+            display: inline-block;
+            width: fit-content;
+        }
+
+        .audience-label.adult {
+            background-color: rgba(26, 35, 126, 1);
+        }
+
+        .audience-label.kids {
+            background-color: #7c0a0a;
+        }
+
+        /* Mobile Menu Toggle - Added for Settings Page */
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-primary);
+            margin-right: 15px;
+        }
+
+        .close-sidebar {
+            display: none;
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+
+        /* Overlay for mobile menu */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5); 
+            z-index: 99; 
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .settings-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .settings-sidebar {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                width: 280px;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .close-sidebar {
+                display: block;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 16px;
+            }
+
+            .top-nav {
+                padding: 12px 16px;
+                margin-bottom: 24px;
+            }
+
+            .search-bar {
+                width: 200px;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+                margin-bottom: 24px;
+            }
+
+            .settings-container {
+                gap: 16px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .upload-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .user-name {
+                display: none;
+            }
+
+            .nav-text {
+                display: block !important;
+            }
+
+            .logo-text {
+                display: block;
+            }
+
+            /* Mobile responsive adjustments */
+            .audience-label {
+                font-size: 11px;
+                padding: 3px 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .search-bar {
+                display: none;
+            }
+
+            .settings-sidebar {
+                position: static;
+            }
+
+            .card-body {
+                padding: 16px;
+            }
+
+            .card-header {
+                padding: 16px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            /* Mobile responsive adjustments */
+            .audience-label {
+                font-size: 10px;
+                padding: 2px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay" id="overlay"></div>
+    
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <button class="close-sidebar" id="closeSidebar">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="logo">
+                <div class="logo-image">
+                    <img src="images/Step-Way Logo.png" width="150px" alt="Stepway Technologies">
+                </div>
+                <div class="audience-label" id="audienceLabel"></div>
+            </div>
+
+            <a href="instructor-dashboard.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span class="nav-text">Dashboard</span>
+            </a>
+            <a href="instructor-courses.html" class="nav-item">
+                <i class="fas fa-book-open"></i>
+                <span class="nav-text">My Courses</span>
+            </a>
+            <a href="instructor-analytic.html" class="nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span class="nav-text">Analytics</span>
+            </a>
+            <a href="instructor-stu-management.html" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span class="nav-text">Students</span>
+            </a>
+            <a href="instructor-message-management.html" class="nav-item">
+                <i class="fas fa-comments"></i>
+                <span class="nav-text">Messages</span>
+            </a>
+            <a href="instructr-revenue.html" class="nav-item">
+                <i class="fas fa-wallet"></i>
+                <span class="nav-text">Earnings</span>
+            </a>
+            <a href="instructor-setting.html" class="nav-item active">
+                <i class="fas fa-cog"></i>
+                <span class="nav-text">Settings</span>
+            </a>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Navigation -->
+            <div class="top-nav">
+                <div style="display: flex; align-items: center; flex: 1;">
+                    <button class="hamburger" id="hamburger">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search settings...">
+                    </div>
+                </div>
+                <div class="nav-icons">
+                    <div class="nav-icon">
+                        <i class="far fa-bell"></i>
+                        <div class="badge">3</div>
+                    </div>
+                    <div class="nav-icon">
+                        <i class="far fa-envelope"></i>
+                        <div class="badge">5</div>
+                    </div>
+                    <div class="user-profile">
+                        <div class="avatar">MJ</div>
+                        <span>Michael Johnson</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page Header -->
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Settings</h1>
+                    <p class="page-subtitle">Manage your account, preferences, and instructor profile</p>
+                </div>
+            </div>
+
+            <!-- Settings Layout -->
+            <div class="settings-container">
+                <!-- Settings Sidebar -->
+                <div class="settings-sidebar">
+                    <div class="settings-nav-item active" data-section="profile">
+                        <i class="fas fa-user"></i>
+                        <span>Profile Information</span>
+                    </div>
+                    <div class="settings-nav-item" data-section="account">
+                        <i class="fas fa-lock"></i>
+                        <span>Account Security</span>
+                    </div>
+                    <div class="settings-nav-item" data-section="notifications">
+                        <i class="fas fa-bell"></i>
+                        <span>Notifications</span>
+                    </div>
+                    <div class="settings-nav-item" data-section="payment">
+                        <i class="fas fa-credit-card"></i>
+                        <span>Payment Methods</span>
+                    </div>
+                    <div class="settings-nav-item" data-section="preferences">
+                        <i class="fas fa-sliders-h"></i>
+                        <span>Preferences</span>
+                    </div>
+                    <div class="settings-nav-item" data-section="danger">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Danger Zone</span>
+                    </div>
+                </div>
+
+                <!-- Settings Content -->
+                <div class="settings-content">
+                    <!-- Profile Information Section -->
+                    <div class="settings-card active" id="profile-section">
+                        <div class="card-header">
+                            <h2 class="card-title">Profile Information</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="form-label">Profile Photo</label>
+                                <div class="upload-container">
+                                    <div class="avatar-large" id="profile-avatar">
+                                        MJ
+                                    </div>
+                                    <div class="upload-buttons">
+                                        <input type="file" id="file-input" class="file-input" accept="image/*">
+                                        <button class="btn btn-secondary" id="upload-btn">
+                                            <i class="fas fa-upload"></i>
+                                            <span>Upload New Photo</span>
+                                        </button>
+                                        <button class="btn btn-secondary" id="remove-btn">
+                                            <i class="fas fa-trash-alt"></i>
+                                            <span>Remove Photo</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="upload-progress" id="upload-progress">
+                                    <div class="upload-progress-bar" id="progress-bar"></div>
+                                </div>
+                                <div class="upload-status" id="upload-status"></div>
+                                <div class="form-hint">JPG, GIF or PNG. Max size of 5MB.</div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Full Name</label>
+                                    <input type="text" class="form-input" value="Michael Johnson">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Email Address</label>
+                                    <input type="email" class="form-input" value="michael.johnson@email.com">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Professional Title</label>
+                                <input type="text" class="form-input" value="Senior Full-Stack Developer & Tech Educator">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Biography</label>
+                                <textarea class="form-textarea">Passionate full-stack developer with over 10 years of experience building scalable web applications. Specialized in React, Node.js, and cloud technologies. Previously led engineering teams at TechCorp and currently focused on helping aspiring developers launch their careers through comprehensive, project-based learning.</textarea>
+                                <div class="form-hint">Brief description for your instructor profile. URLs are hyperlinked.</div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">LinkedIn Profile</label>
+                                    <input type="text" class="form-input" value="linkedin.com/in/michaeljohnson">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Personal Website</label>
+                                    <input type="text" class="form-input" value="michaeljohnson.dev">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Skills & Technologies</label>
+                                <div class="skills-container">
+                                    <div class="skill-tag">
+                                        JavaScript
+                                        <span class="skill-remove">&times;</span>
+                                    </div>
+                                    <div class="skill-tag">
+                                        React
+                                        <span class="skill-remove">&times;</span>
+                                    </div>
+                                    <div class="skill-tag">
+                                        Node.js
+                                        <span class="skill-remove">&times;</span>
+                                    </div>
+                                    <div class="skill-tag">
+                                        Python
+                                        <span class="skill-remove">&times;</span>
+                                    </div>
+                                    <div class="skill-tag">
+                                        AWS
+                                        <span class="skill-remove">&times;</span>
+                                    </div>
+                                    <div class="skill-tag">
+                                        Docker
+                                        <span class="skill-remove">&times;</span>
+                                    </div>
+                                    <div class="skill-tag">
+                                        SQL
+                                        <span class="skill-remove">&times;</span>
+                                    </div>
+                                    <div class="skill-tag">
+                                        HTML/CSS
+                                        <span class="skill-remove">&times;</span>
+                                    </div>
+                                </div>
+                                <input type="text" class="form-input" placeholder="Add a skill..." style="margin-top: 12px;">
+                                <div class="form-hint">Press Enter to add a skill</div>
+                            </div>
+
+                            <div class="action-buttons">
+                                <button class="btn btn-secondary">Cancel</button>
+                                <button class="btn btn-primary">Save Changes</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Account Security Section -->
+                    <div class="settings-card" id="account-section">
+                        <div class="card-header">
+                            <h2 class="card-title">Account Security</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="form-label">Current Password</label>
+                                <input type="password" class="form-input" placeholder="Enter current password">
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">New Password</label>
+                                    <input type="password" class="form-input" placeholder="Enter new password">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Confirm New Password</label>
+                                    <input type="password" class="form-input" placeholder="Confirm new password">
+                                </div>
+                            </div>
+
+                            <div class="form-hint">Password must be at least 8 characters long and include a mix of letters, numbers, and symbols.</div>
+
+                            <div class="action-buttons">
+                                <button class="btn btn-secondary">Cancel</button>
+                                <button class="btn btn-primary">Update Password</button>
+                            </div>
+
+                            <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border);">
+                                <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--navy);">Two-Factor Authentication</h3>
+                                <div class="toggle-group">
+                                    <div class="toggle-label">
+                                        <div class="toggle-title">Enable 2FA</div>
+                                        <div class="toggle-description">Add an extra layer of security to your account</div>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notifications Section -->
+                    <div class="settings-card" id="notifications-section">
+                        <div class="card-header">
+                            <h2 class="card-title">Notification Preferences</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="toggle-group">
+                                <div class="toggle-label">
+                                    <div class="toggle-title">Course Notifications</div>
+                                    <div class="toggle-description">Get notified about new enrollments, reviews, and questions</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="toggle-group">
+                                <div class="toggle-label">
+                                    <div class="toggle-title">Student Messages</div>
+                                    <div class="toggle-description">Receive alerts when students send you messages</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="toggle-group">
+                                <div class="toggle-label">
+                                    <div class="toggle-title">Assignment Submissions</div>
+                                    <div class="toggle-description">Get notified when students submit assignments</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="toggle-group">
+                                <div class="toggle-label">
+                                    <div class="toggle-title">Marketing Emails</div>
+                                    <div class="toggle-description">Receive tips and updates about teaching on Stepway</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="toggle-group">
+                                <div class="toggle-label">
+                                    <div class="toggle-title">Weekly Reports</div>
+                                    <div class="toggle-description">Get a summary of your course performance each week</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="action-buttons">
+                                <button class="btn btn-secondary">Reset to Defaults</button>
+                                <button class="btn btn-primary">Save Preferences</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Methods Section -->
+                    <div class="settings-card" id="payment-section">
+                        <div class="card-header">
+                            <h2 class="card-title">Payment Methods</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="form-label">Primary Payout Method</label>
+                                <select class="form-select">
+                                    <option>Bank Transfer</option>
+                                    <option>PayPal</option>
+                                    <option>Stripe</option>
+                                </select>
+                                <div class="form-hint">How you receive your earnings from course sales</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Bank Account Details</label>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <input type="text" class="form-input" placeholder="Account Holder Name" value="Michael Johnson">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-input" placeholder="Account Number" value="**** 4567">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <input type="text" class="form-input" placeholder="Bank Name" value="National Bank">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-input" placeholder="Routing Number" value="*1234">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="action-buttons">
+                                <button class="btn btn-secondary">Cancel</button>
+                                <button class="btn btn-primary">Update Payment Details</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Preferences Section -->
+                    <div class="settings-card" id="preferences-section">
+                        <div class="card-header">
+                            <h2 class="card-title">Preferences</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="toggle-group">
+                                <div class="toggle-label">
+                                    <div class="toggle-title">Dark Mode</div>
+                                    <div class="toggle-description">Switch between light and dark themes</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="darkModeToggle">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="toggle-group">
+                                <div class="toggle-label">
+                                    <div class="toggle-title">Email Digest</div>
+                                    <div class="toggle-description">Receive a daily summary of important activities</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Language</label>
+                                <select class="form-select">
+                                    <option>English</option>
+                                    <option>Spanish</option>
+                                    <option>French</option>
+                                    <option>German</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Time Zone</label>
+                                <select class="form-select">
+                                    <option>(GMT-08:00) Pacific Time</option>
+                                    <option>(GMT-07:00) Mountain Time</option>
+                                    <option>(GMT-06:00) Central Time</option>
+                                    <option selected>(GMT-05:00) Eastern Time</option>
+                                </select>
+                            </div>
+
+                            <div class="action-buttons">
+                                <button class="btn btn-secondary">Reset to Defaults</button>
+                                <button class="btn btn-primary">Save Preferences</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Danger Zone Section -->
+                    <div class="settings-card" id="danger-section">
+                        <div class="card-header">
+                            <h2 class="card-title">Danger Zone</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="danger-zone">
+                                <h3 class="danger-title">Deactivate Account</h3>
+                                <p class="danger-description">Deactivating your account will disable your profile and remove your name from all courses. Your content will remain accessible to enrolled students.</p>
+                                <button class="btn btn-secondary">
+                                    <i class="fas fa-user-slash"></i>
+                                    <span>Deactivate Account</span>
+                                </button>
+                            </div>
+
+                            <div class="danger-zone" style="margin-top: 24px;">
+                                <h3 class="danger-title">Delete Account</h3>
+                                <p class="danger-description">Permanently delete your account and all associated content. This action cannot be undone.</p>
+                                <button class="btn btn-danger">
+                                    <i class="fas fa-trash-alt"></i>
+                                    <span>Delete Account</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <script>
+
+
+         // Minimal Mobile Menu - Only handles sidebar toggle
+    const hamburger = document.getElementById('hamburger');
+    const sidebar = document.getElementById('sidebar');
+    const closeSidebar = document.getElementById('closeSidebar');
+    const overlay = document.getElementById('overlay');
+
+    hamburger.addEventListener('click', () => {
+        sidebar.classList.add('active');
+        overlay.classList.add('active');
+    });
+
+    closeSidebar.addEventListener('click', () => {
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+    });
+
+    overlay.addEventListener('click', () => {
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+    });
+
+        // Theme Toggle Functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+        
+        function toggleTheme() {
+            body.classList.toggle('dark-mode');
+            
+            if (body.classList.contains('dark-mode')) {
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                if (darkModeToggle) darkModeToggle.checked = true;
+            } else {
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                if (darkModeToggle) darkModeToggle.checked = false;
+            }
+        }
+        
+        themeToggle.addEventListener('click', toggleTheme);
+        if (darkModeToggle) {
+            darkModeToggle.addEventListener('change', toggleTheme);
+        }
+
+        // Settings Navigation
+        const settingsNavItems = document.querySelectorAll('.settings-nav-item');
+        const settingsSections = document.querySelectorAll('.settings-card');
+        
+        settingsNavItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const sectionId = item.getAttribute('data-section') + '-section';
+                
+                // Update active nav item
+                settingsNavItems.forEach(nav => nav.classList.remove('active'));
+                item.classList.add('active');
+                
+                // Show corresponding section
+                settingsSections.forEach(section => {
+                    section.classList.remove('active');
+                    if (section.id === sectionId) {
+                        section.classList.add('active');
+                    }
+                });
+            });
+        });
+
+        // Skill Tags Management
+        const skillInput = document.querySelector('input[placeholder="Add a skill..."]');
+        const skillsContainer = document.querySelector('.skills-container');
+        
+        if (skillInput && skillsContainer) {
+            skillInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && skillInput.value.trim() !== '') {
+                    e.preventDefault();
+                    
+                    const skillTag = document.createElement('div');
+                    skillTag.className = 'skill-tag';
+                    skillTag.innerHTML = `
+                        ${skillInput.value.trim()}
+                        <span class="skill-remove">&times;</span>
+                    `;
+                    
+                    skillsContainer.appendChild(skillTag);
+                    skillInput.value = '';
+                    
+                    // Add remove functionality to new tag
+                    skillTag.querySelector('.skill-remove').addEventListener('click', () => {
+                        skillTag.remove();
+                    });
+                }
+            });
+
+            // Initialize remove functionality for existing skill tags
+            document.querySelectorAll('.skill-remove').forEach(removeBtn => {
+                removeBtn.addEventListener('click', function() {
+                    this.parentElement.remove();
+                });
+            });
+        }
+
+        // Form Submission Handling
+        const saveButtons = document.querySelectorAll('.btn-primary');
+        
+        saveButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const cardTitle = this.closest('.settings-card').querySelector('.card-title').textContent;
+                alert(`Changes saved for ${cardTitle}`);
+                // In a real app, this would submit the form data
+            });
+        });
+
+        // Danger Zone Actions
+        const deactivateBtn = document.querySelector('.btn-secondary .fa-user-slash')?.closest('.btn');
+        const deleteBtn = document.querySelector('.btn-danger .fa-trash-alt')?.closest('.btn');
+        
+        if (deactivateBtn) {
+            deactivateBtn.addEventListener('click', () => {
+                if (confirm('Are you sure you want to deactivate your account? Your profile will be hidden but your courses will remain accessible.')) {
+                    alert('Account deactivation process started. Check your email for further instructions.');
+                }
+            });
+        }
+        
+        if (deleteBtn) {
+            deleteBtn.addEventListener('click', () => {
+                if (confirm('This action cannot be undone. All your data will be permanently deleted. Are you absolutely sure?')) {
+                    if (confirm('This is your final warning. All your courses, students, and earnings data will be lost forever.')) {
+                        alert('Account deletion process initiated. You will receive a confirmation email.');
+                    }
+                }
+            });
+        }
+
+        // Profile Picture Upload Functionality
+        const fileInput = document.getElementById('file-input');
+        const uploadBtn = document.getElementById('upload-btn');
+        const removeBtn = document.getElementById('remove-btn');
+        const profileAvatar = document.getElementById('profile-avatar');
+        const uploadProgress = document.getElementById('upload-progress');
+        const progressBar = document.getElementById('progress-bar');
+        const uploadStatus = document.getElementById('upload-status');
+
+        // Trigger file input when upload button is clicked
+        uploadBtn.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        // Handle file selection
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                // Validate file type and size
+                const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+                const maxSize = 5 * 1024 * 1024; // 5MB
+                
+                if (!validTypes.includes(file.type)) {
+                    showUploadStatus('Please select a valid image file (JPG, PNG, or GIF).', 'error');
+                    return;
+                }
+                
+                if (file.size > maxSize) {
+                    showUploadStatus('File size exceeds 5MB limit. Please choose a smaller image.', 'error');
+                    return;
+                }
+                
+                // Show preview
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    // Clear existing content
+                    profileAvatar.innerHTML = '';
+                    
+                    // Create and add image
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    profileAvatar.appendChild(img);
+                    
+                    // Simulate upload process
+                    simulateUpload(file.name);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Remove profile picture
+        removeBtn.addEventListener('click', () => {
+            // Clear the avatar
+            profileAvatar.innerHTML = 'MJ';
+            
+            // Reset file input
+            fileInput.value = '';
+            
+            // Show success message
+            showUploadStatus('Profile picture removed successfully.', 'success');
+            
+            // Hide progress bar
+            uploadProgress.style.display = 'none';
+        });
+
+        // Simulate upload process
+        function simulateUpload(filename) {
+            // Reset and show progress bar
+            uploadProgress.style.display = 'block';
+            progressBar.style.width = '0%';
+            
+            // Hide any previous status messages
+            uploadStatus.className = 'upload-status';
+            uploadStatus.style.display = 'none';
+            
+            // Simulate progress
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    
+                    // Show success message after a short delay
+                    setTimeout(() => {
+                        showUploadStatus(`"${filename}" uploaded successfully!`, 'success');
+                        uploadProgress.style.display = 'none';
+                    }, 300);
+                }
+                progressBar.style.width = `${progress}%`;
+            }, 200);
+        }
+
+        // Show upload status message
+        function showUploadStatus(message, type) {
+            uploadStatus.textContent = message;
+            uploadStatus.className = `upload-status ${type}`;
+            uploadStatus.style.display = 'block';
+            
+            // Auto-hide success messages after 5 seconds
+            if (type === 'success') {
+                setTimeout(() => {
+                    uploadStatus.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        // Load teaching audience and display label
+        function loadTeachingAudience() {
+            // Try to get from localStorage first (dashboard data)
+            const instructorData = JSON.parse(localStorage.getItem('instructorData') || '{}');
+            
+            // If not found, try sessionStorage (application data)
+            const step1Data = JSON.parse(sessionStorage.getItem('step1Data') || '{}');
+            
+            const teachingAudience = instructorData.teachingAudience || step1Data.teachingAudience;
+            const audienceLabel = document.getElementById('audienceLabel');
+            
+            if (audienceLabel) {
+                if (teachingAudience === 'kids') {
+                    audienceLabel.textContent = 'KIDS';
+                    audienceLabel.className = 'audience-label kids';
+                } else if (teachingAudience === 'adults') {
+                    audienceLabel.textContent = 'ADULT';
+                    audienceLabel.className = 'audience-label adult';
+                } else {
+                    // Default fallback
+                    audienceLabel.textContent = 'INSTRUCTOR';
+                    audienceLabel.className = 'audience-label adult';
+                }
+            }
+        }
+
+        // Call this function when the page loads
+        document.addEventListener('DOMContentLoaded', loadTeachingAudience);
+    </script>
+
+
+</body>
+</html>

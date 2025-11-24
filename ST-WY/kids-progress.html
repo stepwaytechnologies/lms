@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KidCoder - Progress</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+       :root {
+    --primary: rgba(26, 35, 126, 1);
+    --secondary: #800020;
+    --white: #ffffff;
+    --light-bg: #f5f7ff;
+    --light-purple: #e8eaf6;
+    --light-burgundy: #f9e8e8;
+    --text-dark: #333;
+    --text-light: #666;
+    --success: #4caf50;
+    --warning: #ff9800;
+    --border-radius: 12px;
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --sidebar-width: 280px;
+    --header-height: 70px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--light-bg);
+    color: var(--text-dark);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background: linear-gradient(180deg, var(--primary) 0%, rgba(26, 35, 126, 0.95) 100%);
+    color: var(--white);
+    padding: 20px 0;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 1000;
+    transition: transform 0.3s ease;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.logo i {
+    font-size: 2rem;
+}
+
+.close-sidebar {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--white);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.sidebar-menu {
+    list-style: none;
+    margin-top: 20px;
+}
+
+.sidebar-menu li {
+    margin-bottom: 5px;
+}
+
+.sidebar-menu a {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 20px;
+    color: var(--white);
+    text-decoration: none;
+    transition: all 0.3s;
+    border-left: 4px solid transparent;
+}
+
+.sidebar-menu a:hover, .sidebar-menu a.active {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-left-color: var(--secondary);
+}
+
+.sidebar-menu i {
+    font-size: 1.2rem;
+    width: 24px;
+    text-align: center;
+}
+
+.sidebar-footer {
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 20px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    margin-left: var(--sidebar-width);
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--light-purple);
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--primary);
+    cursor: pointer;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+}
+
+/* Welcome Section */
+.welcome-section {
+    background: linear-gradient(135deg, var(--primary), #3f51b5);
+    color: white;
+    padding: 25px;
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+    box-shadow: var(--box-shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.welcome-section h1 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.welcome-section p {
+    font-size: 1.1rem;
+    max-width: 70%;
+}
+
+/* Progress Bar */
+.progress-bar {
+    height: 10px;
+    background-color: var(--light-purple);
+    border-radius: 5px;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: var(--primary);
+    border-radius: 5px;
+}
+
+/* Section Header */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-header h2 {
+    color: var(--primary);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .main-content {
+        margin-left: 0;
+    }
+    
+    .sidebar {
+        transform: translateX(-100%);
+    }
+    
+    .sidebar.open {
+        transform: translateX(0);
+    }
+    
+    .menu-toggle {
+        display: block;
+    }
+    
+    .close-sidebar {
+        display: block;
+    }
+    
+    .welcome-section p {
+        max-width: 100%;
+    }
+    
+    /* Hide animated characters on mobile */
+    .character,
+    .teddy-bear,
+    .robot,
+    .trophy,
+    .rocket,
+    .owl,
+    .robot-assistant,
+    .alien-helper {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .progress-section,
+    .achievements-stats,
+    .courses-grid,
+    .projects-container,
+    .help-categories,
+    .contact-options {
+        grid-template-columns: 1fr;
+    }
+    
+    .progress-charts {
+        grid-template-columns: 1fr;
+    }
+    
+    .badges-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .settings-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .settings-sidebar {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content {
+        padding: 15px;
+    }
+    
+    .welcome-section {
+        padding: 20px;
+    }
+    
+    .welcome-section h1 {
+        font-size: 1.5rem;
+    }
+    
+    .badges-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .schedule-controls {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .calendar-day {
+        padding: 5px;
+        font-size: 0.9rem;
+    }
+    
+    .btn-group {
+        flex-direction: column;
+    }
+    
+    .avatar-options, 
+    .color-options {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+        
+        /* Progress specific styles */
+        .progress-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .metric-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .metric-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .metric-icon {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-right: 10px;
+        }
+
+        .metric-title {
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+
+        .progress-charts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .chart-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .chart-container {
+            height: 200px;
+            position: relative;
+            margin-top: 20px;
+        }
+
+        .bar-chart {
+            display: flex;
+            align-items: end;
+            justify-content: space-around;
+            height: 150px;
+            margin-bottom: 20px;
+        }
+
+        .bar {
+            width: 30px;
+            background: linear-gradient(to top, var(--primary), #3f51b5);
+            border-radius: 5px 5px 0 0;
+            position: relative;
+            transition: height 0.5s ease;
+        }
+
+        .bar-label {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .bar-value {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        /* Rocket Animation */
+        .rocket {
+            position: absolute;
+            right: 20px;
+            bottom: 0;
+            width: 120px;
+            height: 150px;
+            animation: rocket-float 3s ease-in-out infinite;
+        }
+
+        .rocket-body {
+            width: 40px;
+            height: 80px;
+            background: linear-gradient(to bottom, #ff6b6b, #ff8e8e);
+            border-radius: 50% 50% 10px 10px;
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+        }
+
+        .rocket-fin {
+            width: 15px;
+            height: 30px;
+            background-color: #4ecdc4;
+            position: absolute;
+        }
+
+        .rocket-fin.left {
+            bottom: 40px;
+            left: 25px;
+            transform: rotate(-30deg);
+            border-radius: 5px;
+        }
+
+        .rocket-fin.right {
+            bottom: 40px;
+            right: 25px;
+            transform: rotate(30deg);
+            border-radius: 5px;
+        }
+
+        .rocket-window {
+            width: 20px;
+            height: 20px;
+            background-color: #a5d8ff;
+            border-radius: 50%;
+            position: absolute;
+            top: 20px;
+            left: 10px;
+            border: 2px solid white;
+        }
+
+        .rocket-flame {
+            width: 20px;
+            height: 40px;
+            background: linear-gradient(to bottom, #ff9e00, #ff6b6b);
+            border-radius: 50% 50% 10px 10px;
+            position: absolute;
+            bottom: 0;
+            left: 10px;
+            animation: flame-flicker 0.5s infinite alternate;
+        }
+
+        @keyframes rocket-float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-10px) rotate(2deg); }
+            75% { transform: translateY(-5px) rotate(-2deg); }
+        }
+
+        @keyframes flame-flicker {
+            0% { height: 40px; opacity: 1; }
+            100% { height: 35px; opacity: 0.8; }
+        }
+
+        /* Learning Path */
+        .learning-path {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 20px;
+        }
+
+        .path-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-left: 4px solid var(--light-purple);
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+
+        .path-item.completed {
+            border-left-color: var(--success);
+            background-color: rgba(76, 175, 80, 0.1);
+        }
+
+        .path-item.current {
+            border-left-color: var(--primary);
+            background-color: rgba(26, 35, 126, 0.1);
+        }
+
+        .path-status {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .path-item.completed .path-status {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .path-item.current .path-status {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .path-item.upcoming .path-status {
+            background-color: var(--light-purple);
+            color: var(--text-light);
+        }
+
+        .path-info {
+            flex: 1;
+        }
+
+        .path-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .path-desc {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .path-xp {
+            background-color: var(--secondary);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                   <img src="images/stepway logoww.png" width="200px" alt="">
+                </div>
+                <button class="close-sidebar">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li><a href="kids-dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="kids-course.html"><i class="fas fa-book"></i> Courses</a></li>
+                <li><a href="kids-project.html"><i class="fas fa-project-diagram"></i> Projects</a></li>
+                <li><a href="kids-achievement.html"><i class="fas fa-trophy"></i> Achievements</a></li>
+                <li><a href="kids-progress.html" class="active"><i class="fas fa-chart-line"></i> Progress</a></li>
+                <li><a href="kids-shedule.html"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
+                <li><a href="kids-settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="kids-help.html"><i class="fas fa-question-circle"></i> Help</a></li>
+            </ul>
+            
+           
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <button class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="user-info">
+                    <span>Hello, Alex!</span>
+                    <div class="avatar">AJ</div>
+                </div>
+            </div>
+
+            <!-- Welcome Section -->
+            <div class="welcome-section">
+                <h1>Your Learning Journey</h1>
+                <p>See how far you've come in your coding adventure!</p>
+                <div class="rocket">
+                    <div class="rocket-body">
+                        <div class="rocket-window"></div>
+                    </div>
+                    <div class="rocket-fin left"></div>
+                    <div class="rocket-fin right"></div>
+                    <div class="rocket-flame"></div>
+                </div>
+            </div>
+
+            <!-- Progress Metrics -->
+            <div class="progress-metrics">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <i class="fas fa-clock metric-icon"></i>
+                        <div class="metric-title">Learning Time</div>
+                    </div>
+                    <div class="metric-value">42h 15m</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 65%"></div>
+                    </div>
+                    <div style="margin-top: 10px; font-size: 0.9rem; color: var(--text-light);">
+                        +5h this week
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <i class="fas fa-code metric-icon"></i>
+                        <div class="metric-title">Lines of Code</div>
+                    </div>
+                    <div class="metric-value">1,247</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 45%"></div>
+                    </div>
+                    <div style="margin-top: 10px; font-size: 0.9rem; color: var(--text-light);">
+                        +128 this week
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <i class="fas fa-tasks metric-icon"></i>
+                        <div class="metric-title">Projects Completed</div>
+                    </div>
+                    <div class="metric-value">8</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 80%"></div>
+                    </div>
+                    <div style="margin-top: 10px; font-size: 0.9rem; color: var(--text-light);">
+                        +2 this month
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Charts -->
+            <div class="progress-charts">
+                <div class="chart-card">
+                    <h3>Weekly Activity</h3>
+                    <div class="bar-chart">
+                        <div class="bar" style="height: 40%;">
+                            <div class="bar-value">2h</div>
+                            <div class="bar-label">Mon</div>
+                        </div>
+                        <div class="bar" style="height: 60%;">
+                            <div class="bar-value">3h</div>
+                            <div class="bar-label">Tue</div>
+                        </div>
+                        <div class="bar" style="height: 80%;">
+                            <div class="bar-value">4h</div>
+                            <div class="bar-label">Wed</div>
+                        </div>
+                        <div class="bar" style="height: 30%;">
+                            <div class="bar-value">1.5h</div>
+                            <div class="bar-label">Thu</div>
+                        </div>
+                        <div class="bar" style="height: 90%;">
+                            <div class="bar-value">4.5h</div>
+                            <div class="bar-label">Fri</div>
+                        </div>
+                        <div class="bar" style="height: 70%;">
+                            <div class="bar-value">3.5h</div>
+                            <div class="bar-label">Sat</div>
+                        </div>
+                        <div class="bar" style="height: 50%;">
+                            <div class="bar-value">2.5h</div>
+                            <div class="bar-label">Sun</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h3>Skill Progress</h3>
+                    <div style="margin-top: 20px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <span>Game Design</span>
+                            <span>75%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 75%"></div>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; margin: 15px 0 10px;">
+                            <span>Animation</span>
+                            <span>60%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 60%"></div>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; margin: 15px 0 10px;">
+                            <span>Web Basics</span>
+                            <span>40%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 40%"></div>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; margin: 15px 0 10px;">
+                            <span>Logic & Puzzles</span>
+                            <span>85%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 85%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Learning Path -->
+            <div class="learning-path">
+                <div class="section-header">
+                    <h2>Your Learning Path</h2>
+                </div>
+                <div class="path-list">
+                    <div class="path-item completed">
+                        <div class="path-status">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="path-info">
+                            <div class="path-title">Getting Started with Coding</div>
+                            <div class="path-desc">Learn basic concepts and create your first program</div>
+                        </div>
+                        <div class="path-xp">+100 XP</div>
+                    </div>
+                    <div class="path-item completed">
+                        <div class="path-status">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="path-info">
+                            <div class="path-title">Game Design Basics</div>
+                            <div class="path-desc">Create characters and build simple games</div>
+                        </div>
+                        <div class="path-xp">+200 XP</div>
+                    </div>
+                    <div class="path-item current">
+                        <div class="path-status">
+                            <i class="fas fa-play"></i>
+                        </div>
+                        <div class="path-info">
+                            <div class="path-title">Creative Animations</div>
+                            <div class="path-desc">Make characters move and tell stories</div>
+                        </div>
+                        <div class="path-xp">+150 XP</div>
+                    </div>
+                    <div class="path-item upcoming">
+                        <div class="path-status">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div class="path-info">
+                            <div class="path-title">Web Wizardry</div>
+                            <div class="path-desc">Build your first website with interactive elements</div>
+                        </div>
+                        <div class="path-xp">+180 XP</div>
+                    </div>
+                    <div class="path-item upcoming">
+                        <div class="path-status">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div class="path-info">
+                            <div class="path-title">Robotics & AI Adventure</div>
+                            <div class="path-desc">Discover how robots think and learn</div>
+                        </div>
+                        <div class="path-xp">+250 XP</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const closeSidebar = document.querySelector('.close-sidebar');
+            const sidebar = document.querySelector('.sidebar');
+            
+            menuToggle.addEventListener('click', function() {
+                sidebar.classList.add('open');
+            });
+            
+            closeSidebar.addEventListener('click', function() {
+                sidebar.classList.remove('open');
+            });
+            
+            document.addEventListener('click', function(event) {
+                const isClickInsideSidebar = sidebar.contains(event.target);
+                const isClickOnMenuToggle = menuToggle.contains(event.target);
+                
+                if (!isClickInsideSidebar && !isClickOnMenuToggle && window.innerWidth <= 1024) {
+                    sidebar.classList.remove('open');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

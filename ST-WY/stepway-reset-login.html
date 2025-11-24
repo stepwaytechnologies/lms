@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Password - Stepway Technologies</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #e8edf2 0%, #f5f7fa 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+            width: 100%;
+            max-width: 420px;
+            padding: 40px 32px;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .logo-placeholder {
+            width: 200px;
+            height: 60px;
+            background: #f0f0f0;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 12px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .required {
+            color: #dc3545;
+        }
+
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 44px 12px 16px;
+            font-size: 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #1e3a8a;
+            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+        }
+
+        input::placeholder {
+            color: #9ca3af;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 38px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            color: #6b7280;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .password-toggle:hover {
+            color: #1e3a8a;
+        }
+
+        .password-requirements {
+            margin-top: 12px;
+            padding: 12px;
+            background: #f9fafb;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        .requirement {
+            display: flex;
+            align-items: center;
+            color: #6b7280;
+            margin-bottom: 6px;
+        }
+
+        .requirement:last-child {
+            margin-bottom: 0;
+        }
+
+        .requirement.met {
+            color: #059669;
+        }
+
+        .requirement::before {
+            content: "○";
+            margin-right: 8px;
+            font-size: 16px;
+        }
+
+        .requirement.met::before {
+            content: "✓";
+            color: #059669;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 8px;
+        }
+
+        .submit-btn:hover {
+            background: #1e40af;
+        }
+
+        .submit-btn:active {
+            background: #1e3a8a;
+            transform: scale(0.98);
+        }
+
+        .submit-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 13px;
+            margin-top: 8px;
+            display: none;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 32px 24px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            .logo-placeholder {
+                width: 180px;
+                height: 54px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .container {
+                padding: 24px 20px;
+            }
+
+            h1 {
+                font-size: 20px;
+                margin-bottom: 10px;
+            }
+
+            .subtitle {
+                font-size: 13px;
+                margin-bottom: 24px;
+            }
+
+            .form-group {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-container">
+            <img src="images/Step-Way Logo.png" width="150px" alt="">
+        </div>
+
+        <h1>Reset Password</h1>
+        <p class="subtitle">Please enter your new password</p>
+
+        <form id="resetPasswordForm">
+            <div class="form-group">
+                <label for="newPassword">
+                    Enter New Password <span class="required">*</span>
+                </label>
+                <input 
+                    type="password" 
+                    id="newPassword" 
+                    placeholder="Enter new password"
+                    required
+                >
+                <button type="button" class="password-toggle" data-target="newPassword">
+                    Show
+                </button>
+                
+                <div class="password-requirements">
+                    <div class="requirement" id="req-length">At least 8 characters</div>
+                    <div class="requirement" id="req-uppercase">One uppercase letter</div>
+                    <div class="requirement" id="req-lowercase">One lowercase letter</div>
+                    <div class="requirement" id="req-number">One number</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">
+                    Confirm Password <span class="required">*</span>
+                </label>
+                <input 
+                    type="password" 
+                    id="confirmPassword" 
+                    placeholder="Confirm your password"
+                    required
+                >
+                <button type="button" class="password-toggle" data-target="confirmPassword">
+                    Show
+                </button>
+                <div class="error-message" id="matchError">Passwords do not match</div>
+            </div>
+
+            <button  onclick="window.location.href='stepway-instructor-login.html'" type="submit" class="submit-btn" id="submitBtn">Confirm</button>
+        </form>
+    </div>
+
+    <script>
+        const newPasswordInput = document.getElementById('newPassword');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        const form = document.getElementById('resetPasswordForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const matchError = document.getElementById('matchError');
+
+        // Password requirements tracking
+        const requirements = {
+            length: { element: document.getElementById('req-length'), regex: /.{8,}/ },
+            uppercase: { element: document.getElementById('req-uppercase'), regex: /[A-Z]/ },
+            lowercase: { element: document.getElementById('req-lowercase'), regex: /[a-z]/ },
+            number: { element: document.getElementById('req-number'), regex: /[0-9]/ }
+        };
+
+        // Check password requirements
+        newPasswordInput.addEventListener('input', function() {
+            const password = this.value;
+            let allMet = true;
+
+            for (let key in requirements) {
+                const req = requirements[key];
+                if (req.regex.test(password)) {
+                    req.element.classList.add('met');
+                } else {
+                    req.element.classList.remove('met');
+                    allMet = false;
+                }
+            }
+
+            checkPasswordMatch();
+        });
+
+        // Check if passwords match
+        confirmPasswordInput.addEventListener('input', checkPasswordMatch);
+
+        function checkPasswordMatch() {
+            if (confirmPasswordInput.value === '') {
+                matchError.style.display = 'none';
+                return;
+            }
+
+            if (newPasswordInput.value !== confirmPasswordInput.value) {
+                matchError.style.display = 'block';
+                submitBtn.disabled = true;
+            } else {
+                matchError.style.display = 'none';
+                submitBtn.disabled = false;
+            }
+        }
+
+        // Password toggle functionality
+        document.querySelectorAll('.password-toggle').forEach(button => {
+            button.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const input = document.getElementById(targetId);
+                
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    this.textContent = 'Hide';
+                } else {
+                    input.type = 'password';
+                    this.textContent = 'Show';
+                }
+            });
+        });
+
+        // Form submission
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const newPassword = newPasswordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+            
+            // Check all requirements
+            let allRequirementsMet = true;
+            for (let key in requirements) {
+                if (!requirements[key].regex.test(newPassword)) {
+                    allRequirementsMet = false;
+                    break;
+                }
+            }
+            
+            if (!allRequirementsMet) {
+                alert('Please meet all password requirements');
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+            
+            console.log('Password reset successful');
+            alert('Password reset successfully! Redirecting to login...');
+            // window.location.href = 'login.html';
+        });
+    </script>
+</body>
+</html>

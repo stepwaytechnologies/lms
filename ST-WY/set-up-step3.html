@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Your Expertise - Step 3</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #fffdfd;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #7c0a0a 0%, #a91d1d 100%);
+            padding: 40px;
+            color: white;
+            border-radius: 12px 12px 0 0;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .header-text {
+            flex: 1;
+        }
+
+        .audience-display {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .header p {
+            font-size: 15px;
+            opacity: 0.95;
+            line-height: 1.5;
+        }
+
+        .progress-steps {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .progress-step {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .progress-step-number {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .progress-step.completed .progress-step-number {
+            background: white;
+            color: #7c0a0a;
+        }
+
+        .progress-step.active .progress-step-number {
+            background: white;
+            color: #7c0a0a;
+        }
+
+        .container {
+            background: white;
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 50px 40px;
+            border-radius: 0 0 12px 12px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .section-icon {
+            font-size: 24px;
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1e3a8a;
+        }
+
+        .required-badge {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .section-description {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .search-filter {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .search-box {
+            flex: 1;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 16px 12px 40px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #7c0a0a;
+            box-shadow: 0 0 0 3px rgba(124, 10, 10, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+        }
+
+        .filter-btn {
+            padding: 12px 20px;
+            border: 1px solid #d1d5db;
+            background: white;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover {
+            background: #f9fafb;
+            border-color: #7c0a0a;
+        }
+
+        .expertise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .expertise-card {
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .expertise-card:hover {
+            border-color: #7c0a0a;
+            box-shadow: 0 4px 12px rgba(124, 10, 10, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .expertise-card.selected {
+            border-color: #7c0a0a;
+            background: #fef2f2;
+            box-shadow: 0 4px 12px rgba(124, 10, 10, 0.15);
+        }
+
+        .expertise-card-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .expertise-card-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 6px;
+        }
+
+        .expertise-card-description {
+            font-size: 13px;
+            color: #6b7280;
+            line-height: 1.4;
+        }
+
+        .skills-section {
+            margin-top: 30px;
+        }
+
+        .skills-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .skills-badge-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .skill-badge {
+            padding: 10px 18px;
+            border: 2px solid #e5e7eb;
+            border-radius: 25px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .skill-badge:hover {
+            border-color: #7c0a0a;
+            transform: translateY(-1px);
+        }
+
+        .skill-badge.selected {
+            background: #7c0a0a;
+            color: white;
+            border-color: #7c0a0a;
+        }
+
+        .selection-count {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #7c0a0a;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .experience-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        .experience-card {
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .experience-card:hover {
+            border-color: #7c0a0a;
+            box-shadow: 0 4px 12px rgba(124, 10, 10, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .experience-card.selected {
+            border-color: #7c0a0a;
+            background: #fef2f2;
+            box-shadow: 0 4px 12px rgba(124, 10, 10, 0.15);
+        }
+
+        .experience-card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .experience-card-description {
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        .validation-alert {
+            background: #fef2f2;
+            border: 2px solid #fecaca;
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .validation-alert.show {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .validation-alert-icon {
+            font-size: 24px;
+        }
+
+        .validation-alert-text {
+            flex: 1;
+            font-size: 14px;
+            color: #dc2626;
+            font-weight: 600;
+        }
+
+        .bottom-bar {
+            position: sticky;
+            bottom: 0;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+            padding: 20px 40px;
+            margin: 0 -40px -50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 0 0 12px 12px;
+        }
+
+        .selection-info {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .btn-back {
+            background: white;
+            color: #7c0a0a;
+            border: 2px solid #7c0a0a;
+        }
+
+        .btn-back:hover {
+            background: #fef2f2;
+        }
+
+        .btn-submit {
+            background: #7c0a0a;
+            color: white;
+        }
+
+        .btn-submit:hover {
+            background: #a91d1d;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(124, 10, 10, 0.3);
+        }
+
+        .btn-submit:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 30px 24px;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .progress-steps {
+                gap: 15px;
+                flex-wrap: wrap;
+            }
+
+            .container {
+                padding: 30px 24px;
+            }
+
+            .section-title {
+                font-size: 20px;
+            }
+
+            .expertise-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .experience-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .bottom-bar {
+                padding: 16px 24px;
+                margin: 0 -24px -30px;
+                flex-direction: column;
+                gap: 16px;
+                align-items: stretch;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 22px;
+            }
+
+            .section-title {
+                font-size: 18px;
+            }
+
+            .search-filter {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="header-text">
+                <h1>Select Your Expertise</h1>
+                <p>Choose your primary skills and experience level to help us match you with the right opportunities</p>
+                <div class="audience-display" id="audienceDisplay">
+                    <!-- Teaching audience will be displayed here -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="progress-steps">
+            <div class="progress-step completed">
+                <div class="progress-step-number">✓</div>
+                <span>Account</span>
+            </div>
+            <div class="progress-step completed">
+                <div class="progress-step-number">✓</div>
+                <span>Profile</span>
+            </div>
+            <div class="progress-step active">
+                <div class="progress-step-number">3</div>
+                <span>Expertise</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="validation-alert" id="validationAlert">
+            <span class="validation-alert-icon">⚠️</span>
+            <span class="validation-alert-text" id="validationMessage"></span>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <span class="section-icon">📚</span>
+                <h2 class="section-title">Primary Expertise Area</h2>
+                <span class="required-badge">REQUIRED</span>
+            </div>
+            <p class="section-description">Select your main area of expertise. This will be your primary teaching category and help students find your courses.</p>
+            
+            <div class="search-filter">
+                <div class="search-box">
+                    <span class="search-icon"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+</svg></span>
+                    <input type="text" id="searchExpertise" placeholder="Search expertise areas...">
+                </div>
+                <button class="filter-btn" id="filterBtn">All Categories</button>
+            </div>
+
+            <div class="expertise-grid" id="expertiseGrid">
+                <div class="expertise-card" data-expertise="web-dev">
+                    <div class="expertise-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-code-slash" viewBox="0 0 16 16">
+  <path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0m6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0"/>
+</svg></div>
+                    <div class="expertise-card-title">Web Development</div>
+                    <div class="expertise-card-description">Frontend, backend, and full-stack web technologies</div>
+                </div>
+
+                <div class="expertise-card" data-expertise="data-science">
+                    <div class="expertise-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-bar-chart-line" viewBox="0 0 16 16">
+  <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1zm1 12h2V2h-2zm-3 0V7H7v7zm-5 0v-3H2v3z"/>
+</svg></div>
+                    <div class="expertise-card-title">Data Science</div>
+                    <div class="expertise-card-description">Data analysis, machine learning, and AI technologies</div>
+                </div>
+
+                <div class="expertise-card" data-expertise="mobile-dev">
+                    <div class="expertise-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-phone" viewBox="0 0 16 16">
+  <path d="M11 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM5 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+  <path d="M8 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+</svg></div>
+                    <div class="expertise-card-title">Mobile App Development</div>
+                    <div class="expertise-card-description">iOS, Android, and cross-platform mobile apps</div>
+                </div>
+
+                <div class="expertise-card" data-expertise="ui-ux">
+                    <div class="expertise-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-palette" viewBox="0 0 16 16">
+  <path d="M8 5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3m4 3a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M5.5 7a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m.5 6a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
+  <path d="M16 8c0 3.15-1.866 2.585-3.567 2.07C11.42 9.763 10.465 9.473 10 10c-.603.683-.475 1.819-.351 2.92C9.826 14.495 9.996 16 8 16a8 8 0 1 1 8-8m-8 7c.611 0 .654-.171.655-.176.078-.146.124-.464.07-1.119-.014-.168-.037-.37-.061-.591-.052-.464-.112-1.005-.118-1.462-.01-.707.083-1.61.704-2.314.369-.417.845-.578 1.272-.618.404-.038.812.026 1.16.104.343.077.702.186 1.025.284l.028.008c.346.105.658.199.953.266.653.148.904.083.991.024C14.717 9.38 15 9.161 15 8a7 7 0 1 0-7 7"/>
+</svg></div>
+                    <div class="expertise-card-title">UI/UX Design</div>
+                    <div class="expertise-card-description">User interface and experience design</div>
+                </div>
+
+                <div class="expertise-card" data-expertise="cloud-devops">
+                    <div class="expertise-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-cloud" viewBox="0 0 16 16">
+  <path d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383m.653.757c-.757.653-1.153 1.44-1.153 2.056v.448l-.445.049C2.064 6.805 1 7.952 1 9.318 1 10.785 2.23 12 3.781 12h8.906C13.98 12 15 10.988 15 9.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 4.825 10.328 3 8 3a4.53 4.53 0 0 0-2.941 1.1z"/>
+</svg></div>
+                    <div class="expertise-card-title">Cloud & DevOps</div>
+                    <div class="expertise-card-description">Cloud platforms and development operations</div>
+                </div>
+
+                <div class="expertise-card" data-expertise="computer-basics">
+                    <div class="expertise-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-laptop" viewBox="0 0 16 16">
+  <path d="M13.5 3a.5.5 0 0 1 .5.5V11H2V3.5a.5.5 0 0 1 .5-.5zm-11-1A1.5 1.5 0 0 0 1 3.5V12h14V3.5A1.5 1.5 0 0 0 13.5 2zM0 12.5h16a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 12.5"/>
+</svg></div>
+                    <div class="expertise-card-title">Basic Computer Knowledge</div>
+                    <div class="expertise-card-description">Computer operating systems and fundamentals</div>
+                </div>
+
+                <div class="expertise-card" data-expertise="business">
+                    <div class="expertise-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-briefcase" viewBox="0 0 16 16">
+  <path d="M6.5 1A1.5 1.5 0 0 0 5 2.5V3H1.5A1.5 1.5 0 0 0 0 4.5v8A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-8A1.5 1.5 0 0 0 14.5 3H11v-.5A1.5 1.5 0 0 0 9.5 1zm0 1h3a.5.5 0 0 1 .5.5V3H6v-.5a.5.5 0 0 1 .5-.5m1.886 6.914L15 7.151V12.5a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5V7.15l6.614 1.764a1.5 1.5 0 0 0 .772 0M1.5 4h13a.5.5 0 0 1 .5.5v1.616L8.129 7.948a.5.5 0 0 1-.258 0L1 6.116V4.5a.5.5 0 0 1 .5-.5"/>
+</svg></div>
+                    <div class="expertise-card-title">Business & Entrepreneurship</div>
+                    <div class="expertise-card-description">Business strategy, management, and entrepreneurship</div>
+                </div>
+
+                <div class="expertise-card" data-expertise="cybersecurity">
+                    <div class="expertise-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-shield-lock" viewBox="0 0 16 16">
+  <path d="M5.338 1.59a61 61 0 0 0-2.837.856.48.48 0 0 0-.328.39c-.554 4.157.726 7.19 2.253 9.188a10.7 10.7 0 0 0 2.287 2.233c.346.244.652.42.893.533q.18.085.293.118a1 1 0 0 0 .101.025 1 1 0 0 0 .1-.025q.114-.034.294-.118c.24-.113.547-.29.893-.533a10.7 10.7 0 0 0 2.287-2.233c1.527-1.997 2.807-5.031 2.253-9.188a.48.48 0 0 0-.328-.39c-.651-.213-1.75-.56-2.837-.855C9.552 1.29 8.531 1.067 8 1.067c-.53 0-1.552.223-2.662.524zM5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.8 11.8 0 0 1-2.517 2.453 7 7 0 0 1-1.048.625c-.28.132-.581.24-.829.24s-.548-.108-.829-.24a7 7 0 0 1-1.048-.625 11.8 11.8 0 0 1-2.517-2.453C1.928 10.487.545 7.169 1.141 2.692A1.54 1.54 0 0 1 2.185 1.43 63 63 0 0 1 5.072.56"/>
+  <path d="M9.5 6.5a1.5 1.5 0 0 1-1 1.415l.385 1.99a.5.5 0 0 1-.491.595h-.788a.5.5 0 0 1-.49-.595l.384-1.99a1.5 1.5 0 1 1 2-1.415"/>
+</svg></div>
+                    <div class="expertise-card-title">Cybersecurity Analyst</div>
+                    <div class="expertise-card-description">Securing databases and information management</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section skills-section">
+            <div class="skills-header">
+                <div class="section-header" style="margin-bottom: 0;">
+                    <span class="section-icon"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" style="color: #1e3a8a;" fill="currentColor" class="bi bi-tools" viewBox="0 0 16 16">
+  <path d="M1 0 0 1l2.2 3.081a1 1 0 0 0 .815.419h.07a1 1 0 0 1 .708.293l2.675 2.675-2.617 2.654A3.003 3.003 0 0 0 0 13a3 3 0 1 0 5.878-.851l2.654-2.617.968.968-.305.914a1 1 0 0 0 .242 1.023l3.27 3.27a.997.997 0 0 0 1.414 0l1.586-1.586a.997.997 0 0 0 0-1.414l-3.27-3.27a1 1 0 0 0-1.023-.242L10.5 9.5l-.96-.96 2.68-2.643A3.005 3.005 0 0 0 16 3q0-.405-.102-.777l-2.14 2.141L12 4l-.364-1.757L13.777.102a3 3 0 0 0-3.675 3.68L7.462 6.46 4.793 3.793a1 1 0 0 1-.293-.707v-.071a1 1 0 0 0-.419-.814zm9.646 10.646a.5.5 0 0 1 .708 0l2.914 2.915a.5.5 0 0 1-.707.707l-2.915-2.914a.5.5 0 0 1 0-.708M3 11l.471.242.529.026.287.445.445.287.026.529L5 13l-.242.471-.026.529-.445.287-.287.445-.529.026L3 15l-.471-.242L2 14.732l-.287-.445L1.268 14l-.026-.529L1 13l.242-.471.026-.529.445-.287.287-.445.529-.026z"/>
+</svg></span>
+                    <h2 class="section-title">Skills & Technologies</h2>
+                </div>
+                <span class="selection-count"><span id="skillCount">0</span> selected</span>
+            </div>
+            <p class="section-description">Select the specific skills and technologies you're proficient in. This helps match you with relevant course opportunities. (Optional but recommended)</p>
+            
+            <div class="skills-badge-container" id="skillsContainer">
+                <div class="skill-badge" data-skill="javascript">JavaScript</div>
+                <div class="skill-badge" data-skill="python">Python</div>
+                <div class="skill-badge" data-skill="react">React</div>
+                <div class="skill-badge" data-skill="nodejs">Node.js</div>
+                <div class="skill-badge" data-skill="typescript">TypeScript</div>
+                <div class="skill-badge" data-skill="vue">Vue.js</div>
+                <div class="skill-badge" data-skill="angular">Angular</div>
+                <div class="skill-badge" data-skill="css">CSS/SASS</div>
+                <div class="skill-badge" data-skill="html">HTML5</div>
+                <div class="skill-badge" data-skill="sql">SQL</div>
+                <div class="skill-badge" data-skill="mongodb">MongoDB</div>
+                <div class="skill-badge" data-skill="aws">AWS</div>
+                <div class="skill-badge" data-skill="docker">Docker</div>
+                <div class="skill-badge" data-skill="kubernetes">Kubernetes</div>
+                <div class="skill-badge" data-skill="git">Git</div>
+                <div class="skill-badge" data-skill="wireshark">Wireshark</div>
+                <div class="skill-badge" data-skill="metasploit">Metasploit</div>
+                <div class="skill-badge" data-skill="nmap">Nmap</div>
+                <div class="skill-badge" data-skill="burp-suite">Burp Suite</div>
+                <div class="skill-badge" data-skill="kali-linux">Kali Linux</div>
+                <div class="skill-badge" data-skill="penetration-testing">Penetration Testing</div>
+                <div class="skill-badge" data-skill="network-security">Network Security</div>
+                <div class="skill-badge" data-skill="cryptography">Cryptography</div>
+                <div class="skill-badge" data-skill="firewall">Firewall Management</div>
+                <div class="skill-badge" data-skill="siem">SIEM Tools</div>
+                <div class="skill-badge" data-skill="windows">Windows OS</div>
+                <div class="skill-badge" data-skill="macos">macOS</div>
+                <div class="skill-badge" data-skill="linux">Linux</div>
+                <div class="skill-badge" data-skill="microsoft-office">Microsoft Office</div>
+                <div class="skill-badge" data-skill="google-workspace">Google Workspace</div>
+                <div class="skill-badge" data-skill="troubleshooting">Troubleshooting</div>
+                <div class="skill-badge" data-skill="hardware">Hardware Basics</div>
+                <div class="skill-badge" data-skill="networking">Networking Basics</div>
+                <div class="skill-badge" data-skill="file-management">File Management</div>
+                <div class="skill-badge" data-skill="email-management">Email Management</div>
+                <div class="skill-badge" data-skill="internet-browsing">Internet Browsing</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <span class="section-icon"><svg xmlns="http://www.w3.org/2000/svg" style="color: #1e3a8a;" width="30" height="30" fill="currentColor" class="bi bi-graph-up" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07"/>
+</svg></span>
+                <h2 class="section-title">Experience Level</h2>
+                <span class="required-badge">REQUIRED</span>
+            </div>
+            <p class="section-description">How many years of professional experience do you have in your chosen field?</p>
+            
+            <div class="experience-grid" id="experienceGrid">
+                <div class="experience-card" data-experience="1-2">
+                    <div class="experience-card-title">1-2 Years</div>
+                    <div class="experience-card-description">Early career professional</div>
+                </div>
+
+                <div class="experience-card" data-experience="3-5">
+                    <div class="experience-card-title">3-5 Years</div>
+                    <div class="experience-card-description">Experienced professional</div>
+                </div>
+
+                <div class="experience-card" data-experience="6-10">
+                    <div class="experience-card-title">6-10 Years</div>
+                    <div class="experience-card-description">Senior-level expertise</div>
+                </div>
+
+                <div class="experience-card" data-experience="10+">
+                    <div class="experience-card-title">10+ Years</div>
+                    <div class="experience-card-description">Industry expert</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-bar">
+            <div class="selection-info" id="selectionInfo">
+                Please select expertise area and experience level
+            </div>
+            <div class="button-group">
+                <button class="btn btn-back" id="backBtn">← Back to Profile</button>
+                <button class="btn btn-submit" id="submitBtn" disabled>Continue to Review →</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedExpertise = null;
+        let selectedSkills = new Set();
+        let selectedExperience = null;
+
+        // Display teaching audience
+        function displayTeachingAudience() {
+            const step1Data = JSON.parse(sessionStorage.getItem('step1Data') || '{}');
+            const audienceDisplay = document.getElementById('audienceDisplay');
+            
+            if (step1Data.teachingAudience === 'kids') {
+                audienceDisplay.innerHTML = '🧒 Teaching: Kids Coding';
+            } else if (step1Data.teachingAudience === 'adults') {
+                audienceDisplay.innerHTML = '👨‍💼 Teaching: Adults';
+            } else {
+                audienceDisplay.innerHTML = '🎯 Teaching Audience';
+            }
+        }
+
+        // Expertise selection
+        document.getElementById('expertiseGrid').addEventListener('click', (e) => {
+            const card = e.target.closest('.expertise-card');
+            if (!card) return;
+
+            document.querySelectorAll('.expertise-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            selectedExpertise = card.dataset.expertise;
+            hideValidationAlert();
+            updateUI();
+        });
+
+        // Skills selection
+        document.getElementById('skillsContainer').addEventListener('click', (e) => {
+            const badge = e.target.closest('.skill-badge');
+            if (!badge) return;
+
+            const skill = badge.dataset.skill;
+            if (selectedSkills.has(skill)) {
+                selectedSkills.delete(skill);
+                badge.classList.remove('selected');
+            } else {
+                selectedSkills.add(skill);
+                badge.classList.add('selected');
+            }
+            
+            document.getElementById('skillCount').textContent = selectedSkills.size;
+            updateUI();
+        });
+
+        // Experience selection
+        document.getElementById('experienceGrid').addEventListener('click', (e) => {
+            const card = e.target.closest('.experience-card');
+            if (!card) return;
+
+            document.querySelectorAll('.experience-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            selectedExperience = card.dataset.experience;
+            hideValidationAlert();
+            updateUI();
+        });
+
+        // Search functionality
+        document.getElementById('searchExpertise').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            document.querySelectorAll('.expertise-card').forEach(card => {
+                const title = card.querySelector('.expertise-card-title').textContent.toLowerCase();
+                const description = card.querySelector('.expertise-card-description').textContent.toLowerCase();
+                if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        function showValidationAlert(message) {
+            const alert = document.getElementById('validationAlert');
+            document.getElementById('validationMessage').textContent = message;
+            alert.classList.add('show');
+            alert.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function hideValidationAlert() {
+            document.getElementById('validationAlert').classList.remove('show');
+        }
+
+        function updateUI() {
+            const selectionInfo = document.getElementById('selectionInfo');
+            const submitBtn = document.getElementById('submitBtn');
+
+            let info = [];
+            if (selectedSkills.size > 0) {
+                info.push(`${selectedSkills.size} skills selected`);
+            }
+            if (selectedExpertise) {
+                info.push('Category selected');
+            }
+            if (selectedExperience) {
+                info.push('Experience level selected');
+            }
+
+            selectionInfo.textContent = info.length > 0 ? info.join(' • ') : 'Please select expertise area and experience level';
+
+            submitBtn.disabled = !(selectedExpertise && selectedExperience);
+        }
+
+        // Back button
+        document.getElementById('backBtn').addEventListener('click', () => {
+            window.location.href = 'set-up-step2.html';
+        });
+
+        // Form submission
+        document.getElementById('submitBtn').addEventListener('click', () => {
+            if (!selectedExpertise) {
+                showValidationAlert('Please select a primary expertise area');
+                return;
+            }
+
+            if (!selectedExperience) {
+                showValidationAlert('Please select your experience level');
+                return;
+            }
+
+            // Get teaching audience from step1 data
+            const step1Data = JSON.parse(sessionStorage.getItem('step1Data') || '{}');
+
+            // Save data to sessionStorage
+            const step3Data = {
+                teachingAudience: step1Data.teachingAudience,
+                expertise: selectedExpertise,
+                skills: Array.from(selectedSkills),
+                experience: selectedExperience
+            };
+
+            sessionStorage.setItem('step3Data', JSON.stringify(step3Data));
+
+            // Get all previous data
+            const step2Data = JSON.parse(sessionStorage.getItem('step2Data') || '{}');
+
+            const completeData = {
+                ...step1Data,
+                ...step2Data,
+                ...step3Data
+            };
+
+            console.log('Application Complete:', completeData);
+            
+            // Redirect to validation step
+            window.location.href = 'set-up-step4.html';
+        });
+
+        // Load saved data if available and display audience
+        window.addEventListener('DOMContentLoaded', () => {
+            // Display teaching audience
+            displayTeachingAudience();
+            
+            const savedData = sessionStorage.getItem('step3Data');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                
+                // Restore expertise selection
+                if (data.expertise) {
+                    const expertiseCard = document.querySelector(`[data-expertise="${data.expertise}"]`);
+                    if (expertiseCard) {
+                        expertiseCard.classList.add('selected');
+                        selectedExpertise = data.expertise;
+                    }
+                }
+                
+                // Restore skills selection
+                if (data.skills && data.skills.length > 0) {
+                    data.skills.forEach(skill => {
+                        const badge = document.querySelector(`[data-skill="${skill}"]`);
+                        if (badge) {
+                            badge.classList.add('selected');
+                            selectedSkills.add(skill);
+                        }
+                    });
+                    document.getElementById('skillCount').textContent = selectedSkills.size;
+                }
+                
+                // Restore experience selection
+                if (data.experience) {
+                    const experienceCard = document.querySelector(`[data-experience="${data.experience}"]`);
+                    if (experienceCard) {
+                        experienceCard.classList.add('selected');
+                        selectedExperience = data.experience;
+                    }
+                }
+                
+                updateUI();
+            }
+        });
+    </script>
+</body>
+</html>

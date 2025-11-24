@@ -1,0 +1,1795 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head> 
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-273ZFF8C6Y"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-273ZFF8C6Y');
+</script>   
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Explore Courses - Stepway Technologies</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+
+
+body{
+    overflow-x: hidden;
+}
+      /* Add these new styles for filtering */
+      .stats-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+        margin-bottom: 32px;
+      }
+
+      @media (min-width: 768px) {
+        .stats-container {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+
+      .stat-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 24px;
+        text-align: center;
+        transition: all 0.3s;
+        border: 2px solid transparent;
+        cursor: pointer;
+      }
+
+      body.dark-mode .stat-card {
+        background: #1f2937;
+        border-color: #374151;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      }
+
+      .stat-card.active {
+        border-color: rgba(15, 25, 87, 1);
+        background: rgba(239, 246, 255, 1);
+      }
+
+      body.dark-mode .stat-card.active {
+        background: rgba(30, 58, 138, 1);
+      }
+
+      .stat-number {
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 8px;
+        color: rgba(15, 25, 87, 1);
+      }
+
+      body.dark-mode .stat-number {
+        color: #60a5fa;
+      }
+
+      .stat-label {
+        font-size: 14px;
+        color: #6b7280;
+      }
+
+      body.dark-mode .stat-label {
+        color: #9ca3af;
+      }
+
+      /* Hide/show courses based on filter */
+      .course-card {
+        display: block;
+        transition: all 0.3s ease;
+      }
+
+      .course-card.hidden {
+        display: none;
+      }
+
+      /* Rest of your existing CSS remains the same */
+      body.sidebar-open {
+        overflow: hidden;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* Footer styles */
+      .footer {
+        background-color: rgba(15, 25, 87, 1);
+        color: white;
+        margin-left: 250px;
+        z-index: 10;
+        position: relative;
+        padding: 60px 20px 20px;
+      }
+
+      .footer-content {
+        position: relative;
+        z-index: 1;
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1.5fr 1fr 1fr 1fr;
+        gap: 40px;
+        margin-bottom: 40px;
+      }
+
+      .footer-brand h3 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 16px;
+      }
+
+      .footer-brand p {
+        font-size: 0.9375rem;
+        line-height: 1.6;
+        opacity: 0.95;
+        margin-bottom: 24px;
+      }
+
+      .social-links {
+        display: flex;
+        gap: 16px;
+      }
+
+      .social-link {
+        width: 40px;
+        height: 40px;
+        background-color: rgba(255, 255, 255, 0.15);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .social-link:hover {
+        background-color: rgba(255, 255, 255, 0.25);
+        transform: translateY(-3px);
+      }
+
+      .social-link svg {
+        width: 20px;
+        height: 20px;
+        fill: white;
+      }
+
+      .footer-column h4 {
+        font-size: 1.125rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+      }
+
+      .footer-links {
+        list-style: none;
+      }
+
+      .footer-links li {
+        margin-bottom: 12px;
+      }
+
+      .footer-links a {
+        color: white;
+        text-decoration: none;
+        font-size: 0.9375rem;
+        opacity: 0.9;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .footer-links a::before {
+        content: "›";
+        font-size: 1.25rem;
+        font-weight: bold;
+        transition: transform 0.3s ease;
+      }
+
+      .footer-links a:hover {
+        opacity: 1;
+        padding-left: 4px;
+        text-decoration: none;
+        color: #d9d6d6;
+      }
+
+      .footer-links a:hover::before {
+        transform: translateX(4px);
+        text-decoration: none;
+      }
+
+      .contact-info {
+        list-style: none;
+      }
+
+      .contact-info li {
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 0.9375rem;
+      }
+
+      .contact-icon {
+        width: 20px;
+        height: 20px;
+        fill: white;
+        flex-shrink: 0;
+      }
+
+      .footer-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        padding-top: 24px;
+        text-align: center;
+        font-size: 0.875rem;
+        opacity: 0.9;
+      }
+
+      @media (max-width: 1024px) {
+        .footer-content {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .footer{
+            margin: 0;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .footer-content {
+          grid-template-columns: 1fr;
+          gap: 32px;
+        }
+
+        .footer {
+          padding: 40px 20px 20px;
+          margin: 0;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .footer-brand h3 {
+          font-size: 1.25rem;
+        }
+      }
+
+      /* Body and main layout */
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        background-color: #f9fafb;
+        color: #111827;
+        transition: all 0.3s;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      body.dark-mode {
+        background-color: #111827;
+        color: #ffffff;
+      }
+
+      /* Sidebar - Fixed to prevent overlapping footer */
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh; /* Changed from 100% to 100vh */
+        width: 256px;
+        background: white;
+        box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+        transform: translateX(-100%);
+        transition: transform 0.3s;
+        z-index: 999;
+        overflow-y: auto;
+      }
+
+      body.dark-mode .sidebar {
+        background: rgba(15, 25, 87, 1);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      @media (min-width: 1024px) {
+        .sidebar {
+          transform: translateX(0);
+        }
+      }
+
+      .sidebar-header {
+        padding: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 32px;
+      }
+
+      .sidebar-logo {
+        font-size: 24px;
+        font-weight: bold;
+        background: linear-gradient(to right, rgba(15, 25, 87, 1), #9333ea);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      body.dark-mode .sidebar-header h2 {
+        color: #fff;
+      }
+
+      .close-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+        display: none;
+      }
+
+      @media (max-width: 1023px) {
+        .close-btn {
+          display: block;
+        }
+      }
+
+      .nav-items {
+        padding: 0 24px;
+      }
+
+      .nav-item {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        border-radius: 8px;
+        border: none;
+        background: none;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 8px;
+        transition: all 0.2s;
+        color: inherit;
+      }
+
+      .nav-item:hover {
+        background: #f3f4f6;
+      }
+
+      body.dark-mode .nav-item:hover {
+        background: #374151;
+      }
+
+      .nav-item.active {
+        background: rgba(15, 25, 87, 1);
+        color: white;
+        box-shadow: 0 4px 6px rgba(37, 99, 235, 0.3);
+      }
+
+      .sidebar-bottom {
+        position: absolute;
+        bottom: 24px;
+        left: 24px;
+        right: 24px;
+      }
+
+      .logout-btn {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        border-radius: 8px;
+        border: none;
+        background: none;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 8px;
+        transition: all 0.2s;
+        color: inherit;
+      }
+
+      .logout-btn:hover {
+        background: #fef2f2;
+        color: #dc2626;
+      }
+
+      .theme-toggle {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.2s;
+        background: #f3f4f6;
+        color: inherit;
+      }
+
+      body.dark-mode .theme-toggle {
+        background: rgba(15, 25, 87, 1);
+      }
+
+      .toggle-switch {
+        margin-left: auto;
+        width: 48px;
+        height: 24px;
+        background: #d1d5db;
+        border-radius: 12px;
+        position: relative;
+        transition: all 0.3s;
+      }
+
+      body.dark-mode .toggle-switch {
+        background: #2563eb;
+      }
+
+      .toggle-knob {
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        width: 16px;
+        height: 16px;
+        background: white;
+        border-radius: 50%;
+        transition: transform 0.3s;
+      }
+
+      body.dark-mode .toggle-knob {
+        transform: translateX(24px);
+      }
+
+      /* Main content area */
+      .main-content {
+        flex: 1;
+        position: relative;
+        z-index: 1;
+        transition: margin 0.3s;
+        width: 100%;
+      }
+
+      @media (min-width: 1024px) {
+        .main-content {
+          margin-left: 256px;
+          width: calc(100% - 256px);
+        }
+      }
+
+      /* Top bar */
+      .top-bar {
+        background: white;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 30;
+      }
+
+      body.dark-mode .top-bar {
+        background: rgb(35, 47, 124);
+      }
+
+      .top-bar-content {
+        padding: 16px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .menu-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 8px;
+        transition: all 0.2s;
+      }
+
+      .menu-btn:hover {
+        background: #f3f4f6;
+      }
+
+      @media (min-width: 1024px) {
+        .menu-btn {
+          display: none;
+        }
+      }
+
+      .search-container {
+        flex: 1;
+        max-width: 512px;
+        position: relative;
+        display: none;
+      }
+
+      @media (min-width: 640px) {
+        .search-container {
+          display: block;
+        }
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 8px 16px 8px 40px;
+        border-radius: 8px;
+        border: none;
+        background: #f3f4f6;
+        font-size: 14px;
+        transition: all 0.2s;
+      }
+
+      body.dark-mode .search-input {
+        background: #fff;
+        color: rgb(26, 39, 124);
+      }
+
+      .search-input:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px #2563eb;
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #9ca3af;
+      }
+
+      .top-bar-actions {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .icon-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 8px;
+        position: relative;
+        transition: all 0.2s;
+      }
+
+      .icon-btn:hover {
+        background: #f3f4f6;
+      }
+
+      .notification-dot {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 8px;
+        height: 8px;
+        background: #ef4444;
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+      }
+
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #3b82f6, #9333ea);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+      }
+
+      .user-text {
+        display: none;
+      }
+
+      @media (min-width: 640px) {
+        .user-text {
+          display: block;
+        }
+      }
+
+      .user-name {
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      .user-greeting {
+        font-size: 12px;
+        color: #6b7280;
+      }
+
+      .mobile-search {
+        padding: 0 16px 16px;
+        display: block;
+      }
+
+      @media (min-width: 640px) {
+        .mobile-search {
+          display: none;
+        }
+      }
+
+      /* Hero section */
+      .hero {
+        background: linear-gradient(
+          to right,
+          #fff,
+          #96a3d0,
+          rgb(110, 119, 179)
+        );
+        padding: 48px 24px;
+      }
+
+      .hero-content {
+        max-width: 1280px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+        text-align: center;
+      }
+
+      @media (min-width: 1024px) {
+        .hero-content {
+          flex-direction: row;
+          justify-content: space-between;
+          text-align: left;
+        }
+      }
+
+      .hero-text {
+        color: rgb(58, 70, 143);
+      }
+
+      .hero-title {
+        font-size: 36px;
+        font-weight: bold;
+        margin-bottom: 16px;
+        animation: fadeIn 0.6s;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .hero-subtitle {
+        color: #143a69;
+        margin-bottom: 24px;
+        font-size: 18px;
+      }
+
+      .hero-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      @media (min-width: 640px) {
+        .hero-buttons {
+          flex-direction: row;
+        }
+      }
+
+      .btn-primary {
+        background: #6f0d0d;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        box-shadow: 0 4px 6px rgba(220, 38, 38, 0.3);
+      }
+
+      .btn-primary:hover {
+        background: #b91c1c;
+        transform: scale(1.05);
+      }
+
+      .btn-secondary {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: scale(1.05);
+      }
+
+      /* Content section */
+      .content-section {
+        padding: 32px 24px;
+      }
+
+      .container {
+        max-width: 1280px;
+        margin: 0 auto;
+      }
+
+      .section-title {
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 24px;
+      }
+
+      .section-subtitle {
+        color: #6b7280;
+        margin-bottom: 24px;
+      }
+
+      body.dark-mode .section-subtitle {
+        color: #9ca3af;
+      }
+
+      /* Course Filters */
+      .filters {
+        margin-bottom: 24px;
+        overflow-x: auto;
+        padding-bottom: 8px;
+      }
+
+      .filters::-webkit-scrollbar {
+        display: none;
+      }
+
+      .filter-buttons {
+        display: flex;
+        gap: 8px;
+        min-width: max-content;
+      }
+
+      @media (min-width: 640px) {
+        .filter-buttons {
+          flex-wrap: wrap;
+          min-width: 0;
+        }
+      }
+
+      .filter-btn {
+        padding: 8px 16px;
+        border-radius: 9999px;
+        border: 1px solid #e5e7eb;
+        background: white;
+        cursor: pointer;
+        font-weight: 500;
+        white-space: nowrap;
+        transition: all 0.2s;
+        font-size: 14px;
+      }
+
+      body.dark-mode .filter-btn {
+        background: #1f2937;
+        color: #fff;
+        border-color: #374151;
+      }
+
+      .filter-btn:hover {
+        background: #f3f4f6;
+        transform: scale(1.05);
+      }
+
+      body.dark-mode .filter-btn:hover {
+        background: #374151;
+      }
+
+      .filter-btn.active {
+        background: #1e3a8a;
+        color: white;
+        border-color: #1e3a8a;
+        box-shadow: 0 4px 6px rgba(30, 58, 138, 0.3);
+      }
+
+      /* Course Cards */
+      .cards-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 24px;
+        margin-bottom: 32px;
+      }
+
+      @media (min-width: 768px) {
+        .cards-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (min-width: 1280px) {
+        .cards-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      .course-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        border: 2px solid #e5e7eb;
+        transition: all 0.3s;
+      }
+
+      body.dark-mode .course-card {
+        background: #1f2937;
+        border-color: #374151;
+      }
+
+      .course-card:hover {
+        border-color: rgb(29, 38, 94);
+        transform: translateY(-4px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      }
+
+      .card-header {
+        height: 160px;
+        position: relative;
+        background-size: cover;
+        background-position: center;
+      }
+
+      .card-badge {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        background: rgba(92, 255, 182, 1);
+        color: rgba(15, 25, 87, 1);
+        font-size: 12px;
+        font-weight: bold;
+        padding: 4px 12px;
+        border-radius: 9999px;
+      }
+
+      .card-duration {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        color: white;
+        font-size: 14px;
+        font-weight: 500;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 4px 8px;
+        border-radius: 4px;
+      }
+
+      .card-body {
+        padding: 24px;
+      }
+
+      .card-title {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 8px;
+      }
+
+      .card-description {
+        font-size: 14px;
+        color: #6b7280;
+        margin-bottom: 16px;
+        min-height: 60px;
+      }
+
+      body.dark-mode .card-description {
+        color: #9ca3af;
+      }
+
+      .card-meta {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 16px;
+        font-size: 14px;
+      }
+
+      .card-level {
+        font-weight: 500;
+      }
+
+      .card-modules {
+        color: #6b7280;
+      }
+
+      body.dark-mode .card-modules {
+        color: #9ca3af;
+      }
+
+      .progress-container {
+        margin-bottom: 20px;
+      }
+
+      .progress-label {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        margin-bottom: 8px;
+      }
+
+      .progress-bar {
+        width: 100%;
+        height: 8px;
+        background: #e5e7eb;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+
+      body.dark-mode .progress-bar {
+        background: #374151;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: rgba(15, 25, 87, 1);
+        border-radius: 4px;
+        transition: width 0.5s ease;
+      }
+
+      .card-actions {
+        display: flex;
+        gap: 12px;
+      }
+
+      .btn-start {
+        flex: 1;
+        background: rgba(15, 25, 87, 1);
+        color: white;
+        padding: 10px 16px;
+        border-radius: 8px;
+        border: none;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .btn-start:hover {
+        background: rgba(29, 38, 94, 1);
+        transform: scale(1.05);
+      }
+
+      .btn-preview {
+        flex: 1;
+        background: #e5e7eb;
+        padding: 10px 16px;
+        border-radius: 8px;
+        border: none;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      body.dark-mode .btn-preview {
+        background: #374151;
+        color: white;
+      }
+
+      .btn-preview:hover {
+        background: #d1d5db;
+        transform: scale(1.05);
+      }
+
+      body.dark-mode .btn-preview:hover {
+        background: #4b5563;
+      }
+
+      /* View All Button */
+      .view-all-container {
+        text-align: center;
+        margin-bottom: 48px;
+      }
+
+      .btn-view-all {
+        background: #1e3a8a;
+        color: white;
+        padding: 12px 32px;
+        border-radius: 8px;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        box-shadow: 0 4px 6px rgba(30, 58, 138, 0.3);
+      }
+
+      .btn-view-all:hover {
+        background: #1e40af;
+        transform: scale(1.05);
+      }
+
+      /* Overlay */
+      .overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 990;
+        display: none;
+        transition: opacity 0.3s;
+      }
+
+      .overlay.show {
+        display: block;
+      }
+
+      @media (min-width: 1024px) {
+        .overlay {
+          display: none !important;
+        }
+      }
+
+      svg {
+        width: 24px;
+        height: 24px;
+      }
+
+      /* No courses message */
+      .no-courses {
+        text-align: center;
+        padding: 40px 20px;
+        color: #6b7280;
+        font-size: 16px;
+      }
+
+      body.dark-mode .no-courses {
+        color: #9ca3af;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h2 class="sidebar-logo">Learn</h2>
+        <button class="close-btn" id="closeSidebar">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <nav class="nav-items">
+        <button class="nav-item" onclick="window.location.href='user-dashboard.html'">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+            />
+          </svg>
+          Dashboard
+        </button>
+
+        <button class="nav-item active" onclick="window.location.href='explore.html'">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+          Explore Courses
+        </button>
+
+        <button class="nav-item" onclick="window.location.href='assignment.html'">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12h6m-6 4h6m-3-9h3a2 2 0 012 2v9a2 2 0 01-2 2H9a2 2 0 01-2-2V9a2 2 0 012-2h3V5a2 2 0 114 0v2z"
+            />
+          </svg>
+          Assignments
+        </button>
+
+        <button class="nav-item" onclick="window.location.href='mentorship.html'">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M16 14a4 4 0 10-8 0m8 0v5H8v-5m8 0a4 4 0 018 0v5h-4m-4-5v5H4v-5a4 4 0 018 0"
+            />
+          </svg>
+          Mentorship
+        </button>
+
+        <button class="nav-item" onclick="window.location.href='certificate.html'">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+            />
+          </svg>
+          Credentials
+        </button>
+        <button class="nav-item" onclick="window.location.href='setting.html'">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+            />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+            />
+          </svg>
+          Settings
+        </button>
+
+            <button class="nav-item" onclick="window.location.href='contact.html'">
+    <svg viewBox="0 0 24 24" width="20" height="20">
+        <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+    </svg>
+    Contact Us
+</button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <button class="theme-toggle" id="themeToggle">
+          <svg id="sunIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+            />
+          </svg>
+          <svg id="moonIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: none">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+            />
+          </svg>
+          <span>Light mode</span>
+          <div class="toggle-switch">
+            <div class="toggle-knob"></div>
+          </div>
+        </button>
+
+        <button class="logout-btn" id="logoutBtn">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+            />
+          </svg>
+          Logout
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Top Bar -->
+      <header class="top-bar">
+        <div class="top-bar-content">
+          <button class="menu-btn" id="menuBtn">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          </button>
+
+          <div class="search-container">
+            <svg
+              class="search-icon"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+            <input
+              type="text"
+              class="search-input"
+              placeholder="Search courses, modules, and skills"
+            />
+          </div>
+
+          <div class="top-bar-actions">
+            <button class="icon-btn">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                />
+              </svg>
+              <span class="notification-dot"></span>
+            </button>
+            <button class="icon-btn">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" onclick="window.location.href='setting.html'">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+              </svg>
+            </button>
+            <div class="user-info">
+              <div class="avatar">M</div>
+              <div class="user-text">
+                <div class="user-name">Welcome Mary <i class="fa-regular fa-handshake"></i></div>
+                <div class="user-greeting">Ready to learn something new?</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mobile-search">
+          <div class="search-container" style="display: block">
+            <svg
+              class="search-icon"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+            <input
+              type="text"
+              class="search-input"
+              placeholder="Search courses..."
+            />
+          </div>
+        </div>
+      </header>
+
+      <!-- Hero Section -->
+      <section class="hero">
+        <div class="hero-content">
+          <div class="hero-text">
+            <h1 class="hero-title">Explore Our Courses</h1>
+            <p class="hero-subtitle">
+              Master in-demand skills with our comprehensive learning paths. Start with free fundamentals and unlock premium content as you progress.
+            </p>
+            <div class="hero-buttons">
+              <button class="btn-primary">Browse All Courses</button>
+              <button class="btn-secondary">View Learning Paths</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Explore Courses Section -->
+      <section class="content-section">
+        <div class="container">
+          <h2 class="section-title">All Courses</h2>
+          <p class="section-subtitle">
+            Choose from our carefully curated selection of tech courses
+          </p>
+
+          <!-- Course Stats -->
+          <div class="stats-container">
+            <div class="stat-card active" data-filter="all">
+              <div class="stat-number">8</div>
+              <div class="stat-label">All Courses</div>
+            </div>
+            <div class="stat-card" data-filter="web">
+              <div class="stat-number">1</div>
+              <div class="stat-label">Web Development</div>
+            </div>
+            <div class="stat-card" data-filter="ai">
+              <div class="stat-number">1</div>
+              <div class="stat-label">AI/ML</div>
+            </div>
+            <div class="stat-card" data-filter="data">
+              <div class="stat-number">1</div>
+              <div class="stat-label">Data Science</div>
+            </div>
+          </div>
+
+          <!-- Category Filters -->
+          <div class="filters">
+            <div class="filter-buttons">
+              <button
+                class="filter-btn active"
+                data-filter="all"
+              >
+                All Courses
+              </button>
+              <button
+                class="filter-btn"
+                data-filter="web"
+              >
+                Web Development
+              </button>
+              <button
+                class="filter-btn"
+                data-filter="ai"
+              >
+                Artificial Intelligence
+              </button>
+              <button
+                class="filter-btn"
+                data-filter="mobile"
+              >
+                Mobile Apps
+              </button>
+              <button
+                class="filter-btn"
+                data-filter="data"
+              >
+                Data Science
+              </button>
+              <button
+                class="filter-btn"
+                data-filter="ui"
+              >
+                UI/UX Design
+              </button>
+              <button
+                class="filter-btn"
+                data-filter="cyber"
+              >
+                Cybersecurity
+              </button>
+              <button
+                class="filter-btn"
+                data-filter="basic"
+              >
+                Basic Computer
+              </button>
+            </div>
+          </div>
+
+          <!-- Course Cards Grid -->
+          <div class="cards-grid" id="coursesContainer">
+            <!-- Course cards will be dynamically filtered here -->
+          </div>
+
+          <!-- View All Button -->
+          <div class="view-all-container">
+            <button class="btn-view-all">Load More Courses</button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <!-- brand -->
+        <div class="footer-brand">
+          <h3>Stepway Technologies</h3>
+          <p>
+            Learn, work, and development preparing Nigeria's tech talent for
+            global opportunities
+          </p>
+          <div class="social-links">
+             <a href="https://www.linkedin.com/company/stepwaytechnologies/" class="social-link" aria-label="LinkedIn">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.instagram.com/stepwaytechnologies" class="social-link" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.facebook.com/profile.php?id=61582686912437" class="social-link" aria-label="Facebook">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                    </a>
+          </div>
+        </div>
+
+        <!-- q-l -->
+        <div class="footer-column">
+          <h4>Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="sign-up.html">Modules & Courses</a></li>
+            <li><a href="#">Underprivileged Program</a></li>
+            <li><a href="#">Freelancing</a></li>
+            <li><a href="#">Recruitment</a></li>
+             <li><a href="faq.html">FAQs</a></li>
+          </ul>
+        </div>
+
+        <!-- legal & ethics -->
+        <div class="footer-column">
+          <h4>Legal & Ethics</h4>
+          <ul class="footer-links">
+           <li><a href="about.html">About Us</a></li>
+                    <li><a href="pri-pol.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                    <li><a href="ethical.html">Ethics Statement</a></li>
+          </ul>
+        </div>
+
+        <!-- contact us -->
+        <div class="footer-column">
+          <h4>Contact Us</h4>
+          <ul class="contact-info">
+            <li>
+              <svg class="contact-icon" viewBox="0 0 24 24">
+                <path
+                  d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
+                />
+              </svg>
+              <span> info@stepwaytechnologies.com</span>
+            </li>
+            <li>
+              <svg class="contact-icon" viewBox="0 0 24 24">
+                <path
+                  d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"
+                />
+              </svg>
+              <span>+234 901 234 5678</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">All Rights Reserved</div>
+    </footer>
+
+    
+
+
+
+    <script>
+      // Course data
+      const courses = [
+        {
+          id: 1,
+          title: "Web Development",
+          category: "web",
+          duration: "12 weeks",
+          level: "Beginner to Advanced",
+          modules: 8,
+          progress: 0,
+          description: "Learn to build modern, responsive websites and web applications using HTML, CSS, JavaScript, and popular frameworks.",
+          image: "https://images.unsplash.com/photo-1627398242454-45a1465c2479?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+        },
+        {
+          id: 2,
+          title: "Artificial Intelligence",
+          category: "ai",
+          duration: "16 weeks",
+          level: "Intermediate",
+          modules: 10,
+          progress: 0,
+          description: "Master AI concepts, machine learning algorithms, and neural networks to build intelligent systems.",
+          image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+        },
+        {
+          id: 3,
+          title: "Mobile App Development",
+          category: "mobile",
+          duration: "14 weeks",
+          level: "Beginner to Intermediate",
+          modules: 9,
+          progress: 0,
+          description: "Create cross-platform mobile applications using React Native and Flutter with industry best practices.",
+          image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+        },
+        {
+          id: 4,
+          title: "Data Science",
+          category: "data",
+          duration: "18 weeks",
+          level: "Intermediate to Advanced",
+          modules: 12,
+          progress: 0,
+          description: "Transform raw data into actionable insights using Python, statistics, and machine learning techniques.",
+          image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+        },
+        {
+          id: 5,
+          title: "UI/UX Design",
+          category: "ui",
+          duration: "10 weeks",
+          level: "Beginner to Intermediate",
+          modules: 7,
+          progress: 0,
+          description: "Design beautiful and intuitive user interfaces with user-centered design principles and prototyping tools.",
+          image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+        },
+        {
+          id: 6,
+          title: "Cybersecurity",
+          category: "cyber",
+          duration: "15 weeks",
+          level: "Intermediate to Advanced",
+          modules: 11,
+          progress: 0,
+          description: "Learn to protect systems, networks, and data from digital attacks and security breaches.",
+          image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+        },
+        {
+          id: 7,
+          title: "Basic Computer Knowledge",
+          category: "basic",
+          duration: "6 weeks",
+          level: "Beginner",
+          modules: 5,
+          progress: 0,
+          description: "Master essential computer skills including operating systems, office software, and internet basics.",
+          image: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+        },
+        {
+          id: 8,
+          title: "Cloud Computing",
+          category: "mobile",
+          duration: "12 weeks",
+          level: "Advanced",
+          modules: 8,
+          progress: 0,
+          description: "Build complex mobile applications with advanced features, APIs, and performance optimization.",
+          image: "https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+        }
+      ];
+
+      // Sidebar toggle
+      const sidebar = document.getElementById("sidebar");
+      const overlay = document.getElementById("overlay");
+      const menuBtn = document.getElementById("menuBtn");
+      const closeSidebar = document.getElementById("closeSidebar");
+
+      menuBtn.addEventListener("click", () => {
+        sidebar.classList.add("open");
+        overlay.classList.add("show");
+        document.body.style.overflow = 'hidden';
+      });
+
+      closeSidebar.addEventListener("click", () => {
+        sidebar.classList.remove("open");
+        overlay.classList.remove("show");
+        document.body.style.overflow = '';
+      });
+
+      overlay.addEventListener("click", () => {
+        sidebar.classList.remove("open");
+        overlay.classList.remove("show");
+        document.body.style.overflow = '';
+      });
+
+      // Dark mode toggle
+      const themeToggle = document.getElementById("themeToggle");
+      const sunIcon = document.getElementById("sunIcon");
+      const moonIcon = document.getElementById("moonIcon");
+
+      themeToggle.addEventListener("click", (e) => {
+        e.stopPropagation(); // Prevent click from bubbling to parent
+        document.body.classList.toggle("dark-mode");
+
+        if (document.body.classList.contains("dark-mode")) {
+          sunIcon.style.display = "block";
+          moonIcon.style.display = "none";
+          themeToggle.querySelector("span").textContent = "Dark mode";
+        } else {
+          sunIcon.style.display = "none";
+          moonIcon.style.display = "block";
+          themeToggle.querySelector("span").textContent = "Light mode";
+        }
+      });
+
+      // Logout functionality
+      document.getElementById('logoutBtn').addEventListener('click', () => {
+        window.location.href = 'log-out.html';
+      });
+
+      // Course filtering functionality
+      const coursesContainer = document.getElementById("coursesContainer");
+      const filterButtons = document.querySelectorAll(".filter-btn");
+      const statCards = document.querySelectorAll(".stat-card");
+      let currentFilter = "all";
+
+      // Function to render courses based on filter
+      function renderCourses(filter) {
+        coursesContainer.innerHTML = "";
+        
+        const filteredCourses = filter === "all" 
+          ? courses 
+          : courses.filter(course => course.category === filter);
+        
+        if (filteredCourses.length === 0) {
+          coursesContainer.innerHTML = `
+            <div class="no-courses">
+              <p>No ${filter === "all" ? "" : filter} courses found.</p>
+            </div>
+          `;
+          return;
+        }
+        
+        filteredCourses.forEach(course => {
+          const courseCard = document.createElement("div");
+          courseCard.className = "course-card";
+          courseCard.setAttribute("data-category", course.category);
+          
+          courseCard.innerHTML = `
+            <div
+              class="card-header"
+              style="background-image: url('${course.image}')"
+            >
+              <span class="card-badge">New</span>
+              <span class="card-duration">${course.duration}</span>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">${course.title}</h3>
+              <p class="card-description">${course.description}</p>
+              <div class="card-meta">
+                <span class="card-level">${course.level}</span>
+                <span class="card-modules">${course.modules} modules</span>
+              </div>
+              <div class="progress-container">
+                <div class="progress-label">
+                  <span>Progress</span>
+                  <span>${course.progress}%</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: ${course.progress}%"></div>
+                </div>
+              </div>
+              <div class="card-actions">
+                <button class="btn-start" onclick="startCourse(${course.id})">Start Course</button>
+                <button class="btn-preview">Preview</button>
+              </div>
+            </div>
+          `;
+          
+          coursesContainer.appendChild(courseCard);
+        });
+        
+        // Add animation to progress bars
+        const progressBars = document.querySelectorAll('.progress-fill');
+        progressBars.forEach(bar => {
+          const width = bar.style.width;
+          bar.style.width = '0';
+          setTimeout(() => {
+            bar.style.width = width;
+          }, 300);
+        });
+      }
+
+      // Function to start a course
+      function startCourse(courseId) {
+        // Redirect to the course page
+        const course = courses.find(c => c.id === courseId);
+        if (course) {
+          window.location.href = `course-${course.title.toLowerCase().replace(/\s+/g, '-')}.html`;
+        }
+      }
+
+      // Initialize with all courses
+      renderCourses("all");
+
+      // Filter button click handlers
+      filterButtons.forEach(button => {
+        button.addEventListener("click", () => {
+          const filter = button.getAttribute("data-filter");
+          
+          // Update active state of filter buttons
+          filterButtons.forEach(btn => btn.classList.remove("active"));
+          button.classList.add("active");
+          
+          // Update active state of stat cards
+          statCards.forEach(card => card.classList.remove("active"));
+          document.querySelector(`.stat-card[data-filter="${filter}"]`).classList.add("active");
+          
+          // Render filtered courses
+          renderCourses(filter);
+          currentFilter = filter;
+        });
+      });
+
+      // Stat card click handlers (for additional filtering)
+      statCards.forEach(card => {
+        card.addEventListener("click", () => {
+          const filter = card.getAttribute("data-filter");
+          
+          // Update active state of filter buttons
+          filterButtons.forEach(btn => btn.classList.remove("active"));
+          document.querySelector(`.filter-btn[data-filter="${filter}"]`).classList.add("active");
+          
+          // Update active state of stat cards
+          statCards.forEach(c => c.classList.remove("active"));
+          card.classList.add("active");
+          
+          // Render filtered courses
+          renderCourses(filter);
+          currentFilter = filter;
+        });
+      });
+    </script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+

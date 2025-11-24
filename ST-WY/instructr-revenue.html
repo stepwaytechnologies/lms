@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earnings & Revenue - StepWay Technologies</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f7fa;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles - FIXED */
+        .sidebar {
+            width: 240px;
+            background: #ffffff;
+            border-right: 1px solid #e2e8f0;
+            padding: 20px 0;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .close-sidebar {
+            display: none;
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #718096;
+            z-index: 1001;
+        }
+
+        .nav-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #718096;
+            text-decoration: none;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+            font-size: 14px;
+        }
+
+        .nav-item:hover {
+            background-color: #f7fafc;
+            color: rgba(26, 35, 126, 1);
+        }
+
+        .nav-item.active {
+            background-color: #e6f2ff;
+            color: rgba(26, 35, 126, 1);
+            border-left-color: rgba(26, 35, 126, 1);
+        }
+
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 240px;
+            transition: margin-left 0.3s ease;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 16px 32px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background-color: #f7fafc;
+            padding: 8px 16px;
+            border-radius: 8px;
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .search-box input {
+            border: none;
+            background: none;
+            outline: none;
+            margin-left: 8px;
+            width: 100%;
+            color: #2d3748;
+            font-size: 14px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .notification-icon {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #e53e3e;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(26, 35, 126, 1);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 16px;
+            background: none;
+            border: none;
+            color: #2d3748;
+        }
+
+        /* Content Area */
+        .content {
+            padding: 32px;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .btn-generate {
+            background: rgba(26, 35, 126, 1);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-generate:hover {
+            background: rgb(40, 49, 148);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .stat-icon.blue {
+            background: #e6f2ff;
+            color: rgba(26, 35, 126, 1);
+        }
+
+        .stat-icon.red {
+            background: #fee;
+            color: #e53e3e;
+        }
+
+        .stat-icon.cyan {
+            background: #e0f7fa;
+            color: rgba(26, 35, 126, 1);
+        }
+
+        .stat-icon.yellow {
+            background: #fff9e6;
+            color: #f59e0b;
+        }
+
+        .stat-change {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .stat-change.positive {
+            color: #48bb78;
+        }
+
+        .stat-change.negative {
+            color: #e53e3e;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #718096;
+        }
+
+        /* Filters */
+        .filters {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #718096;
+        }
+
+        .filter-btn:hover {
+            border-color: rgba(26, 35, 126, 1);
+            color: rgba(26, 35, 126, 1);
+        }
+
+        .filter-btn.active {
+            background: rgba(26, 35, 126, 1);
+            color: white;
+            border-color: rgba(26, 35, 126, 1);
+        }
+
+        .date-filter {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .date-input {
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .apply-btn {
+            padding: 8px 16px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+        }
+
+        .apply-btn:hover {
+            background: #f7fafc;
+        }
+
+        /* Charts Grid */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .chart-card {
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .chart-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .chart-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chart-action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #718096;
+            font-size: 16px;
+            padding: 5px;
+        }
+
+        .chart-action-btn:hover {
+            color: rgba(26, 35, 126, 1);
+        }
+
+        .chart-placeholder {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(to bottom, #f0f4ff 0%, #ffffff 100%);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Donut Chart */
+        .donut-chart {
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+            position: relative;
+        }
+
+        .donut-chart svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .chart-legend {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+
+        .legend-color.blue {
+            background: rgba(26, 35, 126, 1);
+        }
+
+        .legend-color.red {
+            background: #9b2c2c;
+        }
+
+        .legend-color.cyan {
+            background: #00acc1;
+        }
+
+        .legend-color.orange {
+            background: #f59e0b;
+        }
+
+        .legend-color.gray {
+            background: #718096;
+        }
+
+        /* Transactions Section */
+        .transactions-payout-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .section-card {
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .view-all-btn {
+            background: none;
+            border: none;
+            color: rgba(26, 35, 126, 1);
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .view-all-btn:hover {
+            text-decoration: underline;
+        }
+
+        .add-method-btn {
+            background: none;
+            border: none;
+            color: rgba(26, 35, 126, 1);
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 500;
+        }
+
+        .transaction-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .transaction-item:hover {
+            background: #f7fafc;
+            border-color: #cbd5e0;
+        }
+
+        .transaction-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .transaction-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .transaction-icon.sale {
+            background: #e0f7fa;
+            color: rgba(26, 35, 126, 1);
+        }
+
+        .transaction-icon.payout {
+            background: #e8f5e9;
+            color: #48bb78;
+        }
+
+        .transaction-icon.refund {
+            background: #fee;
+            color: #e53e3e;
+        }
+
+        .transaction-details h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 3px;
+        }
+
+        .transaction-details p {
+            font-size: 12px;
+            color: #718096;
+        }
+
+        .transaction-amount {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .transaction-amount.positive {
+            color: #48bb78;
+        }
+
+        .transaction-amount.negative {
+            color: #e53e3e;
+        }
+
+        /* Payout Methods */
+        .payout-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .payout-method {
+            padding: 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .payout-method:hover {
+            background: #f7fafc;
+            border-color: #cbd5e0;
+        }
+
+        .method-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .method-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: #f7fafc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #2d3748;
+        }
+
+        .method-details h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 3px;
+        }
+
+        .method-details p {
+            font-size: 12px;
+            color: #718096;
+        }
+
+        .method-status {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 12px;
+        }
+
+        .method-status.verified {
+            background: #e6fffa;
+            color: rgba(26, 35, 126, 1);
+        }
+
+        .method-status.active {
+            background: #e0f7fa;
+            color: #00acc1;
+        }
+
+        /* Tax Information */
+        .tax-section {
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 32px;
+        }
+
+        .tax-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .export-btn {
+            background: #2d3748;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .export-btn:hover {
+            background: #1a202c;
+        }
+
+        .tax-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .tax-item {
+            text-align: center;
+            padding: 20px;
+            background: #f7fafc;
+            border-radius: 8px;
+        }
+
+        .tax-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .tax-label {
+            font-size: 13px;
+            color: #718096;
+        }
+
+        /* Withdrawal Section */
+        .withdrawal-section {
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .withdrawal-amount {
+            margin-bottom: 20px;
+        }
+
+        .withdrawal-label {
+            font-size: 13px;
+            color: #718096;
+            margin-bottom: 8px;
+        }
+
+        .withdrawal-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        .withdrawal-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .withdraw-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .withdraw-btn.primary {
+            background: rgba(26, 35, 126, 1);
+            color: white;
+        }
+
+        .withdraw-btn.primary:hover {
+            background: rgb(37, 45, 140);
+        }
+
+        .withdraw-btn.secondary {
+            background: #2d3748;
+            color: white;
+        }
+
+        .withdraw-btn.secondary:hover {
+            background: #1a202c;
+        }
+
+        .withdrawal-info {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 13px;
+            color: #718096;
+        }
+
+        /* Sidebar Overlay */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        /* Audience Label Styles */
+        .audience-label {
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: white;
+            white-space: nowrap;
+            display: inline-block;
+            width: fit-content;
+        }
+
+        .audience-label.adult {
+            background-color: rgba(26, 35, 126, 1);
+        }
+
+        .audience-label.kids {
+            background-color: #7c0a0a;
+        }
+
+        /* Mobile Responsive - FIXED */
+        @media (max-width: 1024px) {
+            .main-content {
+                margin-left: 0;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .close-sidebar {
+                display: block;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .search-box {
+                max-width: 200px;
+            }
+
+            .user-profile span {
+                display: none;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .transactions-payout-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tax-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 12px 16px;
+            }
+
+            .search-box {
+                display: none;
+            }
+
+            .content {
+                padding: 16px;
+            }
+
+            .page-header {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .btn-generate {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-btn {
+                text-align: center;
+            }
+
+            .date-filter {
+                flex-direction: column;
+            }
+
+            .date-input {
+                width: 100%;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .withdrawal-buttons {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 24px;
+            }
+            
+            .audience-label {
+                font-size: 10px;
+                padding: 2px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <i class="fas fa-times close-sidebar" id="closeSidebar"></i>
+            <div class="sidebar-header">
+                <div class="logo-container">
+                    <img src="images/Step-Way Logo.png" width="150px" alt="Stepway Technologies">
+                </div>
+                <div class="audience-label" id="audienceLabel"></div>
+            </div>
+
+            <nav>
+                <a href="instructor-dashboard.html" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="instructor-courses.html" class="nav-item">
+                    <i class="fas fa-book"></i>
+                    <span>My Courses</span>
+                </a>
+                <a href="instructor-analytic.html" class="nav-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="instructor-stu-management.html" class="nav-item">
+                    <i class="fas fa-users"></i>
+                    <span>Students</span>
+                </a>
+                <a href="instructor-message-management.html" class="nav-item">
+                    <i class="fas fa-comments"></i>
+                    <span>Messages</span>
+                </a>
+                <a href="instructr-revenue.html" class="nav-item active">
+                    <i class="fas fa-wallet"></i>
+                    <span>Earnings</span>
+                </a>
+                <a href="instructor-setting.html" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div style="display: flex; align-items: center; flex: 1;">
+                    <i class="fas fa-bars hamburger" id="hamburger"></i>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search transactions...">
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="notification-icon">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <div class="notification-icon">
+                        <i class="fas fa-comment"></i>
+                        <span class="notification-badge">5</span>
+                    </div>
+                    <div class="user-profile">
+                        <div class="user-avatar">MJ</div>
+                        <span>Michael Johnson</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <div class="content">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title" style="color: rgba(26, 35, 126, 1);">Earnings & Revenue</h1>
+                        <p class="page-subtitle">Track your earnings, manage payouts, and view transaction history</p>
+                    </div>
+                    <button class="btn-generate">
+                        <i class="fas fa-file-export"></i>
+                        Generate Report
+                    </button>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon blue">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <span class="stat-change positive">18.3%</span>
+                        </div>
+                        <div class="stat-value">$8,420</div>
+                        <div class="stat-label">Monthly Revenue</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon red">
+                                <i class="fas fa-money-bill-wave"></i>
+                            </div>
+                            <span class="stat-change positive">12.5%</span>
+                        </div>
+                        <div class="stat-value">$42,150</div>
+                        <div class="stat-label">Total Earnings</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon cyan">
+                                <i class="fas fa-piggy-bank"></i>
+                            </div>
+                            <span class="stat-change positive">8.2%</span>
+                        </div>
+                        <div class="stat-value">$6,840</div>
+                        <div class="stat-label">Available Balance</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon yellow">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <span class="stat-change negative">2.1%</span>
+                        </div>
+                        <div class="stat-value">$320</div>
+                        <div class="stat-label">Pending Clearance</div>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="filters">
+                    <button class="filter-btn">Last 7 Days</button>
+                    <button class="filter-btn">Last 30 Days</button>
+                    <button class="filter-btn active">Last 90 Days</button>
+                    <button class="filter-btn">Last Year</button>
+                    <div class="date-filter">
+                        <input type="text" class="date-input" placeholder="01/01/2023" readonly>
+                        <span>to</span>
+                        <input type="text" class="date-input" placeholder="01/01/2023" readonly>
+                    </div>
+                    <button class="apply-btn">
+                        <i class="fas fa-check"></i>
+                        Apply
+                    </button>
+                </div>
+
+                <!-- Charts -->
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 class="chart-title" style="color: rgba(26, 35, 126, 1);">Revenue Trends</h3>
+                            <div class="chart-actions">
+                                <button class="chart-action-btn">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                                <button class="chart-action-btn">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chart-placeholder">
+                            <!-- Revenue chart visualization -->
+                            <svg width="100%" height="250" style="position: absolute; top: 0; left: 0;">
+                                <!-- Grid lines -->
+                                <line x1="50" y1="40" x2="95%" y2="40" stroke="#e2e8f0" stroke-width="1"/>
+                                <line x1="50" y1="90" x2="95%" y2="90" stroke="#e2e8f0" stroke-width="1"/>
+                                <line x1="50" y1="140" x2="95%" y2="140" stroke="#e2e8f0" stroke-width="1"/>
+                                <line x1="50" y1="190" x2="95%" y2="190" stroke="#e2e8f0" stroke-width="1"/>
+                                
+                                <!-- Revenue line -->
+                                <polyline points="80,180 150,150 220,120 290,100 360,80 430,70" 
+                                          fill="none" stroke="rgba(26, 35, 126, 1)" stroke-width="3"/>
+                                <circle cx="80" cy="180" r="4" fill="rgba(26, 35, 126, 1)"/>
+                                <circle cx="150" cy="150" r="4" fill="rgba(26, 35, 126, 1)"/>
+                                <circle cx="220" cy="120" r="4" fill="rgba(26, 35, 126, 1)"/>
+                                <circle cx="290" cy="100" r="4" fill="rgba(26, 35, 126, 1)"/>
+                                <circle cx="360" cy="80" r="4" fill="rgba(26, 35, 126, 1)"/>
+                                <circle cx="430" cy="70" r="4" fill="rgba(26, 35, 126, 1)"/>
+                                
+                                <!-- X-axis labels -->
+                                <text x="65" y="235" font-size="11" fill="#718096">Jan</text>
+                                <text x="135" y="235" font-size="11" fill="#718096">Feb</text>
+                                <text x="205" y="235" font-size="11" fill="#718096">Mar</text>
+                                <text x="275" y="235" font-size="11" fill="#718096">Apr</text>
+                                <text x="345" y="235" font-size="11" fill="#718096">May</text>
+                                <text x="415" y="235" font-size="11" fill="#718096">Jun</text>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 class="chart-title" style="color: rgba(26, 35, 126, 1);">Earnings by Course</h3>
+                            <div class="chart-actions">
+                                <button class="chart-action-btn">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="donut-chart">
+                            <svg viewBox="0 0 200 200">
+                                <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(26, 35, 126, 1)" stroke-width="40" stroke-dasharray="150 351" transform="rotate(-90 100 100)"/>
+                                <circle cx="100" cy="100" r="80" fill="none" stroke="#9b2c2c" stroke-width="40" stroke-dasharray="100 351" stroke-dashoffset="-150" transform="rotate(-90 100 100)"/>
+                                <circle cx="100" cy="100" r="80" fill="none" stroke="#00acc1" stroke-width="40" stroke-dasharray="70 351" stroke-dashoffset="-250" transform="rotate(-90 100 100)"/>
+                                <circle cx="100" cy="100" r="80" fill="none" stroke="#f59e0b" stroke-width="40" stroke-dasharray="50 351" stroke-dashoffset="-320" transform="rotate(-90 100 100)"/>
+                                <circle cx="100" cy="100" r="80" fill="none" stroke="#718096" stroke-width="40" stroke-dasharray="31 351" stroke-dashoffset="-370" transform="rotate(-90 100 100)"/>
+                            </svg>
+                        </div>
+                        <div class="chart-legend">
+                            <div class="legend-item">
+                                <span class="legend-color blue"></span>
+                                <span>Web Development</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color red"></span>
+                                <span>React Mastery</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color cyan"></span>
+                                <span>UI/UX Design</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color orange"></span>
+                                <span>Data Science</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color gray"></span>
+                                <span>Others</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transactions & Payout Methods -->
+                <div class="transactions-payout-grid">
+                    <div class="section-card">
+                        <div class="section-header">
+                            <h3 class="section-title" style="color: rgba(26, 35, 126, 1);">Recent Transactions</h3>
+                            <button class="view-all-btn">
+                                <i class="fas fa-sync-alt"></i>
+                                View All
+                            </button>
+                        </div>
+                        <div class="transaction-list">
+                            <div class="transaction-item">
+                                <div class="transaction-left">
+                                    <div class="transaction-icon sale">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </div>
+                                    <div class="transaction-details">
+                                        <h4>Course Sale</h4>
+                                        <p>Advanced Web Development • Sarah Davis</p>
+                                    </div>
+                                </div>
+                                <div class="transaction-amount positive">+$589.00</div>
+                            </div>
+                            <div class="transaction-item">
+                                <div class="transaction-left">
+                                    <div class="transaction-icon sale">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </div>
+                                    <div class="transaction-details">
+                                        <h4>Course Sale</h4>
+                                        <p>React & Redux Mastery • Alex Johnson</p>
+                                    </div>
+                                </div>
+                                <div class="transaction-amount positive">+$579.00</div>
+                            </div>
+                            <div class="transaction-item">
+                                <div class="transaction-left">
+                                    <div class="transaction-icon payout">
+                                        <i class="fas fa-arrow-up"></i>
+                                    </div>
+                                    <div class="transaction-details">
+                                        <h4>Payout Processed</h4>
+                                        <p>Bank Transfer • Completed</p>
+                                    </div>
+                                </div>
+                                <div class="transaction-amount negative">-$2,500.00</div>
+                            </div>
+                            <div class="transaction-item">
+                                <div class="transaction-left">
+                                    <div class="transaction-icon refund">
+                                        <i class="fas fa-undo"></i>
+                                    </div>
+                                    <div class="transaction-details">
+                                        <h4>Refund Issued</h4>
+                                        <p>UI/UX Design Fundamentals • Mark Wilson</p>
+                                    </div>
+                                </div>
+                                <div class="transaction-amount negative">-$69.00</div>
+                            </div>
+                            <div class="transaction-item">
+                                <div class="transaction-left">
+                                    <div class="transaction-icon sale">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </div>
+                                    <div class="transaction-details">
+                                        <h4>Course Sale</h4>
+                                        <p>Python for Data Science • Maria Rodriguez</p>
+                                    </div>
+                                </div>
+                                <div class="transaction-amount positive">+$599.00</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="section-header">
+                            <h3 class="section-title" style="color: rgba(26, 35, 126, 1);">Payout Methods</h3>
+                            <button class="add-method-btn">
+                                <i class="fas fa-plus"></i>
+                                Add Method
+                            </button>
+                        </div>
+                        <div class="payout-methods">
+                            <div class="payout-method">
+                                <div class="method-left">
+                                    <div class="method-icon">
+                                        <i class="fas fa-university"></i>
+                                    </div>
+                                    <div class="method-details">
+                                        <h4>Bank Transfer</h4>
+                                        <p>**** 2567 • Primary</p>
+                                    </div>
+                                </div>
+                                <span class="method-status verified">Verified</span>
+                            </div>
+                            <div class="payout-method">
+                                <div class="method-left">
+                                    <div class="method-icon">
+                                        <i class="fab fa-paypal"></i>
+                                    </div>
+                                    <div class="method-details">
+                                        <h4>PayPal</h4>
+                                        <p>michael@example.com</p>
+                                    </div>
+                                </div>
+                                <span class="method-status verified">Verified</span>
+                            </div>
+                            <div class="payout-method">
+                                <div class="method-left">
+                                    <div class="method-icon">
+                                        <i class="fab fa-stripe"></i>
+                                    </div>
+                                    <div class="method-details">
+                                        <h4>Stripe</h4>
+                                        <p>Connected</p>
+                                    </div>
+                                </div>
+                                <span class="method-status active">Active</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tax Information -->
+                <div class="tax-section">
+                    <div class="tax-header">
+                        <h3 class="section-title" style="color: rgba(26, 35, 126, 1);">Tax Information</h3>
+                        <button class="export-btn">
+                            <i class="fas fa-file-export"></i>
+                            Export Tax Docs
+                        </button>
+                    </div>
+                    <div class="tax-grid">
+                        <div class="tax-item">
+                            <div class="tax-value">$8,240</div>
+                            <div class="tax-label">Total Earnings (YTD)</div>
+                        </div>
+                        <div class="tax-item">
+                            <div class="tax-value">$1,236</div>
+                            <div class="tax-label">Tax Withheld</div>
+                        </div>
+                        <div class="tax-item">
+                            <div class="tax-value">$7,004</div>
+                            <div class="tax-label">Net Income</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Withdrawal Section -->
+                <div class="withdrawal-section">
+                    <div class="withdrawal-amount">
+                        <div class="withdrawal-label" style="color: rgba(26, 35, 126, 1);">Available for Withdrawal</div>
+                        <div class="withdrawal-value">$6,840.50</div>
+                    </div>
+                    <div class="withdrawal-buttons">
+                        <button class="withdraw-btn primary">
+                            <i class="fas fa-arrow-up"></i>
+                            Withdraw All
+                        </button>
+                        <button class="withdraw-btn secondary">
+                            <i class="fas fa-paper-plane"></i>
+                            Request Withdrawal
+                        </button>
+                    </div>
+                    <div class="withdrawal-info">
+                        Next payout date: Dec 15, 2023 • Minimum withdrawal: $10.00
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Mobile Menu Toggle
+        const hamburger = document.getElementById('hamburger');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const closeSidebar = document.getElementById('closeSidebar');
+
+        hamburger.addEventListener('click', () => {
+            sidebar.classList.add('active');
+            sidebarOverlay.classList.add('active');
+        });
+
+        closeSidebar.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+        });
+
+        sidebarOverlay.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+        });
+
+        // Close sidebar when navigation links are clicked on mobile
+        const navLinks = document.querySelectorAll('.nav-item');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 1024) {
+                    sidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                }
+            });
+        });
+
+        // Filter button functionality
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+
+        // Load teaching audience and display label
+        function loadTeachingAudience() {
+            const instructorData = JSON.parse(localStorage.getItem('instructorData') || '{}');
+            const step1Data = JSON.parse(sessionStorage.getItem('step1Data') || '{}');
+            
+            const teachingAudience = instructorData.teachingAudience || step1Data.teachingAudience;
+            const audienceLabel = document.getElementById('audienceLabel');
+            
+            if (audienceLabel) {
+                if (teachingAudience === 'kids') {
+                    audienceLabel.textContent = 'KIDS';
+                    audienceLabel.className = 'audience-label kids';
+                } else if (teachingAudience === 'adults') {
+                    audienceLabel.textContent = 'ADULT';
+                    audienceLabel.className = 'audience-label adult';
+                } else {
+                    audienceLabel.textContent = 'INSTRUCTOR';
+                    audienceLabel.className = 'audience-label adult';
+                }
+            }
+        }
+
+        // Call this function when the page loads
+        document.addEventListener('DOMContentLoaded', loadTeachingAudience);
+    </script>
+</body>
+</html>

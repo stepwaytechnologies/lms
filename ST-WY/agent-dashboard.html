@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stepway Agent Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f7fa;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .dashboard-header {
+            background: linear-gradient(135deg, #7c0a0a 0%, rgba(15, 25, 87, 0.95) 100%);
+            color: white;
+            padding: 20px 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .header-left p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .agent-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px 20px;
+            border-radius: 12px;
+        }
+
+        .agent-avatar {
+            width: 40px;
+            height: 40px;
+            background: white;
+            color: #7c0a0a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .agent-name {
+            font-weight: 600;
+        }
+
+        .agent-status {
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #4ade80;
+            border-radius: 50%;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Main Content */
+        .dashboard-main {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 30px;
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 20px;
+        }
+
+        /* Chat List */
+        .chat-list-panel {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            height: calc(100vh - 180px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-list-header {
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .chat-list-header h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .chat-filter {
+            display: flex;
+            gap: 8px;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 1px solid #e0e0e0;
+            background: white;
+            border-radius: 8px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-btn.active {
+            background: #7c0a0a;
+            color: white;
+            border-color: #7c0a0a;
+        }
+
+        .filter-btn:hover:not(.active) {
+            background: #f5f5f5;
+        }
+
+        .chat-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .chat-list::-webkit-scrollbar { width: 6px; }
+        .chat-list::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+
+        .chat-item {
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+            background: #f7f9fc;
+        }
+
+        .chat-item:hover {
+            background: #eef2f7;
+            transform: translateX(5px);
+        }
+
+        .chat-item.active {
+            background: #fff3e0;
+            border-color: #fbbf24;
+        }
+
+        .chat-item.waiting {
+            border-color: #fbbf24;
+            background: #fffbeb;
+        }
+
+        .chat-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .chat-id {
+            font-weight: 600;
+            font-size: 13px;
+            color: #333;
+        }
+
+        .chat-time {
+            font-size: 11px;
+            color: #999;
+        }
+
+        .chat-preview {
+            font-size: 13px;
+            color: #666;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-bottom: 8px;
+        }
+
+        .chat-meta {
+            display: flex;
+            gap: 10px;
+            font-size: 11px;
+        }
+
+        .chat-badge {
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .badge-waiting {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-active {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .badge-messages {
+            background: #e0e0e0;
+            color: #666;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        /* Chat Window */
+        .chat-window-panel {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            height: calc(100vh - 180px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-window-header {
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-window-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .chat-window-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            padding: 8px 16px;
+            border: 1px solid #e0e0e0;
+            background: white;
+            border-radius: 8px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .action-btn:hover {
+            background: #f5f5f5;
+        }
+
+        .action-btn.primary {
+            background: #7c0a0a;
+            color: white;
+            border-color: #7c0a0a;
+        }
+
+        .action-btn.primary:hover {
+            background: #6a0808;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f7f9fc;
+        }
+
+        .chat-messages::-webkit-scrollbar { width: 6px; }
+        .chat-messages::-webkit-scrollbar-thumb { background: #7c0a0a; border-radius: 3px; }
+
+        .message {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            max-width: 70%;
+            margin-bottom: 15px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.customer { align-self: flex-start; }
+        .message.agent { align-self: flex-end; }
+
+        .message.system {
+            align-self: center;
+            max-width: 90%;
+        }
+
+        .message-label {
+            font-size: 11px;
+            color: #999;
+            font-weight: 500;
+            padding: 0 4px;
+        }
+
+        .message.agent .message-label {
+            text-align: right;
+        }
+
+        .message-content {
+            padding: 12px 16px;
+            border-radius: 12px;
+            line-height: 1.6;
+            font-size: 14px;
+            word-wrap: break-word;
+        }
+
+        .message.customer .message-content {
+            background: white;
+            color: #333;
+            border: 1px solid #e0e0e0;
+            border-bottom-left-radius: 4px;
+        }
+
+        .message.agent .message-content {
+            background: linear-gradient(135deg, #7c0a0a 0%, rgba(15, 25, 87, 0.95) 100%);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message.system .message-content {
+            background: #e0f2fe;
+            color: #075985;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        .typing-indicator {
+            display: none;
+            align-items: center;
+            gap: 4px;
+            padding: 12px 16px;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            max-width: 70px;
+            align-self: flex-start;
+        }
+
+        .typing-indicator.active { display: flex; }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #7c0a0a;
+            border-radius: 50%;
+            animation: typingDot 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typingDot {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.7; }
+            30% { transform: translateY(-10px); opacity: 1; }
+        }
+
+        .chat-input-area {
+            padding: 20px;
+            border-top: 1px solid #e0e0e0;
+            background: white;
+        }
+
+        .input-wrapper {
+            display: flex;
+            gap: 10px;
+        }
+
+        .agent-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+            font-family: inherit;
+            resize: none;
+        }
+
+        .agent-input:focus {
+            border-color: #7c0a0a;
+        }
+
+        .send-btn {
+            background: linear-gradient(135deg, #7c0a0a 0%, rgba(15, 25, 87, 0.95) 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 0 24px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 16px;
+        }
+
+        .send-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(124, 10, 10, 0.3);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .placeholder-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #999;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .placeholder-state i {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .placeholder-state h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .placeholder-state p {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .dashboard-main {
+                grid-template-columns: 1fr;
+                padding: 0 15px;
+            }
+
+            .chat-list-panel {
+                height: 300px;
+            }
+
+            .chat-window-panel {
+                height: calc(100vh - 400px);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="dashboard-header">
+    <div class="header-content">
+        <div class="header-left">
+            <h1><i class="fa-solid fa-headset"></i> Agent Dashboard</h1>
+            <p>Stepway Technologies Support</p>
+        </div>
+        <div class="agent-info">
+            <div class="agent-avatar">
+                <i class="fa-solid fa-user-tie"></i>
+            </div>
+            <div>
+                <div class="agent-name" id="agent-name">Support Agent</div>
+                <div class="agent-status">
+                    <span class="status-dot"></span>
+                    <span>Online</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="dashboard-main">
+    <!-- Chat List -->
+    <div class="chat-list-panel">
+        <div class="chat-list-header">
+            <h2><i class="fa-solid fa-comments"></i> Active Chats</h2>
+            <div class="chat-filter">
+                <button class="filter-btn active" onclick="filterChats('all')">All</button>
+                <button class="filter-btn" onclick="filterChats('waiting')">Waiting</button>
+                <button class="filter-btn" onclick="filterChats('active')">Active</button>
+            </div>
+        </div>
+        <div class="chat-list" id="chat-list">
+            <div class="empty-state">
+                <i class="fa-solid fa-inbox"></i>
+                <p>No active chats</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Window -->
+    <div class="chat-window-panel">
+        <div id="placeholder" class="placeholder-state">
+            <i class="fa-solid fa-messages"></i>
+            <h3>Select a chat to get started</h3>
+            <p>Click on any chat from the left panel to view the conversation and respond to customers.</p>
+        </div>
+
+        <div id="chat-window" style="display: none; flex-direction: column; height: 100%;">
+            <div class="chat-window-header">
+                <div class="chat-window-title" id="current-chat-title">Chat #12345</div>
+                <div class="chat-window-actions">
+                    <button class="action-btn" onclick="endChat()">
+                        <i class="fa-solid fa-circle-xmark"></i> End Chat
+                    </button>
+                </div>
+            </div>
+
+            <div class="chat-messages" id="chat-messages">
+                <div class="typing-indicator" id="typing-indicator">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            </div>
+
+            <div class="chat-input-area">
+                <div class="input-wrapper">
+                    <textarea 
+                        id="agent-input" 
+                        class="agent-input" 
+                        placeholder="Type your message..." 
+                        rows="3"
+                        onkeydown="handleAgentKeyPress(event)"></textarea>
+                    <button class="send-btn" onclick="sendAgentMessage()">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// EmailJS Configuration
+const EMAIL_CONFIG = {
+    serviceId: 'service_2vkdyrj',
+    templateId: 'template_ecpepx9',
+    publicKey: 'CGppJHeBgaz9B0fgR',
+    agentEmail: 'admin@stepwaytechnologies.com',
+    dashboardUrl: 'https://stepway-teachnologies-company.netlify.app/agent-dashboard.html'
+};
+
+// Application State
+const STORAGE_KEY = 'stepway_chat_data';
+let currentChatId = null;
+let agentName = '';
+let activeChats = {};
+let isTyping = false;
+let lastLoadedMessageCounts = {};
+
+// ============================================
+//  INITIALIZATION
+// ============================================
+
+function initializeApp() {
+    initializeEmailJS();
+    promptAgentName();
+    loadChats();
+    
+    // Check for chat from email link
+    const urlParams = new URLSearchParams(window.location.search);
+    const chatIdFromEmail = urlParams.get('chatId');
+    if (chatIdFromEmail) {
+        setTimeout(() => selectChat(chatIdFromEmail), 1000);
+    }
+    
+    // Set up intervals
+    setInterval(loadChats, 3000);
+    setInterval(checkForNewMessages, 2000);
+    
+    console.log('✅ Agent Dashboard initialized');
+}
+
+function initializeEmailJS() {
+    if (typeof emailjs !== 'undefined') {
+        emailjs.init(EMAIL_CONFIG.publicKey);
+        console.log('✅ EmailJS initialized');
+        return true;
+    } else {
+        console.error('❌ EmailJS not loaded');
+        return false;
+    }
+}
+
+function promptAgentName() {
+    const name = prompt('Enter your name to start:', '');
+    if (!name || name.trim() === '') {
+        alert('Name is required to use the dashboard');
+        promptAgentName();
+        return;
+    }
+    agentName = name.trim();
+    document.getElementById('agent-name').textContent = agentName;
+}
+
+// ============================================
+//  CHAT MANAGEMENT
+// ============================================
+
+function loadChats() {
+    try {
+        const storageData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+        const chatList = document.getElementById('chat-list');
+        
+        // Store previous waiting count BEFORE updating activeChats
+        const previousWaitingCount = Object.values(activeChats).filter(
+            chat => chat.requestingAgent && !chat.agentConnected
+        ).length;
+        
+        activeChats = {};
+        
+        Object.entries(storageData).forEach(([chatId, data]) => {
+            if (data.customerOnline || data.requestingAgent) {
+                activeChats[chatId] = data;
+            }
+        });
+        
+        // Check for NEW waiting chats AFTER updating activeChats
+        const currentWaitingCount = Object.values(activeChats).filter(
+            chat => chat.requestingAgent && !chat.agentConnected
+        ).length;
+        
+        // Play sound if new chat arrived
+        if (currentWaitingCount > previousWaitingCount) {
+            playNotificationSound();
+        }
+        
+        // Rest of your ORIGINAL code continues here...
+        if (Object.keys(activeChats).length === 0) {
+            chatList.innerHTML = `
+                <div class="empty-state">
+                    <i class="fa-solid fa-inbox"></i>
+                    <p>No active chats</p>
+                </div>
+            `;
+            return;
+        }
+        
+        chatList.innerHTML = Object.entries(activeChats).map(([chatId, data]) => {
+            const isWaiting = data.requestingAgent && !data.agentConnected;
+            const messageCount = data.messages?.length || 0;
+            const preview = data.messages?.[0]?.content?.substring(0, 50) || 'New chat';
+            const waitTime = data.waitingSince ? Math.floor((Date.now() - data.waitingSince) / 1000) : 0;
+            
+            return `
+                <div class="chat-item ${isWaiting ? 'waiting' : ''} ${currentChatId === chatId ? 'active' : ''}" 
+                     onclick="selectChat('${chatId}')">
+                    <div class="chat-item-header">
+                        <div class="chat-id">Chat #${chatId.substring(0, 8)}</div>
+                        <div class="chat-time">${waitTime > 0 ? `${waitTime}s ago` : 'Just now'}</div>
+                    </div>
+                    <div class="chat-preview">${preview}${preview.length >= 50 ? '...' : ''}</div>
+                    <div class="chat-meta">
+                        ${isWaiting ? '<span class="chat-badge badge-waiting">🔔 Waiting</span>' : ''}
+                        ${data.agentConnected ? '<span class="chat-badge badge-active">✓ Active</span>' : ''}
+                        <span class="chat-badge badge-messages">${messageCount} msgs</span>
+                    </div>
+                </div>
+            `;
+        }).join('');
+        
+    } catch (e) {
+        console.error('Error loading chats:', e);
+    }
+}
+
+function selectChat(chatId) {
+    currentChatId = chatId;
+    const chatData = activeChats[chatId];
+    
+    if (!chatData) return;
+    
+    // Show chat window
+    document.getElementById('placeholder').style.display = 'none';
+    document.getElementById('chat-window').style.display = 'flex';
+    document.getElementById('current-chat-title').textContent = `Chat #${chatId.substring(0, 8)}`;
+    
+    // Load messages
+    const messagesContainer = document.getElementById('chat-messages');
+    const typingIndicator = document.getElementById('typing-indicator');
+    messagesContainer.innerHTML = '';
+    messagesContainer.appendChild(typingIndicator);
+    
+    if (chatData.messages && chatData.messages.length > 0) {
+        chatData.messages.forEach(msg => {
+            addMessageToUI(msg.type, msg.content, msg.agentName);
+        });
+    }
+    
+    lastLoadedMessageCounts[chatId] = chatData.messages?.length || 0;
+    
+    // Connect if waiting
+    if (chatData.requestingAgent && !chatData.agentConnected) {
+        connectToChat(chatId);
+    }
+    
+    loadChats();
+    document.getElementById('agent-input').focus();
+}
+
+function connectToChat(chatId) {
+    const chatData = activeChats[chatId];
+    if (!chatData) return;
+    
+    chatData.agentConnected = true;
+    chatData.agentName = agentName;
+    chatData.agentMessages = chatData.agentMessages || [];
+    
+    const storageData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    storageData[chatId] = chatData;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(storageData));
+    
+    addMessageToUI('system', `${agentName} has joined the chat`);
+    loadChats();
+}
+
+function endChat() {
+    if (!currentChatId) return;
+    
+    if (!confirm('End this chat session?')) return;
+    
+    const chatData = activeChats[currentChatId];
+    if (chatData) {
+        chatData.agentConnected = false;
+        chatData.requestingAgent = false;
+        chatData.customerOnline = false;
+        
+        const storageData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+        delete storageData[currentChatId];
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(storageData));
+    }
+    
+    currentChatId = null;
+    document.getElementById('placeholder').style.display = 'flex';
+    document.getElementById('chat-window').style.display = 'none';
+    loadChats();
+}
+
+// ============================================
+//  MESSAGE HANDLING
+// ============================================
+
+function sendAgentMessage() {
+    const input = document.getElementById('agent-input');
+    const message = input.value.trim();
+    
+    if (!message || !currentChatId) return;
+    
+    const chatData = activeChats[currentChatId];
+    if (!chatData) return;
+    
+    // Create message object
+    const messageObj = {
+        type: 'agent',
+        content: message,
+        timestamp: Date.now(),
+        agentName: agentName
+    };
+    
+    // Add to UI
+    addMessageToUI('agent', message, agentName);
+    
+    // CRITICAL: Add to main messages array so customer can see it
+    chatData.messages = chatData.messages || [];
+    chatData.messages.push(messageObj);
+    
+    // Also keep in agentMessages for tracking
+    chatData.agentMessages = chatData.agentMessages || [];
+    chatData.agentMessages.push(messageObj);
+    
+    // Save to storage
+    const storageData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    storageData[currentChatId] = chatData;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(storageData));
+    
+    input.value = '';
+    input.focus();
+    stopTyping();
+}
+
+
+
+function addMessageToUI(type, content, agentNameParam = null) {
+    const messagesContainer = document.getElementById('chat-messages');
+    const typingIndicator = document.getElementById('typing-indicator');
+    
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${type}`;
+    
+    if (type !== 'system') {
+        const label = document.createElement('div');
+        label.className = 'message-label';
+        
+        if (type === 'customer') {
+            label.textContent = 'Customer';
+        } else if (type === 'agent') {
+            label.textContent = agentNameParam || agentName;
+        }
+        
+        messageDiv.appendChild(label);
+    }
+    
+    const contentDiv = document.createElement('div');
+    contentDiv.className = 'message-content';
+    contentDiv.textContent = content;
+    
+    messageDiv.appendChild(contentDiv);
+    messagesContainer.insertBefore(messageDiv, typingIndicator);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+function handleAgentKeyPress(event) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        sendAgentMessage();
+    } else {
+        startTyping();
+    }
+}
+
+// ============================================
+//  TYPING INDICATORS
+// ============================================
+
+function startTyping() {
+    if (!currentChatId) return;
+    
+    isTyping = true;
+    const chatData = activeChats[currentChatId];
+    if (!chatData) return;
+    
+    chatData.agentTyping = true;
+    updateStorage(currentChatId, chatData);
+    
+    // Auto-stop typing indicator after 3 seconds
+    clearTimeout(typingTimeout);
+    typingTimeout = setTimeout(stopTyping, 3000);
+}
+
+function stopTyping() {
+    if (!isTyping || !currentChatId) return;
+    
+    isTyping = false;
+    const chatData = activeChats[currentChatId];
+    if (!chatData) return;
+    
+    chatData.agentTyping = false;
+    updateStorage(currentChatId, chatData);
+}
+
+
+
+
+function playNotificationSound() {
+    // Simple beep sound
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    oscillator.frequency.value = 800;
+    oscillator.type = 'sine';
+    
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.5);
+}
+
+
+
+
+
+// ============================================
+//  UTILITY FUNCTIONS
+// ============================================
+
+function checkForNewMessages() {
+    if (!currentChatId) return;
+    
+    const storageData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    const chatData = storageData[currentChatId];
+    
+    if (chatData && chatData.messages) {
+        const currentCount = chatData.messages.length;
+        const lastCount = lastLoadedMessageCounts[currentChatId] || 0;
+        
+        if (currentCount > lastCount) {
+            const newMessages = chatData.messages.slice(lastCount);
+            newMessages.forEach(msg => {
+                if (msg.type === 'user') {
+                    addMessageToUI('customer', msg.content);
+                }
+            });
+            lastLoadedMessageCounts[currentChatId] = currentCount;
+        }
+        
+        const typingIndicator = document.getElementById('typing-indicator');
+        if (chatData.customerTyping) {
+            typingIndicator.classList.add('active');
+        } else {
+            typingIndicator.classList.remove('active');
+        }
+    }
+}
+
+function filterChats(filter) {
+    // Remove active class from all buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+    
+    // Add active class to clicked button
+    event.target.classList.add('active');
+    
+    // TODO: Implement actual filtering logic here
+    // For now, just reload all chats
+    loadChats();
+}
+
+function updateStorage(chatId, chatData) {
+    const storageData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    storageData[chatId] = chatData;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(storageData));
+}
+
+// ============================================
+//  EMAIL NOTIFICATIONS
+// ============================================
+
+async function sendAgentNotification(chatId, chatPreview, messageCount) {
+    if (!initializeEmailJS()) {
+        console.error('Cannot send email - EmailJS not available');
+        return false;
+    }
+    
+    const chatIdShort = chatId.substring(0, 8);
+    
+    const emailParams = {
+        to_email: EMAIL_CONFIG.agentEmail,
+        chat_id: chatIdShort,
+        chat_preview: chatPreview,
+        message_count: messageCount,
+        dashboard_link: `${EMAIL_CONFIG.dashboardUrl}?chatId=${chatId}`,
+        timestamp: new Date().toLocaleString('en-US', { 
+            dateStyle: 'medium', 
+            timeStyle: 'short' 
+        }),
+        from_name: 'Stepway Support System',
+        subject: `New Chat Request - ${chatIdShort}`
+    };
+    
+    try {
+        console.log('📧 Sending agent notification...');
+        const response = await emailjs.send(
+            EMAIL_CONFIG.serviceId,
+            EMAIL_CONFIG.templateId,
+            emailParams
+        );
+        console.log('✅ Agent notification sent successfully', response.status, response.text);
+        return true;
+    } catch (error) {
+        console.error('❌ Failed to send agent notification:', error);
+        return false;
+    }
+}
+
+// ============================================
+//  INITIALIZE APPLICATION
+// ============================================
+
+document.addEventListener('DOMContentLoaded', initializeApp);
+</script>
+
+</body>
+</html>

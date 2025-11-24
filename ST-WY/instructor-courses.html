@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Courses - Stepway Technologies</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #fff;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+            padding: 20px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+           .logo-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo {
+            padding: 0 20px 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .logo-text {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+            line-height: 1.3;
+        }
+
+        .menu {
+            list-style: none;
+        }
+
+        .menu-item {
+            transition: all 0.3s;
+        }
+
+        .menu-item a {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #5a6c7d;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .menu-item:hover,
+        .menu-item.active {
+            background-color: #e8ecf1;
+            border-left: 3px solid rgba(26, 35, 126, 1);
+        }
+
+        .menu-item:hover a,
+        .menu-item.active a {
+            color: rgba(26, 35, 126, 1);
+        }
+
+        .menu-item svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 20px 40px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .top-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border: 1px solid rgba(26, 35, 126, 1);
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .search-bar i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(26, 35, 126, 1);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .notification-icon {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .notification-icon i {
+            font-size: 20px;
+            color: #5a6c7d;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .user-avatar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            background: rgba(26, 35, 126, 1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        .create-course-btn {
+            background-color: rgba(26, 35, 126, 1);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .create-course-btn:hover {
+            background-color: rgb(40, 48, 135);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(74, 92, 200, 0.3);
+        }
+
+        .view-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .view-toggle {
+            display: flex;
+            gap: 10px;
+        }
+
+        .view-btn {
+            padding: 10px 20px;
+            border: 1px solid #ddd;
+            background-color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #5a6c7d;
+            transition: all 0.3s;
+        }
+
+        .view-btn:hover,
+        .view-btn.active {
+            background-color: rgba(26, 35, 126, 1);
+            color: white;
+            border-color: rgba(26, 35, 126, 1);
+        }
+
+        .filter-sort {
+            display: flex;
+            gap: 10px;
+        }
+
+        .filter-btn,
+        .sort-btn {
+            padding: 10px 18px;
+            border: 1px solid #ddd;
+            background-color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #5a6c7d;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover,
+        .sort-btn:hover {
+            background-color: #f5f7fa;
+            border-color: rgba(26, 35, 126, 1);
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .course-image {
+            width: 100%;
+            height: 180px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+         
+        }
+
+        .course-status {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: white;
+            color: #5a6c7d;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .course-status.published {
+            background-color: #27ae60;
+            color: white;
+        }
+
+        .course-status.archived {
+            background-color: #95a5a6;
+            color: white;
+        }
+
+        .course-body {
+            padding: 20px;
+        }
+
+        .course-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .course-description {
+            font-size: 13px;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .course-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            color: #7f8c8d;
+        }
+
+        .course-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .course-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            padding: 15px 0;
+            border-top: 1px solid #f0f0f0;
+            margin-bottom: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 3px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+
+        .course-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-edit,
+        .btn-stats,
+        .btn-restore,
+        .btn-publish {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            border: none;
+        }
+
+        .btn-edit {
+            background-color: rgba(26, 35, 126, 1);
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background-color: rgb(41, 49, 142);
+        }
+
+        .btn-stats {
+            background-color: transparent;
+            color: #5a6c7d;
+            border: 1px solid #ddd;
+        }
+
+        .btn-stats:hover {
+            background-color: #f5f7fa;
+        }
+
+        .btn-restore {
+            background-color: transparent;
+            color: #5a6c7d;
+            border: 1px solid #ddd;
+        }
+
+        .btn-restore:hover {
+            background-color: #f5f7fa;
+        }
+
+        .btn-publish {
+            background-color: transparent;
+            color: #2c3e50;
+            border: 1px solid #ddd;
+        }
+
+        .btn-publish:hover {
+            background-color: #f5f7fa;
+        }
+
+        .fab-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: rgba(26, 35, 126, 1);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(45, 59, 143, 0.4);
+            transition: all 0.3s;
+        }
+
+        .fab-button:hover {
+            background-color: #1f2a6b;
+            transform: scale(1.1);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: #2c3e50;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        .close-sidebar {
+            display: none;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #5a6c7d;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        @media (max-width: 1200px) {
+            .courses-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 968px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .close-sidebar {
+                display: block;
+            }
+
+            .overlay.active {
+                display: block;
+            }
+
+            .top-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .top-bar-left {
+                width: 100%;
+            }
+
+            .search-bar {
+                max-width: 100%;
+            }
+
+            .user-info {
+                justify-content: space-between;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 15px 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .courses-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+
+            .view-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .view-toggle,
+            .filter-sort {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .course-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .fab-button {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+
+
+       /* Audience Label Styles */
+.audience-label {
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: white;
+    margin-left: 8px;
+    white-space: nowrap;
+}
+
+.audience-label.adult {
+    background-color: rgba(26, 35, 126, 1);
+}
+
+.audience-label.kids {
+    background-color: #7c0a0a;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 968px) {
+    .audience-label {
+        font-size: 11px;
+        padding: 3px 10px;
+        margin-left: 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .audience-label {
+        font-size: 10px;
+        padding: 2px 8px;
+        margin-left: 4px;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="overlay" id="overlay"></div>
+    
+    <div class="container">
+        <aside class="sidebar" id="sidebar">
+            <i class="fas fa-times close-sidebar" id="closeSidebar"></i>
+            <div class="logo">
+                <div class="logo-content">
+                    <img src="images/Step-Way Logo.png" width="150px" alt="Stepway Technologies">
+                </div>
+                <div class="audience-label" id="audienceLabel"></div>
+            </div>
+
+            <ul class="menu">
+                <li class="menu-item">
+                    <a href="instructor-dashboard.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
+                        </svg>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu-item active">
+                    <a href="instructor-courses.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/>
+                        </svg>
+                        <span>My Courses</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="instructor-analytic.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07"/>
+                        </svg>
+                        <span>Analytics</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="instructor-stu-management.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1L7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002-.014.002zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4q0 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/>
+                        </svg>
+                        <span>Students</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="instructor-message-management.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                            <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6m0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5"/>
+                        </svg>
+                        <span>Messages</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="instructr-revenue.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8m5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/>
+                            <path d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195z"/>
+                            <path d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083q.088-.517.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1z"/>
+                            <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 6 6 0 0 1 3.13-1.567"/>
+                        </svg>
+                        <span>Earnings</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="instructor-setting.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0"/>
+                            <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z"/>
+                        </svg>
+                        <span>Settings</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="top-bar">
+                <div class="top-bar-left">
+                    <div class="hamburger" id="hamburger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search courses...">
+                    </div>
+                </div>
+                <div class="user-info">
+                    <div class="notification-icon">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <div class="notification-icon">
+                        <i class="fas fa-envelope"></i>
+                        <span class="notification-badge">5</span>
+                    </div>
+                    <div class="user-avatar">
+                        <div class="avatar">MJ</div>
+                        <span class="user-name">Michael Johnson</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="header">
+                <div class="header-content">
+                    <div>
+                        <h1>My Courses</h1>
+                        <p>Manage your courses, create new content, and track performance</p>
+                    </div>
+                    <button class="create-course-btn">
+                        <i class="fas fa-plus"></i>
+                        Create New Course
+                    </button>
+                </div>
+            </div>
+
+            <div class="view-controls">
+                <div class="view-toggle">
+                    <button class="view-btn active">
+                        <i class="fas fa-th"></i>
+                        Grid View
+                    </button>
+                    <button class="view-btn">
+                        <i class="fas fa-list"></i>
+                        List View
+                    </button>
+                </div>
+                <div class="filter-sort">
+                    <button class="filter-btn">
+                        <i class="fas fa-filter"></i>
+                        Filter
+                    </button>
+                    <button class="sort-btn">
+                        <i class="fas fa-sort"></i>
+                        Sort
+                    </button>
+                </div>
+            </div>
+
+            <div class="courses-grid">
+                <div class="course-card">
+                    <div class="course-image">
+                        <div class="course-status published">Published</div>
+                    </div>
+                    <div class="course-body">
+                        <div class="course-title">Advanced Web Development</div>
+                        <div class="course-description">Master modern web development with HTML5, CSS3, JavaScript, and frameworks.</div>
+                        <div class="course-meta">
+                            <span><i class="fas fa-user"></i> 1,248 students</span>
+                            <span><i class="fas fa-star"></i> 4.9 rating</span>
+                        </div>
+                        <div class="course-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">84%</div>
+                                <div class="stat-label">Completion</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">$3,240</div>
+                                <div class="stat-label">Revenue</div>
+                            </div>
+                        </div>
+                        <div class="course-actions">
+                            <button class="btn-edit">
+                                <i class="fas fa-edit"></i>
+                                Edit
+                            </button>
+                            <button class="btn-stats">
+                                <i class="fas fa-chart-bar"></i>
+                                Stats
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-image">
+                        <div class="course-status published">Published</div>
+                    </div>
+                    <div class="course-body">
+                        <div class="course-title">React & Redux Mastery</div>
+                        <div class="course-description">Build modern web applications with React, Redux, and related ecosystem.</div>
+                        <div class="course-meta">
+                            <span><i class="fas fa-user"></i> 3,248 students</span>
+                            <span><i class="fas fa-star"></i> 4.9 rating</span>
+                        </div>
+                        <div class="course-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">78%</div>
+                                <div class="stat-label">Completion</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">$2,150</div>
+                                <div class="stat-label">Revenue</div>
+                            </div>
+                        </div>
+                        <div class="course-actions">
+                            <button class="btn-edit">
+                                <i class="fas fa-edit"></i>
+                                Edit
+                            </button>
+                            <button class="btn-stats">
+                                <i class="fas fa-chart-bar"></i>
+                                Stats
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-image">
+                        <div class="course-status">Draft</div>
+                    </div>
+                    <div class="course-body">
+                        <div class="course-title">Python for Data Science</div>
+                        <div class="course-description">Learn data analysis, visualization, and machine learning with Python.</div>
+                        <div class="course-meta">
+                            <span><i class="fas fa-user"></i> 0 student</span>
+                            <span><i class="fas fa-star"></i> 4.9 rating</span>
+                        </div>
+                        <div class="course-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">0%</div>
+                                <div class="stat-label">Completion</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">$0</div>
+                                <div class="stat-label">Revenue</div>
+                            </div>
+                        </div>
+                        <div class="course-actions">
+                            <button class="btn-edit">
+                                <i class="fas fa-edit"></i>
+                                Edit
+                            </button>
+                            <button class="btn-publish">
+                                <i class="fas fa-check"></i>
+                                Publish
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-image">
+                        <div class="course-status archived">Archived</div>
+                    </div>
+                    <div class="course-body">
+                        <div class="course-title">UI/UX Design Fundamentals</div>
+                        <div class="course-description">Learn the principles of user interface and user experience design.</div>
+                        <div class="course-meta">
+                            <span><i class="fas fa-user"></i> 542 students</span>
+                            <span><i class="fas fa-star"></i> 3.2 rating</span>
+                        </div>
+                        <div class="course-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">92%</div>
+                                <div class="stat-label">Completion</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">$1,850</div>
+                                <div class="stat-label">Revenue</div>
+                            </div>
+                        </div>
+                        <div class="course-actions">
+                            <button class="btn-edit">
+                                <i class="fas fa-edit"></i>
+                                Edit
+                            </button>
+                            <button class="btn-restore">
+                                <i class="fas fa-redo"></i>
+                                Restore
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fab-button">
+                <i class="fas fa-plus"></i>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const sidebar = document.getElementById('sidebar');
+        const closeSidebar = document.getElementById('closeSidebar');
+        const overlay = document.getElementById('overlay');
+
+        hamburger.addEventListener('click', () => {
+            sidebar.classList.add('active');
+            overlay.classList.add('active');
+        });
+
+        closeSidebar.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+
+        // Close sidebar when links are clicked on mobile
+        const menuLinks = document.querySelectorAll('.menu-item a');
+        menuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                // Close sidebar on mobile before navigation
+                if (window.innerWidth <= 968) {
+                    sidebar.classList.remove('active');
+                    overlay.classList.remove('active');
+                }
+                // Link will navigate normally
+            });
+        });
+
+        const viewButtons = document.querySelectorAll('.view-btn');
+        viewButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                viewButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+
+        document.querySelectorAll('.course-card, .btn-edit, .btn-stats, .btn-publish, .btn-restore, .fab-button, .create-course-btn').forEach(element => {
+            element.addEventListener('click', function(e) {
+                if (this.classList.contains('course-card') && e.target.closest('button')) {
+                    e.stopPropagation();
+                }
+                console.log('Clicked:', this.className);
+            });
+        });
+    </script>
+
+      <script>
+        // All existing JavaScript remains the same
+        
+        // Load teaching audience and display label
+        function loadTeachingAudience() {
+            // Try to get from localStorage first (dashboard data)
+            const instructorData = JSON.parse(localStorage.getItem('instructorData') || '{}');
+            
+            // If not found, try sessionStorage (application data)
+            const step1Data = JSON.parse(sessionStorage.getItem('step1Data') || '{}');
+            
+            const teachingAudience = instructorData.teachingAudience || step1Data.teachingAudience;
+            const audienceLabel = document.getElementById('audienceLabel');
+            
+            if (audienceLabel) {
+                if (teachingAudience === 'kids') {
+                    audienceLabel.textContent = 'KIDS';
+                    audienceLabel.className = 'audience-label kids';
+                } else if (teachingAudience === 'adults') {
+                    audienceLabel.textContent = 'ADULT';
+                    audienceLabel.className = 'audience-label adult';
+                } else {
+                    // Default fallback
+                    audienceLabel.textContent = 'INSTRUCTOR';
+                    audienceLabel.className = 'audience-label adult';
+                }
+            }
+        }
+
+        // Call this function when the page loads
+        document.addEventListener('DOMContentLoaded', loadTeachingAudience);
+    </script>
+</body>
+</html>

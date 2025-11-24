@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-273ZFF8C6Y"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-273ZFF8C6Y');
+</script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>stepway-email-verification.html</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <style>
+
+      body{
+    overflow-x: hidden;
+}
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        background-color: #e8f1f8;
+        min-height: 100vh;
+      }
+
+      .header {
+        background-color: white;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .logo {
+        display: inline-flex;
+        align-items: center;
+        font-size: 32px;
+        font-weight: bold;
+      }
+
+      .logo-blue {
+        color: #0066ff;
+        font-style: italic;
+      }
+
+      .logo-black {
+     
+        font-style: italic;
+      }
+
+      .logo-tech {
+       
+        font-weight: normal;
+        font-style: italic;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
+      }
+
+      .tabs {
+        display: flex;
+        justify-content: center;
+        gap: 100px;
+        margin-bottom: 40px;
+      }
+
+      .tab {
+        font-size: 24px;
+        font-weight: 600;
+        color: #999;
+        cursor: pointer;
+        padding-bottom: 10px;
+        text-decoration: none;
+      }
+
+      .tab.active {
+        color: #000;
+        border-bottom: 3px solid #000;
+      }
+
+      .form-container {
+        background-color: white;
+        border-radius: 8px;
+        padding: 60px 80px;
+        max-width: 560px;
+        margin: 0 auto;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        font-size: 32px;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 30px;
+        color: #000;
+      }
+
+      .subtitle {
+        text-align: center;
+        color: #666;
+        font-size: 16px;
+        line-height: 1.6;
+        margin-bottom: 8px;
+      }
+
+      .input-group {
+        margin-bottom: 20px;
+        margin-top: 30px;
+      }
+
+      label {
+        display: block;
+        font-size: 16px;
+        font-weight: 500;
+        color: #000;
+        margin-bottom: 8px;
+      }
+
+      .required {
+        color: #000;
+      }
+
+      input {
+        width: 100%;
+        padding: 16px 20px;
+        border: 1px solid #d0d0d0;
+        border-radius: 6px;
+        font-size: 16px;
+        outline: none;
+        transition: border-color 0.3s;
+      }
+
+      input:focus {
+        border-color: #0066ff;
+      }
+
+      input::placeholder {
+        color: #999;
+      }
+
+      .divider {
+        text-align: center;
+        color: #999;
+        font-size: 14px;
+        margin: 30px 0;
+      }
+
+      .social-buttons {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 30px;
+      }
+
+      .social-btn {
+        flex: 1;
+        padding: 14px;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        background-color: #f8f8f8;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.3s;
+      }
+
+      .social-btn:hover {
+        background-color: #f0f0f0;
+      }
+
+      .terms {
+        text-align: center;
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 20px;
+        line-height: 1.5;
+      }
+
+      .terms a {
+        color: #0066ff;
+        text-decoration: none;
+      }
+
+      .terms a:hover {
+        text-decoration: underline;
+      }
+
+      .login-btn {
+        width: 100%;
+        padding: 16px;
+        background-color: rgb(26, 39, 124);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .login-btn:hover {
+        background-color: #0052cc;
+      }
+
+      .footer {
+        height: 8px;
+        margin-top: 40px;
+      }
+
+      @media (max-width: 768px) {
+        .tabs {
+          gap: 50px;
+        }
+
+        .tab {
+          font-size: 20px;
+        }
+
+        .form-container {
+          padding: 40px 30px;
+        }
+
+        h1 {
+          font-size: 28px;
+        }
+
+        .subtitle {
+          font-size: 15px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .header {
+          padding: 15px;
+        }
+
+        .logo {
+          font-size: 24px;
+        }
+
+        .container {
+          padding: 20px 15px;
+        }
+
+        .tabs {
+          gap: 30px;
+        }
+
+        .tab {
+          font-size: 18px;
+        }
+
+        .form-container {
+          padding: 30px 20px;
+        }
+
+        h1 {
+          font-size: 24px;
+          margin-bottom: 20px;
+        }
+
+        .subtitle {
+          font-size: 14px;
+        }
+
+        .social-buttons {
+          gap: 10px;
+        }
+
+        input {
+          padding: 14px 16px;
+          font-size: 15px;
+        }
+
+        label {
+          font-size: 15px;
+        }
+
+        .login-btn {
+          padding: 14px;
+          font-size: 15px;
+        }
+
+        .terms {
+          font-size: 13px;
+        }
+      }
+
+      @media (max-width: 360px) {
+        .logo {
+          font-size: 20px;
+        }
+
+        .tabs {
+          gap: 20px;
+        }
+
+        .tab {
+          font-size: 16px;
+        }
+
+        .form-container {
+          padding: 25px 15px;
+        }
+
+        h1 {
+          font-size: 22px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <div class="logo">
+        <img src="../images/Step-Way Logo.png" alt="" />
+      </div>
+    </div>
+    <br>
+    <br>
+    <br>
+      <div class="form-container">
+        <h1>Verify Your Email</h1>
+        <div class="input-group">
+          <label>Email <span class="required">*</span></label>
+          <input type="email" placeholder="email" value="" />
+        </div>
+
+
+        <div class="terms">
+          By signing up, you agree to our <a href="#">Terms of Use</a> and
+          <a href="#">Privacy Policy.</a>
+        </div>
+
+        <button class="login-btn">Verify</button>
+      </div>
+    </div>
+
+    <div class="footer"></div>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+

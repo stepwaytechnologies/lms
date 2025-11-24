@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KidCoder - Courses</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: rgba(26, 35, 126, 1);
+            --secondary: #800020;
+            --white: #ffffff;
+            --light-bg: #f5f7ff;
+            --light-purple: #e8eaf6;
+            --light-burgundy: #f9e8e8;
+            --text-dark: #333;
+            --text-light: #666;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --sidebar-width: 280px;
+            --header-height: 70px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles - Same as before */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(180deg, var(--primary) 0%, rgba(26, 35, 126, 0.95) 100%);
+            color: var(--white);
+            padding: 20px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .logo i {
+            font-size: 2rem;
+        }
+
+        .close-sidebar {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 20px;
+            color: var(--white);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left-color: var(--secondary);
+        }
+
+        .sidebar-menu i {
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--light-purple);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary);
+            cursor: pointer;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Welcome Section */
+        .welcome-section {
+            background: linear-gradient(135deg, var(--primary), #3f51b5);
+            color: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-section h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .welcome-section p {
+            font-size: 1.1rem;
+            max-width: 70%;
+        }
+
+        .character {
+            position: absolute;
+            right: 20px;
+            bottom: 0;
+            width: 120px;
+            height: 120px;
+            transition: transform 0.3s ease;
+        }
+
+        .character:hover {
+            transform: scale(1.1);
+        }
+
+        /* Teddy Bear Animation */
+        .teddy-bear {
+            position: absolute;
+            right: 20px;
+            bottom: 0;
+            width: 120px;
+            height: 150px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .teddy-head {
+            width: 80px;
+            height: 70px;
+            background-color: #8B4513;
+            border-radius: 50% 50% 45% 45%;
+            position: absolute;
+            top: 0;
+            left: 20px;
+        }
+
+        .teddy-ear {
+            width: 25px;
+            height: 25px;
+            background-color: #8B4513;
+            border-radius: 50%;
+            position: absolute;
+            top: -10px;
+        }
+
+        .teddy-ear.left {
+            left: 15px;
+        }
+
+        .teddy-ear.right {
+            right: 15px;
+        }
+
+        .teddy-eye {
+            width: 12px;
+            height: 12px;
+            background-color: #000;
+            border-radius: 50%;
+            position: absolute;
+            top: 25px;
+        }
+
+        .teddy-eye.left {
+            left: 25px;
+        }
+
+        .teddy-eye.right {
+            right: 25px;
+        }
+
+        .teddy-nose {
+            width: 15px;
+            height: 10px;
+            background-color: #000;
+            border-radius: 50%;
+            position: absolute;
+            top: 40px;
+            left: 32.5px;
+        }
+
+        .teddy-body {
+            width: 90px;
+            height: 80px;
+            background-color: #8B4513;
+            border-radius: 45% 45% 40% 40%;
+            position: absolute;
+            top: 65px;
+            left: 15px;
+        }
+
+        .teddy-arm, .teddy-leg {
+            width: 25px;
+            height: 40px;
+            background-color: #8B4513;
+            border-radius: 20px;
+            position: absolute;
+        }
+
+        .teddy-arm.left {
+            top: 70px;
+            left: 5px;
+            transform: rotate(30deg);
+        }
+
+        .teddy-arm.right {
+            top: 70px;
+            right: 5px;
+            transform: rotate(-30deg);
+        }
+
+        .teddy-leg.left {
+            top: 135px;
+            left: 25px;
+            transform: rotate(15deg);
+        }
+
+        .teddy-leg.right {
+            top: 135px;
+            right: 25px;
+            transform: rotate(-15deg);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Courses Grid */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .course-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .course-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .course-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .course-description {
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        .course-progress {
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background-color: var(--light-purple);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary);
+            border-radius: 4px;
+        }
+
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .course-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: var(--secondary);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .close-sidebar {
+                display: block;
+            }
+            
+            .welcome-section p {
+                max-width: 100%;
+            }
+            
+            .teddy-bear {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="images/stepway logoww.png" width="200px" alt="">
+                </div>
+                <button class="close-sidebar">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+             <ul class="sidebar-menu">
+                <li><a href="kids-dashboard.html"i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="kids-course.html" class="active"><i class="fas fa-book"></i> Courses</a></li>
+                <li><a href="kids-project.html"><i class="fas fa-project-diagram"></i> Projects</a></li>
+                <li><a href="kids-achievement.html"><i class="fas fa-trophy"></i> Achievements</a></li>
+                <li><a href="kids-progress.html"><i class="fas fa-chart-line"></i> Progress</a></li>
+                <li><a href="kids-shedule.html"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
+                <li><a href="kids-settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="kids-help.html"><i class="fas fa-question-circle"></i> Help</a></li>
+            </ul>
+            
+            
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <button class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="user-info">
+                    <span>Hello, Alex!</span>
+                    <div class="avatar">AJ</div>
+                </div>
+            </div>
+
+            <!-- Welcome Section -->
+            <div class="welcome-section">
+                <h1>Your Coding Courses</h1>
+                <p>Explore fun coding lessons and build amazing projects!</p>
+                <div class="teddy-bear">
+                    <div class="teddy-head">
+                        <div class="teddy-ear left"></div>
+                        <div class="teddy-ear right"></div>
+                        <div class="teddy-eye left"></div>
+                        <div class="teddy-eye right"></div>
+                        <div class="teddy-nose"></div>
+                    </div>
+                    <div class="teddy-body"></div>
+                    <div class="teddy-arm left"></div>
+                    <div class="teddy-arm right"></div>
+                    <div class="teddy-leg left"></div>
+                    <div class="teddy-leg right"></div>
+                </div>
+            </div>
+
+            <!-- Courses Grid -->
+            <div class="courses-grid">
+                <div class="course-card">
+                    <div class="course-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <div class="course-badge">Beginner</div>
+                    <div class="course-title">Game Design Basics</div>
+                    <div class="course-description">
+                        Learn to create your first video game with fun characters and exciting challenges.
+                    </div>
+                    <div class="course-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 75%"></div>
+                        </div>
+                    </div>
+                    <div class="course-stats">
+                        <span>8/12 Lessons</span>
+                        <span>75% Complete</span>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <div class="course-badge">Intermediate</div>
+                    <div class="course-title">Creative Animations</div>
+                    <div class="course-description">
+                        Make characters move, dance, and tell stories with code animations.
+                    </div>
+                    <div class="course-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 40%"></div>
+                        </div>
+                    </div>
+                    <div class="course-stats">
+                        <span>4/10 Lessons</span>
+                        <span>40% Complete</span>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="course-badge">New</div>
+                    <div class="course-title">Robotics & AI</div>
+                    <div class="course-description">
+                        Discover how robots think and learn to program your own smart creations.
+                    </div>
+                    <div class="course-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 10%"></div>
+                        </div>
+                    </div>
+                    <div class="course-stats">
+                        <span>1/15 Lessons</span>
+                        <span>10% Complete</span>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <div class="course-badge">Advanced</div>
+                    <div class="course-title">Web Wizardry</div>
+                    <div class="course-description">
+                        Build your own websites with interactive elements and cool designs.
+                    </div>
+                    <div class="course-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="course-stats">
+                        <span>0/8 Lessons</span>
+                        <span>Not Started</span>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="course-badge">Coming Soon</div>
+                    <div class="course-title">App Adventure</div>
+                    <div class="course-description">
+                        Create mobile apps that solve problems and make life more fun!
+                    </div>
+                    <div class="course-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="course-stats">
+                        <span>0/12 Lessons</span>
+                        <span>Coming Soon</span>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="course-badge">Expert</div>
+                    <div class="course-title">Cyber Safety</div>
+                    <div class="course-description">
+                        Learn how to stay safe online while exploring the digital world.
+                    </div>
+                    <div class="course-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%"></div>
+                        </div>
+                    </div>
+                    <div class="course-stats">
+                        <span>6/6 Lessons</span>
+                        <span>Completed!</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Sidebar toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const closeSidebar = document.querySelector('.close-sidebar');
+            const sidebar = document.querySelector('.sidebar');
+            
+            menuToggle.addEventListener('click', function() {
+                sidebar.classList.add('open');
+            });
+            
+            closeSidebar.addEventListener('click', function() {
+                sidebar.classList.remove('open');
+            });
+            
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', function(event) {
+                const isClickInsideSidebar = sidebar.contains(event.target);
+                const isClickOnMenuToggle = menuToggle.contains(event.target);
+                
+                if (!isClickInsideSidebar && !isClickOnMenuToggle && window.innerWidth <= 1024) {
+                    sidebar.classList.remove('open');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

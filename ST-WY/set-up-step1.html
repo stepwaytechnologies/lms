@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Become an Instructor - Step 1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #fffdfd;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .main-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            overflow: hidden;
+            min-height: 600px;
+        }
+
+        .left-panel {
+            background: linear-gradient(135deg, #7c0a0a 0%, #a91d1d 100%);
+            color: white;
+            padding: 60px 50px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-container {
+            margin-bottom: 40px;
+        }
+
+        .logo-placeholder {
+            width: 180px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px dashed rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 12px;
+        }
+
+        .left-panel h1 {
+            font-size: 42px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .left-panel p {
+            font-size: 16px;
+            line-height: 1.6;
+            opacity: 0.95;
+            margin-bottom: 50px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            flex-shrink: 0;
+            font-size: 24px;
+        }
+
+        .feature-content h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .feature-content p {
+            font-size: 14px;
+            opacity: 0.85;
+            margin-bottom: 0;
+        }
+
+        .right-panel {
+            flex: 1;
+            padding: 50px 60px;
+            background: white;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .badge {
+            background: #7c0a0a;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 20px;
+            align-self: flex-start;
+        }
+
+        .badge::before {
+            content: "📋";
+            margin-right: 8px;
+        }
+
+        .right-panel h2 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1e3a8a;
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+
+        .progress-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            position: relative;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e5e7eb;
+            color: #9ca3af;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step.active .step-number {
+            background: #7c0a0a;
+            color: white;
+        }
+
+        .step.completed .step-number {
+            background: #7c0a0a;
+            color: white;
+        }
+
+        .step.completed .step-number::after {
+            content: "✓";
+        }
+
+        .step-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #6b7280;
+        }
+
+        .step.active .step-label {
+            color: #1e3a8a;
+            font-weight: 600;
+        }
+
+        .step-line {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            width: 100%;
+            height: 2px;
+            background: #e5e7eb;
+            z-index: 1;
+        }
+
+        .step:last-child .step-line {
+            display: none;
+        }
+
+        .step.completed .step-line {
+            background: #7c0a0a;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .required {
+            color: #dc3545;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        input[type="password"] {
+            padding-right: 45px;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #7c0a0a;
+            box-shadow: 0 0 0 3px rgba(124, 10, 10, 0.1);
+        }
+
+        input::placeholder {
+            color: #9ca3af;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            color: #6b7280;
+            font-size: 20px;
+        }
+
+        .password-hint {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 6px;
+        }
+
+        .audience-selection {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .audience-option {
+            flex: 1;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .audience-option:hover {
+            border-color: #7c0a0a;
+            transform: translateY(-2px);
+        }
+
+        .audience-option.selected {
+            border-color: #7c0a0a;
+            background: #fef2f2;
+            box-shadow: 0 4px 12px rgba(124, 10, 10, 0.1);
+        }
+
+        .audience-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .audience-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 6px;
+        }
+
+        .audience-description {
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 16px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-back {
+            background: white;
+            color: #7c0a0a;
+            border: 2px solid #7c0a0a;
+            flex: 0 0 auto;
+        }
+
+        .btn-back:hover {
+            background: #fef2f2;
+        }
+
+        .btn-continue {
+            background: #7c0a0a;
+            color: white;
+            flex: 1;
+        }
+
+        .btn-continue:hover {
+            background: #a91d1d;
+        }
+
+        .btn-continue:active {
+            transform: scale(0.98);
+        }
+
+        @media (max-width: 968px) {
+            .main-container {
+                flex-direction: column;
+            }
+
+            .left-panel {
+                padding: 30px 20px;
+            }
+
+            .left-panel h1 {
+                font-size: 32px;
+            }
+
+            .right-panel {
+                padding: 40px 30px;
+            }
+
+            .right-panel h2 {
+                font-size: 28px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 10px;
+            }
+
+            .main-container {
+                border-radius: 12px;
+            }
+
+            .left-panel {
+                padding: 30px 24px;
+            }
+
+            .left-panel h1 {
+                font-size: 28px;
+            }
+
+            .left-panel p {
+                font-size: 15px;
+                margin-bottom: 30px;
+            }
+
+            .feature {
+                margin-bottom: 24px;
+            }
+
+            .feature-icon {
+                width: 40px;
+                height: 40px;
+                margin-right: 16px;
+            }
+
+            .right-panel {
+                padding: 30px 24px;
+            }
+
+            .right-panel h2 {
+                font-size: 24px;
+            }
+
+            .progress-bar {
+                margin-bottom: 30px;
+            }
+
+            .step-number {
+                width: 36px;
+                height: 36px;
+                font-size: 14px;
+            }
+
+            .step-label {
+                font-size: 11px;
+            }
+
+            .audience-selection {
+                flex-direction: column;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn-back {
+                order: 2;
+            }
+
+            .btn-continue {
+                order: 1;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .left-panel h1 {
+                font-size: 24px;
+            }
+
+            .right-panel h2 {
+                font-size: 22px;
+            }
+
+            .step-label {
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="left-panel">
+            <div class="logo-container">
+                <img src="images/Step-Way Logo.png" width="200px" alt="">
+            </div>
+
+            <h1>Share Your Expertise with the World</h1>
+            <p>Join our community of expert instructors and create transformative learning experiences for students worldwide. Build your brand, earn revenue, and make an impact.</p>
+
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-coin" viewBox="0 0 16 16">
+  <path d="M5.5 9.511c.076.954.83 1.697 2.182 1.785V12h.6v-.709c1.4-.098 2.218-.846 2.218-1.932 0-.987-.626-1.496-1.745-1.76l-.473-.112V5.57c.6.068.982.396 1.074.85h1.052c-.076-.919-.864-1.638-2.126-1.716V4h-.6v.719c-1.195.117-2.01.836-2.01 1.853 0 .9.606 1.472 1.613 1.707l.397.098v2.034c-.615-.093-1.022-.43-1.114-.9zm2.177-2.166c-.59-.137-.91-.416-.91-.836 0-.47.345-.822.915-.925v1.76h-.005zm.692 1.193c.717.166 1.048.435 1.048.91 0 .542-.412.914-1.135.982V8.518z"/>
+  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+  <path d="M8 13.5a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11m0 .5A6 6 0 1 0 8 2a6 6 0 0 0 0 12"/>
+</svg></div>
+                    <div class="feature-content">
+                        <h3>Earn Revenue</h3>
+                        <p>Competitive revenue share with multiple payout options and transparent earning tracking</p>
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-globe2" viewBox="0 0 16 16">
+  <path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m7.5-6.923c-.67.204-1.335.82-1.887 1.855q-.215.403-.395.872c.705.157 1.472.257 2.282.287zM4.249 3.539q.214-.577.481-1.078a7 7 0 0 1 .597-.933A7 7 0 0 0 3.051 3.05q.544.277 1.198.49zM3.509 7.5c.036-1.07.188-2.087.436-3.008a9 9 0 0 1-1.565-.667A6.96 6.96 0 0 0 1.018 7.5zm1.4-2.741a12.3 12.3 0 0 0-.4 2.741H7.5V5.091c-.91-.03-1.783-.145-2.591-.332M8.5 5.09V7.5h2.99a12.3 12.3 0 0 0-.399-2.741c-.808.187-1.681.301-2.591.332zM4.51 8.5c.035.987.176 1.914.399 2.741A13.6 13.6 0 0 1 7.5 10.91V8.5zm3.99 0v2.409c.91.03 1.783.145 2.591.332.223-.827.364-1.754.4-2.741zm-3.282 3.696q.18.469.395.872c.552 1.035 1.218 1.65 1.887 1.855V11.91c-.81.03-1.577.13-2.282.287zm.11 2.276a7 7 0 0 1-.598-.933 9 9 0 0 1-.481-1.079 8.4 8.4 0 0 0-1.198.49 7 7 0 0 0 2.276 1.522zm-1.383-2.964A13.4 13.4 0 0 1 3.508 8.5h-2.49a6.96 6.96 0 0 0 1.362 3.675c.47-.258.995-.482 1.565-.667m6.728 2.964a7 7 0 0 0 2.275-1.521 8.4 8.4 0 0 0-1.197-.49 9 9 0 0 1-.481 1.078 7 7 0 0 1-.597.933M8.5 11.909v3.014c.67-.204 1.335-.82 1.887-1.855q.216-.403.395-.872A12.6 12.6 0 0 0 8.5 11.91zm3.555-.401c.57.185 1.095.409 1.565.667A6.96 6.96 0 0 0 14.982 8.5h-2.49a13.4 13.4 0 0 1-.437 3.008M14.982 7.5a6.96 6.96 0 0 0-1.362-3.675c-.47.258-.995.482-1.565.667.248.92.4 1.938.437 3.008zM11.27 2.461q.266.502.482 1.078a8.4 8.4 0 0 0 1.196-.49 7 7 0 0 0-2.275-1.52c.218.283.418.597.597.932m-.488 1.343a8 8 0 0 0-.395-.872C9.835 1.897 9.17 1.282 8.5 1.077V4.09c.81-.03 1.577-.13 2.282-.287z"/>
+</svg></div>
+                    <div class="feature-content">
+                        <h3>Global Reach</h3>
+                        <p>Access to millions of students worldwide across 180+ countries</p>
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-tools" viewBox="0 0 16 16">
+  <path d="M1 0 0 1l2.2 3.081a1 1 0 0 0 .815.419h.07a1 1 0 0 1 .708.293l2.675 2.675-2.617 2.654A3.003 3.003 0 0 0 0 13a3 3 0 1 0 5.878-.851l2.654-2.617.968.968-.305.914a1 1 0 0 0 .242 1.023l3.27 3.27a.997.997 0 0 0 1.414 0l1.586-1.586a.997.997 0 0 0 0-1.414l-3.27-3.27a1 1 0 0 0-1.023-.242L10.5 9.5l-.96-.96 2.68-2.643A3.005 3.005 0 0 0 16 3q0-.405-.102-.777l-2.14 2.141L12 4l-.364-1.757L13.777.102a3 3 0 0 0-3.675 3.68L7.462 6.46 4.793 3.793a1 1 0 0 1-.293-.707v-.071a1 1 0 0 0-.419-.814zm9.646 10.646a.5.5 0 0 1 .708 0l2.914 2.915a.5.5 0 0 1-.707.707l-2.915-2.914a.5.5 0 0 1 0-.708M3 11l.471.242.529.026.287.445.445.287.026.529L5 13l-.242.471-.026.529-.445.287-.287.445-.529.026L3 15l-.471-.242L2 14.732l-.287-.445L1.268 14l-.026-.529L1 13l.242-.471.026-.529.445-.287.287-.445.529-.026z"/>
+</svg></div>
+                    <div class="feature-content">
+                        <h3>Powerful Tools</h3>
+                        <p>Comprehensive course creation tools, analytics, and marketing support</p>
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chat-dots" viewBox="0 0 16 16">
+  <path d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+  <path d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9 9 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.4 10.4 0 0 1-.524 2.318l-.003.011a11 11 0 0 1-.244.637c-.079.186.074.394.273.362a22 22 0 0 0 .693-.125m.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6-3.004 6-7 6a8 8 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a11 11 0 0 0 .398-2"/>
+</svg></div>
+                    <div class="feature-content">
+                        <h3>Dedicated Support</h3>
+                        <p>1-on-1 support from our instructor success team and community forums</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <span class="badge">Instructor Application</span>
+            <h2>Become an Instructor</h2>
+            <p class="subtitle">Complete your application to start teaching on Stepway</p>
+
+            <div class="progress-bar">
+                <div class="step active">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Account</div>
+                    <div class="step-line"></div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Profile</div>
+                    <div class="step-line"></div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Expertise</div>
+                </div>
+            </div>
+
+            <form id="step1Form">
+                <!-- Teaching Audience Selection -->
+                <div class="form-group">
+                    <label>Who do you want to teach? <span class="required">*</span></label>
+                    <div class="audience-selection">
+                        <div class="audience-option" data-audience="adults">
+                            <div class="audience-icon">👨‍💼</div>
+                            <div class="audience-title">Adults</div>
+                            <div class="audience-description">Professional courses for career development and adult learners</div>
+                        </div>
+                        <div class="audience-option" data-audience="kids">
+                            <div class="audience-icon">🧒</div>
+                            <div class="audience-title">Kids</div>
+                            <div class="audience-description">Fun, engaging coding courses for children and teenagers</div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="teachingAudience" name="teachingAudience" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="fullName">Full Name <span class="required">*</span></label>
+                    <input type="text" id="fullName" placeholder="Enter your full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address <span class="required">*</span></label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password <span class="required">*</span></label>
+                    <div class="password-wrapper">
+                        <input type="password" id="password" placeholder="Create a password" required>
+                        <button type="button" class="password-toggle" data-target="password">👁</button>
+                    </div>
+                    <p class="password-hint">Must be at least 8 characters with uppercase, lowercase, and numbers</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password <span class="required">*</span></label>
+                    <div class="password-wrapper">
+                        <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+                        <button type="button" class="password-toggle" data-target="confirmPassword">👁</button>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" class="btn btn-back" onclick="window.location.href='stepway-instructor-login.html'">
+                        ← Back to Login
+                    </button>
+                    <button type="submit" class="btn btn-continue">
+                        Continue
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Password toggle functionality
+        document.querySelectorAll('.password-toggle').forEach(button => {
+            button.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const input = document.getElementById(targetId);
+                
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    this.textContent = '🙈';
+                } else {
+                    input.type = 'password';
+                    this.textContent = '👁';
+                }
+            });
+        });
+
+        // Teaching audience selection
+        let selectedAudience = null;
+        document.querySelectorAll('.audience-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.audience-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                this.classList.add('selected');
+                selectedAudience = this.dataset.audience;
+                document.getElementById('teachingAudience').value = selectedAudience;
+            });
+        });
+
+        // Form submission
+        document.getElementById('step1Form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validate teaching audience selection
+            if (!selectedAudience) {
+                alert('Please select who you want to teach (Adults or Kids)');
+                return;
+            }
+            
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            // Validate passwords match
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+            
+            // Validate password strength
+           const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+            if (!passwordRegex.test(password)) {
+                alert('Password must be at least 8 characters with uppercase, lowercase, and numbers');
+                return;
+            }
+            
+            // Save data to sessionStorage
+            const step1Data = {
+                teachingAudience: selectedAudience,
+                fullName: fullName,
+                email: email,
+                password: password
+            };
+            
+            sessionStorage.setItem('step1Data', JSON.stringify(step1Data));
+            
+            // Navigate to step 2
+            window.location.href = 'set-up-step2.html';
+        });
+
+        // Load saved data if available
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedData = sessionStorage.getItem('step1Data');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                document.getElementById('fullName').value = data.fullName || '';
+                document.getElementById('email').value = data.email || '';
+                
+                if (data.teachingAudience) {
+                    const audienceOption = document.querySelector(`[data-audience="${data.teachingAudience}"]`);
+                    if (audienceOption) {
+                        audienceOption.classList.add('selected');
+                        selectedAudience = data.teachingAudience;
+                        document.getElementById('teachingAudience').value = selectedAudience;
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

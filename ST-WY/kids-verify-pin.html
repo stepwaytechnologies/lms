@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Check Your Email | Stepway Kids</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=
+swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font- awesome/6.4.0/css/all.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary: rgba(26, 35, 126, 1);
+        --primary-light: rgba(26, 35, 126, 1);
+        --primary-dark: rgba(26, 35, 126, 1);
+        --secondary: #ff9f43;
+        --secondary-light: #ffb76b;
+        --accent: rgba(26, 35, 126, 1);
+        --accent-light: rgba(26, 35, 126, 1);
+        --text-dark: #2d3436;
+        --text-light: #636e72;
+        --bg-light: #f9f9f9;
+        --white: #ffffff;
+        --success: rgba(26, 35, 126, 1) ;
+        --warning: #fdcb6e;
+        --border: #dfe6e9;
+        --shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        --radius: 20px;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+      }
+      body {
+        background: linear-gradient(135deg, #f1f2f6 0%, #dfe4ea 100%);
+        color: var(--text-dark);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+      .container {
+        display: flex;
+        max-width: 1100px;
+        width: 100%;
+        background-color: var(--white);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        position: relative;
+      }
+      .header-shape {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 120px;
+        background: linear-gradient(
+          90deg,
+          var(--primary) 0%,
+          var(--accent-light) 100%
+        );
+        border-bottom-left-radius: 50% 20%;
+        border-bottom-right-radius: 50% 20%;
+        z-index: 1;
+      }
+      .illustration-section {
+        flex: 1;
+        background: linear-gradient(
+          135deg,
+          var(--primary) 0%,
+          var(--accent-light) 100%
+        );
+        padding: 60px 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        position: relative;
+        overflow: hidden;
+      }
+      .illustration-section::before {
+        content: "";
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        top: -100px;
+        left: -100px;
+      }
+      .illustration-section::after {
+        content: "";
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        bottom: -80px;
+        right: -80px;
+      }
+      .illustration-container {
+        position: relative;
+        width: 100%;
+        max-width: 400px;
+        margin-bottom: 40px;
+        z-index: 2;
+      }
+      .main-illustration {
+        width: 100%;
+        filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
+      }
+      .floating-element {
+        position: absolute;
+        z-index: 3;
+      }
+      .floating-1 {
+        top: 10%;
+        right: 5%;
+        animation: float 5s ease-in-out infinite;
+      }
+      .floating-2 {
+        bottom: 20%;
+        left: 5%;
+        animation: float 7s ease-in-out infinite;
+      }
+      .floating-3 {
+        top: 40%;
+        left: 10%;
+        animation: float 6s ease-in-out infinite 1s;
+      }
+      @keyframes float {
+        0% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-15px) rotate(5deg);
+        }
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+      }
+      .illustration-title {
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-align: center;
+        z-index: 2;
+      }
+      .illustration-text {
+        font-size: 16px;
+        text-align: center;
+        line-height: 1.6;
+        max-width: 350px;
+        z-index: 2;
+        opacity: 0.9;
+      }
+      .feature-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-top: 30px;
+        z-index: 2;
+        justify-content: center;
+      }
+      .feature-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 14px;
+        backdrop-filter: blur(5px);
+      }
+      .form-section {
+        flex: 1;
+        padding: 60px 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+        z-index: 2;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        margin-bottom: 30px;
+      }
+      .logo-icon {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(
+          135deg,
+          var(--primary) 0%,
+          var(--accent-light) 100%
+        );
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        font-size: 20px;
+        margin-right: 15px;
+        box-shadow: 0 4px 10px rgba(124, 93, 250, 0.3);
+      }
+      .logo-text {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--text-dark);
+      }
+      .kids-badge {
+        display: inline-block;
+        background: var(--secondary);
+        color: white;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-left: 10px;
+        vertical-align: middle;
+      }
+      .form-title {
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: var(--text-dark);
+        background: linear-gradient(
+          90deg,
+          var(--primary) 0%,
+          var(--accent-light) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .form-subtitle {
+        color: var(--text-light);
+        margin-bottom: 30px;
+        font-size: 16px;
+        line-height: 1.6;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 18px 24px;
+        border-radius: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+        font-size: 16px;
+        width: 100%;
+      }
+      .btn-primary {
+        background: linear-gradient(
+          135deg,
+          var(--primary) 0%,
+          var(--accent-light) 100%
+        );
+        color: white;
+        box-shadow: 0 4px 15px rgba(124, 93, 250, 0.3);
+      }
+      .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(124, 93, 250, 0.4);
+      }
+      .btn-secondary {
+        background-color: var(--white);
+        color: var(--text-dark);
+        border: 2px solid var(--border);
+        margin-top: 15px;
+      }
+      .btn-secondary:hover {
+        background-color: var(--bg-light);
+        border-color: var(--primary-light);
+      }
+      .back-link {
+        text-align: center;
+        margin-top: 25px;
+        font-size: 14px;
+        color: var(--text-light);
+      }
+      .back-link a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      .back-link a:hover {
+        text-decoration: underline;
+      }
+      .error-message {
+        color: #e74c3c;
+        font-size: 14px;
+        margin-top: 5px;
+        display: none;
+      }
+      /* Code Input Styles */
+      .code-input-container {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        margin: 25px 0;
+      }
+      .code-input {
+        width: 60px;
+        height: 70px;
+        border: 2px solid var(--border);
+        border-radius: 12px;
+        text-align: center;
+        font-size: 24px;
+        font-weight: 700;
+        background-color: var(--bg-light);
+        transition: all 0.3s ease;
+      }
+      .code-input:focus {
+        outline: none;
+        border-color: var(--primary);
+        background-color: var(--white);
+        box-shadow: 0 0 0 3px rgba(124, 93, 250, 0.1);
+        transform: scale(1.05);
+      }
+      .code-input.filled {
+        border-color: var(--success);
+        background-color: rgba(0, 184, 148, 0.1);
+      }
+      .code-input.error {
+        border-color: #e74c3c;
+        background-color: rgba(231, 76, 60, 0.1);
+      }
+      .info-box {
+        background-color: rgba(255, 159, 67, 0.1);
+        border-left: 4px solid var(--secondary);
+        padding: 20px;
+        border-radius: 12px;
+        margin-bottom: 30px;
+        display: flex;
+        gap: 15px;
+      }
+      .info-icon {
+        color: var(--secondary);
+        font-size: 24px;
+        margin-top: 2px;
+      }
+      .info-content {
+        flex: 1;
+      }
+      .info-title {
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: var(--text-dark);
+        font-size: 18px;
+      }
+      .info-text {
+        font-size: 15px;
+        color: var(--text-light);
+        line-height: 1.5;
+      }
+      .email-address {
+        font-weight: 600;
+        color: var(--primary);
+        background-color: rgba(124, 93, 250, 0.1);
+        padding: 4px 8px;
+        border-radius: 6px;
+      }
+      /* Steps indicator */
+      .steps-indicator {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+      }
+      .step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        width: 120px;
+      }
+      .step-circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        margin-bottom: 8px;
+        z-index: 2;
+      }
+      .step.active .step-circle {
+        background: linear-gradient(
+          135deg,
+          var(--primary) 0%,
+          var(--accent-light) 100%
+        );
+        color: white;
+        box-shadow: 0 4px 10px rgba(124, 93, 250, 0.3);
+      }
+      .step.inactive .step-circle {
+        background-color: var(--bg-light);
+        color: var(--text-light);
+        border: 2px solid var(--border);
+      }
+      .step.completed .step-circle {
+        background-color: var(--success);
+        color: white;
+      }
+      .step-line {
+        position: absolute;
+        top: 20px;
+        left: 90px;
+        width: 60px;
+        height: 2px;
+        background-color: var(--border);
+        z-index: 1;
+      }
+      .step:last-child .step-line {
+        display: none;
+      }
+      .step.active .step-line {
+        background: linear-gradient(
+          90deg,
+          var(--primary) 0%,
+          var(--border) 100%
+        );
+      }
+      .step.completed .step-line {
+        background-color: var(--success);
+      }
+      .step-label {
+        font-size: 12px;
+        color: var(--text-light);
+        text-align: center;
+      }
+      .step.active .step-label {
+        color: var(--primary);
+        font-weight: 500;
+      }
+      .resend-section {
+        text-align: center;
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 1px solid var(--border);
+      }
+      .resend-text {
+        color: var(--text-light);
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
+      .resend-button {
+        background: none;
+        border: none;
+        color: var(--primary);
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .resend-button:hover {
+        text-decoration: underline;
+      }
+      .resend-button:disabled {
+        color: var(--text-light);
+        cursor: not-allowed;
+      }
+      .countdown {
+        font-weight: 600;
+        color: var(--secondary);
+      }
+      /* Auto-submit animation */
+      .auto-progress {
+        height: 4px;
+        background-color: var(--border);
+        border-radius: 2px;
+        margin-top: 10px;
+        overflow: hidden;
+        display: none;
+      }
+      .auto-progress-bar {
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          var(--primary) 0%,
+          var(--accent-light) 100%
+        );
+        width: 0%;
+        transition: width 0.3s ease;
+      }
+      /* Security Tips */
+      .security-tips {
+        background-color: rgba(84, 160, 255, 0.1);
+        border-left: 4px solid var(--accent-light);
+        padding: 15px;
+        border-radius: 8px;
+        margin: 20px 0;
+      }
+      .security-tips h4 {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 10px;
+        color: var(--text-dark);
+        font-size: 14px;
+      }
+      .security-tips ul {
+        list-style: none;
+        padding-left: 0;
+      }
+      .security-tips li {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 5px;
+        font-size: 13px;
+        color: var(--text-light);
+      }
+      .security-tips li:before {
+        content: "鈥�";
+        color: var(--accent-light);
+        font-weight: bold;
+      }
+      /* Responsive Design */
+      @media (max-width: 900px) {
+        .container {
+          flex-direction: column;
+        }
+        .illustration-section {
+          padding: 40px 20px;
+        }
+        .form-section {
+          padding: 40px 20px;
+        }
+        .feature-list {
+          justify-content: center;
+        }
+        .code-input-container {
+          gap: 8px;
+        }
+        .code-input {
+          width: 50px;
+          height: 60px;
+          font-size: 20px;
+        }
+      }
+      @media (max-width: 600px) {
+        .steps-indicator {
+          flex-direction: column;
+          align-items: center;
+          gap: 20px;
+        }
+        .step-line {
+          display: none;
+        }
+        .code-input-container {
+          gap: 6px;
+        }
+        .code-input {
+          width: 45px;
+          height: 55px;
+          font-size: 18px;
+        }
+        .step {
+          width: 100px;
+        }
+      }
+      @media (max-width: 400px) {
+        .code-input-container {
+          gap: 4px;
+        }
+        .code-input {
+          width: 40px;
+          height: 50px;
+          font-size: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header-shape"></div>
+      <!-- Illustration Section -->
+      <div class="illustration-section">
+        <div class="illustration-container">
+          <svg
+            class="main-illustration"
+            viewBox="0 0 400 300"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <!-- Background shapes -->
+            <circle cx="100" cy="100" r="80" fill="white" fill-opacity="0.1" />
+            <circle cx="300" cy="200" r="60" fill="white" fill-opacity="0.1" />
+            <!-- Email envelope with code -->
+            <rect
+              x="150"
+              y="120"
+              width="100"
+              height="70"
+              rx="10"
+              fill="#FFD700"
+            />
+            <!-- Code digits inside envelope -->
+            <text
+              x="165"
+              y="160"
+              font-family="Arial"
+              font-size="24"
+              font-
+              weight="bold"
+              fill="#7c5dfa"
+            >
+              8
+            </text>
+            <text
+              x="190"
+              y="160"
+              font-family="Arial"
+              font-size="24"
+              font-
+              weight="bold"
+              fill="#7c5dfa"
+            >
+              4
+            </text>
+            <text
+              x="215"
+              y="160"
+              font-family="Arial"
+              font-size="24"
+              font-
+              weight="bold"
+              fill="#7c5dfa"
+            >
+              2
+            </text>
+            <text
+              x="240"
+              y="160"
+              font-family="Arial"
+              font-size="24"
+              font-
+              weight="bold"
+              fill="#7c5dfa"
+            >
+              7
+            </text>
+            <!-- Email icon -->
+            <rect
+              x="170"
+              y="100"
+              width="60"
+              height="40"
+              rx="5"
+              fill="#54A0FF"
+            />
+            <path
+              d="M170 100 L200 120 L230 100"
+              fill="#54A0FF"
+              fill-
+              opacity="0.8"
+            />
+            <!-- Floating code numbers -->
+            <text
+              x="80"
+              y="120"
+              font-family="Arial"
+              font-size="16"
+              font-
+              weight="bold"
+              fill="white"
+            >
+              3
+            </text>
+            <text
+              x="320"
+              y="150"
+              font-family="Arial"
+              font-size="16"
+              font-
+              weight="bold"
+              fill="white"
+            >
+              9
+            </text>
+            <text
+              x="280"
+              y="80"
+              font-family="Arial"
+              font-size="16"
+              font-
+              weight="bold"
+              fill="white"
+            >
+              6
+            </text>
+            <!-- Decorative elements -->
+            <path
+              d="M80 80 L100 60 L120 80"
+              stroke="white"
+              stroke-width="3"
+              fill="none"
+            />
+            <path
+              d="M320 100 L340 80 L360 100"
+              stroke="white"
+              stroke-width="3"
+              fill="none"
+            />
+          </svg>
+          <div class="floating-element floating-1">
+            <svg
+              width="60"
+              height="60"
+              viewBox="0 0 60 60"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="30"
+                cy="30"
+                r="30"
+                fill="#FF9F43"
+                fill-opacity="0.8"
+              />
+              <text
+                x="22"
+                y="38"
+                font-family="Arial"
+                font-size="18"
+                font-
+                weight="bold"
+                fill="white"
+              >
+                6
+              </text>
+            </svg>
+          </div>
+          <div class="floating-element floating-2">
+            <svg
+              width="50"
+              height="50"
+              viewBox="0 0 50 50"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="25"
+                cy="25"
+                r="25"
+                fill="#54A0FF"
+                fill-opacity="0.8"
+              />
+              <text
+                x="19"
+                y="33"
+                font-family="Arial"
+                font-size="16"
+                font-
+                weight="bold"
+                fill="white"
+              >
+                1
+              </text>
+            </svg>
+          </div>
+          <div class="floating-element floating-3">
+            <svg
+              width="40"
+              height="40"
+              viewBox="0 0 40 40"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                x="5"
+                y="5"
+                width="30"
+                height="30"
+                rx="5"
+                fill="#00D2D3"
+                fill-
+                opacity="0.8"
+              />
+              <text
+                x="16"
+                y="25"
+                font-family="Arial"
+                font-size="14"
+                font-
+                weight="bold"
+                fill="white"
+              >
+                5
+              </text>
+            </svg>
+          </div>
+        </div>
+        <h2 class="illustration-title">Check Your Email!</h2>
+        <p class="illustration-text">
+          We've sent a 6-digit verification code to your parent's email address.
+        </p>
+        <div class="feature-list">
+          <div class="feature-item">
+            <i class="fas fa-key"></i>
+            <span>6-Digit Code</span>
+          </div>
+          <div class="feature-item">
+            <i class="fas fa-clock"></i>
+            <span>Expires in 10 min</span>
+          </div>
+          <div class="feature-item">
+            <i class="fas fa-shield-alt"></i>
+            <span>Secure Verification</span>
+          </div>
+        </div>
+      </div>
+      <!-- Form Section -->
+      <div class="form-section">
+        <div class="logo">
+          <div class="logo-icon">S</div>
+          <div class="logo-text">
+            Stepway <span class="kids- badge">KIDS</span>
+          </div>
+        </div>
+        <!-- Steps Indicator - Now 3 Steps -->
+        <div class="steps-indicator">
+          <div class="step completed" id="step1">
+            <div class="step-circle"><i class="fas fa-check"></i></div>
+            <div class="step-line"></div>
+            <div class="step-label">Enter Email</div>
+          </div>
+          <div class="step active" id="step2">
+            <div class="step-circle">2</div>
+            <div class="step-line"></div>
+            <div class="step-label">Enter Code</div>
+          </div>
+          <div class="step inactive" id="step3">
+            <div class="step-circle">3</div>
+            <div class="step-label">New Password</div>
+          </div>
+        </div>
+        <h1 class="form-title">Enter Verification Code</h1>
+        <p class="form-subtitle">
+          We sent a 6-digit code to your parent's email. Enter it below to
+          continue.
+        </p>
+        <div class="info-box">
+          <div class="info-icon">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <div class="info-content">
+            <div class="info-title">
+              Sent to:
+              <span class="email-address" id="userEmail"
+                >parent@example.com</span
+              >
+            </div>
+            <div class="info-text">
+              Check your email for the 6-digit verification code. The code will
+              expire in 10 minutes for security.
+            </div>
+          </div>
+        </div>
+        <form id="verificationForm">
+          <div class="code-input-container">
+            <input
+              type="text"
+              class="code-input"
+              maxlength="1"
+              data-index="0"
+              inputmode="numeric"
+              pattern="[0-9]*"
+            />
+            <input
+              type="text"
+              class="code-input"
+              maxlength="1"
+              data-index="1"
+              inputmode="numeric"
+              pattern="[0-9]*"
+            />
+            <input
+              type="text"
+              class="code-input"
+              maxlength="1"
+              data-index="2"
+              inputmode="numeric"
+              pattern="[0-9]*"
+            />
+            <input
+              type="text"
+              class="code-input"
+              maxlength="1"
+              data-index="3"
+              inputmode="numeric"
+              pattern="[0-9]*"
+            />
+            <input
+              type="text"
+              class="code-input"
+              maxlength="1"
+              data-index="4"
+              inputmode="numeric"
+              pattern="[0-9]*"
+            />
+            <input
+              type="text"
+              class="code-input"
+              maxlength="1"
+              data-index="5"
+              inputmode="numeric"
+              pattern="[0-9]*"
+            />
+          </div>
+          <div id="code-error" class="error-message" aria-live="polite"></div>
+          <div class="auto-progress" id="autoProgress">
+            <div class="auto-progress-bar" id="autoProgressBar"></div>
+          </div>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            id="verifyButton"
+            disabled
+          >
+            <i class="fas fa-check-circle"></i>
+            <span onclick="window.location.href='kids-create-new-password.html'">Verify & Continue</span>
+          </button>
+        </form>
+        <!-- Security Tips -->
+        <div class="security-tips">
+          <h4><i class="fas fa-shield-alt"></i> Security Tips:</h4>
+          <ul>
+            <li>The code expires in 10 minutes</li>
+            <li>Never share your verification code</li>
+            <li>If you didn't request this, please ignore the email</li>
+          </ul>
+        </div>
+        <div class="resend-section">
+          <p class="resend-text">Can't find it?</p>
+          <button class="resend-button" id="resendButton">
+            <i class="fas fa-redo"></i>
+            <span>Resend Code</span>
+            <span class="countdown" id="countdown"></span>
+          </button>
+        </div>
+        <div class="back-link">
+          <a href="kids-sign-in.html" id="backToLoginButton"
+            ><i class="fas fa-arrow-left"></i> Back to Sign In</a
+          >
+        </div>
+      </div>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const codeInputs = document.querySelectorAll(".code-input");
+        const verifyButton = document.getElementById("verifyButton");
+        const codeError = document.getElementById("code-error");
+        const autoProgress = document.getElementById("autoProgress");
+        const autoProgressBar = document.getElementById("autoProgressBar");
+        const resendButton = document.getElementById("resendButton");
+        const countdownElement = document.getElementById("countdown");
+        let countdown = 60; // 60 seconds countdown
+        let isAutoSubmitting = false;
+        // Initialize countdown
+        updateCountdown();
+        // Code input functionality
+        codeInputs.forEach((input, index) => {
+          // Focus on first input
+          if (index === 0) {
+            setTimeout(() => input.focus(), 500);
+          }
+          input.addEventListener("input", function (e) {
+            const value = e.target.value;
+            // Only allow numbers
+            if (!/^\d*$/.test(value)) {
+              e.target.value = "";
+              return;
+            }
+            if (value.length === 1) {
+              // Move to next input
+              if (index < codeInputs.length - 1) {
+                codeInputs[index + 1].focus();
+              }
+              // Add filled class
+              e.target.classList.add("filled");
+              e.target.classList.remove("error");
+            } else if (value.length === 0) {
+              // Remove filled class
+              e.target.classList.remove("filled");
+            }
+            checkCodeCompletion();
+          });
+          input.addEventListener("keydown", function (e) {
+            if (e.key === "Backspace" && e.target.value === "" && index > 0) {
+              // Move to previous input on backspace
+              codeInputs[index - 1].focus();
+            }
+          });
+          input.addEventListener("paste", function (e) {
+            e.preventDefault();
+            const pasteData = e.clipboardData.getData("text");
+            const numbers = pasteData.replace(/\D/g, "").split("");
+            numbers.forEach((num, numIndex) => {
+              if (index + numIndex < codeInputs.length) {
+                codeInputs[index + numIndex].value = num;
+                codeInputs[index + numIndex].classList.add("filled");
+                codeInputs[index + numIndex].classList.remove("error");
+              }
+            });
+            // Focus last filled input
+            const lastIndex = Math.min(
+              index + numbers.length - 1,
+              codeInputs.length - 1
+            );
+            codeInputs[lastIndex].focus();
+            checkCodeCompletion();
+          });
+        });
+        function checkCodeCompletion() {
+          const code = Array.from(codeInputs)
+            .map((input) => input.value)
+            .join("");
+          const isComplete = code.length === codeInputs.length;
+          verifyButton.disabled = !isComplete;
+          if (isComplete && !isAutoSubmitting) {
+            // Auto-submit after short delay
+            isAutoSubmitting = true;
+            autoProgress.style.display = "block";
+            autoProgressBar.style.width = "100%";
+            setTimeout(() => {
+              verifyCode();
+            }, 800);
+          }
+        }
+        function verifyCode() {
+          const code = Array.from(codeInputs)
+            .map((input) => input.value)
+            .join("");
+          // Clear previous errors
+          codeError.style.display = "none";
+          codeInputs.forEach((input) => input.classList.remove("error"));
+          // Simple validation - in real app, this would call an API
+          if (code === "123456") {
+            // Demo code
+            // Success - redirect to password reset page
+            alert("Code verified! Redirecting to password reset page...");
+            // window.location.href = 'reset-password.html';
+          } else {
+            // // Show error
+            // codeError.textContent =
+            //   "Invalid verification code. Please try again.";
+            // codeError.style.display = "block";
+            // codeInputs.forEach((input) => input.classList.add("error"));
+            // // Reset auto-submit state
+            // isAutoSubmitting = false;
+            // autoProgress.style.display = "none";
+            // autoProgressBar.style.width = "0%";
+            // // Clear inputs and refocus first
+            // codeInputs.forEach((input) => {
+            //   input.value = "";
+            //   input.classList.remove("filled");
+            // });
+            codeInputs[0].focus();
+          }
+        }
+        // Manual form submission
+        document
+          .getElementById("verificationForm")
+          .addEventListener("submit", function (e) {
+            e.preventDefault();
+            verifyCode();
+          });
+        // Resend button functionality
+        function updateCountdown() {
+          if (countdown > 0) {
+            countdownElement.textContent = ` (${countdown}s)`;
+            countdown--;
+            setTimeout(updateCountdown, 1000);
+          } else {
+            countdownElement.textContent = "";
+            resendButton.disabled = false;
+          }
+        }
+        resendButton.addEventListener("click", function () {
+          if (resendButton.disabled) return;
+          // Show loading state
+          const originalText = resendButton.innerHTML;
+          resendButton.innerHTML =
+            '<i class="fas fa-spinner fa- spin"></i><span>Sending...</span>';
+          resendButton.disabled = true;
+          // Simulate API call to resend code
+          setTimeout(function () {
+            alert("New verification code has been sent to your email!");
+            // Reset countdown
+            countdown = 60;
+            updateCountdown();
+            // Restore button text
+            resendButton.innerHTML = originalText;
+          }, 1500);
+        });
+        // Back to login button
+        document
+          .getElementById("backToLoginButton")
+          .addEventListener("click", function (e) {
+            e.preventDefault();
+            alert("Redirecting to login page...");
+            // window.location.href = 'login.html';
+          });
+        // Simulate updating the email address
+        const emailAddress =
+          localStorage.getItem("resetEmail") || "parent@example.com";
+        document.getElementById("userEmail").textContent = emailAddress;
+      });
+    </script>
+  </body>
+</html>

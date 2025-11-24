@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Approval Pending - Stepway</title>
+    <style>
+        /* Your existing CSS remains the same */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            padding: 50px 40px;
+            text-align: center;
+        }
+
+        .icon-circle {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #f5a623 0%, #f7b955 100%);
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(245, 166, 35, 0.3);
+        }
+
+        .icon-circle::before {
+            content: '⏱';
+            font-size: 40px;
+            color: white;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #1a237e;
+            margin-bottom: 15px;
+        }
+
+        .description {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 35px;
+            padding: 0 20px;
+        }
+
+        .info-box {
+            background-color: #f9f9fb;
+            border-left: 4px solid #f5a623;
+            border-radius: 8px;
+            padding: 25px 30px;
+            margin-bottom: 35px;
+            text-align: left;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e8e8ed;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #666;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .info-value {
+            color: #333;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .info-value.status {
+            color: #f5a623;
+        }
+
+        .next-steps {
+            text-align: left;
+            margin-bottom: 35px;
+        }
+
+        .next-steps h2 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a237e;
+            margin-bottom: 20px;
+        }
+
+        .next-steps ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .next-steps li {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .next-steps li::before {
+            content: '•';
+            color: #f5a623;
+            font-size: 20px;
+            position: absolute;
+            left: 5px;
+            top: -2px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 13px 30px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background-color: #1a237e;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #0d47a1;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(26, 35, 126, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: white;
+            color: #1a237e;
+            border: 2px solid #e0e0e0;
+        }
+
+        .btn-secondary:hover {
+            border-color: #1a237e;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .support-text {
+            color: #999;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        .support-text a {
+            color: #1a237e;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .support-text a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 30px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .description {
+                font-size: 14px;
+                padding: 0 10px;
+            }
+
+            .info-box {
+                padding: 20px 20px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            .icon-circle {
+                width: 70px;
+                height: 70px;
+            }
+
+            .icon-circle::before {
+                font-size: 35px;
+            }
+
+            .info-box {
+                padding: 20px 15px;
+            }
+
+            .info-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+                padding: 15px 0;
+            }
+
+            .info-value {
+                text-align: left;
+            }
+
+            .next-steps h2 {
+                font-size: 16px;
+            }
+
+            .next-steps li {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon-circle"></div>
+        
+        <h1>Admin Approval Pending</h1>
+        
+        <p class="description">
+            Your admin account request has been submitted successfully and is currently under review by our system administrators.
+        </p>
+
+        <div class="info-box" id="applicationInfo">
+            <!-- Dynamic content will be inserted here -->
+        </div>
+
+        <div class="next-steps">
+            <h2>What happens next?</h2>
+            <ul>
+                <li>You'll receive an email notification once your request is approved or if additional information is needed</li>
+                <li>Our admin team will review your credentials and justification</li>
+                <li>You'll undergo a brief security verification process</li>
+                <li>Your admin permissions will be configured based on your requested role</li>
+            </ul>
+        </div>
+
+        <div class="button-group">
+            <button class="btn btn-primary" onclick="window.location.href='admin-sign-in.html'">Return to Login</button>
+            <button class="btn btn-secondary" onclick="window.location.href='admin-status.html'">Check Status</button>
+        </div>
+
+        <p class="support-text">
+            Have questions? <a href="admin-support.html">Contact Admin Support</a>
+        </p>
+    </div>
+
+    <script>
+// Load application data from localStorage
+document.addEventListener('DOMContentLoaded', function() {
+    const applicationData = JSON.parse(localStorage.getItem('adminApplication'));
+    
+    if (applicationData) {
+        const infoBox = document.getElementById('applicationInfo');
+        infoBox.innerHTML = `
+            <div class="info-row">
+                <span class="info-label">Request ID:</span>
+                <span class="info-value">${applicationData.requestId}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Submitted On:</span>
+                <span class="info-value">${applicationData.submittedDate} at ${applicationData.submittedTime}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Estimated Review Time:</span>
+                <span class="info-value">${applicationData.estimatedReviewTime}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Requested Role:</span>
+                <span class="info-value">${applicationData.role}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Status:</span>
+                <span class="info-value status">${applicationData.status}</span>
+            </div>
+        `;
+    } else {
+        // No application found
+        window.location.href = 'admin-sign-up.html';
+    }
+});
+
+function returnToLogin() {
+    window.location.href = 'admin-sign-in.html';
+}
+
+function checkStatus() {
+    window.location.href = 'admin-status.html';
+}
+
+function contactSupport(event) {
+    event.preventDefault();
+    window.location.href = 'admin-support.html';
+}
+    </script>
+</body>
+</html>

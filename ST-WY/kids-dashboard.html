@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kids Coding Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: rgba(26, 35, 126, 1);
+            --secondary: #800020; /* Burgundy */
+            --white: #ffffff;
+            --light-bg: #f5f7ff;
+            --light-purple: #e8eaf6;
+            --light-burgundy: #f9e8e8;
+            --text-dark: #333;
+            --text-light: #666;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --sidebar-width: 280px;
+            --header-height: 70px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(180deg, var(--primary) 0%, rgba(26, 35, 126, 0.95) 100%);
+            color: var(--white);
+            padding: 20px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .logo i {
+            font-size: 2rem;
+        }
+
+        .close-sidebar {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 20px;
+            color: var(--white);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left-color: var(--secondary);
+        }
+
+        .sidebar-menu i {
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--light-purple);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary);
+            cursor: pointer;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Welcome Section */
+        .welcome-section {
+            background: linear-gradient(135deg, var(--primary), #3f51b5);
+            color: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-section h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .welcome-section p {
+            font-size: 1.1rem;
+            max-width: 70%;
+        }
+
+        .character {
+            position: absolute;
+            right: 20px;
+            bottom: 0;
+            width: 120px;
+            height: 120px;
+            transition: transform 0.3s ease;
+        }
+
+        .character:hover {
+            transform: scale(1.1);
+        }
+
+        /* Progress Section */
+        .progress-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .progress-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .progress-card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .progress-card h3 i {
+            font-size: 1.2rem;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .progress-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .progress-bar {
+            height: 10px;
+            background-color: var(--light-purple);
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary);
+            border-radius: 5px;
+            width: 75%;
+        }
+
+        .xp-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .xp-value {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: var(--secondary);
+        }
+
+        .badge {
+            background-color: var(--secondary);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        /* Projects Section */
+        .projects-section {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 20px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            color: var(--primary);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .project-card {
+            background-color: var(--light-bg);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .project-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .project-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .project-status {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        /* Activities Section */
+        .activities-section {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 20px;
+        }
+
+        .activities-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .activities-table th, .activities-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--light-purple);
+        }
+
+        .activities-table th {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .status-success {
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        .status-pending {
+            color: var(--warning);
+            font-weight: bold;
+        }
+
+        .xp-gained {
+            color: var(--secondary);
+            font-weight: bold;
+        }
+
+        /* Calendar Section */
+        .calendar-section {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .calendar-header h3 {
+            color: var(--primary);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .calendar-day {
+            text-align: center;
+            padding: 8px 5px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .calendar-date {
+            text-align: center;
+            padding: 8px 5px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .calendar-date:hover {
+            background-color: var(--light-purple);
+        }
+
+        .calendar-date.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .calendar-date.inactive {
+            color: #ccc;
+        }
+
+        /* Sidebar Content */
+        .sidebar-content {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 20px;
+        }
+
+        .quick-actions {
+            margin-bottom: 20px;
+        }
+
+        .quick-actions h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .action-btn {
+            padding: 12px 15px;
+            background-color: var(--light-purple);
+            border: none;
+            border-radius: var(--border-radius);
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .action-btn:hover {
+            background-color: #d1d9ff;
+        }
+
+        .animated-face {
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--light-bg);
+            border-radius: var(--border-radius);
+            padding: 20px;
+        }
+
+        .face-container {
+            width: 120px;
+            height: 120px;
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .face {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: #FFD700;
+            position: relative;
+            overflow: hidden;
+            animation: bounce 2s infinite;
+        }
+
+        .eye {
+            width: 20px;
+            height: 20px;
+            background-color: #333;
+            border-radius: 50%;
+            position: absolute;
+            top: 30px;
+        }
+
+        .eye.left {
+            left: 25px;
+        }
+
+        .eye.right {
+            right: 25px;
+        }
+
+        .mouth {
+            width: 60px;
+            height: 30px;
+            position: absolute;
+            bottom: 25px;
+            left: 30px;
+            border-bottom: 5px solid #333;
+            border-radius: 0 0 30px 30px;
+        }
+
+        .face-happy .mouth {
+            width: 60px;
+            height: 30px;
+            border-bottom: 5px solid #333;
+            border-radius: 0 0 30px 30px;
+        }
+
+        .face-wow .mouth {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #333;
+        }
+
+        .face-inlove .mouth {
+            width: 50px;
+            height: 20px;
+            border-bottom: 5px solid #333;
+            border-radius: 0 0 25px 25px;
+        }
+
+        .face-inlove::before, .face-inlove::after {
+            content: '';
+            width: 15px;
+            height: 15px;
+            background-color: #FF69B4;
+            border-radius: 50%;
+            position: absolute;
+            top: 25px;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        .face-inlove::before {
+            left: 20px;
+        }
+
+        .face-inlove::after {
+            right: 20px;
+        }
+
+        .face-text {
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .face-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .face-btn {
+            padding: 5px 10px;
+            background-color: var(--light-purple);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .face-btn.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Animations */
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .close-sidebar {
+                display: block;
+            }
+            
+            .welcome-section p {
+                max-width: 100%;
+            }
+            
+            .character {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .progress-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .activities-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                   <img src="images/stepway logoww.png" width="200px" alt="">
+                </div>
+                <button class="close-sidebar">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li><a href="kids-dashboard.html" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="kids-course.html"><i class="fas fa-book"></i> Courses</a></li>
+                <li><a href="kids-project.html"><i class="fas fa-project-diagram"></i> Projects</a></li>
+                <li><a href="kids-achievement.html"><i class="fas fa-trophy"></i> Achievements</a></li>
+                <li><a href="kids-progress.html"><i class="fas fa-chart-line"></i> Progress</a></li>
+                <li><a href="kids-shedule.html"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
+                <li><a href="kids-settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="kids-help.html"><i class="fas fa-question-circle"></i> Help</a></li>
+            </ul>
+            
+        
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <button class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="user-info">
+                    <span>Hello, Mr. Johnson</span>
+                    <div class="avatar">MJ</div>
+                </div>
+            </div>
+
+            <!-- Welcome Section -->
+            <div class="welcome-section">
+                <h1>Your Child's Learning Summary</h1>
+                <p>Here's your child's progress for this week. Keep up the great work!</p>
+                <div class="character">
+                    <svg viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="45" fill="#FFD700" />
+                        <circle cx="35" cy="40" r="5" fill="#333" />
+                        <circle cx="65" cy="40" r="5" fill="#333" />
+                        <path d="M 30 65 Q 50 80 70 65" stroke="#333" stroke-width="3" fill="transparent" />
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Progress Section -->
+            <div class="progress-section">
+                <div class="progress-card">
+                    <h3><i class="fas fa-chart-line"></i> Current Progress</h3>
+                    <div class="progress-info">
+                        <div>
+                            <p>Last Active: <strong>2 hours ago</strong></p>
+                            <p>Next Goal: <strong>Finish Game Design Module</strong></p>
+                        </div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                </div>
+                
+                <div class="progress-card">
+                    <h3><i class="fas fa-clock"></i> Weekly Study Time</h3>
+                    <div class="progress-info">
+                        <div class="progress-value">12h</div>
+                    </div>
+                    <p>Total learning time this week</p>
+                </div>
+                
+                <div class="progress-card">
+                    <h3><i class="fas fa-trophy"></i> XP & Badges Earned</h3>
+                    <div class="xp-badge">
+                        <div class="xp-value">1,200 XP</div>
+                        <div class="badge">Fast Learner</div>
+                    </div>
+                    <p>Total experience points earned</p>
+                </div>
+            </div>
+
+            <!-- Projects Section -->
+            <div class="projects-section">
+                <div class="section-header">
+                    <h2>Projects Completed</h2>
+                    <span>4 projects completed this month</span>
+                </div>
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-icon">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <div class="project-title">Main Game</div>
+                        <div class="project-status">Completed</div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-icon">
+                            <i class="fas fa-paw"></i>
+                        </div>
+                        <div class="project-title">Affirmalian</div>
+                        <div class="project-status">Completed</div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <div class="project-title">Calculator</div>
+                        <div class="project-status">Completed</div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="project-title">Shiny Book</div>
+                        <div class="project-status">Completed</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activities Section -->
+            <div class="activities-section">
+                <div class="section-header">
+                    <h2>Recent Activities</h2>
+                </div>
+                <table class="activities-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Activity</th>
+                            <th>Result</th>
+                            <th>XP Gained</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Nov 10</td>
+                            <td>Completed Variables Lesson</td>
+                            <td class="status-success">Success</td>
+                            <td class="xp-gained">+150 XP</td>
+                        </tr>
+                        <tr>
+                            <td>Nov 8</td>
+                            <td>Missed Daily Challenge</td>
+                            <td class="status-pending">Pending</td>
+                            <td class="xp-gained">0 XP</td>
+                        </tr>
+                        <tr>
+                            <td>Nov 6</td>
+                            <td>Unlocked Badge</td>
+                            <td class="status-success">"Fast Learner"</td>
+                            <td class="xp-gained">+50 XP</td>
+                        </tr>
+                        <tr>
+                            <td>Nov 5</td>
+                            <td>Completed Animation Project</td>
+                            <td class="status-success">Success</td>
+                            <td class="xp-gained">+200 XP</td>
+                        </tr>
+                        <tr>
+                            <td>Nov 3</td>
+                            <td>Weekly Quiz</td>
+                            <td class="status-success">92% Score</td>
+                            <td class="xp-gained">+100 XP</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Calendar Section -->
+            <div class="calendar-section">
+                <div class="calendar-header">
+                    <h3>Learning Calendar</h3>
+                    <span>November 2023</span>
+                </div>
+                <div class="calendar-grid">
+                    <div class="calendar-day">M</div>
+                    <div class="calendar-day">T</div>
+                    <div class="calendar-day">W</div>
+                    <div class="calendar-day">T</div>
+                    <div class="calendar-day">F</div>
+                    <div class="calendar-day">S</div>
+                    <div class="calendar-day">S</div>
+                    
+                    <div class="calendar-date inactive">29</div>
+                    <div class="calendar-date inactive">30</div>
+                    <div class="calendar-date inactive">31</div>
+                    <div class="calendar-date">1</div>
+                    <div class="calendar-date">2</div>
+                    <div class="calendar-date">3</div>
+                    <div class="calendar-date">4</div>
+                    
+                    <div class="calendar-date">5</div>
+                    <div class="calendar-date">6</div>
+                    <div class="calendar-date">7</div>
+                    <div class="calendar-date">8</div>
+                    <div class="calendar-date">9</div>
+                    <div class="calendar-date active">10</div>
+                    <div class="calendar-date">11</div>
+                    
+                    <div class="calendar-date">12</div>
+                    <div class="calendar-date">13</div>
+                    <div class="calendar-date">14</div>
+                    <div class="calendar-date">15</div>
+                    <div class="calendar-date">16</div>
+                    <div class="calendar-date">17</div>
+                    <div class="calendar-date">18</div>
+                    
+                    <div class="calendar-date">19</div>
+                    <div class="calendar-date">20</div>
+                    <div class="calendar-date">21</div>
+                    <div class="calendar-date">22</div>
+                    <div class="calendar-date">23</div>
+                    <div class="calendar-date">24</div>
+                    <div class="calendar-date">25</div>
+                    
+                    <div class="calendar-date">26</div>
+                    <div class="calendar-date">27</div>
+                    <div class="calendar-date">28</div>
+                    <div class="calendar-date">29</div>
+                    <div class="calendar-date">30</div>
+                    <div class="calendar-date inactive">1</div>
+                    <div class="calendar-date inactive">2</div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Sidebar toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const closeSidebar = document.querySelector('.close-sidebar');
+            const sidebar = document.querySelector('.sidebar');
+            
+            menuToggle.addEventListener('click', function() {
+                sidebar.classList.add('open');
+            });
+            
+            closeSidebar.addEventListener('click', function() {
+                sidebar.classList.remove('open');
+            });
+            
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', function(event) {
+                const isClickInsideSidebar = sidebar.contains(event.target);
+                const isClickOnMenuToggle = menuToggle.contains(event.target);
+                
+                if (!isClickInsideSidebar && !isClickOnMenuToggle && window.innerWidth <= 1024) {
+                    sidebar.classList.remove('open');
+                }
+            });
+            
+            // Animated face functionality
+            const faceButtons = document.querySelectorAll('.face-btn');
+            const face = document.querySelector('.face');
+            
+            faceButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    faceButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Change face expression
+                    const expression = this.getAttribute('data-expression');
+                    face.className = 'face';
+                    face.classList.add(`face-${expression}`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

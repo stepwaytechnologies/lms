@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Sign Up - Stepway</title>
+    <style>
+        /* Your existing CSS remains the same */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .left-panel {
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            color: white;
+            padding: 60px 50px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        .logo h1 {
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .admin-badge {
+            background-color: #d32f2f;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .panel-title {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .panel-subtitle {
+            color: #b3b3d4;
+            font-size: 15px;
+            margin-bottom: 60px;
+        }
+
+        .features {
+            list-style: none;
+        }
+
+        .features li {
+            color: #e8e8f5;
+            margin-bottom: 18px;
+            font-size: 15px;
+            position: relative;
+            padding-left: 0;
+        }
+
+        .features li:before {
+            content: '✓';
+            margin-right: 12px;
+            font-weight: bold;
+        }
+
+        .right-panel {
+            flex: 1;
+            padding: 60px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: white;
+        }
+
+        .form-container {
+            max-width: 450px;
+            width: 100%;
+        }
+
+        .form-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #1a237e;
+            margin-bottom: 10px;
+        }
+
+        .form-subtitle {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 35px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+            background-color: white;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #1a237e;
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            padding-right: 40px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 25px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .checkbox-group a {
+            color: #1a237e;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .checkbox-group a:hover {
+            text-decoration: underline;
+        }
+
+        .create-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #1a237e;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .create-btn:hover {
+            background-color: #0d47a1;
+        }
+
+        .create-btn:disabled {
+            background-color: #cccccc;
+            color: #666666;
+            cursor: not-allowed;
+        }
+
+        .sign-in-link {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .sign-in-link a {
+            color: #1a237e;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .sign-in-link a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 968px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .left-panel {
+                padding: 40px 30px;
+            }
+
+            .right-panel {
+                padding: 40px 30px;
+            }
+
+            .panel-title {
+                font-size: 26px;
+            }
+
+            .form-title {
+                font-size: 24px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .left-panel {
+                padding: 30px 20px;
+            }
+
+            .right-panel {
+                padding: 30px 20px;
+            }
+
+            .logo h1 {
+                font-size: 24px;
+            }
+
+            .panel-title {
+                font-size: 22px;
+            }
+
+            .form-title {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <div class="logo">
+                <h1>Stepway</h1>
+                <span class="admin-badge">ADMIN</span>
+            </div>
+            <h2 class="panel-title">Create Admin Account</h2>
+            <p class="panel-subtitle">Join our team of education administrators</p>
+            <ul class="features">
+                <li>Full administrative privileges</li>
+                <li>Access to comprehensive analytics</li>
+                <li>System configuration tools</li>
+                <li>User management capabilities</li>
+            </ul>
+        </div>
+
+        <div class="right-panel">
+            <div class="form-container">
+                <h2 class="form-title">Admin Sign Up</h2>
+                <p class="form-subtitle">Create your admin account in minutes</p>
+                
+                <form id="signupForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" id="firstName" name="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" id="lastName" name="lastName" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Work Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="role">Admin Role</label>
+                        <select id="role" name="role" required>
+                            <option value="">Select a role</option>
+                            <option value="super-admin">Super Administrator</option>
+                            <option value="admin">Administrator</option>
+                            <option value="moderator">Moderator</option>
+                            <option value="analyst">Analyst</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="agree" required>
+                        <label for="agree" style="margin: 0; font-weight: 400;">
+                            I agree to the <a href="admin-policy.html">Admin Policy</a>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="create-btn" id="createAccountBtn" disabled>Create Admin Account</button>
+                </form>
+
+                <p class="sign-in-link">
+                    Already have an admin account? <a href="admin-sign-in.html">Sign in here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+       // Get references to the checkbox and button
+const agreeCheckbox = document.getElementById('agree');
+const createAccountBtn = document.getElementById('createAccountBtn');
+
+// Add event listener to the checkbox
+agreeCheckbox.addEventListener('change', function() {
+    // Enable or disable the button based on checkbox state
+    createAccountBtn.disabled = !this.checked;
+});
+
+document.getElementById('signupForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const email = document.getElementById('email').value;
+    const role = document.getElementById('role').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const agree = document.getElementById('agree').checked;
+    
+    if (password !== confirmPassword) {
+        alert('Passwords do not match!');
+        return;
+    }
+    
+    if (!agree) {
+        alert('Please agree to the Admin Policy');
+        return;
+    }
+    
+    // Generate unique request ID
+    const requestId = 'ADM-' + new Date().getFullYear() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+    
+    // Get current date and time
+    const now = new Date();
+    const submittedDate = now.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+    });
+    const submittedTime = now.toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+    });
+    
+    // Store application data in localStorage
+    const applicationData = {
+        requestId: requestId,
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        role: role,
+        submittedDate: submittedDate,
+        submittedTime: submittedTime,
+        submittedDateTime: now.toISOString(),
+        status: 'pending',
+        estimatedReviewTime: '24-48 hours'
+    };
+    
+    localStorage.setItem('adminApplication', JSON.stringify(applicationData));
+    
+    // Send email to admin
+    sendAdminEmail(applicationData);
+});
+
+function sendAdminEmail(applicationData) {
+    // Show loading state
+    createAccountBtn.innerHTML = 'Sending Application...';
+    createAccountBtn.disabled = true;
+    
+    // Send data to PHP backend
+    fetch('send_email.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(applicationData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log('Email sent successfully!');
+            alert('Application submitted successfully! An email has been sent to the admin team for review.');
+            // Redirect to approval page
+            window.location.href = 'admin-approval.html';
+        } else {
+            console.error('Email failed:', data.message);
+            // Still proceed but show warning
+            alert('Application submitted, but email notification failed. Your application is still under review.');
+            window.location.href = 'admin-approval.html';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // Still proceed with application
+        alert('Application submitted locally. Email service temporarily unavailable. Your application is still under review.');
+        window.location.href = 'admin-approval.html';
+    })
+    .finally(() => {
+        // Reset button state
+        createAccountBtn.innerHTML = 'Create Admin Account';
+        createAccountBtn.disabled = false;
+    });
+}
+
+document.querySelector('.sign-in-link a').addEventListener('click', function(e) {
+    e.preventDefault();
+    window.location.href = 'admin-sign-in.html';
+});
+    </script>
+</body>
+</html>

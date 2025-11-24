@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Application Status - Stepway</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            padding: 50px 40px;
+            text-align: center;
+        }
+
+        .status-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+
+        .status-pending {
+            background: linear-gradient(135deg, #f5a623 0%, #f7b955 100%);
+            color: white;
+        }
+
+        .status-approved {
+            background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+            color: white;
+        }
+
+        .status-rejected {
+            background: linear-gradient(135deg, #f44336 0%, #EF5350 100%);
+            color: white;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #1a237e;
+            margin-bottom: 15px;
+        }
+
+        .description {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 35px;
+            padding: 0 20px;
+        }
+
+        .status-card {
+            background-color: #f9f9fb;
+            border-radius: 8px;
+            padding: 25px 30px;
+            margin-bottom: 35px;
+            text-align: left;
+        }
+
+        .status-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e8e8ed;
+        }
+
+        .status-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a237e;
+        }
+
+        .status-badge {
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-pending {
+            background-color: #fff3e0;
+            color: #f57c00;
+        }
+
+        .badge-approved {
+            background-color: #e8f5e9;
+            color: #388e3c;
+        }
+
+        .badge-rejected {
+            background-color: #ffebee;
+            color: #d32f2f;
+        }
+
+        .status-details {
+            display: grid;
+            gap: 15px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .detail-label {
+            color: #666;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .detail-value {
+            color: #333;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .timeline {
+            margin-top: 25px;
+        }
+
+        .timeline-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a237e;
+            margin-bottom: 15px;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .timeline-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .timeline-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #1a237e;
+            margin-top: 5px;
+            flex-shrink: 0;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-event {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 3px;
+        }
+
+        .timeline-time {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 13px 30px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background-color: #1a237e;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #0d47a1;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(26, 35, 126, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: white;
+            color: #1a237e;
+            border: 2px solid #e0e0e0;
+        }
+
+        .btn-secondary:hover {
+            border-color: #1a237e;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .support-text {
+            color: #999;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        .support-text a {
+            color: #1a237e;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .support-text a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 30px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .description {
+                font-size: 14px;
+                padding: 0 10px;
+            }
+
+            .status-card {
+                padding: 20px 20px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            .status-icon {
+                width: 70px;
+                height: 70px;
+                font-size: 35px;
+            }
+
+            .status-card {
+                padding: 20px 15px;
+            }
+
+            .detail-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+
+            .detail-value {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="status-icon status-pending" id="statusIcon">⏱</div>
+        
+        <h1 id="statusTitle">Application Status</h1>
+        
+        <p class="description" id="statusDescription">
+            Checking your admin application status...
+        </p>
+
+        <div class="status-card" id="statusCard">
+            <!-- Dynamic content will be inserted here -->
+        </div>
+
+        <div class="button-group">
+            <button class="btn btn-primary" onclick="window.location.href='admin-sign-in.html'">Return to Login</button>
+            <button class="btn btn-secondary" onclick="refreshStatus()">Refresh Status</button>
+        </div>
+
+        <p class="support-text">
+            Have questions? <a href="admin-support.html">Contact Admin Support</a>
+        </p>
+    </div>
+
+    <script>
+   // Load and display application status
+document.addEventListener('DOMContentLoaded', function() {
+    loadApplicationStatus();
+});
+
+function loadApplicationStatus() {
+    const applicationData = JSON.parse(localStorage.getItem('adminApplication'));
+    
+    if (!applicationData) {
+        showNoApplicationFound();
+        return;
+    }
+
+    updateStatusDisplay(applicationData);
+}
+
+function updateStatusDisplay(applicationData) {
+    const statusIcon = document.getElementById('statusIcon');
+    const statusTitle = document.getElementById('statusTitle');
+    const statusDescription = document.getElementById('statusDescription');
+    const statusCard = document.getElementById('statusCard');
+
+    let icon, title, description, badgeClass, badgeText, timeline;
+
+    switch (applicationData.status) {
+        case 'approved':
+            icon = '✅';
+            title = 'Application Approved!';
+            description = 'Congratulations! Your admin application has been approved. You can now sign in to the admin dashboard.';
+            badgeClass = 'badge-approved';
+            badgeText = 'Approved';
+            timeline = getApprovedTimeline(applicationData);
+            break;
+        case 'rejected':
+            icon = '❌';
+            title = 'Application Rejected';
+            description = 'We regret to inform you that your admin application has been rejected. Please contact support for more information.';
+            badgeClass = 'badge-rejected';
+            badgeText = 'Rejected';
+            timeline = getRejectedTimeline(applicationData);
+            break;
+        default:
+            icon = '⏱';
+            title = 'Application Pending';
+            description = 'Your admin application is currently under review. We will notify you once a decision has been made.';
+            badgeClass = 'badge-pending';
+            badgeText = 'Under Review';
+            timeline = getPendingTimeline(applicationData);
+    }
+
+    statusIcon.className = `status-icon status-${applicationData.status}`;
+    statusIcon.textContent = icon;
+    statusTitle.textContent = title;
+    statusDescription.textContent = description;
+
+    statusCard.innerHTML = `
+        <div class="status-header">
+            <div class="status-title">Application Details</div>
+            <div class="status-badge ${badgeClass}">${badgeText}</div>
+        </div>
+        <div class="status-details">
+            <div class="detail-row">
+                <span class="detail-label">Request ID:</span>
+                <span class="detail-value">${applicationData.requestId}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Name:</span>
+                <span class="detail-value">${applicationData.firstName} ${applicationData.lastName}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Email:</span>
+                <span class="detail-value">${applicationData.email}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Requested Role:</span>
+                <span class="detail-value">${applicationData.role}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Submitted:</span>
+                <span class="detail-value">${applicationData.submittedDate} at ${applicationData.submittedTime}</span>
+            </div>
+        </div>
+        <div class="timeline">
+            <div class="timeline-title">Application Timeline</div>
+            ${timeline}
+        </div>
+    `;
+}
+
+function getPendingTimeline(applicationData) {
+    return `
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+                <div class="timeline-event">Application Submitted</div>
+                <div class="timeline-time">${applicationData.submittedDate} at ${applicationData.submittedTime}</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-dot" style="background-color: #ccc;"></div>
+            <div class="timeline-content">
+                <div class="timeline-event">Under Review</div>
+                <div class="timeline-time">Expected completion: ${applicationData.estimatedReviewTime}</div>
+            </div>
+        </div>
+    `;
+}
+
+function getApprovedTimeline(applicationData) {
+    const decisionDate = applicationData.decisionDate || new Date().toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+    });
+    const decisionTime = applicationData.decisionTime || new Date().toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+    });
+
+    return `
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+                <div class="timeline-event">Application Submitted</div>
+                <div class="timeline-time">${applicationData.submittedDate} at ${applicationData.submittedTime}</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+                <div class="timeline-event">Application Approved</div>
+                <div class="timeline-time">${decisionDate} at ${decisionTime}</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+                <div class="timeline-event">Admin Access Granted</div>
+                <div class="timeline-time">You can now sign in as admin</div>
+            </div>
+        </div>
+    `;
+}
+
+function getRejectedTimeline(applicationData) {
+    const decisionDate = applicationData.decisionDate || new Date().toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+    });
+    const decisionTime = applicationData.decisionTime || new Date().toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+    });
+
+    return `
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+                <div class="timeline-event">Application Submitted</div>
+                <div class="timeline-time">${applicationData.submittedDate} at ${applicationData.submittedTime}</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-dot" style="background-color: #f44336;"></div>
+            <div class="timeline-content">
+                <div class="timeline-event">Application Rejected</div>
+                <div class="timeline-time">${decisionDate} at ${decisionTime}</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-dot" style="background-color: #f44336;"></div>
+            <div class="timeline-content">
+                <div class="timeline-event">Notification Sent</div>
+                <div class="timeline-time">You should receive an email with details</div>
+            </div>
+        </div>
+    `;
+}
+
+function showNoApplicationFound() {
+    const statusIcon = document.getElementById('statusIcon');
+    const statusTitle = document.getElementById('statusTitle');
+    const statusDescription = document.getElementById('statusDescription');
+    const statusCard = document.getElementById('statusCard');
+
+    statusIcon.className = 'status-icon status-pending';
+    statusIcon.textContent = '❓';
+    statusTitle.textContent = 'No Application Found';
+    statusDescription.textContent = 'We could not find any admin application associated with your session.';
+
+    statusCard.innerHTML = `
+        <div style="text-align: center; padding: 20px;">
+            <p style="color: #666; margin-bottom: 20px;">Please submit an admin application first.</p>
+            <button class="btn btn-primary" onclick="window.location.href='admin-sign-up.html'">Apply for Admin Access</button>
+        </div>
+    `;
+}
+
+function refreshStatus() {
+    // Show refreshing state
+    const refreshBtn = document.querySelector('.btn-secondary');
+    const originalText = refreshBtn.innerHTML;
+    refreshBtn.innerHTML = 'Refreshing...';
+    refreshBtn.disabled = true;
+    
+    // Simulate API call delay
+    setTimeout(() => {
+        loadApplicationStatus();
+        refreshBtn.innerHTML = originalText;
+        refreshBtn.disabled = false;
+        alert('Status refreshed!');
+    }, 1000);
+}
+
+// Email notification function
+function sendApplicantEmail(applicationData, action) {
+    const emailData = {
+        applicantEmail: applicationData.email,
+        applicantName: applicationData.firstName + ' ' + applicationData.lastName,
+        requestId: applicationData.requestId,
+        action: action
+    };
+    
+    fetch('send_notification.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(emailData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log('Applicant notification sent:', data.message);
+        } else {
+            console.error('Failed to send applicant notification:', data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error sending notification:', error);
+    });
+}
+
+// Admin panel functions (for demo purposes)
+function simulateAdminAction(action) {
+    const applicationData = JSON.parse(localStorage.getItem('adminApplication'));
+    if (applicationData) {
+        // Update status and decision date
+        applicationData.status = action;
+        applicationData.decisionDate = new Date().toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+        applicationData.decisionTime = new Date().toLocaleTimeString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true
+        });
+        
+        localStorage.setItem('adminApplication', JSON.stringify(applicationData));
+        
+        // Send email notification to applicant
+        sendApplicantEmail(applicationData, action);
+        
+        // Reload the display
+        loadApplicationStatus();
+        
+        alert(`Application ${action}! Notification email sent to ${applicationData.email}`);
+    }
+}
+
+// Demo functions for testing (remove in production)
+window.approveApplication = function() {
+    simulateAdminAction('approved');
+};
+
+window.rejectApplication = function() {
+    simulateAdminAction('rejected');
+};
+
+// Auto-refresh status every 30 seconds
+setInterval(() => {
+    const applicationData = JSON.parse(localStorage.getItem('adminApplication'));
+    if (applicationData && applicationData.status === 'pending') {
+        console.log('Auto-refreshing status...');
+        loadApplicationStatus();
+    }
+}, 30000);
+    </script>
+</body>
+</html>

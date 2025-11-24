@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-273ZFF8C6Y"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-273ZFF8C6Y');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Step Way Technologies</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+
+        body{
+    overflow-x: hidden;
+}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+            margin-right: 15px;
+            color:  rgba(15, 25, 87, 0.816);;
+        }
+
+        .logo-text {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .step {
+            color:  rgba(15, 25, 87, 0.816);;
+        }
+
+        .way {
+            color:  rgba(15, 25, 87, 0.816);;
+        }
+
+        .welcome-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            max-width: 800px;
+            width: 100%;
+            margin-bottom: 40px;
+            border: 1px solid #f0f0f0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg,  rgba(15, 25, 87, 0.816), #6c63ff);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #2d3748;
+        }
+
+        .welcome-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #4a5568;
+        }
+
+        .motivation-text {
+            font-style: italic;
+            font-size: 1.1rem;
+            margin: 25px 0;
+            padding: 15px;
+            border-left: 4px solid  rgba(15, 25, 87, 0.816);;
+            background: #f8f9ff;
+            border-radius: 0 10px 10px 0;
+            color: #4a5568;
+        }
+
+        .dashboard-btn {
+            display: inline-block;
+            background: linear-gradient(45deg,  rgba(15, 25, 87, 0.816), #6c63ff);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(106, 99, 255, 0.3);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dashboard-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(106, 99, 255, 0.4);
+        }
+
+        .animation-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 40px 0;
+            position: relative;
+            height: 200px;
+        }
+
+        .computer {
+            width: 180px;
+            height: 120px;
+            background: #2d3748;
+            border-radius: 10px 10px 0 0;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .screen {
+            width: 160px;
+            height: 90px;
+            background: #1a202c;
+            border-radius: 5px;
+            position: absolute;
+            top: 15px;
+            left: 10px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .screen-content {
+            color: #6c63ff;
+            font-size: 1.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        .keyboard {
+            width: 200px;
+            height: 20px;
+            background: #4a5568;
+            border-radius: 0 0 5px 5px;
+            position: absolute;
+            top: 120px;
+            left: -10px;
+            z-index: 1;
+        }
+
+        .stand {
+            width: 40px;
+            height: 30px;
+            background: #718096;
+            border-radius: 0 0 5px 5px;
+            position: absolute;
+            top: 140px;
+            left: 70px;
+        }
+
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .floating-element {
+            position: absolute;
+            font-size: 1.5rem;
+            color: #a0aec0;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        .floating-element:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            top: 20%;
+            right: 15%;
+            animation-delay: 1s;
+        }
+
+        .floating-element:nth-child(3) {
+            bottom: 30%;
+            left: 15%;
+            animation-delay: 2s;
+        }
+
+        .floating-element:nth-child(4) {
+            bottom: 10%;
+            right: 10%;
+            animation-delay: 3s;
+        }
+
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .feature {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            width: 180px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #f0f0f0;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature i {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color:  rgba(15, 25, 87, 0.816);;
+        }
+
+        .feature h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #2d3748;
+        }
+
+        .feature p {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            margin-top: auto;
+            color: #718096;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        /* Loading Overlay Styles */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+        }
+
+        .loading-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .loading-spinner {
+            width: 80px;
+            height: 80px;
+            border: 8px solid #f0f0f0;
+            border-top: 8px solid rgba(25, 37, 116, 0.816);;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        .loading-text {
+            font-size: 1.5rem;
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+
+        .loading-subtext {
+            font-size: 1rem;
+            color: #718096;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-15px) rotate(5deg);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.7;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .welcome-text {
+                font-size: 1rem;
+            }
+            
+            .welcome-card {
+                padding: 30px 20px;
+            }
+            
+            .features {
+                gap: 15px;
+            }
+            
+            .feature {
+                width: 150px;
+                padding: 15px;
+            }
+            
+            .animation-container {
+                height: 180px;
+            }
+            
+            .computer {
+                width: 150px;
+                height: 100px;
+            }
+            
+            .screen {
+                width: 130px;
+                height: 70px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .logo-text {
+                font-size: 1.5rem;
+            }
+            
+            .welcome-card {
+                padding: 25px 15px;
+            }
+            
+            .features {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .feature {
+                width: 100%;
+                max-width: 250px;
+            }
+            
+            .animation-container {
+                height: 150px;
+            }
+            
+            .computer {
+                width: 120px;
+                height: 80px;
+            }
+            
+            .screen {
+                width: 100px;
+                height: 50px;
+            }
+            
+            .dashboard-btn {
+                padding: 12px 30px;
+                font-size: 1rem;
+            }
+            
+            .loading-spinner {
+                width: 60px;
+                height: 60px;
+                border-width: 6px;
+            }
+            
+            .loading-text {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Redirecting to your dashboard</div>
+        <div class="loading-subtext">Please wait...</div>
+    </div>
+
+    <div class="container">
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-laptop-code"></i>
+            </div>
+            <div class="logo-text">
+                <span class="step">STEP</span><span class="way">WAY</span>
+            </div>
+        </div>
+        
+        <div class="welcome-card">
+            <h1>Welcome to Step Way Technologies!</h1>
+            <p class="welcome-text">
+                Congratulations on taking the first step toward an exciting journey in technology. 
+                Your learning adventure begins now, and we're thrilled to have you with us.
+            </p>
+            
+            <p class="motivation-text">
+                "The expert in anything was once a beginner. Your dedication today will build the skills of tomorrow."
+            </p>
+            
+            <div class="animation-container">
+                <div class="computer">
+                    <div class="screen">
+                        <div class="screen-content">
+                            <i class="fas fa-code"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="keyboard"></div>
+                <div class="stand"></div>
+                
+                <div class="floating-elements">
+                    <div class="floating-element"><i class="fas fa-rocket"></i></div>
+                    <div class="floating-element"><i class="fas fa-lightbulb"></i></div>
+                    <div class="floating-element"><i class="fas fa-graduation-cap"></i></div>
+                    <div class="floating-element"><i class="fas fa-chart-line"></i></div>
+                </div>
+            </div>
+            
+            <p class="welcome-text">
+                Get ready to explore, learn, and grow with our comprehensive courses designed to 
+                take you from beginner to professional.
+            </p>
+            
+            <button id="dashboardBtn" class="dashboard-btn">
+                <i class="fas fa-tachometer-alt"></i> Go to Your Dashboard
+            </button>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-video"></i>
+                <h3>Video Lessons</h3>
+                <p>Learn at your own pace</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-laptop-code"></i>
+                <h3>Live Coding</h3>
+                <p>Practice with experts</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-hands-helping"></i>
+                <h3>Hands-on Labs</h3>
+                <p>Real-world projects</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-database"></i>
+                <h3>Real Datasets</h3>
+                <p>Industry experience</p>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; Step Way Technologies. All rights reserved.</p>
+    </footer>
+
+
+    <script>
+        document.getElementById('dashboardBtn').addEventListener('click', function() {
+            // Show loading overlay
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            loadingOverlay.classList.add('active');
+            
+            // After 3 seconds, redirect to dashboard
+            setTimeout(function() {
+                window.location.href = 'user-dashboard.html';
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

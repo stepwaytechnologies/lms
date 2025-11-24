@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics & Reporting - Stepway Technologies</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f5f7fa;
+            color: #2d3748;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 240px;
+            background-color: #fff;
+            border-right: 1px solid #e2e8f0;
+            padding: 20px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+         .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-stepway {
+            color: #000;
+        }
+
+
+        .nav-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #4a5568;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background-color: #f7fafc;
+            color: #2d3748;
+        }
+
+        .nav-item.active {
+            background-color: #e6f2ff;
+            color: rgba(26, 35, 126, 1);
+            border-left-color: rgba(26, 35, 126, 1);
+        }
+
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 240px;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* Header */
+        .header {
+            background-color: #fff;
+            padding: 16px 32px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background-color: #f7fafc;
+            padding: 8px 16px;
+            border-radius: 8px;
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .search-box input {
+            border: none;
+            background: none;
+            outline: none;
+            margin-left: 8px;
+            width: 100%;
+            color: #2d3748;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .notification-icon {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #e53e3e;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(26, 35, 126, 1);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 16px;
+        }
+
+        /* Content Area */
+        .content {
+            padding: 32px;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .btn-generate {
+            background-color: rgba(26, 35, 126, 1);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-generate:hover {
+            background-color: rgb(42, 50, 133);
+        }
+
+        /* Date Filter Tabs */
+        .date-filters {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .date-tab {
+            padding: 8px 20px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            background-color: white;
+            color: #4a5568;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .date-tab:hover {
+            background-color: #f7fafc;
+        }
+
+        .date-tab.active {
+            background-color: rgba(26, 35, 126, 1);
+            color: white;
+            border-color: rgba(26, 35, 126, 1);
+        }
+
+        .date-picker {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .date-input {
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .btn-apply {
+            padding: 8px 16px;
+            background-color: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-apply:hover {
+            background-color: #f7fafc;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+
+        .stat-icon.blue {
+            background-color: #e6f2ff;
+            color: rgba(26, 35, 126, 1);
+        }
+
+        .stat-icon.pink {
+            background-color: #fce7f3;
+            color: #be185d;
+        }
+
+        .stat-icon.green {
+            background-color: #d1fae5;
+            color: #10b981;
+        }
+
+        .stat-icon.yellow {
+            background-color: #fef3c7;
+            color: #f59e0b;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #718096;
+        }
+
+        .stat-change {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 12px;
+            color: #10b981;
+            font-weight: 500;
+        }
+
+        /* Charts Grid */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .chart-card {
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .chart-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a202c;
+        }
+
+        .chart-icon {
+            color: #718096;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .chart-icon:hover {
+            color: #2d3748;
+        }
+
+        /* Revenue Chart */
+        .revenue-chart {
+            height: 300px;
+            position: relative;
+        }
+
+        /* Donut Chart */
+        .donut-chart {
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .donut-legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            font-size: 12px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+        }
+
+        .legend-color.blue {
+            background-color: rgba(26, 35, 126, 1);
+        }
+
+        .legend-color.red {
+            background-color: #b91c1c;
+        }
+
+        .legend-color.gray {
+            background-color: #9ca3af;
+        }
+
+        /* Second Row Grid */
+        .second-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        /* Top Courses List */
+        .course-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .course-item:last-child {
+            border-bottom: none;
+        }
+
+        .course-rank {
+            width: 32px;
+            height: 32px;
+            background-color: #f7fafc;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .course-info {
+            flex: 1;
+        }
+
+        .course-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: #2d3748;
+            margin-bottom: 4px;
+        }
+
+        .course-meta {
+            font-size: 12px;
+            color: #718096;
+        }
+
+        .course-revenue {
+            font-weight: 700;
+            font-size: 16px;
+            color: #1a202c;
+        }
+
+        /* Engagement Metrics */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .metric-item {
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 8px;
+        }
+
+        .metric-label {
+            font-size: 13px;
+            color: #718096;
+        }
+
+        /* Geographic Distribution */
+        .geo-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .geo-item:last-child {
+            border-bottom: none;
+        }
+
+        .geo-flag {
+            width: 32px;
+            height: 32px;
+            background-color: #e2e8f0;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .geo-info {
+            flex: 1;
+        }
+
+        .geo-country {
+            font-weight: 600;
+            font-size: 14px;
+            color: #2d3748;
+        }
+
+        .geo-stats {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .geo-students {
+            font-weight: 600;
+            font-size: 14px;
+            color: #2d3748;
+        }
+
+        .geo-percentage {
+            font-size: 13px;
+            color: #718096;
+        }
+
+        /* Export Reports */
+        .export-section {
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .export-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 8px;
+        }
+
+        .export-subtitle {
+            font-size: 14px;
+            color: #718096;
+            margin-bottom: 24px;
+        }
+
+        .export-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .export-btn {
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            background-color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #4a5568;
+            transition: all 0.2s;
+        }
+
+        .export-btn:hover {
+            background-color: #f7fafc;
+            border-color: rgba(26, 35, 126, 1);
+            color: rgba(26, 35, 126, 1);
+        }
+
+        .export-btn i {
+            font-size: 16px;
+        }
+
+        /* Sidebar Overlay */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        .close-sidebar {
+            display: none;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #4a5568;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 1024px) {
+            .main-content {
+                margin-left: 0;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .close-sidebar {
+                display: block;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .search-box {
+                max-width: 200px;
+            }
+
+            .user-profile span {
+                display: none;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .second-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .export-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 12px 16px;
+            }
+
+            .search-box {
+                display: none;
+            }
+
+            .content {
+                padding: 16px;
+            }
+
+            .page-header {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .btn-generate {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .date-filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .date-tab {
+                text-align: center;
+            }
+
+            .date-picker {
+                flex-direction: column;
+            }
+
+            .date-input {
+                width: 100%;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .export-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 20px;
+            }
+        }
+
+
+    /* Audience Label Styles */
+.audience-label {
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: white;
+    margin-left: 8px;
+    white-space: nowrap;
+}
+
+.audience-label.adult {
+    background-color: rgba(26, 35, 126, 1);
+}
+
+.audience-label.kids {
+    background-color: #7c0a0a;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 968px) {
+    .audience-label {
+        font-size: 11px;
+        padding: 3px 10px;
+        margin-left: 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .audience-label {
+        font-size: 10px;
+        padding: 2px 8px;
+        margin-left: 4px;
+    }
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    
+   <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <i class="fas fa-times close-sidebar" id="closeSidebar"></i>
+            <div class="sidebar-header">
+                <div class="logo-container">
+                    <img src="images/Step-Way Logo.png" width="150px" alt="Stepway Technologies">
+                </div>
+                <div class="audience-label" id="audienceLabel"></div>
+            </div>
+
+           <nav>
+                <a href="instructor-dashboard.html" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
+  <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
+</svg>
+
+                    <span>Dashboard</span>
+                </a>
+                <a href="instructor-courses.html" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-book" viewBox="0 0 16 16">
+  <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/>
+</svg>
+                    <span>My Courses</span>
+                </a>
+                <a href="instructor-analytic.html" class="nav-item active">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-graph-up" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07"/>
+</svg>
+                    <span>Analytics</span>
+                </a>
+                <a href="instructor-stu-management.html" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-people" viewBox="0 0 16 16">
+  <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1L7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002-.014.002zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4q0 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/>
+</svg>
+                    <span>Students</span>
+                </a>
+                <a href="instructor-message-management.html" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chat-left-text" viewBox="0 0 16 16">
+  <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+  <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6m0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5"/>
+</svg>
+                    <span>Messages</span>
+                </a>
+                <a href="instructr-revenue.html" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8m5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/>
+  <path d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195z"/>
+  <path d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083q.088-.517.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1z"/>
+  <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 6 6 0 0 1 3.13-1.567"/>
+</svg>
+                    <span>Earnings</span>
+                </a>
+                <a href="instructor-setting.html" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
+  <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0"/>
+  <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z"/>
+</svg>
+                    <span>Settings</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div style="display: flex; align-items: center; flex: 1;">
+                    <i class="fas fa-bars hamburger" id="hamburger"></i>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search transactions...">
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="notification-icon">
+                        <i class="fas fa-bell" style="font-size: 20px; color: #4a5568;"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <div class="notification-icon">
+                        <i class="fas fa-comment" style="font-size: 20px; color: #4a5568;"></i>
+                        <span class="notification-badge">5</span>
+                    </div>
+                    <div class="user-profile">
+                        <div class="user-avatar">MJ</div>
+                        <span>Michael Johnson</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <div class="content">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Analytics & Reporting</h1>
+                        <p class="page-subtitle">Track performance, student engagement, and revenue metrics</p>
+                    </div>
+                    <button class="btn-generate">
+                        <i class="fas fa-file-export"></i>
+                        Generate Report
+                    </button>
+                </div>
+
+                <!-- Date Filters -->
+                <div class="date-filters">
+                    <div class="date-tab">Last 7 Days</div>
+                    <div class="date-tab">Last 30 Days</div>
+                    <div class="date-tab active">Last 90 Days</div>
+                    <div class="date-tab">Last Year</div>
+                    <div class="date-picker">
+                        <input type="text" class="date-input" value="01/01/2023" placeholder="Start Date">
+                        <span>to</span>
+                        <input type="text" class="date-input" value="01/01/2023" placeholder="End Date">
+                        <button class="btn-apply">
+                            <i class="fas fa-check"></i>
+                            Apply
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-change">↑ 12.5%</span>
+                        <div class="stat-icon blue">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-people" viewBox="0 0 16 16">
+  <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1L7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002-.014.002zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4q0 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/>
+</svg>
+                        </div>
+                        <div class="stat-value">2,847</div>
+                        <div class="stat-label">Total Students</div>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-change">↑ 8.2%</span>
+                        <div class="stat-icon pink">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-book" viewBox="0 0 16 16">
+  <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/>
+</svg>
+                        </div>
+                        <div class="stat-value">8</div>
+                        <div class="stat-label">Published Courses</div>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-change">↑ 18.3%</span>
+                        <div class="stat-icon green">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-coin" viewBox="0 0 16 16">
+  <path d="M5.5 9.511c.076.954.83 1.697 2.182 1.785V12h.6v-.709c1.4-.098 2.218-.846 2.218-1.932 0-.987-.626-1.496-1.745-1.76l-.473-.112V5.57c.6.068.982.396 1.074.85h1.052c-.076-.919-.864-1.638-2.126-1.716V4h-.6v.719c-1.195.117-2.01.836-2.01 1.853 0 .9.606 1.472 1.613 1.707l.397.098v2.034c-.615-.093-1.022-.43-1.114-.9zm2.177-2.166c-.59-.137-.91-.416-.91-.836 0-.47.345-.822.915-.925v1.76h-.005zm.692 1.193c.717.166 1.048.435 1.048.91 0 .542-.412.914-1.135.982V8.518z"/>
+  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+  <path d="M8 13.5a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11m0 .5A6 6 0 1 0 8 2a6 6 0 0 0 0 12"/>
+</svg>
+                        </div>
+                        <div class="stat-value">$8,420</div>
+                        <div class="stat-label">Monthly Revenue</div>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-change">↑ 4.2%</span>
+                        <div class="stat-icon yellow">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
+  <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.56.56 0 0 0-.163-.505L1.71 6.745l4.052-.576a.53.53 0 0 0 .393-.288L8 2.223l1.847 3.658a.53.53 0 0 0 .393.288l4.052.575-2.906 2.77a.56.56 0 0 0-.163.506l.694 3.957-3.686-1.894a.5.5 0 0 0-.461 0z"/>
+</svg>
+                        </div>
+                        <div class="stat-value">4.8</div>
+                        <div class="stat-label">Average Rating</div>
+                    </div>
+                </div>
+
+                <!-- Charts Grid -->
+                <div class="charts-grid">
+                    <!-- Revenue Overview -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 class="chart-title" style="color: rgba(26, 35, 126, 1);">Revenue Overview</h3>
+                            <i class="fas fa-download chart-icon"></i>
+                        </div>
+                        <div class="revenue-chart">
+                            <svg width="100%" height="300">
+                                <!-- Y-axis labels -->
+                                <text x="10" y="30" font-size="11" fill="#718096">10,000</text>
+                                <text x="20" y="80" font-size="11" fill="#718096">9,000</text>
+                                <text x="20" y="130" font-size="11" fill="#718096">8,000</text>
+                                <text x="20" y="180" font-size="11" fill="#718096">7,000</text>
+                                <text x="20" y="230" font-size="11" fill="#718096">6,000</text>
+                                <text x="20" y="280" font-size="11" fill="#718096">5,000</text>
+                                
+                                <!-- Grid lines -->
+                                <line x1="60" y1="30" x2="95%" y2="30" stroke="#e2e8f0" stroke-width="1"/>
+                                <line x1="60" y1="80" x2="95%" y2="80" stroke="#e2e8f0" stroke-width="1"/>
+                                <line x1="60" y1="130" x2="95%" y2="130" stroke="#e2e8f0" stroke-width="1"/>
+                                <line x1="60" y1="180" x2="95%" y2="180" stroke="#e2e8f0" stroke-width="1"/>
+                                <line x1="60" y1="230" x2="95%" y2="230" stroke="#e2e8f0" stroke-width="1"/>
+                                
+                                <!-- Area fill -->
+                                <polygon points="60,250 100,220 140,200 180,180 220,100 260,80 300,70 340,90 380,120 420,180 460,200 500,240 540,250" 
+                                         fill="#e9d5ff" opacity="0.4"/>
+                                
+                                <!-- Line -->
+                                <polyline points="60,250 100,220 140,200 180,180 220,100 260,80 300,70 340,90 380,120 420,180 460,200 500,240" 
+                                          fill="none" stroke="#3730a3" stroke-width="2"/>
+                                
+                                <!-- Points -->
+                                <circle cx="60" cy="250" r="4" fill="#3730a3"/>
+                                <circle cx="100" cy="220" r="4" fill="#3730a3"/>
+                                <circle cx="140" cy="200" r="4" fill="#3730a3"/>
+                                <circle cx="180" cy="180" r="4" fill="#3730a3"/>
+                                <circle cx="220" cy="100" r="4" fill="#3730a3"/>
+                                <circle cx="260" cy="80" r="4" fill="#3730a3"/>
+                                <circle cx="300" cy="70" r="4" fill="#3730a3"/>
+                                <circle cx="340" cy="90" r="4" fill="#3730a3"/>
+                                <circle cx="380" cy="120" r="4" fill="#3730a3"/>
+                                <circle cx="420" cy="180" r="4" fill="#3730a3"/>
+                                <circle cx="460" cy="200" r="4" fill="#3730a3"/>
+                                <circle cx="500" cy="240" r="4" fill="#3730a3"/>
+                                
+                                <!-- X-axis labels -->
+                                <text x="50" y="290" font-size="11" fill="#718096">Jan</text>
+                                <text x="100" y="290" font-size="11" fill="#718096">Feb</text>
+                                <text x="150" y="290" font-size="11" fill="#718096">Mar</text>
+                                <text x="200" y="290" font-size="11" fill="#718096">Apr</text>
+                                <text x="250" y="290" font-size="11" fill="#718096">May</text>
+                                <text x="300" y="290" font-size="11" fill="#718096">Jun</text>
+                                <text x="350" y="290" font-size="11" fill="#718096">Jul</text>
+                                <text x="400" y="290" font-size="11" fill="#718096">Aug</text>
+                                <text x="450" y="290" font-size="11" fill="#718096">Sep</text>
+                                <text x="500" y="290" font-size="11" fill="#718096">Oct</text>
+                                <text x="550" y="290" font-size="11" fill="#718096">Nov</text>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Student Engagement -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 class="chart-title" style="color: rgba(26, 35, 126, 1);">Student Engagement</h3>
+                            <i class="fas fa-download chart-icon"></i>
+                        </div>
+                        <div class="donut-chart">
+                            <svg width="220" height="220" viewBox="0 0 220 220">
+                                <!-- Completed (Blue) - 45% -->
+                                <circle cx="110" cy="110" r="80" fill="none" stroke="#3730a3" stroke-width="40" 
+                                        stroke-dasharray="226 504" transform="rotate(-90 110 110)"/>
+                                <!-- In Progress (Red) - 25% -->
+                                <circle cx="110" cy="110" r="80" fill="none" stroke="#b91c1c" stroke-width="40" 
+                                        stroke-dasharray="126 504" stroke-dashoffset="-226" transform="rotate(-90 110 110)"/>
+                                <!-- Not Started (Gray) - 30% -->
+                                <circle cx="110" cy="110" r="80" fill="none" stroke="#9ca3af" stroke-width="40" 
+                                        stroke-dasharray="151 504" stroke-dashoffset="-352" transform="rotate(-90 110 110)"/>
+                                <!-- Center white circle -->
+                                <circle cx="110" cy="110" r="60" fill="white"/>
+                            </svg>
+                        </div>
+                        <div class="donut-legend">
+                            <div class="legend-item">
+                                <div class="legend-color blue"></div>
+                                <span>Completed</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color red"></div>
+                                <span>In Progress</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color gray"></div>
+                                <span>Not Started</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Second Grid -->
+                <div class="second-grid">
+                    <!-- Top Performing Courses -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 class="chart-title" style="color: rgba(26, 35, 126, 1);">Top Performing Courses</h3>
+                            <i class="fas fa-ellipsis-h chart-icon"></i>
+                        </div>
+                        
+                        <div class="course-item">
+                            <div class="course-rank">1</div>
+                            <div class="course-info">
+                                <div class="course-name">Advanced Web Development</div>
+                                <div class="course-meta">1,248 students • 4.9 rating</div>
+                            </div>
+                            <div class="course-revenue" style="color: rgba(26, 35, 126, 1);">$3,240</div>
+                        </div>
+
+                        <div class="course-item">
+                            <div class="course-rank">2</div>
+                            <div class="course-info">
+                                <div class="course-name">React & Redux Mastery</div>
+                                <div class="course-meta">892 students • 4.8 rating</div>
+                            </div>
+                            <div class="course-revenue" style="color: rgba(26, 35, 126, 1);">$2,150</div>
+                        </div>
+
+                        <div class="course-item">
+                            <div class="course-rank">3</div>
+                            <div class="course-info">
+                                <div class="course-name">UI/UX Design Fundamentals</div>
+                                <div class="course-meta">542 students • 4.7 rating</div>
+                            </div>
+                            <div class="course-revenue" style="color: rgba(26, 35, 126, 1);">$1,850</div>
+                        </div>
+
+                        <div class="course-item">
+                            <div class="course-rank">4</div>
+                            <div class="course-info">
+                                <div class="course-name">Python for Data Science</div>
+                                <div class="course-meta">387 students • 4.6 rating</div>
+                            </div>
+                            <div class="course-revenue" style="color: rgba(26, 35, 126, 1);">$1,420</div>
+                        </div>
+
+                        <div class="course-item">
+                            <div class="course-rank">5</div>
+                            <div class="course-info">
+                                <div class="course-name">Mobile App Development</div>
+                                <div class="course-meta">315 students • 4.5 rating</div>
+                            </div>
+                            <div class="course-revenue" style="color: rgba(26, 35, 126, 1);">$1,180</div>
+                        </div>
+                    </div>
+
+                    <!-- Engagement Metrics -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 class="chart-title" style="color: rgba(26, 35, 126, 1);">Engagement Metrics</h3>
+                            <i class="fas fa-sync-alt chart-icon"></i>
+                        </div>
+
+                        <div class="metrics-grid">
+                            <div class="metric-item">
+                                <div class="metric-value" style="color: rgba(26, 35, 126, 1);">78%</div>
+                                <div class="metric-label">Course Completion</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value" style="color: rgba(26, 35, 126, 1);">42%</div>
+                                <div class="metric-label">Assignment Submission</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value" style="color: rgba(26, 35, 126, 1);">3.2h</div>
+                                <div class="metric-label">Avg. Time Spent</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value" style="color: rgba(26, 35, 126, 1);">67%</div>
+                                <div class="metric-label">Active Students</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Geographic Distribution -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3 class="chart-title" style="color: rgba(26, 35, 126, 1);">Geographic Distribution</h3>
+                        <i class="fas fa-chart-bar chart-icon"></i>
+                    </div>
+
+                    <div class="geo-item">
+                        <div class="geo-flag">🇺🇸</div>
+                        <div class="geo-info">
+                            <div class="geo-country">United States</div>
+                        </div>
+                        <div class="geo-stats">
+                            <div class="geo-students" style="color: rgba(26, 35, 126, 1);">842 students</div>
+                            <div class="geo-percentage">32%</div>
+                        </div>
+                    </div>
+
+                    <div class="geo-item">
+                        <div class="geo-flag">🇬🇧</div>
+                        <div class="geo-info">
+                            <div class="geo-country">United Kingdom</div>
+                        </div>
+                        <div class="geo-stats">
+                            <div class="geo-students" style="color: rgba(26, 35, 126, 1);">521 students</div>
+                            <div class="geo-percentage">20%</div>
+                        </div>
+                    </div>
+
+                    <div class="geo-item">
+                        <div class="geo-flag">🇨🇦</div>
+                        <div class="geo-info">
+                            <div class="geo-country">Canada</div>
+                        </div>
+                        <div class="geo-stats">
+                            <div class="geo-students" style="color: rgba(26, 35, 126, 1);">387 students</div>
+                            <div class="geo-percentage">15%</div>
+                        </div>
+                    </div>
+
+                    <div class="geo-item">
+                        <div class="geo-flag">🇦🇺</div>
+                        <div class="geo-info">
+                            <div class="geo-country">Australia</div>
+                        </div>
+                        <div class="geo-stats">
+                            <div class="geo-students" style="color: rgba(26, 35, 126, 1);">254 students</div>
+                            <div class="geo-percentage">10%</div>
+                        </div>
+                    </div>
+
+                    <div class="geo-item">
+                        <div class="geo-flag">🇩🇪</div>
+                        <div class="geo-info">
+                            <div class="geo-country">Germany</div>
+                        </div>
+                        <div class="geo-stats">
+                            <div class="geo-students" style="color: rgba(26, 35, 126, 1);">198 students</div>
+                            <div class="geo-percentage">8%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Export Reports -->
+                <div class="export-section" style="margin-top: 24px;">
+                    <h3 class="export-title" style="color: rgba(26, 35, 126, 1);">Export Reports</h3>
+                    <p class="export-subtitle">Generate detailed reports for your courses and student performance</p>
+                    
+                    <div class="export-buttons">
+                        <button class="export-btn">
+                            <i class="fas fa-file-pdf"></i>
+                            PDF Report
+                        </button>
+                        <button class="export-btn">
+                            <i class="fas fa-file-excel"></i>
+                            Excel Spreadsheet
+                        </button>
+                        <button class="export-btn">
+                            <i class="fas fa-file-csv"></i>
+                            CSV Data
+                        </button>
+                        <button class="export-btn">
+                            <i class="fas fa-chart-line"></i>
+                            Custom Analytics
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+<script>
+    // Sidebar Toggle
+    const hamburger = document.getElementById('hamburger');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+    const closeSidebar = document.getElementById('closeSidebar');
+
+    hamburger.addEventListener('click', () => {
+        sidebar.classList.add('active');
+        sidebarOverlay.classList.add('active');
+    });
+
+    closeSidebar.addEventListener('click', () => {
+        sidebar.classList.remove('active');
+        sidebarOverlay.classList.remove('active');
+    });
+
+    sidebarOverlay.addEventListener('click', () => {
+        sidebar.classList.remove('active');
+        sidebarOverlay.classList.remove('active');
+    });
+
+    // Date Filter Tabs
+    const dateTabs = document.querySelectorAll('.date-tab');
+    dateTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            dateTabs.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+
+    // Apply Button
+    document.querySelector('.btn-apply').addEventListener('click', () => {
+        alert('Applying custom date range...');
+    });
+
+    // Generate Report Button
+    document.querySelector('.btn-generate').addEventListener('click', () => {
+        alert('Generating comprehensive report...');
+    });
+
+    // Stat Cards Click
+    document.querySelectorAll('.stat-card').forEach(card => {
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', function() {
+            const label = this.querySelector('.stat-label').textContent;
+            alert(`Viewing detailed statistics for: ${label}`);
+        });
+    });
+
+    // Chart Download Icons
+    document.querySelectorAll('.chart-icon').forEach(icon => {
+        if (icon.classList.contains('fa-download')) {
+            icon.addEventListener('click', function() {
+                const title = this.parentElement.querySelector('.chart-title').textContent;
+                alert(`Downloading ${title} data...`);
+            });
+        } else if (icon.classList.contains('fa-sync-alt')) {
+            icon.addEventListener('click',function() {
+                this.style.animation = 'spin 1s linear';
+                setTimeout(() => {
+                    this.style.animation = '';
+                    alert('Data refreshed!');
+                }, 1000);
+            });
+        }
+    });
+
+    // Course Items Click
+    document.querySelectorAll('.course-item').forEach(item => {
+        item.style.cursor = 'pointer';
+        item.addEventListener('click', function() {
+            const courseName = this.querySelector('.course-name').textContent;
+            alert(`Opening detailed analytics for: ${courseName}`);
+        });
+    });
+
+    // Metric Items Click
+    document.querySelectorAll('.metric-item').forEach(item => {
+        item.style.cursor = 'pointer';
+        item.addEventListener('click', function() {
+            const label = this.querySelector('.metric-label').textContent;
+            alert(`Viewing detailed metrics for: ${label}`);
+        });
+    });
+
+    // Geographic Items Click
+    document.querySelectorAll('.geo-item').forEach(item => {
+        item.style.cursor = 'pointer';
+        item.addEventListener('click', function() {
+            const country = this.querySelector('.geo-country').textContent;
+            alert(`Viewing student distribution for: ${country}`);
+        });
+    });
+
+    // Export Buttons
+    document.querySelectorAll('.export-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const type = this.textContent.trim();
+            alert(`Generating ${type}...`);
+        });
+    });
+
+    // Nav Items - UPDATED TO ALLOW NAVIGATION
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+            // Don't prevent default - allow links to work
+            // Just close sidebar on mobile after clicking
+            if (window.innerWidth <= 1024) {
+                sidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+            }
+        });
+    });
+
+    // Add spin animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    `;
+    document.head.appendChild(style);
+
+    // Animate chart line on load
+    window.addEventListener('load', () => {
+        const polyline = document.querySelector('polyline[stroke="#3730a3"]');
+        if (polyline) {
+            const length = polyline.getTotalLength();
+            polyline.style.strokeDasharray = length;
+            polyline.style.strokeDashoffset = length;
+            polyline.style.transition = 'stroke-dashoffset 2s ease-in-out';
+            setTimeout(() => {
+                polyline.style.strokeDashoffset = 0;
+            }, 100);
+        }
+    });
+
+    // Date Input Placeholders
+    document.querySelectorAll('.date-input').forEach(input => {
+        input.addEventListener('click', function() {
+            this.type = 'date';
+        });
+        input.addEventListener('blur', function() {
+            if (!this.value) {
+                this.type = 'text';
+            }
+        });
+    });
+</script>
+
+ <script>
+        // All existing JavaScript remains the same
+        
+        // Load teaching audience and display label
+        function loadTeachingAudience() {
+            // Try to get from localStorage first (dashboard data)
+            const instructorData = JSON.parse(localStorage.getItem('instructorData') || '{}');
+            
+            // If not found, try sessionStorage (application data)
+            const step1Data = JSON.parse(sessionStorage.getItem('step1Data') || '{}');
+            
+            const teachingAudience = instructorData.teachingAudience || step1Data.teachingAudience;
+            const audienceLabel = document.getElementById('audienceLabel');
+            
+            if (audienceLabel) {
+                if (teachingAudience === 'kids') {
+                    audienceLabel.textContent = 'KIDS';
+                    audienceLabel.className = 'audience-label kids';
+                } else if (teachingAudience === 'adults') {
+                    audienceLabel.textContent = 'ADULT';
+                    audienceLabel.className = 'audience-label adult';
+                } else {
+                    // Default fallback
+                    audienceLabel.textContent = 'INSTRUCTOR';
+                    audienceLabel.className = 'audience-label adult';
+                }
+            }
+        }
+
+        // Call this function when the page loads
+        document.addEventListener('DOMContentLoaded', loadTeachingAudience);
+    </script>
+</body>
+</html>

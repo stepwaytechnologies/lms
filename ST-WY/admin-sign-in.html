@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Sign In - Stepway</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .left-panel {
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            color: white;
+            padding: 60px 50px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        .logo h1 {
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .admin-badge {
+            background-color:#7c0a0a;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .panel-title {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .panel-subtitle {
+            color: #b3b3d4;
+            font-size: 15px;
+            margin-bottom: 60px;
+        }
+
+        .features {
+            list-style: none;
+        }
+
+        .features li {
+            color: #e8e8f5;
+            margin-bottom: 18px;
+            font-size: 15px;
+            position: relative;
+            padding-left: 0;
+        }
+
+        .features li:before {
+            content: '✓';
+            margin-right: 12px;
+            font-weight: bold;
+        }
+
+        .right-panel {
+            flex: 1;
+            padding: 60px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: white;
+        }
+
+        .form-container {
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .form-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #1a237e;
+            margin-bottom: 10px;
+        }
+
+        .form-subtitle {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #1a237e;
+        }
+
+        .form-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .remember-me input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .forgot-link {
+            color: #1a237e;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
+
+        .sign-in-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #1a237e;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .sign-in-btn:hover {
+            background-color: #0d47a1;
+        }
+
+        .request-access {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .request-access a {
+            color: #1a237e;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .request-access a:hover {
+            text-decoration: underline;
+        }
+
+        /* Loading Screen Styles */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .loading-screen.active {
+            display: flex;
+        }
+
+        .loading-logo {
+            width: 200px;
+            height: 200px;
+            display: none;
+            animation: bounceIn 1s ease-out;
+        }
+
+        .loading-logo.active {
+            display: block;
+        }
+
+        .loading-logo.fade-out {
+            animation: fadeOutUp 1s ease-in forwards;
+        }
+
+        .loading-text {
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+            margin-top: 30px;
+            text-align: center;
+            animation: pulse 2s infinite;
+        }
+
+        .loading-progress {
+            width: 300px;
+            height: 6px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .loading-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #4fc3f7, #29b6f6);
+            border-radius: 3px;
+            transition: width 6s linear;
+        }
+
+        /* Animations */
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeOutUp {
+            0% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 0.6;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0.6;
+            }
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        @keyframes zoomIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 968px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .left-panel {
+                padding: 40px 30px;
+            }
+
+            .right-panel {
+                padding: 40px 30px;
+            }
+
+            .panel-title {
+                font-size: 26px;
+            }
+
+            .form-title {
+                font-size: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .left-panel {
+                padding: 30px 20px;
+            }
+
+            .right-panel {
+                padding: 30px 20px;
+            }
+
+            .logo h1 {
+                font-size: 24px;
+            }
+
+            .panel-title {
+                font-size: 22px;
+            }
+
+            .form-title {
+                font-size: 22px;
+            }
+            
+            .loading-logo {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .loading-text {
+                font-size: 20px;
+            }
+            
+            .loading-progress {
+                width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <div class="logo">
+                <h1>Stepway</h1>
+                <span class="admin-badge">ADMIN</span>
+            </div>
+            <h2 class="panel-title">Admin Portal Access</h2>
+            <p class="panel-subtitle">Secure access to the LMS administration dashboard</p>
+            <ul class="features">
+                <li>Advanced security protocols</li>
+                <li>Comprehensive analytics</li>
+                <li>System configuration</li>
+                <li>User management</li>
+                <li>Data management</li>
+            </ul>
+        </div>
+
+        <div class="right-panel">
+            <div class="form-container">
+                <h2 class="form-title">Admin Sign In</h2>
+                <p class="form-subtitle">Enter your admin credentials</p>
+                
+                <form id="adminForm">
+                    <div class="form-group">
+                        <label for="email">Admin Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+
+                    <div class="form-footer">
+                        <label class="remember-me">
+                            <input type="checkbox" id="remember">
+                            <span>Remember this device</span>
+                        </label>
+                        <a href="admin-password-recovery.html" class="forgot-link">Forgot password?</a>
+                    </div>
+
+                    <button type="button" id="signInBtn" class="sign-in-btn">Sign In as Admin</button>
+                </form>
+
+                <p class="request-access">
+                    Need an admin account? <a href="add-admin.html">Request Access</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Screen -->
+<div class="loading-screen" id="loadingScreen">
+    <div class="loading-logo active" id="logo1" style="animation: zoomIn 1s ease-out, float 4s ease-in-out infinite;">
+        <img src="images/Step-Way Logo.png" alt="Logo 1" width="300" height="50">
+    </div>
+    
+    <div class="loading-logo" id="logo2" style="animation: rotate 5s linear infinite, bounceIn 2s ease-out;">
+        <img src="images/stepway logoww.png" alt="Logo 2" width="300" height="50">
+    </div>
+    
+    <div class="loading-logo" id="logo3" style="animation: pulse 3s infinite, bounceIn 2s ease-out;">
+        <img src="images/stw-b-logo.png" alt="Logo 3" width="200" height="200">
+    </div>
+    
+    <div class="loading-text" id="loadingText">Initializing Admin Dashboard...</div>
+    <div class="loading-progress">
+        <div class="loading-progress-bar" id="progressBar"></div>
+    </div>
+</div>
+    <script>
+        document.getElementById('adminForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            startLoadingSequence();
+        });
+        
+        document.getElementById('signInBtn').addEventListener('click', function() {
+            startLoadingSequence();
+        });
+
+        function startLoadingSequence() {
+            // Show loading screen
+            const loadingScreen = document.getElementById('loadingScreen');
+            loadingScreen.classList.add('active');
+            
+            // Start progress bar
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = '100%';
+            
+            // Get logo elements
+            const logo1 = document.getElementById('logo1');
+            const logo2 = document.getElementById('logo2');
+            const logo3 = document.getElementById('logo3');
+            const loadingText = document.getElementById('loadingText');
+            
+            // Reset all logos to inactive
+            logo1.classList.remove('active');
+            logo2.classList.remove('active');
+            logo3.classList.remove('active');
+            
+            // Sequence of logos with 2 second intervals
+            setTimeout(() => {
+                logo1.classList.add('active');
+                loadingText.textContent = "Loading Security Modules...";
+            }, 0);
+            
+            setTimeout(() => {
+                logo1.classList.remove('active');
+                logo1.classList.add('fade-out');
+                
+                setTimeout(() => {
+                    logo2.classList.add('active');
+                    loadingText.textContent = "Initializing Dashboard...";
+                }, 500);
+            }, 2000);
+            
+            setTimeout(() => {
+                logo2.classList.remove('active');
+                logo2.classList.add('fade-out');
+                
+                setTimeout(() => {
+                    logo3.classList.add('active');
+                    loadingText.textContent = "Finalizing Setup...";
+                }, 500);
+            }, 4000);
+            
+            // Redirect after 6 seconds
+            setTimeout(() => {
+                window.location.href = 'admin-dashboard.html';
+            }, 6000);
+        }
+    </script>
+</body>
+</html>

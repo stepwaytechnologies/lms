@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-273ZFF8C6Y"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-273ZFF8C6Y');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - StepWay International</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+   <style>
+
+    body{
+    overflow-x: hidden;
+}
+        .settings-page {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+        
+        .settings-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .settings-header h1 {
+            font-size: 2.5rem;
+            color: rgba(15, 25, 87, 1);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .settings-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e5e7eb;
+            flex-wrap: wrap;
+        }
+        
+        .tab-btn {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #6b7280;
+            font-weight: 500;
+        }
+        
+        .tab-btn.active {
+            color: rgba(15, 25, 87, 1);
+            border-bottom-color: rgba(15, 25, 87, 1);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .settings-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .section-title {
+            font-size: 1.3rem;
+            color: #1f2937;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .setting-item {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+        
+        .setting-info {
+            flex: 1;
+        }
+        
+        .setting-title {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 5px;
+        }
+        
+        .setting-desc {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+        
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: rgba(15, 25, 87, 1);
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+        
+        /* Select Styling */
+        .setting-select {
+            padding: 8px 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            background: white;
+            color: #374151;
+            min-width: 200px;
+        }
+        
+        /* Button Styling */
+        .settings-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .btn-save {
+            background: rgba(15, 25, 87, 1);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .btn-reset {
+            background: #6b7280;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        /* Profile Section */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(15, 25, 87, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: rgba(15, 25, 87, 1);
+        }
+        
+        .profile-info h3 {
+            margin: 0;
+            color: #1f2937;
+        }
+        
+        .profile-info p {
+            margin: 5px 0 0 0;
+            color: #6b7280;
+        }
+        
+        /* Navigation Styles */
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: rgba(15, 25, 87, 1);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #c3cee6;
+        }
+        
+        
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+        
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            transition: 0.3s;
+        }
+        
+        /* Back Button for Mobile */
+        .back-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: rgba(15, 25, 87, 1);
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 8px;
+            margin-right: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .settings-tabs {
+                flex-direction: column;
+            }
+
+            .hero{
+                height: 15vh;
+            }
+            
+            .tab-btn {
+                text-align: left;
+                border-bottom: 1px solid #e5e7eb;
+                border-left: 3px solid transparent;
+            }
+            
+            .tab-btn.active {
+                border-left-color: rgba(15, 25, 87, 1);
+                border-bottom-color: #e5e7eb;
+                font-size: 19px;
+            }
+            
+            .setting-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .settings-actions {
+                flex-direction: column;
+            }
+            
+            /* Hide hamburger and desktop nav on mobile */
+            .hamburger {
+                display: none;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            /* Show back button on mobile */
+            .back-btn {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            
+            .logo {
+                display: flex;
+                align-items: center;
+                text-align: center;
+                justify-content: center;
+            }
+        }
+        
+        .tab-btn {
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            outline: none !important;
+            box-shadow: none !important;
+        }
+
+        /* Remove focus styles for all browsers */
+        .tab-btn:focus,
+        .tab-btn:active,
+        .tab-btn:hover {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+
+        /* Specifically for mobile */
+        @media (max-width: 768px) {
+            .tab-btn {
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation (same as main page) -->
+    <section class="hero" style="padding-bottom: 40px; min-height: auto;">
+        <nav>
+            <div class="logo">
+                <!-- Back Button for Mobile -->
+                <button class="back-btn" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <img src="images/Step-Way Logo.png" width="120px" height="40px" alt="Step-Way Logo">
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="explore.html">Courses</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a class="active" href="setting.html">Settings</a></li>
+            </ul>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </section>
+
+    <!-- Settings Page Content -->
+    <div class="settings-page">
+        <div class="settings-header">
+            <h1>Account Settings</h1>
+            <p>Manage your preferences and account configuration</p>
+        </div>
+        
+        <div class="settings-tabs">
+            <button class="tab-btn active" onclick="openTab('profile')">Profile</button>
+            <button class="tab-btn" onclick="openTab('notifications')">Notifications</button>
+            <button class="tab-btn" onclick="openTab('privacy')">Privacy & Security</button>
+            <button class="tab-btn" onclick="openTab('communication')">Communication</button>
+            <button class="tab-btn" onclick="openTab('accessibility')">Accessibility</button>
+        </div>
+        
+        <!-- Profile Tab -->
+        <div id="profile" class="tab-content active">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <i class="bi bi-person-fill"></i>
+                </div>
+                <div class="profile-info">
+                    <h3>John Doe</h3>
+                    <p>Student Account</p>
+                </div>
+            </div>
+            
+            <div class="settings-section">
+                <h3 class="section-title">Personal Information</h3>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Full Name</div>
+                        <div class="setting-desc">Your display name</div>
+                    </div>
+                    <input type="text" class="form-control" value="" placeholder="John Doe" style="max-width: 300px;">
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Email Address</div>
+                        <div class="setting-desc">Your primary email</div>
+                    </div>
+                    <input type="email" class="form-control" value="" placeholder="***@gmail.com" style="max-width: 300px;">
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Phone Number</div>
+                        <div class="setting-desc">Your contact number</div>
+                    </div>
+                    <input type="tel" class="form-control" value="" placeholder="+234 *** *** ****" style="max-width: 300px;">
+                </div>
+            </div>
+            
+            <div class="settings-section">
+                <h3 class="section-title">Account Security</h3>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Change Password</div>
+                        <div class="setting-desc">Update your password regularly</div>
+                    </div>
+                    <button class="btn-save">Change Password</button>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Two-Factor Authentication</div>
+                        <div class="setting-desc">Add an extra layer of security</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Notifications Tab -->
+        <div id="notifications" class="tab-content">
+            <div class="settings-section">
+                <h3 class="section-title">Email Notifications</h3>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Course Updates</div>
+                        <div class="setting-desc">Get notified about new courses and updates</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Contact Form Responses</div>
+                        <div class="setting-desc">Receive responses to your inquiries</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Promotional Offers</div>
+                        <div class="setting-desc">Special discounts and offers</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="settings-section">
+                <h3 class="section-title">Form Preferences</h3>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Auto-save Drafts</div>
+                        <div class="setting-desc">Automatically save form progress</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Default Contact Method</div>
+                        <div class="setting-desc">Preferred way to be contacted</div>
+                    </div>
+                    <select class="setting-select">
+                        <option>Email</option>
+                        <option>Phone</option>
+                        <option>Both</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Privacy & Security Tab -->
+        <div id="privacy" class="tab-content">
+            <div class="settings-section">
+                <h3 class="section-title">Data Preferences</h3>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Data Sharing</div>
+                        <div class="setting-desc">Allow data sharing for analytics</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Cookie Preferences</div>
+                        <div class="setting-desc">Manage your cookie settings</div>
+                    </div>
+                    <select class="setting-select">
+                        <option>Essential Only</option>
+                        <option>Performance</option>
+                        <option>All Cookies</option>
+                    </select>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Data Retention</div>
+                        <div class="setting-desc">How long we keep your data</div>
+                    </div>
+                    <select class="setting-select">
+                        <option>6 Months</option>
+                        <option>1 Year</option>
+                        <option>2 Years</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="settings-section">
+                <h3 class="section-title">Account Data</h3>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Download My Data</div>
+                        <div class="setting-desc">Export all your personal data</div>
+                    </div>
+                    <button class="btn-save">Request Download</button>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Delete Account</div>
+                        <div class="setting-desc">Permanently remove your account</div>
+                    </div>
+                    <button class="btn-reset" style="background: #dc2626;">Delete Account</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Communication Tab -->
+        <div id="communication" class="tab-content">
+            <div class="settings-section">
+                <h3 class="section-title">Contact Preferences</h3>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Newsletter Frequency</div>
+                        <div class="setting-desc">How often you receive updates</div>
+                    </div>
+                    <select class="setting-select">
+                        <option>Weekly</option>
+                        <option>Monthly</option>
+                        <option>Quarterly</option>
+                    </select>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Preferred Language</div>
+                        <div class="setting-desc">Language for communications</div>
+                    </div>
+                    <select class="setting-select">
+                        <option>English</option>
+                        <option>French</option>
+                        <option>Spanish</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="settings-section">
+                <h3 class="section-title">Form Behavior</h3>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Auto-complete Forms</div>
+                        <div class="setting-desc">Suggest previous entries</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Default Form Subject</div>
+                        <div class="setting-desc">Pre-selected contact form category</div>
+                    </div>
+                    <select class="setting-select">
+                        <option>General Inquiry</option>
+                        <option>Web Development</option>
+                        <option>Course Information</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Accessibility Tab -->
+        <div id="accessibility" class="tab-content">
+            <div class="settings-section">
+                <h3 class="section-title">Display Settings</h3>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Font Size</div>
+                        <div class="setting-desc">Adjust text size for better readability</div>
+                    </div>
+                    <select class="setting-select" onchange="changeFontSize(this.value)">
+                        <option value="small">Small</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="large">Large</option>
+                        <option value="x-large">Extra Large</option>
+                    </select>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">High Contrast Mode</div>
+                        <div class="setting-desc">Enhanced color contrast</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" onchange="toggleHighContrast(this.checked)">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Reduced Motion</div>
+                        <div class="setting-desc">Minimize animations and transitions</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" onchange="toggleReducedMotion(this.checked)">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="settings-section">
+                <h3 class="section-title">Navigation Assistance</h3>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Keyboard Navigation</div>
+                        <div class="setting-desc">Enhanced keyboard support</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Screen Reader Optimized</div>
+                        <div class="setting-desc">Better compatibility with screen readers</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="settings-actions">
+            <button class="btn-reset">Reset to Default</button>
+            <button class="btn-save">Save Changes</button>
+        </div>
+    </div>
+
+
+    <script>
+        // Tab navigation
+        function openTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(tab => tab.classList.remove('active'));
+            
+            // Remove active class from all tab buttons
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            tabButtons.forEach(button => button.classList.remove('active'));
+            
+            // Show selected tab content and activate button
+            document.getElementById(tabName).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+        
+        // Accessibility functions
+        function changeFontSize(size) {
+            const sizes = {
+                'small': '14px',
+                'medium': '16px',
+                'large': '18px',
+                'x-large': '20px'
+            };
+            document.body.style.fontSize = sizes[size];
+        }
+        
+        function toggleHighContrast(enabled) {
+            if (enabled) {
+                document.body.style.filter = 'contrast(1.5)';
+            } else {
+                document.body.style.filter = 'none';
+            }
+        }
+        
+        function toggleReducedMotion(enabled) {
+            if (enabled) {
+                document.body.style.setProperty('--transition-time', '0.1s');
+            } else {
+                document.body.style.setProperty('--transition-time', '0.3s');
+            }
+        }
+        
+        // Back button functionality
+        function goBack() {
+            window.history.back();
+        }
+        
+        // Save settings (frontend only - backend will handle persistence)
+        document.querySelector('.btn-save').addEventListener('click', function() {
+            alert('Settings saved! (Backend will handle actual saving)');
+            // Backend will implement actual save functionality
+        });
+        
+        document.querySelector('.btn-reset').addEventListener('click', function() {
+            if (confirm('Reset all settings to default?')) {
+                // Backend will handle actual reset
+                alert('Settings reset!');
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

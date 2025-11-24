@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kids Coding Fun - Stepway Technologies</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #aab7de 0%, #415eae 100%);
+            min-height: 100vh;
+        }
+
+        .kid-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .kid-header {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .kid-title {
+            color: #1e3a8a;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .kid-subtitle {
+            color: #7c0a0a;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .video-section {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .video-wrapper {
+            margin-bottom: 20px;
+        }
+
+        .video-wrapper video {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .fun-elements {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .fun-item {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            flex: 1;
+            min-width: 120px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .fun-item i {
+            font-size: 2rem;
+            color: #7c0a0a;
+            margin-bottom: 10px;
+        }
+
+        .cta-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .animated-button {
+            background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+            min-width: 280px;
+            margin: 20px auto;
+            display: block;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .animated-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(255, 107, 107, 0.6);
+        }
+
+        .kid-message {
+            font-size: 1.3rem;
+            color: #1e3a8a;
+            margin: 20px 0;
+        }
+
+        .emoji-animation {
+            font-size: 2rem;
+            animation: jump 1.2s ease-in-out infinite;
+        }
+
+        @keyframes jump {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="kid-container">
+        <div class="kid-header">
+            <h1 class="kid-title">🎮 Welcome to Coding Fun! 🎮</h1>
+            <p class="kid-subtitle">Watch this awesome video and start your coding adventure!</p>
+        </div>
+
+        <div class="video-section">
+            <div class="video-wrapper">
+                <video controls poster="images/video-poster.jpg">
+                    <source src="video/Step-Way kids coding.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            
+            <p class="kid-message">
+                <span class="emoji-animation">👋</span>
+                Hey Super Coder! 
+                <span style="color: red; font-weight: 800;">Print Hello World</span> 
+                and start creating!
+                <span class="emoji-animation">🚀</span>
+            </p>
+        </div>
+
+        <div class="fun-elements">
+            <div class="fun-item">
+                <i class="fas fa-gamepad"></i>
+                <p>Build Games</p>
+            </div>
+            <div class="fun-item">
+                <i class="fas fa-robot"></i>
+                <p>Create Robots</p>
+            </div>
+            <div class="fun-item">
+                <i class="fas fa-magic"></i>
+                <p>Learn Magic</p>
+            </div>
+            <div class="fun-item">
+                <i class="fas fa-trophy"></i>
+                <p>Win Prizes</p>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <p style="text-align: center; font-size: 18px; margin-bottom: 20px;">
+                <span class="emoji-animation">👇</span>
+                Ready to start your adventure?
+                <span class="emoji-animation">👇</span>
+            </p>
+            
+            <button class="animated-button" onclick="window.location.href='kids-coding.html'">
+                Start Building Your Own Games Today!
+            </button>
+            
+            <p style="color: #666; font-size: 14px; margin-top: 15px;">
+                Join thousands of kids who are already creating amazing things!
+            </p>
+        </div>
+    </div>
+</body>
+</html>

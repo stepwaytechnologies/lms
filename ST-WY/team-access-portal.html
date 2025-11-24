@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-273ZFF8C6Y"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-273ZFF8C6Y');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>stepway-team-portal.html</title>
+    <style>
+
+        body{
+    overflow-x: hidden;
+}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            height: 18px;
+            width: 100%;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .login-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 50px 60px;
+            width: 100%;
+            max-width: 520px;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 36px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .logo-text {
+            color: #000;
+        }
+
+        .logo-icon {
+            display: inline-flex;
+            gap: 3px;
+        }
+
+        .bar {
+            width: 6px;
+            background-color: rgb(26, 39, 124);
+            border-radius: 2px;
+        }
+
+        .bar1 { height: 24px; }
+        .bar2 { height: 30px; }
+        .bar3 { height: 24px; }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 35px;
+            color: #000;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-size: 15px;
+            font-weight: 500;
+            color: rgb(26, 39, 124);
+            margin-bottom: 8px;
+        }
+
+        .required {
+            color: #ff0000;
+            margin-left: 2px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid #d0d0d0;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.3s;
+            color: #999;
+        }
+
+        input:focus {
+            border-color: #1877F2;
+        }
+
+        input::placeholder {
+            color: #999;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: rgb(26, 39, 124);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            background-color: rgb(53, 64, 142);
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #999;
+        }
+
+        .forgot-password a {
+            color: #1877F2;
+            text-decoration: underline;
+            margin-left: 4px;
+        }
+
+        .forgot-password a:hover {
+            color: #1565D8;
+        }
+
+        .footer {
+            height: 18px;
+            width: 100%;
+        }
+
+        @media (max-width: 600px) {
+            .login-card {
+                padding: 40px 30px;
+            }
+
+            .logo {
+                font-size: 32px;
+            }
+
+            .bar1 { height: 22px; }
+            .bar2 { height: 28px; }
+            .bar3 { height: 22px; }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            label {
+                font-size: 14px;
+            }
+
+            input {
+                padding: 12px 16px;
+                font-size: 14px;
+            }
+
+            .login-btn {
+                padding: 12px;
+                font-size: 15px;
+            }
+
+            .forgot-password {
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .container {
+                padding: 30px 15px;
+            }
+
+            .login-card {
+                padding: 35px 25px;
+            }
+
+            .logo {
+                font-size: 28px;
+            }
+
+            .bar1 { height: 20px; }
+            .bar2 { height: 26px; }
+            .bar3 { height: 20px; }
+
+            h1 {
+                font-size: 20px;
+                margin-bottom: 30px;
+            }
+
+            .form-group {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header"></div>
+
+    <div class="container">
+        <div class="login-card">
+            <div class="logo-container">
+                <div class="logo">
+                    <span class="logo-text">SMRMS</span>
+                    <div class="logo-icon">
+                        <div class="bar bar1"></div>
+                        <div class="bar bar2"></div>
+                        <div class="bar bar3"></div>
+                    </div>
+                </div>
+            </div>
+
+            <h1>Login to your account</h1>
+
+            <form>
+                <div class="form-group">
+                    <label>Staff ID</label>
+                    <input type="text" placeholder="ABC/123456789" value="">
+                </div>
+
+                <div class="form-group">
+                    <label>Password <span class="required">*</span></label>
+                    <input type="password" placeholder="123456789" value="">
+                </div>
+
+                <div class="form-group">
+                    <label>Confirm Password <span class="required">*</span></label>
+                    <input type="password" placeholder="123456789" value="">
+                </div>
+
+                <button type="submit" class="login-btn">Login</button>
+
+                <div class="forgot-password">
+                    Forgot Password? <a href="../pages/forget-password.html">Click here</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="footer"></div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

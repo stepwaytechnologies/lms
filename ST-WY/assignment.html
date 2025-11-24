@@ -1,0 +1,2117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-273ZFF8C6Y"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-273ZFF8C6Y');
+</script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Assignments - Stepway Technologies</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+      body.sidebar-open {
+        overflow: hidden;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* Footer styles */
+      .footer {
+        background-color: rgba(15, 25, 87, 1);
+        color: white;
+        margin-left: 250px;
+        z-index: 10;
+        position: relative;
+        padding: 60px 20px 20px;
+      }
+
+      .footer-content {
+        position: relative;
+        z-index: 1;
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1.5fr 1fr 1fr 1fr;
+        gap: 40px;
+        margin-bottom: 40px;
+      }
+
+      .footer-brand h3 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 16px;
+      }
+
+      .footer-brand p {
+        font-size: 0.9375rem;
+        line-height: 1.6;
+        opacity: 0.95;
+        margin-bottom: 24px;
+      }
+
+      .social-links {
+        display: flex;
+        gap: 16px;
+      }
+
+      .social-link {
+        width: 40px;
+        height: 40px;
+        background-color: rgba(255, 255, 255, 0.15);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .social-link:hover {
+        background-color: rgba(255, 255, 255, 0.25);
+        transform: translateY(-3px);
+      }
+
+      .social-link svg {
+        width: 20px;
+        height: 20px;
+        fill: white;
+      }
+
+      .footer-column h4 {
+        font-size: 1.125rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+      }
+
+      .footer-links {
+        list-style: none;
+      }
+
+      .footer-links li {
+        margin-bottom: 12px;
+      }
+
+      .footer-links a {
+        color: white;
+        text-decoration: none;
+        font-size: 0.9375rem;
+        opacity: 0.9;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .footer-links a::before {
+        content: "›";
+        font-size: 1.25rem;
+        font-weight: bold;
+        transition: transform 0.3s ease;
+      }
+
+      .footer-links a:hover {
+        opacity: 1;
+        padding-left: 4px;
+        text-decoration: none;
+        color: #d9d6d6;
+      }
+
+      .footer-links a:hover::before {
+        transform: translateX(4px);
+        text-decoration: none;
+      }
+
+      .contact-info {
+        list-style: none;
+      }
+
+      .contact-info li {
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 0.9375rem;
+      }
+
+      .contact-icon {
+        width: 20px;
+        height: 20px;
+        fill: white;
+        flex-shrink: 0;
+      }
+
+      .footer-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        padding-top: 24px;
+        text-align: center;
+        font-size: 0.875rem;
+        opacity: 0.9;
+      }
+
+      @media (max-width: 1024px) {
+        .footer-content {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .footer{
+            margin: 0;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .footer-content {
+          grid-template-columns: 1fr;
+          gap: 32px;
+        }
+
+        .footer {
+          padding: 40px 20px 20px;
+          margin: 0;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .footer-brand h3 {
+          font-size: 1.25rem;
+        }
+      }
+
+      /* Body and main layout */
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        background-color: #f9fafb;
+        color: #111827;
+        transition: all 0.3s;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      body.dark-mode {
+        background-color: #111827;
+        color: #ffffff;
+      }
+
+      /* Sidebar - Fixed to prevent overlapping footer */
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh; /* Changed from 100% to 100vh */
+        width: 256px;
+        background: white;
+        box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+        transform: translateX(-100%);
+        transition: transform 0.3s;
+        z-index: 999;
+        overflow-y: auto;
+      }
+
+      body.dark-mode .sidebar {
+        background: rgba(15, 25, 87, 1);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      @media (min-width: 1024px) {
+        .sidebar {
+          transform: translateX(0);
+        }
+      }
+
+      .sidebar-header {
+        padding: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 32px;
+      }
+
+      .sidebar-logo {
+        font-size: 24px;
+        font-weight: bold;
+        background: linear-gradient(to right, rgba(15, 25, 87, 1), #9333ea);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      body.dark-mode .sidebar-header h2 {
+        color: #fff;
+      }
+
+      .close-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+        display: none;
+      }
+
+      @media (max-width: 1023px) {
+        .close-btn {
+          display: block;
+        }
+      }
+
+      .nav-items {
+        padding: 0 24px;
+      }
+
+      .nav-item {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        border-radius: 8px;
+        border: none;
+        background: none;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 8px;
+        transition: all 0.2s;
+        color: inherit;
+      }
+
+      .nav-item:hover {
+        background: #f3f4f6;
+      }
+
+      body.dark-mode .nav-item:hover {
+        background: #374151;
+      }
+
+      .nav-item.active {
+        background: rgba(15, 25, 87, 1);
+        color: white;
+        box-shadow: 0 4px 6px rgba(37, 99, 235, 0.3);
+      }
+
+      .sidebar-bottom {
+        position: absolute;
+        bottom: 24px;
+        left: 24px;
+        right: 24px;
+      }
+
+      .logout-btn {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        border-radius: 8px;
+        border: none;
+        background: none;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 8px;
+        transition: all 0.2s;
+        color: inherit;
+      }
+
+      .logout-btn:hover {
+        background: #fef2f2;
+        color: #dc2626;
+      }
+
+      .theme-toggle {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.2s;
+        background: #f3f4f6;
+        color: inherit;
+      }
+
+      body.dark-mode .theme-toggle {
+        background: rgba(15, 25, 87, 1);
+      }
+
+      .toggle-switch {
+        margin-left: auto;
+        width: 48px;
+        height: 24px;
+        background: #d1d5db;
+        border-radius: 12px;
+        position: relative;
+        transition: all 0.3s;
+      }
+
+      body.dark-mode .toggle-switch {
+        background: #2563eb;
+      }
+
+      .toggle-knob {
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        width: 16px;
+        height: 16px;
+        background: white;
+        border-radius: 50%;
+        transition: transform 0.3s;
+      }
+
+      body.dark-mode .toggle-knob {
+        transform: translateX(24px);
+      }
+
+      /* Main content area */
+      .main-content {
+        flex: 1;
+        position: relative;
+        z-index: 1;
+        transition: margin 0.3s;
+        width: 100%;
+      }
+
+      @media (min-width: 1024px) {
+        .main-content {
+          margin-left: 256px;
+          width: calc(100% - 256px);
+        }
+      }
+
+      /* Top bar */
+      .top-bar {
+        background: white;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 30;
+      }
+
+      body.dark-mode .top-bar {
+        background: rgb(35, 47, 124);
+      }
+
+      .top-bar-content {
+        padding: 16px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .menu-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 8px;
+        transition: all 0.2s;
+      }
+
+      .menu-btn:hover {
+        background: #f3f4f6;
+      }
+
+      @media (min-width: 1024px) {
+        .menu-btn {
+          display: none;
+        }
+      }
+
+      .search-container {
+        flex: 1;
+        max-width: 512px;
+        position: relative;
+        display: none;
+      }
+
+      @media (min-width: 640px) {
+        .search-container {
+          display: block;
+        }
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 8px 16px 8px 40px;
+        border-radius: 8px;
+        border: none;
+        background: #f3f4f6;
+        font-size: 14px;
+        transition: all 0.2s;
+      }
+
+      body.dark-mode .search-input {
+        background: #fff;
+        color: rgb(26, 39, 124);
+      }
+
+      .search-input:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px #2563eb;
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #9ca3af;
+      }
+
+      .top-bar-actions {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .icon-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 8px;
+        position: relative;
+        transition: all 0.2s;
+      }
+
+      .icon-btn:hover {
+        background: #f3f4f6;
+      }
+
+      .notification-dot {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 8px;
+        height: 8px;
+        background: #ef4444;
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+      }
+
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #3b82f6, #9333ea);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+      }
+
+      .user-text {
+        display: none;
+      }
+
+      @media (min-width: 640px) {
+        .user-text {
+          display: block;
+        }
+      }
+
+      .user-name {
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      .user-greeting {
+        font-size: 12px;
+        color: #6b7280;
+      }
+
+      .mobile-search {
+        padding: 0 16px 16px;
+        display: block;
+      }
+
+      @media (min-width: 640px) {
+        .mobile-search {
+          display: none;
+        }
+      }
+
+      /* Hero section */
+      .hero {
+        background: #fff;
+        padding: 48px 24px;
+      }
+
+      .hero-content {
+        max-width: 1280px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+        text-align: center;
+      }
+
+      @media (min-width: 1024px) {
+        .hero-content {
+          flex-direction: row;
+          justify-content: space-between;
+          text-align: left;
+        }
+      }
+
+      .hero-text {
+        color: rgba(15, 25, 87, 1);
+      }
+
+      .hero-title {
+        font-size: 36px;
+        font-weight: bold;
+        margin-bottom: 16px;
+        animation: fadeIn 0.6s;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .hero-subtitle {
+        color: rgb(64, 77, 168);
+        margin-bottom: 24px;
+        font-size: 17px;
+      }
+
+      .hero-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      @media (min-width: 640px) {
+        .hero-buttons {
+          flex-direction: row;
+        }
+      }
+
+      .btn-primary {
+        background: #6f0d0d;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        box-shadow: 0 4px 6px rgba(220, 38, 38, 0.3);
+      }
+
+      .btn-primary:hover {
+        background: #b91c1c;
+        transform: scale(1.05);
+      }
+
+      .btn-secondary {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: scale(1.05);
+      }
+
+      /* Content section */
+      .content-section {
+        padding: 32px 24px;
+      }
+
+      .container {
+        max-width: 1280px;
+        margin: 0 auto;
+      }
+
+      .section-title {
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 24px;
+      }
+
+      .section-subtitle {
+        color: #6b7280;
+        margin-bottom: 24px;
+      }
+
+      body.dark-mode .section-subtitle {
+        color: #9ca3af;
+      }
+
+      /* Assignment Stats */
+      .stats-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+        margin-bottom: 32px;
+      }
+
+      @media (min-width: 768px) {
+        .stats-container {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+
+      .stat-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 24px;
+        text-align: center;
+        transition: all 0.3s;
+        border: 2px solid transparent;
+        cursor: pointer;
+      }
+
+      body.dark-mode .stat-card {
+        background: #1f2937;
+        border-color: #374151;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      }
+
+      .stat-card.active {
+        border-color: rgba(15, 25, 87, 1);
+        background: rgba(239, 246, 255, 1);
+      }
+
+      body.dark-mode .stat-card.active {
+        background: rgba(30, 58, 138, 1);
+      }
+
+      .stat-number {
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 8px;
+        color: rgba(15, 25, 87, 1);
+      }
+
+      body.dark-mode .stat-number {
+        color: #60a5fa;
+      }
+
+      .stat-label {
+        font-size: 14px;
+        color: #6b7280;
+      }
+
+      body.dark-mode .stat-label {
+        color: #9ca3af;
+      }
+
+      /* Assignment Filters */
+      .filters {
+        margin-bottom: 24px;
+        overflow-x: auto;
+        padding-bottom: 8px;
+      }
+
+      .filters::-webkit-scrollbar {
+        display: none;
+      }
+
+      .filter-buttons {
+        display: flex;
+        gap: 8px;
+        min-width: max-content;
+      }
+
+      @media (min-width: 640px) {
+        .filter-buttons {
+          flex-wrap: wrap;
+          min-width: 0;
+        }
+      }
+
+      .filter-btn {
+        padding: 8px 16px;
+        border-radius: 9999px;
+        border: 1px solid #e5e7eb;
+        background: white;
+        cursor: pointer;
+        font-weight: 500;
+        white-space: nowrap;
+        transition: all 0.2s;
+        font-size: 14px;
+      }
+
+      body.dark-mode .filter-btn {
+        background: #1f2937;
+        color: #fff;
+        border-color: #374151;
+      }
+
+      .filter-btn:hover {
+        background: #f3f4f6;
+        transform: scale(1.05);
+      }
+
+      body.dark-mode .filter-btn:hover {
+        background: #374151;
+      }
+
+      .filter-btn.active {
+        background: #1e3a8a;
+        color: white;
+        border-color: #1e3a8a;
+        box-shadow: 0 4px 6px rgba(30, 58, 138, 0.3);
+      }
+
+      /* Assignment Cards */
+      .cards-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 24px;
+        margin-bottom: 32px;
+      }
+
+      @media (min-width: 768px) {
+        .cards-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (min-width: 1280px) {
+        .cards-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      .assignment-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        border: 2px solid #e5e7eb;
+        transition: all 0.3s;
+      }
+
+      body.dark-mode .assignment-card {
+        background: #1f2937;
+        border-color: #374151;
+      }
+
+      .assignment-card:hover {
+        border-color: rgb(29, 38, 94);
+        transform: translateY(-4px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      }
+
+      .card-header {
+        padding: 20px;
+        border-bottom: 1px solid #e5e7eb;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      body.dark-mode .card-header {
+        border-color: #374151;
+      }
+
+      .assignment-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 4px;
+      }
+
+      .assignment-date {
+        font-size: 14px;
+        color: #6b7280;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      body.dark-mode .assignment-date {
+        color: #9ca3af;
+      }
+
+      .assignment-status {
+        font-size: 12px;
+        font-weight: bold;
+        padding: 4px 12px;
+        border-radius: 9999px;
+      }
+
+      .status-pending {
+        background: rgba(255, 247, 237, 1);
+        color: rgba(245, 158, 11, 1);
+      }
+
+      body.dark-mode .status-pending {
+        background: rgba(120, 53, 15, 1);
+        color: rgba(253, 186, 116, 1);
+      }
+
+      .status-submitted {
+        background: rgba(240, 253, 244, 1);
+        color: rgba(34, 197, 94, 1);
+      }
+
+      body.dark-mode .status-submitted {
+        background: rgba(22, 101, 52, 1);
+        color: rgba(134, 239, 172, 1);
+      }
+
+      .status-graded {
+        background: rgba(239, 246, 255, 1);
+        color: rgba(59, 130, 246, 1);
+      }
+
+      body.dark-mode .status-graded {
+        background: rgba(30, 58, 138, 1);
+        color: rgba(147, 197, 253, 1);
+      }
+
+      .status-overdue {
+        background: rgba(254, 242, 242, 1);
+        color: rgba(239, 68, 68, 1);
+      }
+
+      body.dark-mode .status-overdue {
+        background: rgba(127, 29, 29, 1);
+        color: rgba(252, 165, 165, 1);
+      }
+
+      .card-body {
+        padding: 20px;
+      }
+
+      .assignment-description {
+        font-size: 14px;
+        color: #6b7280;
+        margin-bottom: 16px;
+        line-height: 1.5;
+      }
+
+      body.dark-mode .assignment-description {
+        color: #9ca3af;
+      }
+
+      .assignment-meta {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        font-size: 14px;
+      }
+
+      .assignment-course {
+        font-weight: 500;
+      }
+
+      .assignment-progress {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .progress-bar {
+        width: 100%;
+        height: 8px;
+        background: #e5e7eb;
+        border-radius: 4px;
+        overflow: hidden;
+        margin-bottom: 15px
+      }
+
+      body.dark-mode .progress-bar {
+        background: #374151;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: rgba(15, 25, 87, 1);
+        border-radius: 4px;
+        transition: width 0.5s ease;
+      }
+
+      .card-actions {
+        display: flex;
+        gap: 12px;
+      }
+
+      .btn-submit {
+        flex: 1;
+        background: rgba(15, 25, 87, 1);
+        color: white;
+        padding: 10px 16px;
+        border-radius: 8px;
+        border: none;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .btn-submit:hover {
+        background: rgba(29, 38, 94, 1);
+        transform: scale(1.05);
+      }
+
+      .btn-submit:disabled {
+        background: #9ca3af;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .btn-view {
+        flex: 1;
+        background: #e5e7eb;
+        padding: 10px 16px;
+        border-radius: 8px;
+        border: none;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      body.dark-mode .btn-view {
+        background: #374151;
+        color: white;
+      }
+
+      .btn-view:hover {
+        background: #d1d5db;
+        transform: scale(1.05);
+      }
+
+      body.dark-mode .btn-view:hover {
+        background: #4b5563;
+      }
+
+      /* Upcoming Quizzes */
+      .quizzes-section {
+        margin-top: 48px;
+      }
+
+      .quiz-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 24px;
+        margin-bottom: 24px;
+        border: 2px solid transparent;
+        transition: all 0.3s;
+      }
+
+      body.dark-mode .quiz-card {
+        background: #1f2937;
+        border-color: #374151;
+      }
+
+      .quiz-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      }
+
+      .quiz-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 16px;
+      }
+
+      .quiz-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 4px;
+      }
+
+      .quiz-course {
+        font-size: 14px;
+        color: #6b7280;
+      }
+
+      body.dark-mode .quiz-course {
+        color: #9ca3af;
+      }
+
+      .quiz-meta {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        margin-bottom: 20px;
+      }
+
+      .meta-item {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .meta-label {
+        font-size: 12px;
+        color: #6b7280;
+        margin-bottom: 4px;
+      }
+
+      body.dark-mode .meta-label {
+        color: #9ca3af;
+      }
+
+      .meta-value {
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .quiz-progress {
+        margin-bottom: 20px;
+      }
+
+      .progress-label {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        margin-bottom: 8px;
+      }
+
+      .quiz-actions {
+        display: flex;
+        gap: 12px;
+      }
+
+      .btn-study {
+        flex: 1;
+        background: rgba(15, 25, 87, 1);
+        color: white;
+        padding: 10px 16px;
+        border-radius: 8px;
+        border: none;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .btn-study:hover {
+        background: rgba(29, 38, 94, 1);
+        transform: scale(1.05);
+      }
+
+      /* Upcoming Deadlines */
+      .deadlines-section {
+        margin-top: 48px;
+      }
+
+      .deadline-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        border: 2px solid transparent;
+        transition: all 0.3s;
+      }
+
+      body.dark-mode .deadline-card {
+        background: #1f2937;
+        border-color: #374151;
+      }
+
+      .deadline-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      }
+
+      .deadline-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        background: rgba(15, 25, 87, 1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+      }
+
+      .deadline-content {
+        flex: 1;
+      }
+
+      .deadline-title {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 4px;
+      }
+
+      .deadline-course {
+        font-size: 14px;
+        color: #6b7280;
+      }
+
+      body.dark-mode .deadline-course {
+        color: #9ca3af;
+      }
+
+      .deadline-time {
+        font-size: 14px;
+        font-weight: 500;
+        color: rgba(15, 25, 87, 1);
+      }
+
+      body.dark-mode .deadline-time {
+        color: #60a5fa;
+      }
+
+      /* View All Button */
+      .view-all-container {
+        text-align: center;
+        margin-bottom: 48px;
+      }
+
+      .btn-view-all {
+        background: #1e3a8a;
+        color: white;
+        padding: 12px 32px;
+        border-radius: 8px;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        box-shadow: 0 4px 6px rgba(30, 58, 138, 0.3);
+      }
+
+      .btn-view-all:hover {
+        background: #1e40af;
+        transform: scale(1.05);
+      }
+
+      /* Overlay */
+      .overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 990;
+        display: none;
+        transition: opacity 0.3s;
+      }
+
+      .overlay.show {
+        display: block;
+      }
+
+      @media (min-width: 1024px) {
+        .overlay {
+          display: none !important;
+        }
+      }
+
+      svg {
+        width: 24px;
+        height: 24px;
+      }
+
+      /* No assignments message */
+      .no-assignments {
+        text-align: center;
+        padding: 40px 20px;
+        color: #6b7280;
+        font-size: 16px;
+      }
+
+      body.dark-mode .no-assignments {
+        color: #9ca3af;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h2 class="sidebar-logo">Learn</h2>
+        <button class="close-btn" id="closeSidebar">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <nav class="nav-items">
+        <button class="nav-item" onclick="window.location.href='user-dashboard.html'">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+            />
+          </svg>
+          Dashboard
+        </button>
+
+        <button class="nav-item" onclick="window.location.href='explore.html'">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+          Explore Courses
+        </button>
+
+        <button class="nav-item active" onclick="window.location.href='assignment.html'">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12h6m-6 4h6m-3-9h3a2 2 0 012 2v9a2 2 0 01-2 2H9a2 2 0 01-2-2V9a2 2 0 012-2h3V5a2 2 0 114 0v2z"
+            />
+          </svg>
+          Assignments
+        </button>
+
+        <button class="nav-item" onclick="window.location.href='mentorship.html'">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M16 14a4 4 0 10-8 0m8 0v5H8v-5m8 0a4 4 0 018 0v5h-4m-4-5v5H4v-5a4 4 0 018 0"
+            />
+          </svg>
+          Mentorship
+        </button>
+
+        <button class="nav-item" onclick="window.location.href='certificate.html'">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+            />
+          </svg>
+          Credentials
+        </button>
+
+        <button class="nav-item" onclick="window.location.href='setting.html'">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+            />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+            />
+          </svg>
+          Settings
+        </button>
+
+            <button class="nav-item" onclick="window.location.href='contact.html'">
+    <svg viewBox="0 0 24 24" width="20" height="20">
+        <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+    </svg>
+    Contact Us
+</button>
+      </nav>
+
+     <div class="sidebar-bottom">
+  <button class="theme-toggle" id="themeToggle">
+    <svg id="sunIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+      />
+    </svg>
+    <svg id="moonIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: none">
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+      />
+    </svg>
+    <span>Light mode</span>
+    <div class="toggle-switch">
+      <div class="toggle-knob"></div>
+    </div>
+  </button>
+
+  <button class="logout-btn" onclick="window.location.href='log-out.html'">
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+      />
+    </svg>
+    Logout
+  </button>
+</div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Top Bar -->
+      <header class="top-bar">
+        <div class="top-bar-content">
+          <button class="menu-btn" id="menuBtn">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          </button>
+
+          <div class="search-container">
+            <svg
+              class="search-icon"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+            <input
+              type="text"
+              class="search-input"
+              placeholder="Search assignments, courses, and modules"
+            />
+          </div>
+
+          <div class="top-bar-actions">
+            <button class="icon-btn">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                />
+              </svg>
+              <span class="notification-dot"></span>
+            </button>
+            <button class="icon-btn">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" onclick="window.location.href='setting.html'"> 
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+              </svg>
+            </button>
+            <div class="user-info">
+              <div class="avatar">M</div>
+              <div class="user-text">
+                <div class="user-name">Welcome Mary <i class="fa-regular fa-handshake"></i></div>
+                <div class="user-greeting">It's a beautiful day!</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mobile-search">
+          <div class="search-container" style="display: block">
+            <svg
+              class="search-icon"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+            <input
+              type="text"
+              class="search-input"
+              placeholder="Search assignments..."
+            />
+          </div>
+        </div>
+      </header>
+
+      <!-- Hero Section -->
+      <section class="hero">
+        <div class="hero-content">
+          <div class="hero-text">
+            <h1 class="hero-title">Your Assignments</h1>
+            <p class="hero-subtitle">
+              Track your progress, submit work, and meet deadlines
+            </p>
+            <div class="hero-buttons">
+              <button class="btn-primary">Submit Assignment</button>
+              <button class="btn-secondary">View Calendar</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Assignment Section -->
+      <section class="content-section">
+        <div class="container">
+          <h2 class="section-title">Assignment Overview</h2>
+          <p class="section-subtitle">
+            Track your progress and manage upcoming deadlines
+          </p>
+
+          <!-- Assignment Stats -->
+          <div class="stats-container">
+            <div class="stat-card active" data-filter="all">
+              <div class="stat-number">12</div>
+              <div class="stat-label">Total Assignments</div>
+            </div>
+            <div class="stat-card" data-filter="pending">
+              <div class="stat-number">3</div>
+              <div class="stat-label">Pending</div>
+            </div>
+            <div class="stat-card" data-filter="submitted">
+              <div class="stat-number">8</div>
+              <div class="stat-label">Submitted</div>
+            </div>
+            <div class="stat-card" data-filter="overdue">
+              <div class="stat-number">1</div>
+              <div class="stat-label">Overdue</div>
+            </div>
+          </div>
+
+          <!-- Assignment Filters -->
+          <div class="filters">
+            <div class="filter-buttons">
+              <button
+                class="filter-btn active"
+                data-filter="all"
+              >
+                All Assignments
+              </button>
+              <button
+                class="filter-btn"
+                data-filter="pending"
+              >
+                Pending
+              </button>
+              <button
+                class="filter-btn"
+                data-filter="submitted"
+              >
+                Submitted
+              </button>
+              <button
+                class="filter-btn"
+                data-filter="graded"
+              >
+                Graded
+              </button>
+              <button
+                class="filter-btn"
+                data-filter="overdue"
+              >
+                Overdue
+              </button>
+            </div>
+          </div>
+
+          <!-- Assignment Cards Grid -->
+          <div class="cards-grid" id="assignmentsContainer">
+            <!-- Assignment cards will be dynamically filtered here -->
+          </div>
+
+          <!-- View All Button -->
+          <div class="view-all-container">
+            <button class="btn-view-all">View All Assignments</button>
+          </div>
+
+          <!-- Upcoming Quizzes Section -->
+          <div class="quizzes-section">
+            <h2 class="section-title">Upcoming Quizzes</h2>
+            <p class="section-subtitle">
+              Prepare for your upcoming assessments
+            </p>
+
+            <div class="quiz-card">
+              <div class="quiz-header">
+                <div>
+                  <h3 class="quiz-title">Python Programming Fundamentals</h3>
+                  <p class="quiz-course">Data Analysis Course</p>
+                </div>
+                <div class="assignment-status status-pending">Upcoming</div>
+              </div>
+              <div class="quiz-meta">
+                <div class="meta-item">
+                  <span class="meta-label">Date</span>
+                  <span class="meta-value">Dec 12, 2023</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">Duration</span>
+                  <span class="meta-value">60 minutes</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">Questions</span>
+                  <span class="meta-value">30</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">Passing Score</span>
+                  <span class="meta-value">70%</span>
+                </div>
+              </div>
+              <div class="quiz-progress">
+                <div class="progress-label">
+                  <span>Preparation Progress</span>
+                  <span>65%</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 65%"></div>
+                </div>
+              </div>
+              <div class="quiz-actions">
+                <button class="btn-study">Study Materials</button>
+                <button class="btn-view">Practice Quiz</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Upcoming Deadlines Section -->
+          <div class="deadlines-section">
+            <h2 class="section-title">Upcoming Deadlines</h2>
+            <p class="section-subtitle">
+              Keep track of your approaching deadlines
+            </p>
+
+            <div class="deadline-card">
+              <div class="deadline-icon">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12h6m-6 4h6m-3-9h3a2 2 0 012 2v9a2 2 0 01-2 2H9a2 2 0 01-2-2V9a2 2 0 012-2h3V5a2 2 0 114 0v2z"
+                  />
+                </svg>
+              </div>
+              <div class="deadline-content">
+                <h3 class="deadline-title">Data Analysis Project</h3>
+                <p class="deadline-course">Data Analysis Course</p>
+              </div>
+              <div class="deadline-time">Due in 3 days</div>
+            </div>
+
+            <div class="deadline-card">
+              <div class="deadline-icon">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12h6m-6 4h6m-3-9h3a2 2 0 012 2v9a2 2 0 01-2 2H9a2 2 0 01-2-2V9a2 2 0 012-2h3V5a2 2 0 114 0v2z"
+                  />
+                </svg>
+              </div>
+              <div class="deadline-content">
+                <h3 class="deadline-title">Web Application Development</h3>
+                <p class="deadline-course">Software Development Course</p>
+              </div>
+              <div class="deadline-time">Due in 7 days</div>
+            </div>
+
+            <div class="deadline-card">
+              <div class="deadline-icon">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12h6m-6 4h6m-3-9h3a2 2 0 012 2v9a2 2 0 01-2 2H9a2 2 0 01-2-2V9a2 2 0 012-2h3V5a2 2 0 114 0v2z"
+                  />
+                </svg>
+              </div>
+              <div class="deadline-content">
+                <h3 class="deadline-title">Data Visualization Dashboard</h3>
+                <p class="deadline-course">Data & BI Course</p>
+              </div>
+              <div class="deadline-time">Due in 12 days</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <!-- brand -->
+        <div class="footer-brand">
+          <h3>Stepway Technologies</h3>
+          <p>
+            Learn, work, and development preparing Nigeria's tech talent for
+            global opportunities
+          </p>
+          <div class="social-links">
+            <a href="https://www.linkedin.com/company/stepwaytechnologies/" class="social-link" aria-label="LinkedIn">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.instagram.com/stepwaytechnologies" class="social-link" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.facebook.com/profile.php?id=61582686912437" class="social-link" aria-label="Facebook">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                    </a>
+          </div>
+        </div>
+
+        <!-- q-l -->
+        <div class="footer-column">
+          <h4>Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="sign-up.html">Modules & Courses</a></li>
+            <li><a href="#">Underprivileged Program</a></li>
+            <li><a href="#">Freelancing</a></li>
+            <li><a href="#">Recruitment</a></li>
+            <li><a href="faq.html">FAQs</a></li>
+          </ul>
+        </div>
+
+        <!-- legal & ethics -->
+        <div class="footer-column">
+          <h4>Legal & Ethics</h4>
+          <ul class="footer-links">
+           <li><a href="about.html">About Us</a></li>
+                    <li><a href="pri-pol.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                    <li><a href="ethical.html">Ethics Statement</a></li>
+          </ul>
+        </div>
+
+        <!-- contact us -->
+        <div class="footer-column">
+          <h4>Contact Us</h4>
+          <ul class="contact-info">
+            <li>
+              <svg class="contact-icon" viewBox="0 0 24 24">
+                <path
+                  d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
+                />
+              </svg>
+              <span> info@stepwaytechnologies.com</span>
+            </li>
+            <li>
+              <svg class="contact-icon" viewBox="0 0 24 24">
+                <path
+                  d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"
+                />
+              </svg>
+              <span>+234 901 234 5678</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">All Rights Reserved</div>
+    </footer>
+
+
+    
+
+    <script>
+      // Assignment data
+      const assignments = [
+        {
+          id: 1,
+          title: "Data Analysis Project",
+          date: "Dec 15, 2023",
+          status: "pending",
+          description: "Analyze the provided dataset and create visualizations using Python and Tableau. Submit a report with your findings.",
+          course: "Data Analysis",
+          progress: 60
+        },
+        {
+          id: 2,
+          title: "Machine Learning Model",
+          date: "Dec 10, 2023",
+          status: "submitted",
+          description: "Build and train a classification model using the provided dataset. Submit your code and model evaluation metrics.",
+          course: "AI/ML Engineering",
+          progress: 100
+        },
+        {
+          id: 3,
+          title: "Cybersecurity Report",
+          date: "Dec 5, 2023",
+          status: "graded",
+          description: "Analyze security vulnerabilities in a provided system and propose mitigation strategies in a comprehensive report.",
+          course: "Cybersecurity",
+          progress: 100
+        },
+        {
+          id: 4,
+          title: "Web Application Development",
+          date: "Dec 20, 2023",
+          status: "pending",
+          description: "Create a responsive web application using React and Node.js with user authentication and database integration.",
+          course: "Software Development",
+          progress: 30
+        },
+        {
+          id: 5,
+          title: "Research Paper",
+          date: "Nov 30, 2023",
+          status: "overdue",
+          description: "Write a research paper on the impact of AI on climate change modeling, including case studies and future projections.",
+          course: "Research & Publishing",
+          progress: 80
+        },
+        {
+          id: 6,
+          title: "Data Visualization Dashboard",
+          date: "Dec 25, 2023",
+          status: "pending",
+          description: "Create an interactive dashboard using Power BI to visualize sales data and provide business insights.",
+          course: "Data & BI",
+          progress: 40
+        },
+        {
+          id: 7,
+          title: "Database Design",
+          date: "Dec 8, 2023",
+          status: "graded",
+          description: "Design a normalized database schema for an e-commerce platform with ER diagrams and SQL scripts.",
+          course: "Data Science Fundamentals",
+          progress: 100
+        },
+        {
+          id: 8,
+          title: "UI/UX Case Study",
+          date: "Dec 3, 2023",
+          status: "graded",
+          description: "Complete a comprehensive UI/UX case study for a mobile banking application with user research and prototypes.",
+          course: "UI/UX Design Principles",
+          progress: 100
+        },
+        {
+          id: 9,
+          title: "React Component Library",
+          date: "Dec 18, 2023",
+          status: "pending",
+          description: "Create a reusable React component library with at least 5 components including documentation and examples.",
+          course: "Advanced Web Development",
+          progress: 25
+        },
+        {
+          id: 10,
+          title: "Mobile App Development",
+          date: "Dec 22, 2023",
+          status: "submitted",
+          description: "Develop a cross-platform mobile application using React Native with state management and API integration.",
+          course: "Mobile Development",
+          progress: 100
+        },
+        {
+          id: 11,
+          title: "Cloud Infrastructure Design",
+          date: "Dec 28, 2023",
+          status: "submitted",
+          description: "Design and document a cloud infrastructure solution for a scalable web application using AWS services.",
+          course: "Cloud Computing",
+          progress: 100
+        },
+        {
+          id: 12,
+          title: "Ethical Hacking Report",
+          date: "Nov 25, 2023",
+          status: "overdue",
+          description: "Conduct a penetration testing exercise and submit a detailed report with findings and recommendations.",
+          course: "Cybersecurity",
+          progress: 90
+        }
+      ];
+
+      // Sidebar toggle
+      const sidebar = document.getElementById("sidebar");
+      const overlay = document.getElementById("overlay");
+      const menuBtn = document.getElementById("menuBtn");
+      const closeSidebar = document.getElementById("closeSidebar");
+
+      menuBtn.addEventListener("click", () => {
+        sidebar.classList.add("open");
+        overlay.classList.add("show");
+        document.body.style.overflow = 'hidden';
+      });
+
+      closeSidebar.addEventListener("click", () => {
+        sidebar.classList.remove("open");
+        overlay.classList.remove("show");
+        document.body.style.overflow = '';
+      });
+
+      overlay.addEventListener("click", () => {
+        sidebar.classList.remove("open");
+        overlay.classList.remove("show");
+        document.body.style.overflow = '';
+      });
+
+      // Dark mode toggle
+      const themeToggle = document.getElementById("themeToggle");
+      const sunIcon = document.getElementById("sunIcon");
+      const moonIcon = document.getElementById("moonIcon");
+
+      themeToggle.addEventListener("click", () => {
+        document.body.classList.toggle("dark-mode");
+
+        if (document.body.classList.contains("dark-mode")) {
+          sunIcon.style.display = "block";
+          moonIcon.style.display = "none";
+          themeToggle.querySelector("span").textContent = "Dark mode";
+        } else {
+          sunIcon.style.display = "none";
+          moonIcon.style.display = "block";
+          themeToggle.querySelector("span").textContent = "Light mode";
+        }
+      });
+
+      // Assignment filtering functionality
+      const assignmentsContainer = document.getElementById("assignmentsContainer");
+      const filterButtons = document.querySelectorAll(".filter-btn");
+      const statCards = document.querySelectorAll(".stat-card");
+      let currentFilter = "all";
+
+
+      // Function to render assignments based on filter
+      function renderAssignments(filter) {
+        assignmentsContainer.innerHTML = "";
+        
+        const filteredAssignments = filter === "all" 
+          ? assignments 
+          : assignments.filter(assignment => assignment.status === filter);
+        
+        if (filteredAssignments.length === 0) {
+          assignmentsContainer.innerHTML = `
+            <div class="no-assignments">
+              <p>No ${filter === "all" ? "" : filter} assignments found.</p>
+            </div>
+          `;
+          return;
+        }
+        
+        filteredAssignments.forEach(assignment => {
+          const assignmentCard = document.createElement("div");
+          assignmentCard.className = "assignment-card";
+          assignmentCard.setAttribute("data-status", assignment.status);
+          
+          let statusClass = "";
+          let statusText = "";
+          let buttonText = "";
+          let buttonDisabled = "";
+          
+          switch(assignment.status) {
+            case "pending":
+              statusClass = "status-pending";
+              statusText = "Pending";
+              buttonText = "Submit Work";
+              break;
+            case "submitted":
+              statusClass = "status-submitted";
+              statusText = "Submitted";
+              buttonText = "Submitted";
+              buttonDisabled = "disabled";
+              break;
+            case "graded":
+              statusClass = "status-graded";
+              statusText = "Graded: A";
+              buttonText = "Graded";
+              buttonDisabled = "disabled";
+              break;
+            case "overdue":
+              statusClass = "status-overdue";
+              statusText = "Overdue";
+              buttonText = "Submit Now";
+              break;
+          }
+          
+          assignmentCard.innerHTML = `
+            <div class="card-header">
+              <div>
+                <h3 class="assignment-title">${assignment.title}</h3>
+                <div class="assignment-date">
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    />
+                  </svg>
+                  Due: ${assignment.date}
+                </div>
+              </div>
+              <div class="assignment-status ${statusClass}">${statusText}</div>
+            </div>
+            <div class="card-body">
+              <p class="assignment-description">${assignment.description}</p>
+              <div class="assignment-meta">
+                <span class="assignment-course">${assignment.course}</span>
+                <span class="assignment-progress">
+                  <span>Progress: ${assignment.progress}%</span>
+                </span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: ${assignment.progress}%"></div>
+              </div>
+              <div class="card-actions">
+                <button class="btn-submit" ${buttonDisabled}>${buttonText}</button>
+                <button class="btn-view">View Details</button>
+              </div>
+            </div>
+          `;
+          
+          assignmentsContainer.appendChild(assignmentCard);
+        });
+        
+        // Add animation to progress bars
+        const progressBars = document.querySelectorAll('.progress-fill');
+        progressBars.forEach(bar => {
+          const width = bar.style.width;
+          bar.style.width = '0';
+          setTimeout(() => {
+            bar.style.width = width;
+          }, 300);
+        });
+      }
+
+      // Initialize with all assignments
+      renderAssignments("all");
+
+      // Filter button click handlers
+      filterButtons.forEach(button => {
+        button.addEventListener("click", () => {
+          const filter = button.getAttribute("data-filter");
+          
+          // Update active state of filter buttons
+          filterButtons.forEach(btn => btn.classList.remove("active"));
+          button.classList.add("active");
+          
+          // Update active state of stat cards
+          statCards.forEach(card => card.classList.remove("active"));
+          document.querySelector(`.stat-card[data-filter="${filter}"]`).classList.add("active");
+          
+          // Render filtered assignments
+          renderAssignments(filter);
+          currentFilter = filter;
+        });
+      });
+
+      // Stat card click handlers (for additional filtering)
+      statCards.forEach(card => {
+        card.addEventListener("click", () => {
+          const filter = card.getAttribute("data-filter");
+          
+          // Update active state of filter buttons
+          filterButtons.forEach(btn => btn.classList.remove("active"));
+          document.querySelector(`.filter-btn[data-filter="${filter}"]`).classList.add("active");
+          
+          // Update active state of stat cards
+          statCards.forEach(c => c.classList.remove("active"));
+          card.classList.add("active");
+          
+          // Render filtered assignments
+          renderAssignments(filter);
+          currentFilter = filter;
+        });
+      });
+    </script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
