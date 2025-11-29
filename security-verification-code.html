@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="icon" type="image/png" href="images/fav-icon.png">
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-273ZFF8C6Y"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-273ZFF8C6Y');
 </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>stepway-security-code.html</title>
+    <title>Verification Code - Stepway</title>
     <style>
         * {
             margin: 0;
@@ -20,9 +20,9 @@
             box-sizing: border-box;
         }
 
-        body{
-    overflow-x: hidden;
-}
+        body {
+            overflow-x: hidden;
+        }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
@@ -54,7 +54,7 @@
             text-align: center;
         }
 
-        .email-icon {
+        .verification-icon {
             width: 48px;
             height: 48px;
             background-color: rgba(26, 39, 124, 0.1);
@@ -65,10 +65,14 @@
             margin-bottom: 24px;
         }
 
-        .email-icon svg {
+        .verification-icon svg {
             width: 24px;
             height: 24px;
             fill: rgba(26, 39, 124, 1);
+        }
+
+        .phone-icon svg {
+            fill: #00b894;
         }
 
         h1 {
@@ -87,10 +91,11 @@
             margin-bottom: 8px;
         }
 
-        .email {
+        .contact-info {
             color: #333;
             font-weight: 500;
             margin-bottom: 24px;
+            font-size: 16px;
         }
 
         .instruction {
@@ -98,6 +103,13 @@
             font-size: 14px;
             line-height: 1.6;
             margin-bottom: 32px;
+        }
+
+        .timer {
+            color: #e74c3c;
+            font-weight: 500;
+            margin-bottom: 32px;
+            font-size: 16px;
         }
 
         .otp-inputs {
@@ -117,6 +129,84 @@
             font-size: 20px;
             font-weight: 500;
             transition: border-color 0.3s;
+        }
+
+        .verify-btn {
+            width: 100%;
+            padding: 16px;
+            background-color: rgba(26, 39, 124, 1);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-bottom: 24px;
+            transition: opacity 0.3s;
+        }
+
+        .verify-btn:hover {
+            opacity: 0.9;
+        }
+
+        .verify-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .links {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-bottom: 40px;
+        }
+
+        .link {
+            color: rgba(26, 39, 124, 0.7);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .link:hover {
+            color: rgba(26, 39, 124, 1);
+        }
+
+        .back-link {
+            color: rgba(26, 39, 124, 0.7);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: rgba(26, 39, 124, 1);
+        }
+
+        /* Method switcher */
+        .method-switcher {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #0066ff;
+        }
+
+        .method-text {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .switch-method {
+            color: #0066ff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .switch-method:hover {
+            text-decoration: underline;
         }
 
         @media (max-width: 768px) {
@@ -173,6 +263,10 @@
                 flex-direction: column;
                 gap: 16px;
             }
+
+            .method-switcher {
+                padding: 12px;
+            }
         }
 
         @media (max-width: 360px) {
@@ -191,72 +285,36 @@
             outline: none;
             border-color: rgba(26, 39, 124, 1);
         }
-
-        .verify-btn {
-            width: 100%;
-            padding: 16px;
-            background-color: rgba(26, 39, 124, 1);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            margin-bottom: 24px;
-            transition: opacity 0.3s;
-        }
-
-        .verify-btn:hover {
-            opacity: 0.9;
-        }
-
-        .links {
-            display: flex;
-            justify-content: center;
-            gap: 60px;
-            margin-bottom: 40px;
-        }
-
-        .link {
-            color: rgba(26, 39, 124, 0.7);
-            text-decoration: none;
-            font-size: 14px;
-            transition: color 0.3s;
-        }
-
-        .link:hover {
-            color: rgba(26, 39, 124, 1);
-        }
-
-        .back-link {
-            color: rgba(26, 39, 124, 0.7);
-            text-decoration: none;
-            font-size: 14px;
-            transition: color 0.3s;
-        }
-
-        .back-link:hover {
-            color: rgba(26, 39, 124, 1);
-        }
     </style>
 </head>
 <body>
     <div class="logo-container">
-        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 150'%3E%3Ctext x='50' y='100' font-family='Arial' font-size='60' font-weight='bold'%3EStepway%3C/text%3E%3Ctext x='50' y='130' font-family='Arial' font-size='30' font-style='italic'%3Etechnologies%3C/text%3E%3Crect x='20' y='60' width='15' height='15' fill='%231a76d2'/%3E%3Crect x='20' y='80' width='15' height='15' fill='%231a76d2'/%3E%3Crect x='20' y='100' width='15' height='15' fill='%231a76d2'/%3E%3Cline x1='50' y1='135' x2='350' y2='135' stroke='%231a76d2' stroke-width='3'/%3E%3C/svg%3E" alt="Stepway Technologies Logo">
+       <img src="images/Step-Way Logo.png" alt="">
     </div>
 
     <div class="container">
-        <div class="email-icon">
+        <!-- Method display and switcher -->
+        <div class="method-switcher">
+            <div class="method-text" id="method-display">
+                Verification code sent to your email
+            </div>
+            <a href="forget-password.html" class="switch-method" id="switch-method">
+                Use different method
+            </a>
+        </div>
+
+        <div class="verification-icon" id="verification-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
             </svg>
         </div>
 
-        <h1>VERIFY YOUR EMAIL ADDRESS</h1>
+        <h1 id="verification-title">VERIFY YOUR EMAIL ADDRESS</h1>
 
-        <p class="message">A verification code has been sent to</p>
+        <p class="message" id="verification-message">A verification code has been sent to</p>
+        <div class="contact-info" id="contact-info">user@example.com</div>
 
-        <p class="instruction">Please check your inbox and enter the verification code below to verify your email address. The code will expire in 14:48.</p>
+        <p class="instruction">Please enter the verification code below to verify your account. The code will expire in <span class="timer" id="timer">14:48</span>.</p>
 
         <div class="otp-inputs">
             <input type="text" maxlength="1" class="otp-input" />
@@ -267,39 +325,149 @@
             <input type="text" maxlength="1" class="otp-input" />
         </div>
 
-        <button class="verify-btn" onclick="window.location.href='admin-password-recovery.html'">Verify</button>
+        <button class="verify-btn" id="verify-btn" onclick="verifyCode()">Verify</button>
 
         <div class="links">
-            <a href="#" class="link">Resend code</a>
-            <a href="forget-password.html" class="link">Change email</a>
+            <a href="#" class="link" id="resend-link">Resend code</a>
+            <a href="forget-password.html" class="link" id="change-contact">Change email</a>
         </div>
     </div>
 
     <script>
-        const inputs = document.querySelectorAll('.otp-input');
+        // Get URL parameters to determine verification method
+        const urlParams = new URLSearchParams(window.location.search);
+        const method = urlParams.get('method') || 'email';
+        const contact = urlParams.get('contact') || 'user@example.com';
 
-        inputs.forEach((input, index) => {
-            input.addEventListener('input', (e) => {
-                if (e.target.value.length === 1 && index < inputs.length - 1) {
-                    inputs[index + 1].focus();
-                }
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('.otp-input');
+            const verifyBtn = document.getElementById('verify-btn');
+            const methodDisplay = document.getElementById('method-display');
+            const verificationIcon = document.getElementById('verification-icon');
+            const verificationTitle = document.getElementById('verification-title');
+            const verificationMessage = document.getElementById('verification-message');
+            const contactInfo = document.getElementById('contact-info');
+            const changeContactLink = document.getElementById('change-contact');
+            const switchMethodLink = document.getElementById('switch-method');
+            const resendLink = document.getElementById('resend-link');
+
+            // Set up based on verification method
+            if (method === 'phone') {
+                methodDisplay.textContent = 'Verification code sent to your phone';
+                verificationIcon.classList.add('phone-icon');
+                verificationIcon.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/>
+                    </svg>`;
+                verificationTitle.textContent = 'VERIFY YOUR PHONE NUMBER';
+                verificationMessage.textContent = 'A verification code has been sent to';
+                contactInfo.textContent = contact;
+                changeContactLink.textContent = 'Change phone number';
+            } else {
+                methodDisplay.textContent = 'Verification code sent to your email';
+                verificationTitle.textContent = 'VERIFY YOUR EMAIL ADDRESS';
+                verificationMessage.textContent = 'A verification code has been sent to';
+                contactInfo.textContent = contact;
+                changeContactLink.textContent = 'Change email';
+            }
+
+            // OTP input handling
+            inputs.forEach((input, index) => {
+                input.addEventListener('input', (e) => {
+                    if (e.target.value.length === 1 && index < inputs.length - 1) {
+                        inputs[index + 1].focus();
+                    }
+                    checkAllFilled();
+                });
+
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Backspace' && e.target.value === '' && index > 0) {
+                        inputs[index - 1].focus();
+                    }
+                });
             });
 
-            input.addEventListener('keydown', (e) => {
-                if (e.key === 'Backspace' && e.target.value === '' && index > 0) {
-                    inputs[index - 1].focus();
-                }
+            // Resend code functionality
+            resendLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Disable resend for 30 seconds
+                resendLink.style.pointerEvents = 'none';
+                resendLink.style.color = '#999';
+                
+                let countdown = 30;
+                resendLink.textContent = `Resend in ${countdown}s`;
+                
+                const interval = setInterval(() => {
+                    countdown--;
+                    resendLink.textContent = `Resend in ${countdown}s`;
+                    
+                    if (countdown <= 0) {
+                        clearInterval(interval);
+                        resendLink.textContent = 'Resend code';
+                        resendLink.style.pointerEvents = 'auto';
+                        resendLink.style.color = '';
+                    }
+                }, 1000);
+                
+                alert(`New verification code sent to your ${method}`);
             });
+
+            // Timer countdown
+            let timeLeft = 14 * 60 + 48; // 14 minutes 48 seconds in seconds
+            const timerElement = document.getElementById('timer');
+            
+            const timerInterval = setInterval(() => {
+                timeLeft--;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    timerElement.textContent = 'Expired';
+                    timerElement.style.color = '#e74c3c';
+                    verifyBtn.disabled = true;
+                    return;
+                }
+                
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+
+            function checkAllFilled() {
+                const allFilled = Array.from(inputs).every(input => input.value.length === 1);
+                verifyBtn.disabled = !allFilled;
+            }
+
+            // Initially disable verify button
+            verifyBtn.disabled = true;
         });
+
+        function verifyCode() {
+            const inputs = document.querySelectorAll('.otp-input');
+            const code = Array.from(inputs).map(input => input.value).join('');
+            
+            // Show loading state
+            const verifyBtn = document.getElementById('verify-btn');
+            const originalText = verifyBtn.textContent;
+            verifyBtn.textContent = 'Verifying...';
+            verifyBtn.disabled = true;
+            
+            // Simulate verification
+            setTimeout(function() {
+                // In real implementation, verify the code with your backend
+                if (code === '123456') { // Demo code
+                    window.location.href = 'admin-password-recovery.html';
+                } else {
+                    alert('Invalid verification code. Please try again.');
+                    verifyBtn.textContent = originalText;
+                    verifyBtn.disabled = false;
+                    
+                    // Clear inputs
+                    inputs.forEach(input => input.value = '');
+                    inputs[0].focus();
+                }
+            }, 1500);
+        }
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-

@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="icon" type="image/png" href="images/fav-icon.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KidCoder - Achievements</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -467,7 +469,7 @@
         <aside class="sidebar">
             <div class="sidebar-header">
                 <div class="logo">
-                    <img src="images/stepway logoww.png" width="200px" alt="">
+                    <img src="images/stw-b-logo.png" width="200px" alt="">
                 </div>
                 <button class="close-sidebar">
                     <i class="fas fa-times"></i>
@@ -483,6 +485,16 @@
                 <li><a href="kids-shedule.html"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
                 <li><a href="kids-settings.html"><i class="fas fa-cog"></i> Settings</a></li>
                 <li><a href="kids-help.html"><i class="fas fa-question-circle"></i> Help</a></li>
+                <li><a class="log-out-btn" href="log-out.html"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-left" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z"/>
+  <path fill-rule="evenodd" d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z"/>
+</svg>Log-Out</a></li>
+               
+                <style>
+                    .log-out-btn{
+                        margin-bottom: 20px;
+                    }
+                </style>
             </ul>
             
         
@@ -495,6 +507,45 @@
                 <button class="menu-toggle">
                     <i class="fas fa-bars"></i>
                 </button>
+                         <button class="back-btn-icon" onclick="goBack()">
+        <i class="bi bi-arrow-left"></i>
+    </button>        
+    <section class="back-section">
+
+<style>
+.back-btn-icon {
+    background: #7c0a0a;
+    color: white;
+    border: 2px solid white;
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 900;
+    transition: all 0.3s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.back-btn-icon:hover {
+    background: #1e3a8a; /* Blue on hover */
+    transform: scale(1.1);
+}
+</style>
+
+<script>
+function goBack() {
+    if (document.referrer && document.referrer.includes(window.location.hostname)) {
+        window.history.back();
+    } else {
+        window.location.href = 'index.html';
+    }
+}
+</script>
+</section>
                 <div class="user-info">
                     <span>Hello, Alex!</span>
                     <div class="avatar">AJ</div>

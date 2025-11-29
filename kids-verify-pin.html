@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <link rel="icon" type="image/png" href="images/fav-icon.png">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Check Your Email | Stepway Kids</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=
-swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font- awesome/6.4.0/css/all.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
-
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
@@ -35,7 +34,7 @@ swap"
         --text-light: #636e72;
         --bg-light: #f9f9f9;
         --white: #ffffff;
-        --success: rgba(26, 35, 126, 1) ;
+        --success: rgba(26, 35, 126, 1);
         --warning: #fdcb6e;
         --border: #dfe6e9;
         --shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
@@ -376,12 +375,34 @@ swap"
         color: var(--text-light);
         line-height: 1.5;
       }
-      .email-address {
+      .contact-info {
         font-weight: 600;
         color: var(--primary);
         background-color: rgba(124, 93, 250, 0.1);
         padding: 4px 8px;
         border-radius: 6px;
+      }
+      /* Method switcher */
+      .method-switcher {
+        margin-bottom: 20px;
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        border-left: 4px solid var(--primary);
+      }
+      .method-text {
+        font-size: 14px;
+        color: var(--text-light);
+        margin-bottom: 8px;
+      }
+      .switch-method {
+        color: var(--primary);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .switch-method:hover {
+        text-decoration: underline;
       }
       /* Steps indicator */
       .steps-indicator {
@@ -537,7 +558,7 @@ swap"
         color: var(--text-light);
       }
       .security-tips li:before {
-        content: "鈥�";
+        content: "•";
         color: var(--accent-light);
         font-weight: bold;
       }
@@ -627,8 +648,7 @@ swap"
               y="160"
               font-family="Arial"
               font-size="24"
-              font-
-              weight="bold"
+              font-weight="bold"
               fill="#7c5dfa"
             >
               8
@@ -638,8 +658,7 @@ swap"
               y="160"
               font-family="Arial"
               font-size="24"
-              font-
-              weight="bold"
+              font-weight="bold"
               fill="#7c5dfa"
             >
               4
@@ -649,8 +668,7 @@ swap"
               y="160"
               font-family="Arial"
               font-size="24"
-              font-
-              weight="bold"
+              font-weight="bold"
               fill="#7c5dfa"
             >
               2
@@ -660,8 +678,7 @@ swap"
               y="160"
               font-family="Arial"
               font-size="24"
-              font-
-              weight="bold"
+              font-weight="bold"
               fill="#7c5dfa"
             >
               7
@@ -678,8 +695,7 @@ swap"
             <path
               d="M170 100 L200 120 L230 100"
               fill="#54A0FF"
-              fill-
-              opacity="0.8"
+              fill-opacity="0.8"
             />
             <!-- Floating code numbers -->
             <text
@@ -687,8 +703,7 @@ swap"
               y="120"
               font-family="Arial"
               font-size="16"
-              font-
-              weight="bold"
+              font-weight="bold"
               fill="white"
             >
               3
@@ -698,8 +713,7 @@ swap"
               y="150"
               font-family="Arial"
               font-size="16"
-              font-
-              weight="bold"
+              font-weight="bold"
               fill="white"
             >
               9
@@ -709,8 +723,7 @@ swap"
               y="80"
               font-family="Arial"
               font-size="16"
-              font-
-              weight="bold"
+              font-weight="bold"
               fill="white"
             >
               6
@@ -749,8 +762,7 @@ swap"
                 y="38"
                 font-family="Arial"
                 font-size="18"
-                font-
-                weight="bold"
+                font-weight="bold"
                 fill="white"
               >
                 6
@@ -777,8 +789,7 @@ swap"
                 y="33"
                 font-family="Arial"
                 font-size="16"
-                font-
-                weight="bold"
+                font-weight="bold"
                 fill="white"
               >
                 1
@@ -800,16 +811,14 @@ swap"
                 height="30"
                 rx="5"
                 fill="#00D2D3"
-                fill-
-                opacity="0.8"
+                fill-opacity="0.8"
               />
               <text
                 x="16"
                 y="25"
                 font-family="Arial"
                 font-size="14"
-                font-
-                weight="bold"
+                font-weight="bold"
                 fill="white"
               >
                 5
@@ -817,9 +826,9 @@ swap"
             </svg>
           </div>
         </div>
-        <h2 class="illustration-title">Check Your Email!</h2>
+        <h2 class="illustration-title">Check Your Code!</h2>
         <p class="illustration-text">
-          We've sent a 6-digit verification code to your parent's email address.
+          We've sent a 6-digit verification code to your contact.
         </p>
         <div class="feature-list">
           <div class="feature-item">
@@ -841,15 +850,26 @@ swap"
         <div class="logo">
           <div class="logo-icon">S</div>
           <div class="logo-text">
-            Stepway <span class="kids- badge">KIDS</span>
+            Stepway <span class="kids-badge">KIDS</span>
           </div>
         </div>
+        
+        <!-- Method display and switcher -->
+        <div class="method-switcher">
+          <div class="method-text" id="method-display">
+            Verification code sent to your email
+          </div>
+          <a href="kids-forgot-password.html" class="switch-method" id="switch-method">
+            Use different method
+          </a>
+        </div>
+        
         <!-- Steps Indicator - Now 3 Steps -->
         <div class="steps-indicator">
           <div class="step completed" id="step1">
             <div class="step-circle"><i class="fas fa-check"></i></div>
             <div class="step-line"></div>
-            <div class="step-label">Enter Email</div>
+            <div class="step-label">Enter Contact</div>
           </div>
           <div class="step active" id="step2">
             <div class="step-circle">2</div>
@@ -861,28 +881,29 @@ swap"
             <div class="step-label">New Password</div>
           </div>
         </div>
-        <h1 class="form-title">Enter Verification Code</h1>
+        
+        <h1 class="form-title" id="verification-title">Enter Verification Code</h1>
         <p class="form-subtitle">
-          We sent a 6-digit code to your parent's email. Enter it below to
+          We sent a 6-digit code to the contact you provided earlier. Enter it below to
           continue.
         </p>
+        
         <div class="info-box">
-          <div class="info-icon">
+          <div class="info-icon" id="contact-icon">
             <i class="fas fa-envelope"></i>
           </div>
           <div class="info-content">
             <div class="info-title">
               Sent to:
-              <span class="email-address" id="userEmail"
-                >parent@example.com</span
-              >
+              <span class="contact-info" id="contact-info">email@example.com</span>
             </div>
             <div class="info-text">
-              Check your email for the 6-digit verification code. The code will
+              Check your contact for the 6-digit verification code. The code will
               expire in 10 minutes for security.
             </div>
           </div>
         </div>
+        
         <form id="verificationForm">
           <div class="code-input-container">
             <input
@@ -945,18 +966,20 @@ swap"
             disabled
           >
             <i class="fas fa-check-circle"></i>
-            <span onclick="window.location.href='kids-create-new-password.html'">Verify & Continue</span>
+            <span>Verify & Continue</span>
           </button>
         </form>
+        
         <!-- Security Tips -->
         <div class="security-tips">
           <h4><i class="fas fa-shield-alt"></i> Security Tips:</h4>
           <ul>
             <li>The code expires in 10 minutes</li>
             <li>Never share your verification code</li>
-            <li>If you didn't request this, please ignore the email</li>
+            <li>If you didn't request this, please ignore the message</li>
           </ul>
         </div>
+        
         <div class="resend-section">
           <p class="resend-text">Can't find it?</p>
           <button class="resend-button" id="resendButton">
@@ -965,6 +988,7 @@ swap"
             <span class="countdown" id="countdown"></span>
           </button>
         </div>
+        
         <div class="back-link">
           <a href="kids-sign-in.html" id="backToLoginButton"
             ><i class="fas fa-arrow-left"></i> Back to Sign In</a
@@ -972,7 +996,13 @@ swap"
         </div>
       </div>
     </div>
+    
     <script>
+      // Get URL parameters to determine verification method
+      const urlParams = new URLSearchParams(window.location.search);
+      const method = urlParams.get('method') || 'email';
+      const contact = localStorage.getItem("resetContact") || "email@example.com";
+
       document.addEventListener("DOMContentLoaded", function () {
         const codeInputs = document.querySelectorAll(".code-input");
         const verifyButton = document.getElementById("verifyButton");
@@ -981,16 +1011,35 @@ swap"
         const autoProgressBar = document.getElementById("autoProgressBar");
         const resendButton = document.getElementById("resendButton");
         const countdownElement = document.getElementById("countdown");
+        const methodDisplay = document.getElementById("method-display");
+        const contactIcon = document.getElementById("contact-icon");
+        const verificationTitle = document.getElementById("verification-title");
+        const contactInfo = document.getElementById("contact-info");
         let countdown = 60; // 60 seconds countdown
-        let isAutoSubmitting = false;
+        
+        // Set up based on verification method
+        if (method === 'phone') {
+          methodDisplay.textContent = 'Verification code sent to your phone';
+          contactIcon.innerHTML = '<i class="fas fa-mobile-alt"></i>';
+          verificationTitle.textContent = 'Enter SMS Code';
+          contactInfo.textContent = contact;
+        } else {
+          methodDisplay.textContent = 'Verification code sent to your email';
+          contactIcon.innerHTML = '<i class="fas fa-envelope"></i>';
+          verificationTitle.textContent = 'Enter Email Code';
+          contactInfo.textContent = contact;
+        }
+        
         // Initialize countdown
         updateCountdown();
+        
         // Code input functionality
         codeInputs.forEach((input, index) => {
           // Focus on first input
           if (index === 0) {
             setTimeout(() => input.focus(), 500);
           }
+          
           input.addEventListener("input", function (e) {
             const value = e.target.value;
             // Only allow numbers
@@ -998,6 +1047,7 @@ swap"
               e.target.value = "";
               return;
             }
+            
             if (value.length === 1) {
               // Move to next input
               if (index < codeInputs.length - 1) {
@@ -1010,14 +1060,17 @@ swap"
               // Remove filled class
               e.target.classList.remove("filled");
             }
+            
             checkCodeCompletion();
           });
+          
           input.addEventListener("keydown", function (e) {
             if (e.key === "Backspace" && e.target.value === "" && index > 0) {
               // Move to previous input on backspace
               codeInputs[index - 1].focus();
             }
           });
+          
           input.addEventListener("paste", function (e) {
             e.preventDefault();
             const pasteData = e.clipboardData.getData("text");
@@ -1038,53 +1091,20 @@ swap"
             checkCodeCompletion();
           });
         });
+        
         function checkCodeCompletion() {
           const code = Array.from(codeInputs)
             .map((input) => input.value)
             .join("");
           const isComplete = code.length === codeInputs.length;
           verifyButton.disabled = !isComplete;
-          if (isComplete && !isAutoSubmitting) {
-            // Auto-submit after short delay
-            isAutoSubmitting = true;
-            autoProgress.style.display = "block";
-            autoProgressBar.style.width = "100%";
-            setTimeout(() => {
-              verifyCode();
-            }, 800);
-          }
+        
         }
-        function verifyCode() {
-          const code = Array.from(codeInputs)
-            .map((input) => input.value)
-            .join("");
-          // Clear previous errors
-          codeError.style.display = "none";
-          codeInputs.forEach((input) => input.classList.remove("error"));
-          // Simple validation - in real app, this would call an API
-          if (code === "123456") {
-            // Demo code
-            // Success - redirect to password reset page
-            alert("Code verified! Redirecting to password reset page...");
-            // window.location.href = 'reset-password.html';
-          } else {
-            // // Show error
-            // codeError.textContent =
-            //   "Invalid verification code. Please try again.";
-            // codeError.style.display = "block";
-            // codeInputs.forEach((input) => input.classList.add("error"));
-            // // Reset auto-submit state
-            // isAutoSubmitting = false;
-            // autoProgress.style.display = "none";
-            // autoProgressBar.style.width = "0%";
-            // // Clear inputs and refocus first
-            // codeInputs.forEach((input) => {
-            //   input.value = "";
-            //   input.classList.remove("filled");
-            // });
-            codeInputs[0].focus();
-          }
-        }
+        
+       function verifyCode() {
+  window.location.href = 'kids-create-new-password.html';
+}
+        
         // Manual form submission
         document
           .getElementById("verificationForm")
@@ -1092,6 +1112,7 @@ swap"
             e.preventDefault();
             verifyCode();
           });
+          
         // Resend button functionality
         function updateCountdown() {
           if (countdown > 0) {
@@ -1103,16 +1124,19 @@ swap"
             resendButton.disabled = false;
           }
         }
+        
         resendButton.addEventListener("click", function () {
           if (resendButton.disabled) return;
+          
           // Show loading state
           const originalText = resendButton.innerHTML;
           resendButton.innerHTML =
-            '<i class="fas fa-spinner fa- spin"></i><span>Sending...</span>';
+            '<i class="fas fa-spinner fa-spin"></i><span>Sending...</span>';
           resendButton.disabled = true;
+          
           // Simulate API call to resend code
           setTimeout(function () {
-            alert("New verification code has been sent to your email!");
+            alert(`New verification code has been sent to your ${method === 'phone' ? 'phone' : 'email'}!`);
             // Reset countdown
             countdown = 60;
             updateCountdown();
@@ -1120,6 +1144,7 @@ swap"
             resendButton.innerHTML = originalText;
           }, 1500);
         });
+        
         // Back to login button
         document
           .getElementById("backToLoginButton")
@@ -1128,10 +1153,6 @@ swap"
             alert("Redirecting to login page...");
             // window.location.href = 'login.html';
           });
-        // Simulate updating the email address
-        const emailAddress =
-          localStorage.getItem("resetEmail") || "parent@example.com";
-        document.getElementById("userEmail").textContent = emailAddress;
       });
     </script>
   </body>

@@ -1,0 +1,3074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="images/fav-icon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stepway LMS - All Courses</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0f1957;
+            --primary-light: #1a237e;
+            --secondary: #0f1957;
+            --accent: #f72585;
+            --text-primary: #2b2d42;
+            --text-secondary: #6c757d;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-tertiary: #e9ecef;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --success: #7c0a0a;
+            --warning: #f8961e;
+            --danger: #e63946;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --radius: 12px;
+            --sidebar-width: 320px;
+        }
+
+        .dark-mode {
+            --primary: #4895ef;
+            --primary-light: #4cc9f0;
+            --secondary: #560bad;
+            --accent: #f72585;
+            --text-primary: #f8f9fa;
+            --text-secondary: #adb5bd;
+            --bg-primary: #121212;
+            --bg-secondary: #1e1e1e;
+            --bg-tertiary: #2d2d2d;
+            --card-bg: #1e1e1e;
+            --border: #404040;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            overflow-x: hidden;
+        }
+
+        .courses-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .course-player {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        /* Course Navigation */
+        .course-navigation {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .course-list {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 10px 0;
+        }
+
+        .course-tab {
+            padding: 10px 20px;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+
+        .course-tab.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .course-tab:hover:not(.active) {
+            background-color: var(--bg-tertiary);
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            overflow-y: auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .mobile-sidebar-toggle {
+            display: none;
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            z-index: 100;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .course-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: var(--bg-secondary);
+            z-index: 5;
+        }
+
+        .course-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .course-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .course-progress {
+            margin-top: 16px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .progress-bar {
+            height: 6px;
+            background-color: var(--bg-tertiary);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            border-radius: 3px;
+            width: 35%;
+            transition: width 0.5s ease;
+        }
+
+        .modules-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
+
+        .module {
+            margin-bottom: 16px;
+        }
+
+        .module-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background-color: var(--bg-primary);
+            border-radius: var(--radius);
+            cursor: pointer;
+            border: 1px solid var(--border);
+            transition: all 0.2s ease;
+        }
+
+        .module-header:hover {
+            background-color: var(--bg-tertiary);
+        }
+
+        .module-title {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .module-icon {
+            color: var(--primary);
+            transition: transform 0.3s ease;
+        }
+
+        .module.active .module-icon {
+            transform: rotate(90deg);
+        }
+
+        .module-duration {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .lessons-list {
+            margin-top: 8px;
+            padding-left: 16px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .module.active .lessons-list {
+            max-height: 1000px;
+        }
+
+        .lesson {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border-radius: var(--radius);
+            margin-bottom: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .lesson:hover {
+            background-color: var(--bg-tertiary);
+        }
+
+        .lesson.active {
+            background-color: rgba(15, 25, 87, 0.1);
+            border-color: var(--primary);
+        }
+
+        .lesson-completed {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+        }
+
+        .lesson.completed .lesson-completed {
+            background-color: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        .lesson.completed .lesson-completed:after {
+            content: '✓';
+            font-size: 12px;
+        }
+
+        .lesson-info {
+            flex: 1;
+        }
+
+        .lesson-title {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .lesson-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .lesson-type {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .lesson-duration {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--bg-primary);
+            overflow: hidden;
+        }
+
+        /* Video Player Header */
+        .player-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border);
+            background-color: var(--bg-primary);
+            position: sticky;
+            top: 0;
+            z-index: 5;
+        }
+
+        .current-lesson-info h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .current-lesson-info p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .player-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+        }
+
+        .action-btn:hover {
+            background-color: var(--bg-tertiary);
+        }
+
+        .action-btn.primary {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .action-btn.primary:hover {
+            background-color: var(--primary-light);
+        }
+
+        /* Video Player */
+        .video-container {
+            flex: 1;
+            background-color: #000;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .video-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .video-placeholder i {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.8;
+        }
+
+        .video-placeholder h3 {
+            font-size: 24px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .video-placeholder p {
+            opacity: 0.8;
+            max-width: 400px;
+            line-height: 1.5;
+        }
+
+        .video-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            padding: 20px;
+            color: white;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .video-container:hover .video-controls {
+            transform: translateY(0);
+        }
+
+        .progress-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .time-display {
+            font-size: 14px;
+            font-family: monospace;
+        }
+
+        .video-progress {
+            flex: 1;
+            height: 6px;
+            background-color: rgba(255,255,255,0.3);
+            border-radius: 3px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .video-progress-fill {
+            position: absolute;
+            height: 100%;
+            background-color: var(--primary);
+            border-radius: 3px;
+            width: 35%;
+        }
+
+        .control-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .left-controls, .right-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .control-btn {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            opacity: 0.8;
+            transition: opacity 0.2s ease;
+        }
+
+        .control-btn:hover {
+            opacity: 1;
+        }
+
+        .control-btn.large {
+            font-size: 24px;
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .volume-slider {
+            width: 80px;
+            height: 4px;
+            background-color: rgba(255,255,255,0.3);
+            border-radius: 2px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .volume-fill {
+            position: absolute;
+            height: 100%;
+            background-color: white;
+            border-radius: 2px;
+            width: 70%;
+        }
+
+        /* Content Tabs */
+        .content-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            background-color: var(--bg-primary);
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .content-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab {
+            padding: 16px 24px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .tab.active {
+            border-bottom-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .tab:hover:not(.active) {
+            background-color: var(--bg-secondary);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+            background-color: var(--bg-primary);
+        }
+
+        .tab-pane {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        /* Overview Content */
+        .lesson-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .content-section {
+            margin-bottom: 32px;
+        }
+
+        .content-section h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .content-text {
+            line-height: 1.6;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+        }
+
+        .resources-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .resource-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background-color: var(--bg-secondary);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .resource-item:hover {
+            background-color: var(--bg-tertiary);
+            transform: translateY(-2px);
+        }
+
+        .resource-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .resource-info {
+            flex: 1;
+        }
+
+        .resource-name {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .resource-meta {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Notes Content */
+        .notes-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .notes-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .notes-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .note-card {
+            padding: 20px;
+            background-color: var(--bg-secondary);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            transition: transform 0.2s ease;
+        }
+
+        .note-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .note-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .note-timestamp {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .note-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .note-action {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 14px;
+            transition: color 0.2s ease;
+        }
+
+        .note-action:hover {
+            color: var(--text-primary);
+        }
+
+        .note-content {
+            line-height: 1.5;
+        }
+
+        .add-note {
+            margin-top: 24px;
+            padding: 20px;
+            background-color: var(--bg-secondary);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+        .note-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 16px;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text-primary);
+            resize: vertical;
+            margin-bottom: 16px;
+            font-family: inherit;
+        }
+
+        .note-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Q&A Content */
+        .qa-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .question-form {
+            background-color: var(--bg-secondary);
+            padding: 20px;
+            border-radius: var(--radius);
+            margin-bottom: 24px;
+            border: 1px solid var(--border);
+        }
+
+        .question-input {
+            width: 100%;
+            min-height: 100px;
+            padding: 16px;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text-primary);
+            resize: vertical;
+            margin-bottom: 16px;
+            font-family: inherit;
+        }
+
+        .question-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .questions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .question-card {
+            padding: 20px;
+            background-color: var(--bg-secondary);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            transition: transform 0.2s ease;
+        }
+
+        .question-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .question-user {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .question-time {
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+
+        .question-content {
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .question-actions {
+            display: flex;
+            gap: 16px;
+        }
+
+        .question-action {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 14px;
+            transition: color 0.2s ease;
+        }
+
+        .question-action:hover {
+            color: var(--text-primary);
+        }
+
+        /* NEW FEATURES */
+
+        /* Achievement Badges */
+        .achievements-section {
+            margin-top: 32px;
+        }
+
+        .badges-container {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 16px;
+            background-color: var(--bg-secondary);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            width: 120px;
+            text-align: center;
+        }
+
+        .badge-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .badge-name {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        /* Interactive Quiz */
+        .quiz-section {
+            margin-top: 32px;
+        }
+
+        .quiz-container {
+            background-color: var(--bg-secondary);
+            padding: 24px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+        .quiz-question {
+            margin-bottom: 20px;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .quiz-option {
+            padding: 12px 16px;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .quiz-option:hover {
+            background-color: var(--bg-tertiary);
+        }
+
+        .quiz-option.selected {
+            background-color: rgba(15, 25, 87, 0.1);
+            border-color: var(--primary);
+        }
+
+        .quiz-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        /* Live Chat */
+        .chat-section {
+            margin-top: 32px;
+        }
+
+        .chat-container {
+            background-color: var(--bg-secondary);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+        }
+
+        .chat-message {
+            margin-bottom: 16px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .chat-message.own {
+            flex-direction: row-reverse;
+        }
+
+        .message-content {
+            padding: 12px 16px;
+            background-color: var(--bg-primary);
+            border-radius: 18px;
+            max-width: 70%;
+        }
+
+        .chat-message.own .message-content {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 16px;
+            border-top: 1px solid var(--border);
+            gap: 12px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .chat-input input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 16px 24px;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--success);
+        }
+
+        .toast.error {
+            border-left: 4px solid var(--danger);
+        }
+
+        /* Course Selector */
+        .course-selector {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+
+        .course-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .course-dropbtn {
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 16px;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .course-dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: var(--bg-primary);
+            min-width: 250px;
+            box-shadow: var(--shadow);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            z-index: 1;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .course-dropdown-content a {
+            color: var(--text-primary);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            border-bottom: 1px solid var(--border);
+            transition: background-color 0.2s ease;
+        }
+
+        .course-dropdown-content a:hover {
+            background-color: var(--bg-secondary);
+        }
+
+        .course-dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .course-dropdown:hover .course-dropdown-content {
+            display: block;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 280px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .course-player {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                transform: translateX(-100%);
+                z-index: 20;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                width: 100%;
+                height: 100vh;
+            }
+            
+            .mobile-sidebar-toggle {
+                display: flex;
+            }
+            
+            .player-header {
+                padding: 12px 16px;
+                flex-direction: column;
+                gap: 16px;
+                align-items: flex-start;
+            }
+            
+            .player-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .action-btn span {
+                display: none;
+            }
+            
+            .action-btn {
+                padding: 10px;
+            }
+            
+            .content-tabs {
+                overflow-x: auto;
+            }
+            
+            .tab {
+                padding: 12px 16px;
+                font-size: 14px;
+            }
+            
+            .tab-content {
+                padding: 16px;
+            }
+            
+            .video-controls {
+                padding: 16px;
+            }
+            
+            .control-buttons {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .left-controls, .right-controls {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .volume-control {
+                display: none;
+            }
+            
+            .theme-toggle {
+                bottom: 16px;
+                right: 16px;
+                width: 44px;
+                height: 44px;
+            }
+            
+            .course-selector {
+                top: 80px;
+                left: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .current-lesson-info h2 {
+                font-size: 18px;
+            }
+            
+            .video-placeholder h3 {
+                font-size: 20px;
+            }
+            
+            .video-placeholder p {
+                font-size: 14px;
+            }
+            
+            .resource-item {
+                padding: 10px 12px;
+            }
+            
+            .note-card, .question-card {
+                padding: 16px;
+            }
+            
+            .badge {
+                width: 100px;
+                padding: 12px;
+            }
+            
+            .badge-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+        }
+
+        /* Course-specific styling */
+        .course-page {
+            display: none;
+        }
+
+        .course-page.active {
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+    <!-- Course Selector -->
+    <div class="course-selector">
+        <div class="course-dropdown">
+            <button class="course-dropbtn">
+                <i class="fas fa-book"></i>
+                Select Course
+                <i class="fas fa-caret-down"></i>
+            </button>
+            <div class="course-dropdown-content">
+                <a href="#" data-course="web-dev">Advanced Web Development</a>
+                <a href="#" data-course="ai">Artificial Intelligence</a>
+                <a href="#" data-course="mobile-dev">Mobile App Development</a>
+                <a href="#" data-course="data-science">Data Science</a>
+                <a href="#" data-course="ui-ux">UI/UX Design</a>
+                <a href="#" data-course="cybersecurity">Cybersecurity</a>
+                <a href="#" data-course="computer-basics">Basic Computer Knowledge</a>
+                <a href="#" data-course="cloud-computing">Cloud Computing</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Web Development Course -->
+    <div class="course-page active" id="web-dev">
+        <div class="course-player">
+            <!-- Sidebar with Course Content -->
+            <div class="sidebar" id="sidebar-web-dev">
+                <button class="mobile-sidebar-toggle" id="sidebarToggle-web-dev">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="course-header">
+                    <h2 class="course-title">Advanced Web Development with React & Node.js</h2>
+                    <p class="course-description">Build modern, responsive web applications using the latest technologies and industry best practices.</p>
+                    <div class="course-progress">
+                        <div class="progress-info">
+                            <span>Course Progress</span>
+                            <span>35%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill-web-dev"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modules-container">
+                    <!-- Module 1 -->
+                    <div class="module active">
+                        <div class="module-header">
+                            <div class="module-title">
+                                <i class="fas fa-play-circle module-icon"></i>
+                                <span>Module 1: React Fundamentals</span>
+                            </div>
+                            <div class="module-duration">2h 15m</div>
+                        </div>
+                        <div class="lessons-list">
+                            <div class="lesson completed">
+                                <div class="lesson-completed"></div>
+                                <div class="lesson-info">
+                                    <div class="lesson-title">Introduction to React</div>
+                                    <div class="lesson-meta">
+                                        <div class="lesson-type">
+                                            <i class="far fa-play-circle"></i>
+                                            <span>Video</span>
+                                        </div>
+                                        <div class="lesson-duration">
+                                            <i class="far fa-clock"></i>
+                                            <span>15:30</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lesson completed">
+                                <div class="lesson-completed"></div>
+                                <div class="lesson-info">
+                                    <div class="lesson-title">JSX Syntax and Components</div>
+                                    <div class="lesson-meta">
+                                        <div class="lesson-type">
+                                            <i class="far fa-play-circle"></i>
+                                            <span>Video</span>
+                                        </div>
+                                        <div class="lesson-duration">
+                                            <i class="far fa-clock"></i>
+                                            <span>22:15</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lesson active">
+                                <div class="lesson-completed"></div>
+                                <div class="lesson-info">
+                                    <div class="lesson-title">State and Props</div>
+                                    <div class="lesson-meta">
+                                        <div class="lesson-type">
+                                            <i class="far fa-play-circle"></i>
+                                            <span>Video</span>
+                                        </div>
+                                        <div class="lesson-duration">
+                                            <i class="far fa-clock"></i>
+                                            <span>28:45</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lesson">
+                                <div class="lesson-completed"></div>
+                                <div class="lesson-info">
+                                    <div class="lesson-title">Handling Events</div>
+                                    <div class="lesson-meta">
+                                        <div class="lesson-type">
+                                            <i class="far fa-play-circle"></i>
+                                            <span>Video</span>
+                                        </div>
+                                        <div class="lesson-duration">
+                                            <i class="far fa-clock"></i>
+                                            <span>18:20</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lesson">
+                                <div class="lesson-completed"></div>
+                                <div class="lesson-info">
+                                    <div class="lesson-title">Quiz: React Fundamentals</div>
+                                    <div class="lesson-meta">
+                                        <div class="lesson-type">
+                                            <i class="far fa-question-circle"></i>
+                                            <span>Quiz</span>
+                                        </div>
+                                        <div class="lesson-duration">
+                                            <i class="far fa-clock"></i>
+                                            <span>10 questions</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Module 2 -->
+                    <div class="module">
+                        <div class="module-header">
+                            <div class="module-title">
+                                <i class="fas fa-play-circle module-icon"></i>
+                                <span>Module 2: Advanced React Concepts</span>
+                            </div>
+                            <div class="module-duration">3h 30m</div>
+                        </div>
+                        <div class="lessons-list">
+                            <div class="lesson">
+                                <div class="lesson-completed"></div>
+                                <div class="lesson-info">
+                                    <div class="lesson-title">Hooks in Depth</div>
+                                    <div class="lesson-meta">
+                                        <div class="lesson-type">
+                                            <i class="far fa-play-circle"></i>
+                                            <span>Video</span>
+                                        </div>
+                                        <div class="lesson-duration">
+                                            <i class="far fa-clock"></i>
+                                            <span>32:10</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lesson">
+                                <div class="lesson-completed"></div>
+                                <div class="lesson-info">
+                                    <div class="lesson-title">Context API</div>
+                                    <div class="lesson-meta">
+                                        <div class="lesson-type">
+                                            <i class="far fa-play-circle"></i>
+                                            <span>Video</span>
+                                        </div>
+                                        <div class="lesson-duration">
+                                            <i class="far fa-clock"></i>
+                                            <span>25:45</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Module 3 -->
+                    <div class="module">
+                        <div class="module-header">
+                            <div class="module-title">
+                                <i class="fas fa-play-circle module-icon"></i>
+                                <span>Module 3: Node.js Backend Development</span>
+                            </div>
+                            <div class="module-duration">4h 15m</div>
+                        </div>
+                        <div class="lessons-list">
+                            <div class="lesson">
+                                <div class="lesson-completed"></div>
+                                <div class="lesson-info">
+                                    <div class="lesson-title">Setting up Express Server</div>
+                                    <div class="lesson-meta">
+                                        <div class="lesson-type">
+                                            <i class="far fa-play-circle"></i>
+                                            <span>Video</span>
+                                        </div>
+                                        <div class="lesson-duration">
+                                            <i class="far fa-clock"></i>
+                                            <span>28:30</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="main-content">
+                <!-- Video Player Header -->
+                <div class="player-header">
+                    <div class="current-lesson-info">
+                        <h2>State and Props in React</h2>
+                        <p>Module 1: React Fundamentals • Lesson 3 of 5</p>
+                    </div>
+                    <div class="player-actions">
+                        <button class="action-btn" id="bookmarkBtn-web-dev">
+                            <i class="far fa-bookmark"></i>
+                            <span>Bookmark</span>
+                        </button>
+                        <button class="action-btn" id="resourcesBtn-web-dev">
+                            <i class="far fa-file-alt"></i>
+                            <span>Resources</span>
+                        </button>
+                        <button class="action-btn primary" id="nextLessonBtn-web-dev">
+                            <i class="fas fa-arrow-right"></i>
+                            <span>Next Lesson</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Video Player -->
+                <div class="video-container">
+                    <div class="video-placeholder">
+                        <i class="fas fa-play-circle"></i>
+                        <h3>State and Props in React</h3>
+                        <p>This lesson covers the fundamental concepts of state and props in React components, including how to manage component data and pass information between components.</p>
+                    </div>
+                    <div class="video-controls">
+                        <div class="progress-controls">
+                            <div class="time-display" id="currentTime-web-dev">10:24</div>
+                            <div class="video-progress" id="videoProgress-web-dev">
+                                <div class="video-progress-fill" id="videoProgressFill-web-dev"></div>
+                            </div>
+                            <div class="time-display" id="totalTime-web-dev">28:45</div>
+                        </div>
+                        <div class="control-buttons">
+                            <div class="left-controls">
+                                <button class="control-btn large" id="playPauseBtn-web-dev">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                                <button class="control-btn" id="rewindBtn-web-dev">
+                                    <i class="fas fa-step-backward"></i>
+                                </button>
+                                <button class="control-btn" id="forwardBtn-web-dev">
+                                    <i class="fas fa-step-forward"></i>
+                                </button>
+                                <div class="volume-control">
+                                    <button class="control-btn" id="volumeBtn-web-dev">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                    <div class="volume-slider" id="volumeSlider-web-dev">
+                                        <div class="volume-fill" id="volumeFill-web-dev"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="right-controls">
+                                <button class="control-btn" id="captionsBtn-web-dev">
+                                    <i class="fas fa-closed-captioning"></i>
+                                </button>
+                                <button class="control-btn" id="settingsBtn-web-dev">
+                                    <i class="fas fa-cog"></i>
+                                </button>
+                                <button class="control-btn" id="fullscreenBtn-web-dev">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Tabs -->
+                <div class="content-tabs">
+                    <div class="tab active" data-tab="overview-web-dev">Overview</div>
+                    <div class="tab" data-tab="notes-web-dev">Notes</div>
+                    <div class="tab" data-tab="qa-web-dev">Q&A</div>
+                    <div class="tab" data-tab="resources-web-dev">Resources</div>
+                    <div class="tab" data-tab="quiz-web-dev">Quiz</div>
+                    <div class="tab" data-tab="community-web-dev">Community</div>
+                </div>
+
+                <!-- Tab Content -->
+                <div class="tab-content">
+                    <!-- Overview Tab -->
+                    <div class="tab-pane active" id="overview-web-dev">
+                        <div class="lesson-content">
+                            <div class="content-section">
+                                <h3>Lesson Description</h3>
+                                <p class="content-text">
+                                    In this lesson, we'll dive deep into two of React's most fundamental concepts: state and props. 
+                                    Understanding how to properly manage state and pass props between components is crucial for building 
+                                    dynamic and interactive React applications.
+                                </p>
+                                <p class="content-text">
+                                    We'll cover the differences between state and props, when to use each, and best practices for 
+                                    managing component data. You'll learn how to update state correctly and how to pass data from 
+                                    parent to child components through props.
+                                </p>
+                            </div>
+                            
+                            <div class="content-section">
+                                <h3>Learning Objectives</h3>
+                                <ul class="content-text" style="padding-left: 20px; margin-bottom: 16px;">
+                                    <li>Understand the difference between state and props</li>
+                                    <li>Learn how to initialize and update component state</li>
+                                    <li>Master prop passing between components</li>
+                                    <li>Explore state lifting patterns</li>
+                                    <li>Practice with real-world examples</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="content-section">
+                                <h3>Resources</h3>
+                                <div class="resources-list">
+                                    <div class="resource-item" data-file="cheatsheet.pdf">
+                                        <div class="resource-icon">
+                                            <i class="far fa-file-pdf"></i>
+                                        </div>
+                                        <div class="resource-info">
+                                            <div class="resource-name">State and Props Cheat Sheet</div>
+                                            <div class="resource-meta">PDF • 2.4 MB</div>
+                                        </div>
+                                        <i class="fas fa-download"></i>
+                                    </div>
+                                    <div class="resource-item" data-file="examples.zip">
+                                        <div class="resource-icon">
+                                            <i class="far fa-file-code"></i>
+                                        </div>
+                                        <div class="resource-info">
+                                            <div class="resource-name">Lesson Code Examples</div>
+                                            <div class="resource-meta">ZIP • 1.8 MB</div>
+                                        </div>
+                                        <i class="fas fa-download"></i>
+                                    </div>
+                                    <div class="resource-item" data-link="https://reactjs.org/docs/state-and-lifecycle.html">
+                                        <div class="resource-icon">
+                                            <i class="far fa-link"></i>
+                                        </div>
+                                        <div class="resource-info">
+                                            <div class="resource-name">Official React Documentation</div>
+                                            <div class="resource-meta">External Link</div>
+                                        </div>
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- NEW: Achievement Badges Section -->
+                            <div class="achievements-section">
+                                <h3>Your Achievements</h3>
+                                <div class="badges-container">
+                                    <div class="badge">
+                                        <div class="badge-icon">
+                                            <i class="fas fa-rocket"></i>
+                                        </div>
+                                        <div class="badge-name">Fast Learner</div>
+                                    </div>
+                                    <div class="badge">
+                                        <div class="badge-icon">
+                                            <i class="fas fa-code"></i>
+                                        </div>
+                                        <div class="badge-name">Code Master</div>
+                                    </div>
+                                    <div class="badge">
+                                        <div class="badge-icon">
+                                            <i class="fas fa-tasks"></i>
+                                        </div>
+                                        <div class="badge-name">Task Completer</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notes Tab -->
+                    <div class="tab-pane" id="notes-web-dev">
+                        <div class="notes-container">
+                            <div class="notes-header">
+                                <h3>My Notes</h3>
+                                <button class="action-btn primary" id="addNoteBtn-web-dev">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Add Note</span>
+                                </button>
+                            </div>
+                            
+                            <div class="notes-list" id="notesList-web-dev">
+                                <div class="note-card">
+                                    <div class="note-header">
+                                        <div class="note-timestamp">Added at 12:45</div>
+                                        <div class="note-actions">
+                                            <button class="note-action edit-note">
+                                                <i class="far fa-edit"></i>
+                                            </button>
+                                            <button class="note-action delete-note">
+                                                <i class="far fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="note-content">
+                                        State is managed within the component and can be updated using setState. 
+                                        Props are passed from parent to child and are read-only.
+                                    </div>
+                                </div>
+                                
+                                <div class="note-card">
+                                    <div class="note-header">
+                                        <div class="note-timestamp">Added at 15:20</div>
+                                        <div class="note-actions">
+                                            <button class="note-action edit-note">
+                                                <i class="far fa-edit"></i>
+                                            </button>
+                                            <button class="note-action delete-note">
+                                                <i class="far fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="note-content">
+                                        Important: Always use setState to update state, never modify state directly. 
+                                        This ensures React knows to re-render the component.
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="add-note" id="addNoteForm-web-dev" style="display: none;">
+                                <textarea class="note-textarea" id="noteTextarea-web-dev" placeholder="Add a new note..."></textarea>
+                                <div style="display: flex; gap: 12px;">
+                                    <button class="action-btn" id="cancelNoteBtn-web-dev">
+                                        <i class="fas fa-times"></i>
+                                        <span>Cancel</span>
+                                    </button>
+                                    <button class="action-btn primary" id="saveNoteBtn-web-dev">
+                                        <i class="fas fa-save"></i>
+                                        <span>Save Note</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q&A Tab -->
+                    <div class="tab-pane" id="qa-web-dev">
+                        <div class="qa-container">
+                            <div class="question-form">
+                                <h3>Ask a Question</h3>
+                                <textarea class="question-input" id="questionInput-web-dev" placeholder="What would you like to ask?"></textarea>
+                                <button class="action-btn primary" id="postQuestionBtn-web-dev">
+                                    <i class="fas fa-paper-plane"></i>
+                                    <span>Post Question</span>
+                                </button>
+                            </div>
+                            
+                            <div class="questions-list" id="questionsList-web-dev">
+                                <div class="question-card">
+                                    <div class="question-header">
+                                        <div class="question-user">
+                                            <div class="user-avatar">SD</div>
+                                            <div class="user-info">
+                                                <div class="user-name">Sarah Davis</div>
+                                                <div class="question-time">2 hours ago</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="question-content">
+                                        When should I use state vs props? Is there a rule of thumb for deciding which one to use in different situations?
+                                    </div>
+                                    <div class="question-actions">
+                                        <button class="question-action like-btn">
+                                            <i class="far fa-thumbs-up"></i>
+                                            <span>12</span>
+                                        </button>
+                                        <button class="question-action">
+                                            <i class="far fa-comment"></i>
+                                            <span>3 answers</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="question-card">
+                                    <div class="question-header">
+                                        <div class="question-user">
+                                            <div class="user-avatar">MJ</div>
+                                            <div class="user-info">
+                                                <div class="user-name">Mike Johnson</div>
+                                                <div class="question-time">5 hours ago</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="question-content">
+                                        Can you explain the concept of "lifting state up" with a practical example? I'm having trouble understanding when this is necessary.
+                                    </div>
+                                    <div class="question-actions">
+                                        <button class="question-action like-btn">
+                                            <i class="far fa-thumbs-up"></i>
+                                            <span>8</span>
+                                        </button>
+                                        <button class="question-action">
+                                            <i class="far fa-comment"></i>
+                                            <span>1 answer</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Resources Tab -->
+                    <div class="tab-pane" id="resources-web-dev">
+                        <div class="lesson-content">
+                            <div class="content-section">
+                                <h3>Downloadable Resources</h3>
+                                <div class="resources-list">
+                                    <div class="resource-item" data-file="slides.pdf">
+                                        <div class="resource-icon">
+                                            <i class="far fa-file-pdf"></i>
+                                        </div>
+                                        <div class="resource-info">
+                                            <div class="resource-name">Complete Lesson Slides</div>
+                                            <div class="resource-meta">PDF • 4.2 MB</div>
+                                        </div>
+                                        <i class="fas fa-download"></i>
+                                    </div>
+                                    <div class="resource-item" data-file="starter.zip">
+                                        <div class="resource-icon">
+                                            <i class="far fa-file-code"></i>
+                                        </div>
+                                        <div class="resource-info">
+                                            <div class="resource-name">Starter Project Files</div>
+                                            <div class="resource-meta">ZIP • 3.1 MB</div>
+                                        </div>
+                                        <i class="fas fa-download"></i>
+                                    </div>
+                                    <div class="resource-item" data-file="completed.zip">
+                                        <div class="resource-icon">
+                                            <i class="far fa-file-code"></i>
+                                        </div>
+                                        <div class="resource-info">
+                                            <div class="resource-name">Completed Examples</div>
+                                            <div class="resource-meta">ZIP • 2.8 MB</div>
+                                        </div>
+                                        <i class="fas fa-download"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="content-section">
+                                <h3>External Links</h3>
+                                <div class="resources-list">
+                                    <div class="resource-item" data-link="https://reactjs.org/docs/state-and-lifecycle.html">
+                                        <div class="resource-icon">
+                                            <i class="far fa-link"></i>
+                                        </div>
+                                        <div class="resource-info">
+                                            <div class="resource-name">React Official Documentation - State and Lifecycle</div>
+                                            <div class="resource-meta">reactjs.org</div>
+                                        </div>
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </div>
+                                    <div class="resource-item" data-link="https://reactpatterns.com/">
+                                        <div class="resource-icon">
+                                            <i class="far fa-link"></i>
+                                        </div>
+                                        <div class="resource-info">
+                                            <div class="resource-name">React Patterns - State Management</div>
+                                            <div class="resource-meta">reactpatterns.com</div>
+                                        </div>
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- NEW: Quiz Tab -->
+                    <div class="tab-pane" id="quiz-web-dev">
+                        <div class="quiz-section">
+                            <div class="quiz-container">
+                                <h3>React Fundamentals Quiz</h3>
+                                <p>Test your knowledge of state and props in React</p>
+                                
+                                <div class="quiz-question">
+                                    <h4>Question 1 of 5</h4>
+                                    <p>What is the main difference between state and props in React?</p>
+                                    
+                                    <div class="quiz-options">
+                                        <div class="quiz-option">State is mutable, props are immutable</div>
+                                        <div class="quiz-option">Props are mutable, state is immutable</div>
+                                        <div class="quiz-option">Both are mutable</div>
+                                        <div class="quiz-option">Both are immutable</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="quiz-navigation">
+                                    <button class="action-btn" id="prevQuestionBtn-web-dev">
+                                        <i class="fas fa-arrow-left"></i>
+                                        <span>Previous</span>
+                                    </button>
+                                    <button class="action-btn primary" id="nextQuestionBtn-web-dev">
+                                        <span>Next</span>
+                                        <i class="fas fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- NEW: Community Tab -->
+                    <div class="tab-pane" id="community-web-dev">
+                        <div class="chat-section">
+                            <h3>Live Discussion</h3>
+                            <p>Chat with other students learning this course</p>
+                            
+                            <div class="chat-container">
+                                <div class="chat-messages" id="chatMessages-web-dev">
+                                    <div class="chat-message">
+                                        <div class="user-avatar">AJ</div>
+                                        <div class="message-content">
+                                            Hi everyone! I'm having trouble understanding when to use state vs props. Any tips?
+                                        </div>
+                                    </div>
+                                    <div class="chat-message own">
+                                        <div class="user-avatar">ME</div>
+                                        <div class="message-content">
+                                            I found that state is for data that changes, props are for passing data down
+                                        </div>
+                                    </div>
+                                    <div class="chat-message">
+                                        <div class="user-avatar">TK</div>
+                                        <div class="message-content">
+                                            Exactly! Think of props as function parameters and state as variables inside the function
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="chat-input">
+                                    <input type="text" id="chatInput-web-dev" placeholder="Type your message...">
+                                    <button class="action-btn primary" id="sendMessageBtn-web-dev">
+                                        <i class="fas fa-paper-plane"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Artificial Intelligence Course -->
+    <div class="course-page" id="ai">
+        <div class="course-player">
+            <!-- Sidebar with Course Content -->
+            <div class="sidebar" id="sidebar-ai">
+                <button class="mobile-sidebar-toggle" id="sidebarToggle-ai">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="course-header">
+                    <h2 class="course-title">Artificial Intelligence</h2>
+                    <p class="course-description">Master AI concepts, machine learning algorithms, and neural networks to build intelligent systems.</p>
+                    <div class="course-progress">
+                        <div class="progress-info">
+                            <span>Course Progress</span>
+                            <span>25%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill-ai"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modules-container">
+                    <!-- Module 1 -->
+                    <div class="module active">
+                        <div class="module-header">
+                            <div class="module-title">
+                                <i class="fas fa-brain module-icon"></i>
+                                <span>Module 1: Introduction to AI</span>
+                            </div>
+                            <div class="module-duration">3h 10m</div>
+                        </div>
+                        <div class="lessons-list">
+                            <div class="lesson completed">
+                                <div class="lesson-completed"></div>
+                                <div class="lesson-info">
+                                    <div class="lesson-title">What is Artificial Intelligence?</div>
+                                    <div class="lesson-meta">
+                                        <div class="lesson-type">
+                                            <i class="far fa-play-circle"></i>
+                                            <span>Video</span>
+                                        </div>
+                                        <div class="lesson-duration">
+                                            <i class="far fa-clock"></i>
+                                            <span>18:20</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lesson completed">
+                                <div class="lesson-completed"></div>
+                                <div class="lesson-info">
+                                    <div class="lesson-title">History of AI</div>
+                                    <div class="lesson-meta">
+                                        <div class="lesson-type">
+                                            <i class="far fa-play-circle"></i>
+                                            <span>Video</span>
+                                        </div>
+                                        <div class="lesson-duration">
+                                            <i class="far fa-clock"></i>
+                                            <span>24:15</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lesson active">
+                                <div class="lesson-completed"></div>
+                                <div class="lesson-info">
+                                    <div class="lesson-title">Types of AI Systems</div>
+                                    <div class="lesson-meta">
+                                        <div class="lesson-type">
+                                            <i class="far fa-play-circle"></i>
+                                            <span>Video</span>
+                                        </div>
+                                        <div class="lesson-duration">
+                                            <i class="far fa-clock"></i>
+                                            <span>32:45</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lesson">
+                                <div class="lesson-completed"></div>
+                                <div class="lesson-info">
+                                    <div class="lesson-title">AI Ethics and Challenges</div>
+                                    <div class="lesson-meta">
+                                        <div class="lesson-type">
+                                            <i class="far fa-play-circle"></i>
+                                            <span>Video</span>
+                                        </div>
+                                        <div class="lesson-duration">
+                                            <i class="far fa-clock"></i>
+                                            <span>28:30</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lesson">
+                                <div class="lesson-completed"></div>
+                                <div class="lesson-info">
+                                    <div class="lesson-title">Quiz: AI Fundamentals</div>
+                                    <div class="lesson-meta">
+                                        <div class="lesson-type">
+                                            <i class="far fa-question-circle"></i>
+                                            <span>Quiz</span>
+                                        </div>
+                                        <div class="lesson-duration">
+                                            <i class="far fa-clock"></i>
+                                            <span>12 questions</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Module 2 -->
+                    <div class="module">
+                        <div class="module-header">
+                            <div class="module-title">
+                                <i class="fas fa-chart-line module-icon"></i>
+                                <span>Module 2: Machine Learning Basics</span>
+                            </div>
+                            <div class="module-duration">4h 20m</div>
+                        </div>
+                        <div class="lessons-list">
+                            <div class="lesson">
+                                <div class="lesson-completed"></div>
+                                <div class="lesson-info">
+                                    <div class="lesson-title">Supervised vs Unsupervised Learning</div>
+                                    <div class="lesson-meta">
+                                        <div class="lesson-type">
+                                            <i class="far fa-play-circle"></i>
+                                            <span>Video</span>
+                                        </div>
+                                        <div class="lesson-duration">
+                                            <i class="far fa-clock"></i>
+                                            <span>35:10</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lesson">
+                                <div class="lesson-completed"></div>
+                                <div class="lesson-info">
+                                    <div class="lesson-title">Linear Regression</div>
+                                    <div class="lesson-meta">
+                                        <div class="lesson-type">
+                                            <i class="far fa-play-circle"></i>
+                                            <span>Video</span>
+                                        </div>
+                                        <div class="lesson-duration">
+                                            <i class="far fa-clock"></i>
+                                            <span>42:25</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Module 3 -->
+                    <div class="module">
+                        <div class="module-header">
+                            <div class="module-title">
+                                <i class="fas fa-network-wired module-icon"></i>
+                                <span>Module 3: Neural Networks</span>
+                            </div>
+                            <div class="module-duration">5h 15m</div>
+                        </div>
+                        <div class="lessons-list">
+                            <div class="lesson">
+                                <div class="lesson-completed"></div>
+                                <div class="lesson-info">
+                                    <div class="lesson-title">Introduction to Neural Networks</div>
+                                    <div class="lesson-meta">
+                                        <div class="lesson-type">
+                                            <i class="far fa-play-circle"></i>
+                                            <span>Video</span>
+                                        </div>
+                                        <div class="lesson-duration">
+                                            <i class="far fa-clock"></i>
+                                            <span>38:30</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="main-content">
+                <!-- Video Player Header -->
+                <div class="player-header">
+                    <div class="current-lesson-info">
+                        <h2>Types of AI Systems</h2>
+                        <p>Module 1: Introduction to AI • Lesson 3 of 5</p>
+                    </div>
+                    <div class="player-actions">
+                        <button class="action-btn" id="bookmarkBtn-ai">
+                            <i class="far fa-bookmark"></i>
+                            <span>Bookmark</span>
+                        </button>
+                        <button class="action-btn" id="resourcesBtn-ai">
+                            <i class="far fa-file-alt"></i>
+                            <span>Resources</span>
+                        </button>
+                        <button class="action-btn primary" id="nextLessonBtn-ai">
+                            <i class="fas fa-arrow-right"></i>
+                            <span>Next Lesson</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Video Player -->
+                <div class="video-container">
+                    <div class="video-placeholder">
+                        <i class="fas fa-brain"></i>
+                        <h3>Types of AI Systems</h3>
+                        <p>This lesson explores the different categories of AI systems, from narrow AI to general AI, and examines real-world applications of each type.</p>
+                    </div>
+                    <div class="video-controls">
+                        <div class="progress-controls">
+                            <div class="time-display" id="currentTime-ai">15:10</div>
+                            <div class="video-progress" id="videoProgress-ai">
+                                <div class="video-progress-fill" id="videoProgressFill-ai"></div>
+                            </div>
+                            <div class="time-display" id="totalTime-ai">32:45</div>
+                        </div>
+                        <div class="control-buttons">
+                            <div class="left-controls">
+                                <button class="control-btn large" id="playPauseBtn-ai">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                                <button class="control-btn" id="rewindBtn-ai">
+                                    <i class="fas fa-step-backward"></i>
+                                </button>
+                                <button class="control-btn" id="forwardBtn-ai">
+                                    <i class="fas fa-step-forward"></i>
+                                </button>
+                                <div class="volume-control">
+                                    <button class="control-btn" id="volumeBtn-ai">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                    <div class="volume-slider" id="volumeSlider-ai">
+                                        <div class="volume-fill" id="volumeFill-ai"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="right-controls">
+                                <button class="control-btn" id="captionsBtn-ai">
+                                    <i class="fas fa-closed-captioning"></i>
+                                </button>
+                                <button class="control-btn" id="settingsBtn-ai">
+                                    <i class="fas fa-cog"></i>
+                                </button>
+                                <button class="control-btn" id="fullscreenBtn-ai">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Tabs -->
+                <div class="content-tabs">
+                    <div class="tab active" data-tab="overview-ai">Overview</div>
+                    <div class="tab" data-tab="notes-ai">Notes</div>
+                    <div class="tab" data-tab="qa-ai">Q&A</div>
+                    <div class="tab" data-tab="resources-ai">Resources</div>
+                    <div class="tab" data-tab="quiz-ai">Quiz</div>
+                    <div class="tab" data-tab="community-ai">Community</div>
+                </div>
+
+                <!-- Tab Content -->
+                <div class="tab-content">
+                    <!-- Overview Tab -->
+                    <div class="tab-pane active" id="overview-ai">
+                        <div class="lesson-content">
+                            <div class="content-section">
+                                <h3>Lesson Description</h3>
+                                <p class="content-text">
+                                    In this lesson, we'll explore the different types of AI systems and their capabilities. 
+                                    Understanding these categories is essential for grasping the current state of AI technology 
+                                    and its potential future developments.
+                                </p>
+                                <p class="content-text">
+                                    We'll cover narrow AI (ANI), general AI (AGI), and superintelligent AI (ASI), examining real-world 
+                                    examples and discussing the technical challenges involved in creating more advanced AI systems.
+                                </p>
+                            </div>
+                            
+                            <div class="content-section">
+                                <h3>Learning Objectives</h3>
+                                <ul class="content-text" style="padding-left: 20px; margin-bottom: 16px;">
+                                    <li>Understand the difference between ANI, AGI, and ASI</li>
+                                    <li>Identify real-world applications of narrow AI</li>
+                                    <li>Explore the challenges in developing general AI</li>
+                                    <li>Discuss ethical considerations for advanced AI systems</li>
+                                    <li>Analyze current AI capabilities and limitations</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="content-section">
+                                <h3>Resources</h3>
+                                <div class="resources-list">
+                                    <div class="resource-item" data-file="ai-types.pdf">
+                                        <div class="resource-icon">
+                                            <i class="far fa-file-pdf"></i>
+                                        </div>
+                                        <div class="resource-info">
+                                            <div class="resource-name">AI Systems Classification Guide</div>
+                                            <div class="resource-meta">PDF • 3.2 MB</div>
+                                        </div>
+                                        <i class="fas fa-download"></i>
+                                    </div>
+                                    <div class="resource-item" data-file="case-studies.zip">
+                                        <div class="resource-icon">
+                                            <i class="far fa-file-alt"></i>
+                                        </div>
+                                        <div class="resource-info">
+                                            <div class="resource-name">AI Case Studies</div>
+                                            <div class="resource-meta">ZIP • 2.1 MB</div>
+                                        </div>
+                                        <i class="fas fa-download"></i>
+                                    </div>
+                                    <div class="resource-item" data-link="https://ai.stanford.edu/">
+                                        <div class="resource-icon">
+                                            <i class="far fa-link"></i>
+                                        </div>
+                                        <div class="resource-info">
+                                            <div class="resource-name">Stanford AI Laboratory</div>
+                                            <div class="resource-meta">External Link</div>
+                                        </div>
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- NEW: Achievement Badges Section -->
+                            <div class="achievements-section">
+                                <h3>Your Achievements</h3>
+                                <div class="badges-container">
+                                    <div class="badge">
+                                        <div class="badge-icon">
+                                            <i class="fas fa-brain"></i>
+                                        </div>
+                                        <div class="badge-name">AI Explorer</div>
+                                    </div>
+                                    <div class="badge">
+                                        <div class="badge-icon">
+                                            <i class="fas fa-robot"></i>
+                                        </div>
+                                        <div class="badge-name">Future Thinker</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notes Tab -->
+                    <div class="tab-pane" id="notes-ai">
+                        <div class="notes-container">
+                            <div class="notes-header">
+                                <h3>My Notes</h3>
+                                <button class="action-btn primary" id="addNoteBtn-ai">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Add Note</span>
+                                </button>
+                            </div>
+                            
+                            <div class="notes-list" id="notesList-ai">
+                                <div class="note-card">
+                                    <div class="note-header">
+                                        <div class="note-timestamp">Added at 09:30</div>
+                                        <div class="note-actions">
+                                            <button class="note-action edit-note">
+                                                <i class="far fa-edit"></i>
+                                            </button>
+                                            <button class="note-action delete-note">
+                                                <i class="far fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="note-content">
+                                        Narrow AI (ANI) is designed for specific tasks, while General AI (AGI) would have human-like cognitive abilities.
+                                    </div>
+                                </div>
+                                
+                                <div class="note-card">
+                                    <div class="note-header">
+                                        <div class="note-timestamp">Added at 11:45</div>
+                                        <div class="note-actions">
+                                            <button class="note-action edit-note">
+                                                <i class="far fa-edit"></i>
+                                            </button>
+                                            <button class="note-action delete-note">
+                                                <i class="far fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="note-content">
+                                        Most current AI applications are examples of narrow AI - voice assistants, recommendation systems, image recognition.
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="add-note" id="addNoteForm-ai" style="display: none;">
+                                <textarea class="note-textarea" id="noteTextarea-ai" placeholder="Add a new note..."></textarea>
+                                <div style="display: flex; gap: 12px;">
+                                    <button class="action-btn" id="cancelNoteBtn-ai">
+                                        <i class="fas fa-times"></i>
+                                        <span>Cancel</span>
+                                    </button>
+                                    <button class="action-btn primary" id="saveNoteBtn-ai">
+                                        <i class="fas fa-save"></i>
+                                        <span>Save Note</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q&A Tab -->
+                    <div class="tab-pane" id="qa-ai">
+                        <div class="qa-container">
+                            <div class="question-form">
+                                <h3>Ask a Question</h3>
+                                <textarea class="question-input" id="questionInput-ai" placeholder="What would you like to ask?"></textarea>
+                                <button class="action-btn primary" id="postQuestionBtn-ai">
+                                    <i class="fas fa-paper-plane"></i>
+                                    <span>Post Question</span>
+                                </button>
+                            </div>
+                            
+                            <div class="questions-list" id="questionsList-ai">
+                                <div class="question-card">
+                                    <div class="question-header">
+                                        <div class="question-user">
+                                            <div class="user-avatar">RJ</div>
+                                            <div class="user-info">
+                                                <div class="user-name">Robert Johnson</div>
+                                                <div class="question-time">3 hours ago</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="question-content">
+                                        What's the most realistic timeline for achieving General AI according to current research?
+                                    </div>
+                                    <div class="question-actions">
+                                        <button class="question-action like-btn">
+                                            <i class="far fa-thumbs-up"></i>
+                                            <span>7</span>
+                                        </button>
+                                        <button class="question-action">
+                                            <i class="far fa-comment"></i>
+                                            <span>2 answers</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="question-card">
+                                    <div class="question-header">
+                                        <div class="question-user">
+                                            <div class="user-avatar">AL</div>
+                                            <div class="user-info">
+                                                <div class="user-name">Amanda Lee</div>
+                                                <div class="question-time">1 day ago</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="question-content">
+                                        Can you recommend any open-source AI projects for beginners to contribute to?
+                                    </div>
+                                    <div class="question-actions">
+                                        <button class="question-action like-btn">
+                                            <i class="far fa-thumbs-up"></i>
+                                            <span>5</span>
+                                        </button>
+                                        <button class="question-action">
+                                            <i class="far fa-comment"></i>
+                                            <span>1 answer</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Resources Tab -->
+                    <div class="tab-pane" id="resources-ai">
+                        <div class="lesson-content">
+                            <div class="content-section">
+                                <h3>Downloadable Resources</h3>
+                                <div class="resources-list">
+                                    <div class="resource-item" data-file="ai-fundamentals.pdf">
+                                        <div class="resource-icon">
+                                            <i class="far fa-file-pdf"></i>
+                                        </div>
+                                        <div class="resource-info">
+                                            <div class="resource-name">AI Fundamentals Textbook Chapter</div>
+                                            <div class="resource-meta">PDF • 5.4 MB</div>
+                                        </div>
+                                        <i class="fas fa-download"></i>
+                                    </div>
+                                    <div class="resource-item" data-file="ai-timeline.zip">
+                                        <div class="resource-icon">
+                                            <i class="far fa-file-alt"></i>
+                                        </div>
+                                        <div class="resource-info">
+                                            <div class="resource-name">AI Development Timeline</div>
+                                            <div class="resource-meta">ZIP • 1.9 MB</div>
+                                        </div>
+                                        <i class="fas fa-download"></i>
+                                    </div>
+                                    <div class="resource-item" data-file="research-papers.zip">
+                                        <div class="resource-icon">
+                                            <i class="far fa-file-archive"></i>
+                                        </div>
+                                        <div class="resource-info">
+                                            <div class="resource-name">Key AI Research Papers</div>
+                                            <div class="resource-meta">ZIP • 3.7 MB</div>
+                                        </div>
+                                        <i class="fas fa-download"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="content-section">
+                                <h3>External Links</h3>
+                                <div class="resources-list">
+                                    <div class="resource-item" data-link="https://ai.google/">
+                                        <div class="resource-icon">
+                                            <i class="far fa-link"></i>
+                                        </div>
+                                        <div class="resource-info">
+                                            <div class="resource-name">Google AI</div>
+                                            <div class="resource-meta">External Link</div>
+                                        </div>
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </div>
+                                    <div class="resource-item" data-link="https://openai.com/">
+                                        <div class="resource-icon">
+                                            <i class="far fa-link"></i>
+                                        </div>
+                                        <div class="resource-info">
+                                            <div class="resource-name">OpenAI</div>
+                                            <div class="resource-meta">External Link</div>
+                                        </div>
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- NEW: Quiz Tab -->
+                    <div class="tab-pane" id="quiz-ai">
+                        <div class="quiz-section">
+                            <div class="quiz-container">
+                                <h3>AI Fundamentals Quiz</h3>
+                                <p>Test your knowledge of artificial intelligence concepts</p>
+                                
+                                <div class="quiz-question">
+                                    <h4>Question 1 of 5</h4>
+                                    <p>Which of the following is an example of Narrow AI (ANI)?</p>
+                                    
+                                    <div class="quiz-options">
+                                        <div class="quiz-option">A system that can perform any intellectual task a human can</div>
+                                        <div class="quiz-option">A voice assistant like Siri or Alexa</div>
+                                        <div class="quiz-option">A hypothetical system with superhuman intelligence</div>
+                                        <div class="quiz-option">A system with human-like emotional understanding</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="quiz-navigation">
+                                    <button class="action-btn" id="prevQuestionBtn-ai">
+                                        <i class="fas fa-arrow-left"></i>
+                                        <span>Previous</span>
+                                    </button>
+                                    <button class="action-btn primary" id="nextQuestionBtn-ai">
+                                        <span>Next</span>
+                                        <i class="fas fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- NEW: Community Tab -->
+                    <div class="tab-pane" id="community-ai">
+                        <div class="chat-section">
+                            <h3>Live Discussion</h3>
+                            <p>Chat with other students learning about AI</p>
+                            
+                            <div class="chat-container">
+                                <div class="chat-messages" id="chatMessages-ai">
+                                    <div class="chat-message">
+                                        <div class="user-avatar">TM</div>
+                                        <div class="message-content">
+                                            I'm fascinated by the potential of AGI. Do you think we'll see it in our lifetime?
+                                        </div>
+                                    </div>
+                                    <div class="chat-message own">
+                                        <div class="user-avatar">ME</div>
+                                        <div class="message-content">
+                                            Some experts predict 20-50 years, but there's a lot of disagreement in the field
+                                        </div>
+                                    </div>
+                                    <div class="chat-message">
+                                        <div class="user-avatar">SK</div>
+                                        <div class="message-content">
+                                            The ethical considerations are huge. We need to be careful about how we develop these systems
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="chat-input">
+                                    <input type="text" id="chatInput-ai" placeholder="Type your message...">
+                                    <button class="action-btn primary" id="sendMessageBtn-ai">
+                                        <i class="fas fa-paper-plane"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Operation completed successfully!</span>
+    </div>
+
+    <script>
+        // DOM Elements
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        const coursePages = document.querySelectorAll('.course-page');
+        const courseLinks = document.querySelectorAll('.course-dropdown-content a');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+
+        // Theme Toggle
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            themeToggle.innerHTML = body.classList.contains('dark-mode') 
+                ? '<i class="fas fa-sun"></i>' 
+                : '<i class="fas fa-moon"></i>';
+            
+            showToast('Theme changed successfully');
+        });
+
+        // Course Navigation
+        courseLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const courseId = this.getAttribute('data-course');
+                
+                // Hide all course pages
+                coursePages.forEach(page => {
+                    page.classList.remove('active');
+                });
+                
+                // Show selected course page
+                document.getElementById(courseId).classList.add('active');
+                
+                showToast(`Switched to ${this.textContent}`);
+            });
+        });
+
+        // Initialize functionality for each course
+        function initializeCourse(courseId) {
+            const sidebar = document.getElementById(`sidebar-${courseId}`);
+            const sidebarToggle = document.getElementById(`sidebarToggle-${courseId}`);
+            const progressFill = document.getElementById(`progressFill-${courseId}`);
+            const moduleHeaders = document.querySelectorAll(`#sidebar-${courseId} .module-header`);
+            const tabs = document.querySelectorAll(`.course-page#${courseId} .tab`);
+            const tabPanes = document.querySelectorAll(`.course-page#${courseId} .tab-pane`);
+            const lessons = document.querySelectorAll(`#sidebar-${courseId} .lesson`);
+            const playPauseBtn = document.getElementById(`playPauseBtn-${courseId}`);
+            const videoProgress = document.getElementById(`videoProgress-${courseId}`);
+            const videoProgressFill = document.getElementById(`videoProgressFill-${courseId}`);
+            const bookmarkBtn = document.getElementById(`bookmarkBtn-${courseId}`);
+            const nextLessonBtn = document.getElementById(`nextLessonBtn-${courseId}`);
+            const addNoteBtn = document.getElementById(`addNoteBtn-${courseId}`);
+            const addNoteForm = document.getElementById(`addNoteForm-${courseId}`);
+            const cancelNoteBtn = document.getElementById(`cancelNoteBtn-${courseId}`);
+            const saveNoteBtn = document.getElementById(`saveNoteBtn-${courseId}`);
+            const noteTextarea = document.getElementById(`noteTextarea-${courseId}`);
+            const notesList = document.getElementById(`notesList-${courseId}`);
+            const postQuestionBtn = document.getElementById(`postQuestionBtn-${courseId}`);
+            const questionInput = document.getElementById(`questionInput-${courseId}`);
+            const questionsList = document.getElementById(`questionsList-${courseId}`);
+            const resourceItems = document.querySelectorAll(`.course-page#${courseId} .resource-item`);
+            const likeButtons = document.querySelectorAll(`.course-page#${courseId} .like-btn`);
+            const quizOptions = document.querySelectorAll(`.course-page#${courseId} .quiz-option`);
+            const chatInput = document.getElementById(`chatInput-${courseId}`);
+            const sendMessageBtn = document.getElementById(`sendMessageBtn-${courseId}`);
+            const chatMessages = document.getElementById(`chatMessages-${courseId}`);
+
+            // Mobile Sidebar Toggle
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', () => {
+                    sidebar.classList.toggle('active');
+                });
+            }
+
+            // Module Toggle with Animation
+            if (moduleHeaders) {
+                moduleHeaders.forEach(header => {
+                    header.addEventListener('click', () => {
+                        const module = header.parentElement;
+                        const isActive = module.classList.contains('active');
+                        
+                        // Close all modules first
+                        document.querySelectorAll(`#sidebar-${courseId} .module`).forEach(m => {
+                            m.classList.remove('active');
+                        });
+                        
+                        // Open clicked module if it wasn't active
+                        if (!isActive) {
+                            module.classList.add('active');
+                        }
+                    });
+                });
+            }
+
+            // Tab Switching
+            if (tabs) {
+                tabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        const targetTab = tab.getAttribute('data-tab');
+                        
+                        // Update active tab
+                        tabs.forEach(t => t.classList.remove('active'));
+                        tab.classList.add('active');
+                        
+                        // Show target tab content
+                        tabPanes.forEach(pane => {
+                            pane.classList.remove('active');
+                            if (pane.id === targetTab) {
+                                pane.classList.add('active');
+                            }
+                        });
+                    });
+                });
+            }
+
+            // Lesson Selection
+            if (lessons) {
+                lessons.forEach(lesson => {
+                    lesson.addEventListener('click', () => {
+                        if (lesson.classList.contains('active')) return;
+                        
+                        lessons.forEach(l => l.classList.remove('active'));
+                        lesson.classList.add('active');
+                        
+                        // Update progress
+                        const completedLessons = document.querySelectorAll(`#sidebar-${courseId} .lesson.completed`).length;
+                        const totalLessons = document.querySelectorAll(`#sidebar-${courseId} .lesson`).length;
+                        const progressPercentage = (completedLessons / totalLessons) * 100;
+                        if (progressFill) {
+                            progressFill.style.width = `${progressPercentage}%`;
+                        }
+                        
+                        // Update current lesson info
+                        const lessonTitle = lesson.querySelector('.lesson-title').textContent;
+                        document.querySelector(`.course-page#${courseId} .current-lesson-info h2`).textContent = lessonTitle;
+                        
+                        showToast(`Now playing: ${lessonTitle}`);
+                    });
+                });
+            }
+
+            // Video Play/Pause
+            if (playPauseBtn) {
+                let isPlaying = false;
+                playPauseBtn.addEventListener('click', () => {
+                    const icon = playPauseBtn.querySelector('i');
+                    isPlaying = !isPlaying;
+                    
+                    if (isPlaying) {
+                        icon.classList.remove('fa-play');
+                        icon.classList.add('fa-pause');
+                        showToast('Video playing');
+                    } else {
+                        icon.classList.remove('fa-pause');
+                        icon.classList.add('fa-play');
+                        showToast('Video paused');
+                    }
+                });
+            }
+
+            // Video Progress
+            if (videoProgress) {
+                videoProgress.addEventListener('click', (e) => {
+                    const rect = videoProgress.getBoundingClientRect();
+                    const pos = (e.clientX - rect.left) / rect.width;
+                    videoProgressFill.style.width = `${pos * 100}%`;
+                });
+            }
+
+            // Bookmark Button
+            if (bookmarkBtn) {
+                let isBookmarked = false;
+                bookmarkBtn.addEventListener('click', () => {
+                    isBookmarked = !isBookmarked;
+                    const icon = bookmarkBtn.querySelector('i');
+                    
+                    if (isBookmarked) {
+                        icon.classList.remove('far');
+                        icon.classList.add('fas');
+                        showToast('Lesson bookmarked');
+                    } else {
+                        icon.classList.remove('fas');
+                        icon.classList.add('far');
+                        showToast('Bookmark removed');
+                    }
+                });
+            }
+
+            // Next Lesson Button
+            if (nextLessonBtn) {
+                nextLessonBtn.addEventListener('click', () => {
+                    const activeLesson = document.querySelector(`#sidebar-${courseId} .lesson.active`);
+                    const nextLesson = activeLesson.nextElementSibling;
+                    
+                    if (nextLesson && nextLesson.classList.contains('lesson')) {
+                        activeLesson.classList.remove('active');
+                        activeLesson.classList.add('completed');
+                        nextLesson.classList.add('active');
+                        
+                        // Update progress
+                        const completedLessons = document.querySelectorAll(`#sidebar-${courseId} .lesson.completed`).length;
+                        const totalLessons = document.querySelectorAll(`#sidebar-${courseId} .lesson`).length;
+                        const progressPercentage = (completedLessons / totalLessons) * 100;
+                        if (progressFill) {
+                            progressFill.style.width = `${progressPercentage}%`;
+                        }
+                        
+                        // Update current lesson info
+                        const lessonTitle = nextLesson.querySelector('.lesson-title').textContent;
+                        document.querySelector(`.course-page#${courseId} .current-lesson-info h2`).textContent = lessonTitle;
+                        
+                        showToast(`Moving to next lesson: ${lessonTitle}`);
+                    } else {
+                        showToast('This is the last lesson in this module', 'error');
+                    }
+                });
+            }
+
+            // Notes Functionality
+            if (addNoteBtn && addNoteForm) {
+                addNoteBtn.addEventListener('click', () => {
+                    addNoteForm.style.display = 'block';
+                    addNoteBtn.style.display = 'none';
+                });
+
+                cancelNoteBtn.addEventListener('click', () => {
+                    addNoteForm.style.display = 'none';
+                    addNoteBtn.style.display = 'flex';
+                    noteTextarea.value = '';
+                });
+
+                saveNoteBtn.addEventListener('click', () => {
+                    const noteText = noteTextarea.value.trim();
+                    if (noteText) {
+                        const now = new Date();
+                        const timeString = `Added at ${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
+                        
+                        const noteHTML = `
+                            <div class="note-card">
+                                <div class="note-header">
+                                    <div class="note-timestamp">${timeString}</div>
+                                    <div class="note-actions">
+                                        <button class="note-action edit-note">
+                                            <i class="far fa-edit"></i>
+                                        </button>
+                                        <button class="note-action delete-note">
+                                            <i class="far fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="note-content">${noteText}</div>
+                            </div>
+                        `;
+                        
+                        notesList.insertAdjacentHTML('afterbegin', noteHTML);
+                        addNoteForm.style.display = 'none';
+                        addNoteBtn.style.display = 'flex';
+                        noteTextarea.value = '';
+                        
+                        // Add event listeners to new note actions
+                        attachNoteEventListeners(courseId);
+                        
+                        showToast('Note saved successfully');
+                    }
+                });
+            }
+
+            // Function to attach event listeners to note actions
+            function attachNoteEventListeners(courseId) {
+                document.querySelectorAll(`.course-page#${courseId} .delete-note`).forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        this.closest('.note-card').remove();
+                        showToast('Note deleted');
+                    });
+                });
+                
+                document.querySelectorAll(`.course-page#${courseId} .edit-note`).forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const noteCard = this.closest('.note-card');
+                        const noteContent = noteCard.querySelector('.note-content').textContent;
+                        
+                        const noteTextarea = document.getElementById(`noteTextarea-${courseId}`);
+                        const addNoteForm = document.getElementById(`addNoteForm-${courseId}`);
+                        const addNoteBtn = document.getElementById(`addNoteBtn-${courseId}`);
+                        
+                        noteTextarea.value = noteContent;
+                        addNoteForm.style.display = 'block';
+                        addNoteBtn.style.display = 'none';
+                        noteCard.remove();
+                    });
+                });
+            }
+
+            // Initialize note event listeners
+            if (notesList) {
+                attachNoteEventListeners(courseId);
+            }
+
+            // Q&A Functionality
+            if (postQuestionBtn) {
+                postQuestionBtn.addEventListener('click', () => {
+                    const questionText = questionInput.value.trim();
+                    if (questionText) {
+                        const now = new Date();
+                        const timeString = `${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
+                        
+                        const questionHTML = `
+                            <div class="question-card">
+                                <div class="question-header">
+                                    <div class="question-user">
+                                        <div class="user-avatar">ME</div>
+                                        <div class="user-info">
+                                            <div class="user-name">You</div>
+                                            <div class="question-time">Just now</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="question-content">${questionText}</div>
+                                <div class="question-actions">
+                                    <button class="question-action like-btn">
+                                        <i class="far fa-thumbs-up"></i>
+                                        <span>0</span>
+                                    </button>
+                                    <button class="question-action">
+                                        <i class="far fa-comment"></i>
+                                        <span>0 answers</span>
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                        
+                        questionsList.insertAdjacentHTML('afterbegin', questionHTML);
+                        questionInput.value = '';
+                        
+                        // Add event listener to new like button
+                        document.querySelector(`.course-page#${courseId} .like-btn`).addEventListener('click', function() {
+                            const countElement = this.querySelector('span');
+                            let count = parseInt(countElement.textContent);
+                            countElement.textContent = count + 1;
+                            
+                            const icon = this.querySelector('i');
+                            icon.classList.remove('far');
+                            icon.classList.add('fas');
+                            this.style.color = 'var(--primary)';
+                        });
+                        
+                        showToast('Question posted successfully');
+                    }
+                });
+            }
+
+            // Like buttons for existing questions
+            if (likeButtons) {
+                likeButtons.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const countElement = this.querySelector('span');
+                        let count = parseInt(countElement.textContent);
+                        countElement.textContent = count + 1;
+                        
+                        const icon = this.querySelector('i');
+                        icon.classList.remove('far');
+                        icon.classList.add('fas');
+                        this.style.color = 'var(--primary)';
+                    });
+                });
+            }
+
+            // Resource Download/Link
+            if (resourceItems) {
+                resourceItems.forEach(item => {
+                    item.addEventListener('click', function() {
+                        const file = this.getAttribute('data-file');
+                        const link = this.getAttribute('data-link');
+                        
+                        if (file) {
+                            showToast(`Downloading ${file}...`);
+                            // In a real app, this would trigger an actual download
+                        } else if (link) {
+                            showToast('Opening external link...');
+                            // In a real app, this would open the link
+                            // window.open(link, '_blank');
+                        }
+                    });
+                });
+            }
+
+            // Quiz Functionality
+            if (quizOptions) {
+                quizOptions.forEach(option => {
+                    option.addEventListener('click', function() {
+                        quizOptions.forEach(opt => opt.classList.remove('selected'));
+                        this.classList.add('selected');
+                    });
+                });
+            }
+
+            // Chat Functionality
+            if (sendMessageBtn && chatInput) {
+                sendMessageBtn.addEventListener('click', () => {
+                    const message = chatInput.value.trim();
+                    if (message) {
+                        const now = new Date();
+                        const timeString = `${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
+                        
+                        const messageHTML = `
+                            <div class="chat-message own">
+                                <div class="user-avatar">ME</div>
+                                <div class="message-content">${message}</div>
+                            </div>
+                        `;
+                        
+                        chatMessages.insertAdjacentHTML('beforeend', messageHTML);
+                        chatInput.value = '';
+                        
+                        // Auto-scroll to bottom
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                        
+                        // Simulate a response after a delay
+                        setTimeout(() => {
+                            const responses = {
+                                'web-dev': [
+                                    "That's a great question!",
+                                    "I had the same doubt earlier.",
+                                    "The instructor explained this well in the next module.",
+                                    "Check the resources tab for more examples."
+                                ],
+                                'ai': [
+                                    "AI ethics is such an important topic!",
+                                    "Have you checked out the latest research papers?",
+                                    "That's a complex question with no simple answer.",
+                                    "Different experts have different opinions on this."
+                                ],
+                                'default': [
+                                    "Interesting point!",
+                                    "I'm wondering about that too.",
+                                    "The course materials might have more information.",
+                                    "Let's discuss this further."
+                                ]
+                            };
+                            
+                            const courseResponses = responses[courseId] || responses.default;
+                            const randomResponse = courseResponses[Math.floor(Math.random() * courseResponses.length)];
+                            
+                            const responseHTML = `
+                                <div class="chat-message">
+                                    <div class="user-avatar">CB</div>
+                                    <div class="message-content">${randomResponse}</div>
+                                </div>
+                            `;
+                            
+                            chatMessages.insertAdjacentHTML('beforeend', responseHTML);
+                            chatMessages.scrollTop = chatMessages.scrollHeight;
+                        }, 2000);
+                    }
+                });
+
+                // Enter key to send message
+                chatInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        sendMessageBtn.click();
+                    }
+                });
+            }
+        }
+
+        // Initialize all courses
+        const courseIds = ['web-dev', 'ai', 'mobile-dev', 'data-science', 'ui-ux', 'cybersecurity', 'computer-basics', 'cloud-computing'];
+        courseIds.forEach(courseId => {
+            initializeCourse(courseId);
+        });
+
+        // Toast Notification Function
+        function showToast(message, type = 'success') {
+            toastMessage.textContent = message;
+            toast.className = 'toast';
+            toast.classList.add(type);
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set initial progress for each course
+            courseIds.forEach(courseId => {
+                const progressFill = document.getElementById(`progressFill-${courseId}`);
+                if (progressFill) {
+                    const completedLessons = document.querySelectorAll(`#sidebar-${courseId} .lesson.completed`).length;
+                    const totalLessons = document.querySelectorAll(`#sidebar-${courseId} .lesson`).length;
+                    const progressPercentage = totalLessons > 0 ? (completedLessons / totalLessons) * 100 : 0;
+                    progressFill.style.width = `${progressPercentage}%`;
+                }
+            });
+            
+            showToast('Welcome to Stepway LMS!');
+        });
+    </script>
+</body>
+</html>

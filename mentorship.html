@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <link rel="icon" type="image/png" href="images/fav-icon.png">
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-273ZFF8C6Y"></script>
 <script>
@@ -13,7 +14,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mentorship - Stepway Technologies</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    
     <style>
 
       body{
@@ -338,6 +341,7 @@
         bottom: 24px;
         left: 24px;
         right: 24px;
+        margin-bottom: 60px;
       }
 
       .logout-btn {
@@ -1572,6 +1576,470 @@
       body.dark-mode .stat-label {
         color: #9ca3af;
       }
+
+
+
+      /* Booking Modal Styles */
+.booking-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .modal-content {
+  background: #1f2937;
+  color: white;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+body.dark-mode .modal-header {
+  border-color: #374151;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.close-modal {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #6b7280;
+  transition: color 0.2s;
+}
+
+.close-modal:hover {
+  color: #374151;
+}
+
+body.dark-mode .close-modal {
+  color: #9ca3af;
+}
+
+body.dark-mode .close-modal:hover {
+  color: #d1d5db;
+}
+
+.modal-body {
+  padding: 24px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #374151;
+}
+
+body.dark-mode .form-group label {
+  color: #d1d5db;
+}
+
+.form-group select,
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.2s;
+}
+
+body.dark-mode .form-group select,
+body.dark-mode .form-group input,
+body.dark-mode .form-group textarea {
+  background: #374151;
+  border-color: #4b5563;
+  color: white;
+}
+
+.form-group select:focus,
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #1e40af;
+  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.btn-cancel {
+  flex: 1;
+  padding: 12px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: white;
+  color: #374151;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+body.dark-mode .btn-cancel {
+  background: #374151;
+  color: #d1d5db;
+  border-color: #4b5563;
+}
+
+.btn-cancel:hover {
+  background: #f3f4f6;
+}
+
+body.dark-mode .btn-cancel:hover {
+  background: #4b5563;
+}
+
+.btn-confirm {
+  flex: 1;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 8px;
+  background: #1e3a8a;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-confirm:hover {
+  background: #1e40af;
+  transform: scale(1.05);
+}
+
+/* Mentor Profile Page Styles */
+.mentor-profile-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #f9fafb;
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+body.dark-mode .mentor-profile-page {
+  background: #111827;
+}
+
+.profile-header {
+  background: white;
+  padding: 16px 24px;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+body.dark-mode .profile-header {
+  background: rgb(35, 47, 124);
+  border-color: #374151;
+}
+
+.back-btn {
+  background: #1e3a8a;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.back-btn:hover {
+  background: #1e40af;
+  transform: scale(1.05);
+}
+
+.profile-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.profile-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+body.dark-mode .profile-card {
+  background: #1f2937;
+}
+
+.profile-header-info {
+  padding: 32px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+body.dark-mode .profile-header-info {
+  border-color: #374151;
+}
+
+.profile-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3b82f6, #9333ea);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 36px;
+  flex-shrink: 0;
+}
+
+.profile-info h1 {
+  font-size: 2rem;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.profile-role {
+  font-size: 1.1rem;
+  color: #6b7280;
+  margin-bottom: 12px;
+}
+
+body.dark-mode .profile-role {
+  color: #9ca3af;
+}
+
+.profile-rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+}
+
+.rating-stars {
+  color: #fbbf24;
+}
+
+.profile-details {
+  padding: 32px;
+}
+
+.detail-section {
+  margin-bottom: 32px;
+}
+
+.detail-section h3 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 16px;
+  color: #1f2937;
+}
+
+body.dark-mode .detail-section h3 {
+  color: #f9fafb;
+}
+
+.detail-section p {
+  line-height: 1.6;
+  color: #6b7280;
+}
+
+body.dark-mode .detail-section p {
+  color: #9ca3af;
+}
+
+.skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.skill-tag {
+  background: #1e3a8a;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.experience-item {
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+body.dark-mode .experience-item {
+  border-color: #374151;
+}
+
+.experience-item:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.experience-title {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.experience-company {
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+body.dark-mode .experience-company {
+  color: #9ca3af;
+}
+
+.experience-duration {
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+body.dark-mode .experience-duration {
+  color: #9ca3af;
+}
+
+.availability p {
+  margin-bottom: 8px;
+}
+
+.profile-actions {
+  padding: 24px 32px;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  gap: 12px;
+}
+
+body.dark-mode .profile-actions {
+  border-color: #374151;
+}
+
+.btn-book-profile,
+.btn-message {
+  flex: 1;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-book-profile {
+  background: #1e3a8a;
+  color: white;
+}
+
+.btn-book-profile:hover {
+  background: #1e40af;
+  transform: scale(1.05);
+}
+
+.btn-message {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+body.dark-mode .btn-message {
+  background: #374151;
+  color: white;
+}
+
+.btn-message:hover {
+  background: #d1d5db;
+  transform: scale(1.05);
+}
+
+body.dark-mode .btn-message:hover {
+  background: #4b5563;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .modal-content {
+    margin: 20px;
+    width: calc(100% - 40px);
+  }
+  
+  .profile-header-info {
+    flex-direction: column;
+    text-align: center;
+    padding: 24px;
+  }
+  
+  .profile-avatar {
+    width: 80px;
+    height: 80px;
+    font-size: 28px;
+  }
+  
+  .profile-info h1 {
+    font-size: 1.5rem;
+  }
+  
+  .profile-details {
+    padding: 24px;
+  }
+  
+  .profile-actions {
+    flex-direction: column;
+    padding: 20px 24px;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+}
     </style>
   </head>
   <body>
@@ -1581,7 +2049,7 @@
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-header">
-        <h2 class="sidebar-logo">Learn</h2>
+   <img src="images/Step-Way Logo.png" width="150px" alt="">
         <button class="close-btn" id="closeSidebar">
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
@@ -1757,6 +2225,45 @@
           </div>
 
           <div class="top-bar-actions">
+                  <button class="back-btn-icon" onclick="goBack()">
+        <i class="bi bi-arrow-left"></i>
+    </button>        
+    <section class="back-section">
+
+<style>
+.back-btn-icon {
+    background: #7c0a0a;
+    color: white;
+    border: 2px solid white;
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 900;
+    transition: all 0.3s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.back-btn-icon:hover {
+    background: #1e3a8a; /* Blue on hover */
+    transform: scale(1.1);
+}
+</style>
+
+<script>
+function goBack() {
+    if (document.referrer && document.referrer.includes(window.location.hostname)) {
+        window.history.back();
+    } else {
+        window.location.href = 'index.html';
+    }
+}
+</script>
+</section>
             <button class="icon-btn">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
@@ -1827,8 +2334,8 @@
               50+ Mentors • 1-on-1 Sessions • Group Workshops • Career Guidance
             </p>
             <div class="hero-buttons">
-              <button class="btn-primary">Find a Mentor</button>
-              <button class="btn-secondary">Join a Community</button>
+              <button onclick="window.location.href='#menntt'" class="btn-primary">Find a Mentor</button>
+              <button onclick="window.location.href='#joincc'" class="btn-secondary">Join a Community</button>
             </div>
           </div>
           <div class="hero-visual">
@@ -1861,7 +2368,7 @@
                 </svg>
               </div>
               <div class="stat-value">12</div>
-              <div class="stat-label">Available Mentors</div>
+              <div class="stat-label" id="menntt">Available Mentors</div>
             </div>
 
             <div class="stat-card">
@@ -2066,7 +2573,7 @@
           </div>
 
           <!-- Communities Section -->
-          <h2 class="section-title" style="margin-top: 48px">Learning Communities</h2>
+          <h2 class="section-title" id="joincc" style="margin-top: 48px">Learning Communities</h2>
           <p class="section-subtitle">
             Join groups of learners with similar interests
           </p>
@@ -2235,6 +2742,7 @@
         <div class="footer-column">
           <h4>Quick Links</h4>
           <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
             <li><a href="sign-up.html">Modules & Courses</a></li>
             <li><a href="#">Underprivileged Program</a></li>
             <li><a href="#">Freelancing</a></li>
@@ -2272,7 +2780,7 @@
                   d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"
                 />
               </svg>
-              <span>+234 901 234 5678</span>
+              <span>+44 744 030 7875</span>
             </li>
           </ul>
         </div>
@@ -2282,74 +2790,400 @@
     </footer>
 
 
-    
+    <!-- Session Booking Modal -->
+<div class="booking-modal" id="bookingModal" style="display: none;">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Book a Session</h3>
+      <button class="close-modal" id="closeModal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="bookingForm">
+        <div class="form-group">
+          <label>Session Type</label>
+          <select id="sessionType" required>
+            <option value="">Select session type</option>
+            <option value="one-on-one">One-on-One Session</option>
+            <option value="group">Group Session</option>
+            <option value="career">Career Guidance</option>
+            <option value="technical">Technical Review</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label>Preferred Date</label>
+          <input type="date" id="sessionDate" required>
+        </div>
+        
+        <div class="form-group">
+          <label>Preferred Time</label>
+          <input type="time" id="sessionTime" required>
+        </div>
+        
+        <div class="form-group">
+          <label>Duration</label>
+          <select id="sessionDuration" required>
+            <option value="30">30 minutes</option>
+            <option value="60">1 hour</option>
+            <option value="90">1.5 hours</option>
+            <option value="120">2 hours</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label>Additional Notes (Optional)</label>
+          <textarea id="sessionNotes" placeholder="Any specific topics you'd like to discuss..."></textarea>
+        </div>
+        
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" id="cancelBooking">Cancel</button>
+          <button type="submit" class="btn-confirm">Confirm Booking</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Mentor Profile Page (initially hidden) -->
+<div class="mentor-profile-page" id="mentorProfilePage" style="display: none;">
+  <div class="profile-header">
+    <button class="back-btn" id="backToMentors">
+      <i class="bi bi-arrow-left"></i> Back to Mentors
+    </button>
+    <h2>Mentor Profile</h2>
+  </div>
+  
+  <div class="profile-content">
+    <div class="profile-card">
+      <div class="profile-header-info">
+        <div class="profile-avatar" id="profileAvatar">JD</div>
+        <div class="profile-info">
+          <h1 id="profileName">John Doe</h1>
+          <p id="profileRole">Senior Data Scientist at TechCorp</p>
+          <div class="profile-rating">
+            <span class="rating-stars">★★★★★</span>
+            <span id="profileRating">4.9</span>
+            <span id="profileSessions">(120 sessions)</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="profile-details">
+        <div class="detail-section">
+          <h3>About Me</h3>
+          <p id="profileAbout">I'm a passionate data scientist with 5+ years of experience in machine learning and data analysis. I love helping aspiring data professionals navigate their career paths and technical challenges.</p>
+        </div>
+        
+        <div class="detail-section">
+          <h3>Skills & Expertise</h3>
+          <div class="skills-list" id="profileSkills">
+            <!-- Skills will be populated by JavaScript -->
+          </div>
+        </div>
+        
+        <div class="detail-section">
+          <h3>Experience</h3>
+          <div class="experience-list" id="profileExperience">
+            <!-- Experience will be populated by JavaScript -->
+          </div>
+        </div>
+        
+        <div class="detail-section">
+          <h3>Availability</h3>
+          <div class="availability">
+            <p><strong>Next Available:</strong> <span id="nextAvailable">Tomorrow, 2:00 PM</span></p>
+            <p><strong>Session Types:</strong> One-on-One, Group Sessions, Career Guidance</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="profile-actions">
+        <button class="btn-book-profile" id="bookFromProfile">Book Session</button>
+        <button class="btn-message">Send Message</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
     <script>
       // Sidebar toggle
-      const sidebar = document.getElementById("sidebar");
-      const overlay = document.getElementById("overlay");
-      const menuBtn = document.getElementById("menuBtn");
-      const closeSidebar = document.getElementById("closeSidebar");
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("overlay");
+const menuBtn = document.getElementById("menuBtn");
+const closeSidebar = document.getElementById("closeSidebar");
 
-      menuBtn.addEventListener("click", () => {
-        sidebar.classList.add("open");
-        overlay.classList.add("show");
-        document.body.style.overflow = 'hidden';
-      });
+menuBtn.addEventListener("click", () => {
+  sidebar.classList.add("open");
+  overlay.classList.add("show");
+  document.body.style.overflow = 'hidden';
+});
 
-      closeSidebar.addEventListener("click", () => {
-        sidebar.classList.remove("open");
-        overlay.classList.remove("show");
-        document.body.style.overflow = '';
-      });
+closeSidebar.addEventListener("click", () => {
+  sidebar.classList.remove("open");
+  overlay.classList.remove("show");
+  document.body.style.overflow = '';
+});
 
-      overlay.addEventListener("click", () => {
-        sidebar.classList.remove("open");
-        overlay.classList.remove("show");
-        document.body.style.overflow = '';
-      });
+overlay.addEventListener("click", () => {
+  sidebar.classList.remove("open");
+  overlay.classList.remove("show");
+  document.body.style.overflow = '';
+});
 
-      // Dark mode toggle
-      const themeToggle = document.getElementById("themeToggle");
-      const sunIcon = document.getElementById("sunIcon");
-      const moonIcon = document.getElementById("moonIcon");
+// Dark mode toggle
+const themeToggle = document.getElementById("themeToggle");
+const sunIcon = document.getElementById("sunIcon");
+const moonIcon = document.getElementById("moonIcon");
 
-      themeToggle.addEventListener("click", () => {
-        document.body.classList.toggle("dark-mode");
+themeToggle.addEventListener("click", () => {
+  document.body.classList.toggle("dark-mode");
 
-        if (document.body.classList.contains("dark-mode")) {
-          sunIcon.style.display = "block";
-          moonIcon.style.display = "none";
-        } else {
-          sunIcon.style.display = "none";
-          moonIcon.style.display = "block";
-        }
-      });
+  if (document.body.classList.contains("dark-mode")) {
+    sunIcon.style.display = "block";
+    moonIcon.style.display = "none";
+  } else {
+    sunIcon.style.display = "none";
+    moonIcon.style.display = "block";
+  }
+});
 
-      // Filter functionality
-      const filterButtons = document.querySelectorAll(
-        ".filter-btn[data-filter]"
-      );
+// Filter functionality
+const filterButtons = document.querySelectorAll(".filter-btn[data-filter]");
 
-      filterButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-          const filterType = button.getAttribute("data-filter");
+filterButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const filterType = button.getAttribute("data-filter");
 
-          // For category filters, only one can be active
-          if (filterType === "category") {
-            document
-              .querySelectorAll('.filter-btn[data-filter="category"]')
-              .forEach((btn) => {
-                btn.classList.remove("active");
-              });
-            button.classList.add("active");
-          } else {
-            // For level and format, toggle on/off
-            button.classList.toggle("active");
-          }
+    // For category filters, only one can be active
+    if (filterType === "category") {
+      document
+        .querySelectorAll('.filter-btn[data-filter="category"]')
+        .forEach((btn) => {
+          btn.classList.remove("active");
         });
-      });
+      button.classList.add("active");
+    } else {
+      // For level and format, toggle on/off
+      button.classList.toggle("active");
+    }
+  });
+});
+
+// Booking Modal Functionality
+const bookingModal = document.getElementById("bookingModal");
+const closeModal = document.getElementById("closeModal");
+const cancelBooking = document.getElementById("cancelBooking");
+const bookingForm = document.getElementById("bookingForm");
+const bookFromProfile = document.getElementById("bookFromProfile");
+
+// Mentor data for profiles
+const mentorsData = {
+  'John Doe': {
+    avatar: 'JD',
+    name: 'John Doe',
+    role: 'Senior Data Scientist at TechCorp',
+    rating: '4.9',
+    sessions: '120',
+    about: 'I\'m a passionate data scientist with 5+ years of experience in machine learning and data analysis. I love helping aspiring data professionals navigate their career paths and technical challenges. My expertise includes Python, machine learning algorithms, data visualization, and statistical analysis.',
+    skills: ['Python', 'Machine Learning', 'Data Analysis', 'Pandas', 'NumPy', 'Scikit-learn', 'TensorFlow', 'SQL'],
+    experience: [
+      {
+        title: 'Senior Data Scientist',
+        company: 'TechCorp',
+        duration: '2020 - Present'
+      },
+      {
+        title: 'Data Scientist',
+        company: 'DataInsights Inc',
+        duration: '2018 - 2020'
+      },
+      {
+        title: 'Data Analyst',
+        company: 'Analytics Pro',
+        duration: '2017 - 2018'
+      }
+    ],
+    nextAvailable: 'Tomorrow, 2:00 PM'
+  },
+  'Sarah Johnson': {
+    avatar: 'SJ',
+    name: 'Sarah Johnson',
+    role: 'Cybersecurity Lead at SecureNet',
+    rating: '4.8',
+    sessions: '85',
+    about: 'Cybersecurity professional with 7+ years of experience in network security, ethical hacking, and security architecture. I specialize in helping professionals transition into cybersecurity roles and develop practical security skills.',
+    skills: ['Security', 'Networking', 'Ethical Hacking', 'Penetration Testing', 'Security Architecture', 'Risk Assessment'],
+    experience: [
+      {
+        title: 'Cybersecurity Lead',
+        company: 'SecureNet',
+        duration: '2019 - Present'
+      },
+      {
+        title: 'Security Analyst',
+        company: 'CyberDefense Corp',
+        duration: '2017 - 2019'
+      },
+      {
+        title: 'Network Administrator',
+        company: 'Tech Solutions',
+        duration: '2015 - 2017'
+      }
+    ],
+    nextAvailable: 'Friday, 4:00 PM'
+  },
+  'Michael Williams': {
+    avatar: 'MW',
+    name: 'Michael Williams',
+    role: 'Full Stack Developer at WebSolutions',
+    rating: '4.7',
+    sessions: '95',
+    about: 'Full-stack developer passionate about creating amazing web experiences. With 4+ years of experience, I help developers master modern web technologies and build portfolio projects that stand out.',
+    skills: ['JavaScript', 'React', 'Node.js', 'HTML/CSS', 'MongoDB', 'Express', 'Git', 'REST APIs'],
+    experience: [
+      {
+        title: 'Full Stack Developer',
+        company: 'WebSolutions',
+        duration: '2020 - Present'
+      },
+      {
+        title: 'Frontend Developer',
+        company: 'Digital Creations',
+        duration: '2018 - 2020'
+      },
+      {
+        title: 'Web Developer',
+        company: 'StartUp Tech',
+        duration: '2017 - 2018'
+      }
+    ],
+    nextAvailable: 'Next Monday, 11:00 AM'
+  }
+};
+
+// Open booking modal when Book Session is clicked
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('btn-book')) {
+    e.preventDefault();
+    openBookingModal();
+  }
+});
+
+// Open mentor profile when View Profile is clicked
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('btn-profile')) {
+    e.preventDefault();
+    const mentorCard = e.target.closest('.mentor-card');
+    const mentorName = mentorCard.querySelector('.mentor-name').textContent;
+    openMentorProfile(mentorName);
+  }
+});
+
+function openBookingModal() {
+  bookingModal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeBookingModal() {
+  bookingModal.style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function openMentorProfile(mentorName) {
+  const mentor = mentorsData[mentorName];
+  if (!mentor) return;
+
+  // Populate profile data
+  document.getElementById('profileAvatar').textContent = mentor.avatar;
+  document.getElementById('profileName').textContent = mentor.name;
+  document.getElementById('profileRole').textContent = mentor.role;
+  document.getElementById('profileRating').textContent = mentor.rating;
+  document.getElementById('profileSessions').textContent = `(${mentor.sessions} sessions)`;
+  document.getElementById('profileAbout').textContent = mentor.about;
+  document.getElementById('nextAvailable').textContent = mentor.nextAvailable;
+
+  // Populate skills
+  const skillsList = document.getElementById('profileSkills');
+  skillsList.innerHTML = '';
+  mentor.skills.forEach(skill => {
+    const skillElement = document.createElement('span');
+    skillElement.className = 'skill-tag';
+    skillElement.textContent = skill;
+    skillsList.appendChild(skillElement);
+  });
+
+  // Populate experience
+  const experienceList = document.getElementById('profileExperience');
+  experienceList.innerHTML = '';
+  mentor.experience.forEach(exp => {
+    const expElement = document.createElement('div');
+    expElement.className = 'experience-item';
+    expElement.innerHTML = `
+      <div class="experience-title">${exp.title}</div>
+      <div class="experience-company">${exp.company}</div>
+      <div class="experience-duration">${exp.duration}</div>
+    `;
+    experienceList.appendChild(expElement);
+  });
+
+  // Show profile page and hide main content
+  document.getElementById('mentorProfilePage').style.display = 'block';
+  document.querySelector('.main-content').style.display = 'none';
+}
+
+function closeMentorProfile() {
+  document.getElementById('mentorProfilePage').style.display = 'none';
+  document.querySelector('.main-content').style.display = 'block';
+}
+
+// Event listeners for modal
+closeModal.addEventListener('click', closeBookingModal);
+cancelBooking.addEventListener('click', closeBookingModal);
+
+// Event listener for back button in profile
+document.getElementById('backToMentors').addEventListener('click', closeMentorProfile);
+
+// Event listener for booking from profile
+bookFromProfile.addEventListener('click', function() {
+  closeMentorProfile();
+  openBookingModal();
+});
+
+// Handle form submission
+bookingForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  // Get form data
+  const formData = {
+    sessionType: document.getElementById('sessionType').value,
+    sessionDate: document.getElementById('sessionDate').value,
+    sessionTime: document.getElementById('sessionTime').value,
+    sessionDuration: document.getElementById('sessionDuration').value,
+    sessionNotes: document.getElementById('sessionNotes').value
+  };
+  
+  // Here you would typically send this data to a server
+  console.log('Booking submitted:', formData);
+  
+  // Show success message (you can replace this with a proper notification system)
+  alert('Session booked successfully! The mentor will confirm your booking shortly.');
+  
+  // Close modal and reset form
+  closeBookingModal();
+  bookingForm.reset();
+});
+
+// Close modal when clicking outside
+bookingModal.addEventListener('click', function(e) {
+  if (e.target === bookingModal) {
+    closeBookingModal();
+  }
+});
+
+// Set minimum date to today for date input
+const today = new Date().toISOString().split('T')[0];
+document.getElementById('sessionDate').min = today;
     </script>
   </body>
 </html>

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="icon" type="image/png" href="images/fav-icon.png">
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-273ZFF8C6Y"></script>
 <script>
@@ -260,7 +261,7 @@
             </div>
             
             <div class="success-container" id="successContainer">
-                <div class="succes-icon">
+                <div class="success-icon">
                    <i class="fa-regular fa-circle-check" style="font-size: 40px;"></i>
                 </div>
                 <div class="success-text">Great Choice!</div>
@@ -275,7 +276,9 @@
             const btnNo = document.getElementById('btnNo');
             const loadingContainer = document.getElementById('loadingContainer');
             const successContainer = document.getElementById('successContainer');
-            const content = document.querySelector('.content');
+            
+            // Get the exact previous page URL
+            const previousPage = document.referrer;
             
             // Yes button click handler
             btnYes.addEventListener('click', function() {
@@ -287,7 +290,7 @@
                 // Simulate logout process
                 setTimeout(function() {
                     // Redirect to sign-in page after 3 seconds
-                    window.location.href = 'sign-in.html';
+                    window.location.href = 'index.html';
                 }, 3000);
             });
             
@@ -298,21 +301,17 @@
                 document.querySelector('.message').style.display = 'none';
                 successContainer.style.display = 'flex';
                 
-                // After 3 seconds, redirect back to dashboard
+                // After 3 seconds, redirect back to the exact previous page
                 setTimeout(function() {
-                    window.location.href = 'user-dashboard.html';
+                    if (previousPage) {
+                        window.location.href = previousPage;
+                    } else {
+                        // If for some reason there's no referrer, go back in history
+                        window.history.back();
+                    }
                 }, 3000);
             });
         });
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-

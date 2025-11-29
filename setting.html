@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="icon" type="image/png" href="images/fav-icon.png">
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-273ZFF8C6Y"></script>
 <script>
@@ -371,8 +372,54 @@
                 </button>
                 <img src="images/Step-Way Logo.png" width="120px" height="40px" alt="Step-Way Logo">
             </div>
+                    <button class="back-btn-icon" onclick="goBack()">
+        <i class="bi bi-arrow-left"></i>
+    </button>        
+    <section class="back-section">
+
+<style>
+.back-btn-icon {
+    background: #1e3a8a ;
+    color: white;
+    border: 2px solid white;
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 900;
+    transition: all 0.3s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.back-btn-icon:hover {
+    background: #7c0a0a; /* Blue on hover */
+    transform: scale(1.1);
+}
+
+
+ @media (max-width: 768px) {
+           .back-btn-icon{
+            display: none;
+           }
+        }
+
+</style>
+
+<script>
+function goBack() {
+    if (document.referrer && document.referrer.includes(window.location.hostname)) {
+        window.history.back();
+    } else {
+        window.location.href = 'index.html';
+    }
+}
+</script>
             <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
+                
                 <li><a href="about.html">About</a></li>
                 <li><a href="explore.html">Courses</a></li>
                 <li><a href="contact.html">Contact</a></li>

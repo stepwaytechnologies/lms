@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="images/fav-icon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout - Instructor/Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #fff, #e8e4f5);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0f1957 0%, #1e3a8a 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 16px;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .message {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border-left: 4px solid #0f1957;
+        }
+
+        .message h2 {
+            color: #0f1957;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .message p {
+            line-height: 1.6;
+            color: #4b5563;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .btn-yes {
+            background: #dc2626;
+            color: white;
+        }
+
+        .btn-yes:hover {
+            background: #b91c1c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+        }
+
+        .btn-no {
+            background: rgba(15, 25, 87, 1);
+            color: white;
+        }
+
+        .btn-no:hover {
+            background: rgba(29, 38, 94, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(15, 25, 87, 0.3);
+        }
+
+        /* Loading Animation */
+        .loading-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(15, 25, 87, 0.2);
+            border-radius: 50%;
+            border-top-color: #0f1957;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        .loading-text {
+            font-size: 18px;
+            color: #0f1957;
+            font-weight: 600;
+        }
+
+        /* Success Message */
+        .success-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #10b981;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .success-icon svg {
+            width: 40px;
+            height: 40px;
+            fill: white;
+        }
+
+        .success-text {
+            font-size: 22px;
+            color: #0f1957;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .success-subtext {
+            font-size: 16px;
+            color: #4b5563;
+            line-height: 1.5;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .container {
+                max-width: 100%;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .message h2 {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Your Dashboard</h1>
+            <p>Management and teaching tools at your fingertips</p>
+        </div>
+        
+        <div class="content">
+            <div class="message">
+                <h2>Are you sure you want to log out? <i class="fa-solid fa-door-open"></i></h2>
+                <p>You're currently logged in. Logging out will end your session and redirect you to the entry page.</p>
+                <p>Your work is important to our learning community. Thank you for your contributions!</p>
+            </div>
+            
+            <div class="buttons">
+                <button class="btn btn-yes" id="btnYes">Yes, Log Me Out</button>
+                <button class="btn btn-no" id="btnNo">No, Stay Logged In</button>
+            </div>
+            
+            <div class="loading-container" id="loadingContainer">
+                <div class="loader"></div>
+                <div class="loading-text">Logging you out...</div>
+            </div>
+            
+            <div class="success-container" id="successContainer">
+                <div class="success-icon">
+                   <i class="fa-regular fa-circle-check" style="font-size: 40px;"></i>
+                </div>
+                <div class="success-text">Session Continued</div>
+                <div class="success-subtext">Returning you to your dashboard...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const btnYes = document.getElementById('btnYes');
+            const btnNo = document.getElementById('btnNo');
+            const loadingContainer = document.getElementById('loadingContainer');
+            const successContainer = document.getElementById('successContainer');
+            
+            // Get the exact previous page URL
+            const previousPage = document.referrer;
+            
+            // Yes button click handler
+            btnYes.addEventListener('click', function() {
+                // Hide buttons and show loading animation
+                document.querySelector('.buttons').style.display = 'none';
+                document.querySelector('.message').style.display = 'none';
+                loadingContainer.style.display = 'flex';
+                
+                // Simulate logout process
+                setTimeout(function() {
+                    // Redirect to sign-in page after 3 seconds
+                    window.location.href = 'index.html';
+                }, 3000);
+            });
+            
+            // No button click handler
+            btnNo.addEventListener('click', function() {
+                // Hide buttons and show success message
+                document.querySelector('.buttons').style.display = 'none';
+                document.querySelector('.message').style.display = 'none';
+                successContainer.style.display = 'flex';
+                
+                // After 3 seconds, redirect back to the exact previous page
+                setTimeout(function() {
+                    if (previousPage) {
+                        window.location.href = previousPage;
+                    } else {
+                        // If for some reason there's no referrer, go back in history
+                        window.history.back();
+                    }
+                }, 3000);
+            });
+        });
+    </script>
+</body>
+</html>

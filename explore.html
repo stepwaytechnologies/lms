@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head> 
+  <head>
+    <link rel="icon" type="image/png" href="images/fav-icon.png"> 
     <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-273ZFF8C6Y"></script>
 <script>
@@ -13,6 +14,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Explore Courses - Stepway Technologies</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <style>
 
@@ -386,6 +388,7 @@ body{
         bottom: 24px;
         left: 24px;
         right: 24px;
+                margin-bottom: 60px;
       }
 
       .logout-btn {
@@ -1088,7 +1091,7 @@ body{
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-header">
-        <h2 class="sidebar-logo">Learn</h2>
+       <img src="images/Step-Way Logo.png" width="150px" alt="">
         <button class="close-btn" id="closeSidebar">
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
@@ -1263,6 +1266,45 @@ body{
           </div>
 
           <div class="top-bar-actions">
+                  <button class="back-btn-icon" onclick="goBack()">
+        <i class="bi bi-arrow-left"></i>
+    </button>        
+    <section class="back-section">
+
+<style>
+.back-btn-icon {
+    background: #7c0a0a;
+    color: white;
+    border: 2px solid white;
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 900;
+    transition: all 0.3s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.back-btn-icon:hover {
+    background: #1e3a8a; /* Blue on hover */
+    transform: scale(1.1);
+}
+</style>
+
+<script>
+function goBack() {
+    if (document.referrer && document.referrer.includes(window.location.hostname)) {
+        window.history.back();
+    } else {
+        window.location.href = 'index.html';
+    }
+}
+</script>
+</section>
             <button class="icon-btn">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
@@ -1333,8 +1375,8 @@ body{
               Master in-demand skills with our comprehensive learning paths. Start with free fundamentals and unlock premium content as you progress.
             </p>
             <div class="hero-buttons">
-              <button class="btn-primary">Browse All Courses</button>
-              <button class="btn-secondary">View Learning Paths</button>
+              <button onclick="window.location.href='courses.html'" class="btn-primary">Browse All Courses</button>
+              <button onclick="window.location.href='courses.html'" class="btn-secondary">View Learning Paths</button>
             </div>
           </div>
         </div>
@@ -1427,10 +1469,6 @@ body{
             <!-- Course cards will be dynamically filtered here -->
           </div>
 
-          <!-- View All Button -->
-          <div class="view-all-container">
-            <button class="btn-view-all">Load More Courses</button>
-          </div>
         </div>
       </section>
     </div>
@@ -1467,6 +1505,7 @@ body{
         <div class="footer-column">
           <h4>Quick Links</h4>
           <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
             <li><a href="sign-up.html">Modules & Courses</a></li>
             <li><a href="#">Underprivileged Program</a></li>
             <li><a href="#">Freelancing</a></li>
@@ -1504,7 +1543,7 @@ body{
                   d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"
                 />
               </svg>
-              <span>+234 901 234 5678</span>
+              <span>+44 744 030 7875</span>
             </li>
           </ul>
         </div>
@@ -1713,7 +1752,7 @@ body{
               </div>
               <div class="card-actions">
                 <button class="btn-start" onclick="startCourse(${course.id})">Start Course</button>
-                <button class="btn-preview">Preview</button>
+                <button onclick="window.location.href='courses.html'" class="btn-preview">Preview</button>
               </div>
             </div>
           `;

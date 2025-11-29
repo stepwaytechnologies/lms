@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="images/fav-icon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Courses - KidCoder</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        :root {
+            --primary: #1a237e;
+            --secondary: #800020;
+            --accent: #800020;
+            --dark: #2d3748;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --border-radius: 12px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: #f5f7ff;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 5%;
+            box-shadow: var(--shadow);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #713342;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-outline:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Mobile Navigation */
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 300px;
+            height: 100vh;
+            background: var(--primary);
+            z-index: 2000;
+            transition: var(--transition);
+            padding: 2rem;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .mobile-nav.active {
+            left: 0;
+        }
+
+        .mobile-nav-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .close-nav {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .mobile-nav-links {
+            list-style: none;
+        }
+
+        .mobile-nav-links li {
+            margin-bottom: 1rem;
+        }
+
+        .mobile-nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 0.75rem 1rem;
+            display: block;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .mobile-nav-links a:hover,
+        .mobile-nav-links a.active {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1500;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, #303f9f 100%);
+            color: white;
+            padding: 140px 5% 80px;
+            margin-top: 70px;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Courses Navigation */
+        .courses-nav {
+            background: white;
+            padding: 2rem 5%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 70px;
+            z-index: 900;
+        }
+
+        .courses-nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .course-nav-item {
+            padding: 0.75rem 1.5rem;
+            background: var(--light);
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+
+        .course-nav-item:hover,
+        .course-nav-item.active {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Course Sections */
+        .course-section {
+            padding: 80px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+            transition: var(--transition);
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .course-header {
+            padding: 2.5rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .course-icon {
+            font-size: 3.5rem;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .course-title {
+            flex: 1;
+        }
+
+        .course-title h2 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .course-title p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .course-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .course-content {
+            padding: 2.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .course-description {
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        .course-description h3 {
+            color: var(--dark);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .course-highlights {
+            background: var(--light);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+        }
+
+        .course-highlights h3 {
+            color: var(--dark);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .highlight-list {
+            list-style: none;
+        }
+
+        .highlight-list li {
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .highlight-list i {
+            color: var(--accent);
+            margin-top: 0.2rem;
+            flex-shrink: 0;
+        }
+
+        .course-actions {
+            padding: 0 2.5rem 2.5rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Color Themes for Each Course */
+        .game-design {
+            background: linear-gradient(135deg, var(--primary) 0%, #3f51b5 100%);
+        }
+
+        .creative-animations {
+            background: linear-gradient(135deg, #9c27b0 0%, #673ab7 100%);
+        }
+
+        .robotics-ai {
+            background: linear-gradient(135deg, #00bcd4 0%, #0097a7 100%);
+        }
+
+        .web-wizardry {
+            background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+        }
+
+        .app-adventure {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+        }
+
+        .cyber-safety {
+            background: linear-gradient(135deg, #607d8b 0%, #455a64 100%);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary) 0%, #303f9f 100%);
+            color: white;
+            padding: 80px 5%;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .course-card {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .course-card:nth-child(1) { animation-delay: 0.1s; }
+        .course-card:nth-child(2) { animation-delay: 0.2s; }
+        .course-card:nth-child(3) { animation-delay: 0.3s; }
+        .course-card:nth-child(4) { animation-delay: 0.4s; }
+        .course-card:nth-child(5) { animation-delay: 0.5s; }
+        .course-card:nth-child(6) { animation-delay: 0.6s; }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .course-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links,
+            .nav-actions {
+                display: none;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .hero {
+                padding: 120px 5% 60px;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .course-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+            
+            .courses-nav-container {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+            }
+            
+            .course-nav-item {
+                white-space: nowrap;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .course-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .course-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">
+                <img src="images/step-way bblogo.png" width="150px" alt="">
+            </div>
+                            <button class="back-btn-icon" onclick="goBack()">
+        <i class="bi bi-arrow-left"></i>
+    </button>        
+    <section class="back-section">
+
+<style>
+.back-btn-icon {
+    background: #7c0a0a;
+    color: white;
+    border: 2px solid white;
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 900;
+    transition: all 0.3s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.back-btn-icon:hover {
+    background: #1e3a8a; /* Blue on hover */
+    transform: scale(1.1);
+}
+</style>
+
+<script>
+function goBack() {
+    if (document.referrer && document.referrer.includes(window.location.hostname)) {
+        window.history.back();
+    } else {
+        window.location.href = 'index.html';
+    }
+}
+</script>
+            <nav class="desktop-nav">
+                <ul class="nav-links">
+                    <li><a href="kids-all-courses.html" class="active">Courses</a></li>
+                     <li><a href="kids-game.course.html">Game-Design</a></li>
+            <li><a href="kids-design-course.html">Creative Animations</a></li>
+            <li><a href="kids-ai.html">Robotics & AI</a></li>
+            <li><a href="kids-webdev.html">Web Wizardry</a></li>
+            <li><a href="kids-appdev.html">App Adventure</a></li>
+            <li><a href="kids-cybersecuirity.html">Cyber-Safe</a></li>
+                </ul>
+            </nav>
+            
+            
+            <button class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav">
+        <div class="mobile-nav-header">
+            <div class="logo">
+                <img src="images/step-way bblogo.png" width="150px" alt="">
+            </div>
+            <button class="close-nav">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <ul class="mobile-nav-links">
+            <li><a href="kids-all-courses.html" class="active">Courses</a></li>
+                     <li><a href="kids-game.course.html">Game-Design</a></li>
+            <li><a href="kids-design-course.html">Creative Animations</a></li>
+            <li><a href="kids-ai.html">Robotics & AI</a></li>
+            <li><a href="kids-webdev.html">Web Wizardry</a></li>
+            <li><a href="kids-appdev.html"  >App Adventure</a></li>
+            <li><a href="kids-cybersecuirity.html">Cyber-Safe</a></li>
+        </ul>
+    </div>
+    <div class="overlay"></div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Explore All Coding Courses</h1>
+            <p>Discover exciting coding adventures designed just for you! Learn game design, animation, robotics, web development, app creation, and cyber safety in a fun, engaging way.</p>
+            <a href="#courses" class="btn btn-primary">Start Learning Journey</a>
+        </div>
+    </section>
+
+    <!-- Courses Navigation -->
+    <section class="courses-nav" id="courses">
+        <div class="courses-nav-container">
+            <div class="course-nav-item active" data-course="game-design">Game Design</div>
+            <div class="course-nav-item" data-course="creative-animations">Creative Animations</div>
+            <div class="course-nav-item" data-course="robotics-ai">Robotics & AI</div>
+            <div class="course-nav-item" data-course="web-wizardry">Web Wizardry</div>
+            <div class="course-nav-item" data-course="app-adventure">App Adventure</div>
+            <div class="course-nav-item" data-course="cyber-safety">Cyber Safety</div>
+        </div>
+    </section>
+
+    <!-- Course Sections -->
+    <section class="course-section">
+        <!-- Game Design Basics -->
+        <div class="course-card" id="game-design">
+            <div class="course-header game-design">
+                <div class="course-icon">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <div class="course-title">
+                    <h2>Game Design Basics</h2>
+                    <p>Create your own video games with fun characters and exciting challenges</p>
+                </div>
+                <div class="course-badge">Beginner Friendly</div>
+            </div>
+            <div class="course-content">
+                <div class="course-description">
+                    <h3>About This Course</h3>
+                    <p>Learn the magic behind your favorite video games! In this course, you'll design characters, create game worlds, and program exciting gameplay. Build your first complete game from scratch and share it with friends.</p>
+                    <p>Perfect for creative minds who love playing games and want to learn how to make their own amazing creations!</p>
+                </div>
+                <div class="course-highlights">
+                    <h3>What You'll Learn</h3>
+                    <ul class="highlight-list">
+                        <li><i class="fas fa-check"></i> Design fun game characters and environments</li>
+                        <li><i class="fas fa-check"></i> Create exciting gameplay mechanics</li>
+                        <li><i class="fas fa-check"></i> Add points, levels, and winning conditions</li>
+                        <li><i class="fas fa-check"></i> Program character movements and actions</li>
+                        <li><i class="fas fa-check"></i> Test and improve your game designs</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="course-actions">
+                <a href="kids-game.course.html" class="btn btn-primary">View Full Course</a>
+                <a href="#" class="btn" style="background: var(--light); color: var(--dark);">Enroll Now</a>
+            </div>
+        </div>
+
+        <!-- Creative Animations -->
+        <div class="course-card" id="creative-animations">
+            <div class="course-header creative-animations">
+                <div class="course-icon">
+                    <i class="fas fa-film"></i>
+                </div>
+                <div class="course-title">
+                    <h2>Creative Animations</h2>
+                    <p>Bring characters to life with magical code animations and storytelling</p>
+                </div>
+                <div class="course-badge">Visual Arts</div>
+            </div>
+            <div class="course-content">
+                <div class="course-description">
+                    <h3>About This Course</h3>
+                    <p>Discover the art of animation! Learn how to make characters move, dance, and tell amazing stories through code. Create your own animated shorts and interactive stories that will impress your friends and family.</p>
+                    <p>Ideal for creative thinkers who love drawing, storytelling, and bringing ideas to life through motion.</p>
+                </div>
+                <div class="course-highlights">
+                    <h3>What You'll Learn</h3>
+                    <ul class="highlight-list">
+                        <li><i class="fas fa-check"></i> Create smooth character movements</li>
+                        <li><i class="fas fa-check"></i> Design expressive facial animations</li>
+                        <li><i class="fas fa-check"></i> Build interactive animated stories</li>
+                        <li><i class="fas fa-check"></i> Add special effects and transitions</li>
+                        <li><i class="fas fa-check"></i> Sync animations with sound and music</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="course-actions">
+                <a href="kids-design-course.html" class="btn btn-primary">View Full Course</a>
+                <a href="#" class="btn" style="background: var(--light); color: var(--dark);">Enroll Now</a>
+            </div>
+        </div>
+
+        <!-- Robotics & AI -->
+        <div class="course-card" id="robotics-ai">
+            <div class="course-header robotics-ai">
+                <div class="course-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="course-title">
+                    <h2>Robotics & AI</h2>
+                    <p>Build and program smart robots that can think, learn, and interact</p>
+                </div>
+                <div class="course-badge">Future Tech</div>
+            </div>
+            <div class="course-content">
+                <div class="course-description">
+                    <h3>About This Course</h3>
+                    <p>Step into the future with robotics and artificial intelligence! Learn how robots work, program them to complete tasks, and teach them to make decisions. Build your own robotic creations that can sense their environment and respond intelligently.</p>
+                    <p>Perfect for curious minds fascinated by how things work and excited about future technology.</p>
+                </div>
+                <div class="course-highlights">
+                    <h3>What You'll Learn</h3>
+                    <ul class="highlight-list">
+                        <li><i class="fas fa-check"></i> Program robot movements and sensors</li>
+                        <li><i class="fas fa-check"></i> Understand artificial intelligence basics</li>
+                        <li><i class="fas fa-check"></i> Build robots that can make decisions</li>
+                        <li><i class="fas fa-check"></i> Create machine learning models</li>
+                        <li><i class="fas fa-check"></i> Design robots that interact with people</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="course-actions">
+                <a href="kids-ai.html" class="btn btn-primary">View Full Course</a>
+                <a href="#" class="btn" style="background: var(--light); color: var(--dark);">Enroll Now</a>
+            </div>
+        </div>
+
+        <!-- Web Wizardry -->
+        <div class="course-card" id="web-wizardry">
+            <div class="course-header web-wizardry">
+                <div class="course-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="course-title">
+                    <h2>Web Wizardry</h2>
+                    <p>Create amazing websites with interactive elements and cool designs</p>
+                </div>
+                <div class="course-badge">Creative Coding</div>
+            </div>
+            <div class="course-content">
+                <div class="course-description">
+                    <h3>About This Course</h3>
+                    <p>Become a web wizard! Learn how to build beautiful, interactive websites from scratch. Master HTML, CSS, and JavaScript to create digital spaces that showcase your ideas, hobbies, and creative projects to the world.</p>
+                    <p>Great for aspiring digital creators who want to share their passions online and learn practical coding skills.</p>
+                </div>
+                <div class="course-highlights">
+                    <h3>What You'll Learn</h3>
+                    <ul class="highlight-list">
+                        <li><i class="fas fa-check"></i> Build websites with HTML and CSS</li>
+                        <li><i class="fas fa-check"></i> Add interactivity with JavaScript</li>
+                        <li><i class="fas fa-check"></i> Create responsive designs for all devices</li>
+                        <li><i class="fas fa-check"></i> Design beautiful user interfaces</li>
+                        <li><i class="fas fa-check"></i> Publish your website online</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="course-actions">
+                <a href="kids-webdev.html" class="btn btn-primary">View Full Course</a>
+                <a href="#" class="btn" style="background: var(--light); color: var(--dark);">Enroll Now</a>
+            </div>
+        </div>
+
+        <!-- App Adventure -->
+        <div class="course-card" id="app-adventure">
+            <div class="course-header app-adventure">
+                <div class="course-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <div class="course-title">
+                    <h2>App Adventure</h2>
+                    <p>Create mobile apps that solve problems and make life more fun!</p>
+                </div>
+                <div class="course-badge">Coming Soon</div>
+            </div>
+            <div class="course-content">
+                <div class="course-description">
+                    <h3>About This Course</h3>
+                    <p>Embark on an app development adventure! Learn to create mobile applications for smartphones and tablets. Design useful tools, fun games, and creative apps that you can use and share with others.</p>
+                    <p>Ideal for problem-solvers who have great ideas for apps and want to learn how to bring them to life on mobile devices.</p>
+                </div>
+                <div class="course-highlights">
+                    <h3>What You'll Learn</h3>
+                    <ul class="highlight-list">
+                        <li><i class="fas fa-check"></i> Design mobile app interfaces</li>
+                        <li><i class="fas fa-check"></i> Program app functionality</li>
+                        <li><i class="fas fa-check"></i> Create apps for iOS and Android</li>
+                        <li><i class="fas fa-check"></i> Test and debug your applications</li>
+                        <li><i class="fas fa-check"></i> Prepare apps for app stores</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="course-actions">
+                <a href="kids-appdev.html" class="btn btn-primary">View Full Course</a>
+                <a href="#" class="btn" style="background: var(--light); color: var(--dark);">Notify Me</a>
+            </div>
+        </div>
+
+        <!-- Cyber Safety -->
+        <div class="course-card" id="cyber-safety">
+            <div class="course-header cyber-safety">
+                <div class="course-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="course-title">
+                    <h2>Cyber Safety</h2>
+                    <p>Learn how to stay safe online while exploring the digital world</p>
+                </div>
+                <div class="course-badge">Essential Skills</div>
+            </div>
+            <div class="course-content">
+                <div class="course-description">
+                    <h3>About This Course</h3>
+                    <p>Become a digital safety expert! Learn how to protect yourself online, recognize potential dangers, and use the internet responsibly. Develop the skills to navigate the digital world safely while having fun and connecting with others.</p>
+                    <p>Essential for all young digital citizens who want to explore the online world confidently and safely.</p>
+                </div>
+                <div class="course-highlights">
+                    <h3>What You'll Learn</h3>
+                    <ul class="highlight-list">
+                        <li><i class="fas fa-check"></i> Protect your personal information</li>
+                        <li><i class="fas fa-check"></i> Recognize online scams and threats</li>
+                        <li><i class="fas fa-check"></i> Practice safe social media use</li>
+                        <li><i class="fas fa-check"></i> Create strong passwords</li>
+                        <li><i class="fas fa-check"></i> Understand digital citizenship</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="course-actions">
+                <a href="kids-cybersecuirity.html" class="btn btn-primary">View Full Course</a>
+                <a href="#" class="btn" style="background: var(--light); color: var(--dark);">Enroll Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Start Your Coding Adventure Today!</h2>
+            <p>Join thousands of young creators learning to code with KidCoder. Choose your favorite course or explore them all!</p>
+            <a href="#" class="btn btn-primary">Explore All Courses</a>
+        </div>
+    </section>
+
+     <footer class="footer">
+        <div class="footer-content">
+            <!-- brand -->
+            <div class="footer-brand">
+                <h3>Stepway Technologies</h3>
+                <p>Learn, work, and development preparing Nigeria's tech talent for global opportunities</p>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/company/stepwaytechnologies/" class="social-link" aria-label="LinkedIn">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.instagram.com/stepwaytechnologies" class="social-link" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.facebook.com/profile.php?id=61582686912437" class="social-link" aria-label="Facebook">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- q-l -->
+            <div class="footer-column">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="sign-up.html">Modules & Courses</a></li>
+                    <li><a href="#">Underprivileged Program</a></li>
+                    <li><a href="#">Freelancing</a></li>
+                    <li><a href="#">Recruitment</a></li>
+                    <li><a href="faq.html">FAQs</a></li>
+                </ul>
+            </div>
+
+            <!-- legal & ethics -->
+            <div class="footer-column">
+                <h4>Legal & Ethics</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                     <li><a href="about.html">About Us</a></li>
+                    <li><a href="pri-pol.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                    <li><a href="ethical.html">Ethics Statement</a></li>
+                </ul>
+            </div>
+
+            <!-- contact us -->
+            <div class="footer-column">
+                <h4>Contact Us</h4>
+                <ul class="contact-info">
+                    <li>
+                        <svg class="contact-icon" viewBox="0 0 24 24">
+                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                        </svg>
+                        <span>info@stepwaytechnologies.com</span>
+                    </li>
+                    <li>
+                        <svg class="contact-icon" viewBox="0 0 24 24">
+                            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                        </svg>
+                        <span>+44 744 030 7875</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            All Rights Reserved
+        </div>
+    </footer>
+
+    <style>
+          .footer {
+            background-color: #0f1957;
+            color: white;
+            padding: 60px 20px 20px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .footer-brand p {
+            font-size: 0.9375rem;
+            line-height: 1.6;
+            opacity: 0.95;
+            margin-bottom: 24px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 16px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .social-link:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-3px);
+        }
+
+        .social-link svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        .footer-column h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9375rem;
+            opacity: 0.9;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a::before {
+            content: '›';
+            font-size: 1.25rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            padding-left: 4px;
+            text-decoration: none;
+            color: #d9d6d6;
+        }
+
+        .footer-links a:hover::before {
+            transform: translateX(4px);
+            text-decoration: none;
+        }
+
+        .contact-info {
+            list-style: none;
+        }
+
+        .contact-info li {
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.9375rem;
+        }
+
+        .contact-icon {
+            width: 20px;
+            height: 20px;
+            fill: white;
+            flex-shrink: 0;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 24px;
+            text-align: center;
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 1024px) {
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .testimonials-header h2 {
+                font-size: 2rem;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            .testimonials-section {
+                padding: 60px 20px;
+            }
+
+            .footer {
+                padding: 40px 20px 20px;
+            }
+        }
+    </style>
+
+
+    <script>
+        // Mobile Navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const closeNav = document.querySelector('.close-nav');
+            const mobileNav = document.querySelector('.mobile-nav');
+            const overlay = document.querySelector('.overlay');
+            
+            function openMobileNav() {
+                mobileNav.classList.add('active');
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+            
+            function closeMobileNav() {
+                mobileNav.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+            
+            menuToggle.addEventListener('click', openMobileNav);
+            closeNav.addEventListener('click', closeMobileNav);
+            overlay.addEventListener('click', closeMobileNav);
+            
+            // Close mobile nav when clicking on links
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-links a');
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', closeMobileNav);
+            });
+
+            // Course Navigation
+            const courseNavItems = document.querySelectorAll('.course-nav-item');
+            const courseCards = document.querySelectorAll('.course-card');
+            
+            courseNavItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Remove active class from all items
+                    courseNavItems.forEach(navItem => {
+                        navItem.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked item
+                    this.classList.add('active');
+                    
+                    // Get the target course
+                    const targetCourse = this.getAttribute('data-course');
+                    
+                    // Scroll to the target course
+                    document.getElementById(targetCourse).scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                });
+            });
+
+            // Highlight active course in nav based on scroll position
+            window.addEventListener('scroll', function() {
+                let current = '';
+                const courseSections = document.querySelectorAll('.course-card');
+                
+                courseSections.forEach(section => {
+                    const sectionTop = section.offsetTop - 150;
+                    const sectionHeight = section.clientHeight;
+                    if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                courseNavItems.forEach(item => {
+                    item.classList.remove('active');
+                    if (item.getAttribute('data-course') === current) {
+                        item.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
